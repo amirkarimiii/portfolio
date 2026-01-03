@@ -131,6 +131,4 @@ svg[class] {
     width: 100% !important;
     height: 100% !important;
     flex-shrink: 1;
-    pointer-events: auto;
-    vertical-align: unset;
 }
