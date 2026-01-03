@@ -1,4 +1,6 @@
 import {MyImage} from "@/components/ui/sections/banner/MyImage";
+import {BadgeCheck} from "lucide-react";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert";
 
 export const Banner = () => {
     return (
@@ -6,13 +8,20 @@ export const Banner = () => {
             <div className="w-full">
                 <MyImage />
             </div>
-            <div className="">
+            <div>
                 <h1 className="font-bold text-3xl">Hi, I’m Amir 👋</h1>
                 <p className="text-sm mt-2">
                     <strong>Frontend Developer</strong> focused on building&nbsp;
                     <strong>high-performance, scalable web applications</strong> with&nbsp;
                     <strong>Next.js.</strong>
                 </p>
+                <Alert variant="verified" className="mt-4">
+                    <BadgeCheck />
+                    <AlertTitle>I’m open to full-time remote opportunities</AlertTitle>
+                    <AlertDescription>
+                        where I can contribute to impactful products, adapt quickly to team needs, and continue growing as an engineer.
+                    </AlertDescription>
+                </Alert>
                 <p className="mt-4 text-sm">
                     I work primarily with&nbsp;
                     <strong>React (App Router & Server Components)</strong> and&nbsp;
