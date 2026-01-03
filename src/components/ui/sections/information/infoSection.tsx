@@ -6,7 +6,7 @@ export function InfoSection() {
         <section className="max-w-4xl mx-auto">
             <div className="py-2 px-5 mb-10">
                 <Tabs defaultValue="focus">
-                    <TabsList className="">
+                    <TabsList className="flex flex-wrap h-max">
                         <TabsTrigger value="focus">🧠 Technical Focus</TabsTrigger>
                         <TabsTrigger value="language">🗣 Language</TabsTrigger>
                         <TabsTrigger value="education">🎓 Educational Background</TabsTrigger>
