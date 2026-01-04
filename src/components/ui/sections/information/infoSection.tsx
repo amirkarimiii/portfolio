@@ -1,8 +1,9 @@
 import {Separator} from "@/components/ui/shadcn/separator";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/shadcn/tabs";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert";
-import {BadgeCheck} from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { ExternalLink } from 'lucide-react';
 
 export function InfoSection() {
     return (
@@ -88,7 +89,55 @@ export function InfoSection() {
                         </div>
                     </TabsContent>
                     <TabsContent value="education">
-
+                        <h2 className="font-bold text-xl mt-3 lg:mt-5 lg:text-3xl">🎓 Educational Background</h2>
+                        <Alert variant="default" className="mt-10 max-w-140">
+                            <AlertTitle className="text-base ml-7 lg:text-xl">M.Sc. in Software Engineering</AlertTitle>
+                            <AlertDescription className="lg:text-base">
+                                <div className="flex gap-3">
+                                    <div className="relative w-4">
+                                        <Image src="/University_of_Guilan_logo.svg"
+                                               alt="University of Guilan logo"
+                                               fill
+                                               className="dark:invert"
+                                        />
+                                    </div>
+                                    <Link href="https://en.guilan.ac.ir/"
+                                          target="_blank"
+                                          className="flex gap-1"
+                                    >
+                                        <p>University of Guilan, Rasht, Iran</p>
+                                        <div className="w-3">
+                                            <ExternalLink/>
+                                        </div>
+                                    </Link>
+                                </div>
+                                <p className="ml-7">2023 – 2025 (Expected graduation)</p>
+                            </AlertDescription>
+                        </Alert>
+                        <Alert variant="default" className="mt-4 max-w-140">
+                            <AlertTitle className="text-base ml-7 lg:text-xl">B.Sc. in Computer Engineering</AlertTitle>
+                            <AlertDescription className="lg:text-base">
+                                <div className="flex gap-3">
+                                    <div className="relative w-4">
+                                        <Image src="/Kharazmy_University_logo.svg"
+                                               alt="Kharazmy University logo"
+                                               fill
+                                               className="dark:invert"
+                                        />
+                                    </div>
+                                    <Link href="https://khu.ac.ir/en"
+                                          target="_blank"
+                                          className="flex gap-1"
+                                    >
+                                        <p>Kharazmi University, Tehran, Iran</p>
+                                        <div className="w-3">
+                                            <ExternalLink/>
+                                        </div>
+                                    </Link>
+                                </div>
+                                <p className="ml-7">2017 – 2021</p>
+                            </AlertDescription>
+                        </Alert>
                     </TabsContent>
                 </Tabs>
             </div>
