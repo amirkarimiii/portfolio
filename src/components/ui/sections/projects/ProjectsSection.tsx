@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {ExternalLink} from "lucide-react";
 import {Separator} from "@/components/ui/shadcn/separator";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/shadcn/card";
 
 export function ProjectsSection() {
     return (
@@ -13,7 +14,7 @@ export function ProjectsSection() {
                 <Tabs defaultValue="cryptology">
                     <TabsList className="flex flex-wrap h-max">
                         <TabsTrigger value="cryptology">
-                            <div className="relative w-4 h-4 ">
+                            <div className="relative w-4 h-4">
                                 <Image src="/cryptology_icon.svg"
                                        alt="cryptology icon"
                                        fill
@@ -24,7 +25,34 @@ export function ProjectsSection() {
                         <TabsTrigger value="more">➕ More...</TabsTrigger>
                     </TabsList>
                     <TabsContent value="cryptology">
+                        <Card className="w-full">
+                            <CardHeader>
+                                <CardTitle>
+                                    <h3 className="flex gap-2">
+                                        <span className="relative w-7 h-7">
+                                            <Image src="/cryptology_icon.svg"
+                                                   alt="cryptology icon"
+                                                   fill
+                                                   className="dark:invert"
+                                            />
+                                        </span>
+                                        <span className="text-lg ">
+                                            Cryptology
+                                        </span>
+                                    </h3>
+                                </CardTitle>
+                                <CardDescription>
+                                    A modern crypto dashboard built with <strong>Next.js App Router</strong>, designed as a portfolio
+                                    project with a strong focus on <strong>clean architecture, type safety,</strong> and <strong>scalable
+                                    frontend patterns.</strong>
+                                    <br/><br/>It consumes data from a <strong>private backend API</strong> that aggregates and
+                                    normalizes data from <strong>CoinGecko</strong> and <strong>Frankfurter</strong>.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
 
+                            </CardContent>
+                        </Card>
                     </TabsContent>
                     <TabsContent value="more">
 
