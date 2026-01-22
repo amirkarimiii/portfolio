@@ -92,10 +92,10 @@ export function ProjectsSection() {
                                     <InfoIcon/>
                                     <AlertTitle className="lg:text-base">stay tuned...</AlertTitle>
                                     <AlertDescription className="lg:text-base">
-                                        I am currently focusing on completing the existing projects. New projects will be added soon to better reflect the range of my skills and areas of work.<br/>
-                                        A new section covering my open-source contributions — such as pull requests, bug fixes, feature implementations, and documentation improvements in public repositories — along with other relevant activities will also be added shortly.<br/>
-                                        Updates will be published progressively.<br/>
-                                        Feedback and suggestions for improvement are welcome.<br/>
+                                        I am currently focusing on completing the existing projects. New projects will be added soon to better reflect the range of my skills and areas of work.<br/><br/>
+                                        A new section covering my open-source contributions — such as pull requests, bug fixes, feature implementations, and documentation improvements in public repositories — along with other relevant activities will also be added shortly.<br/><br/>
+                                        Updates will be published progressively.<br/><br/>
+                                        Feedback and suggestions for improvement are welcome.
                                     </AlertDescription>
                                 </Alert>
                             </CardContent>
