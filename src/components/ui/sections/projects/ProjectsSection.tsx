@@ -1,8 +1,5 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/shadcn/tabs";
-import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert";
 import Image from "next/image";
-import Link from "next/link";
-import {ExternalLink} from "lucide-react";
 import {Separator} from "@/components/ui/shadcn/separator";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/shadcn/card";
 
@@ -29,7 +26,7 @@ export function ProjectsSection() {
                             <CardHeader>
                                 <CardTitle>
                                     <h3 className="flex gap-2">
-                                        <span className="relative w-7 h-7">
+                                        <span className="relative w-5 h-5 inline-block my-auto">
                                             <Image src="/cryptology_icon.svg"
                                                    alt="cryptology icon"
                                                    fill
@@ -50,7 +47,14 @@ export function ProjectsSection() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
+                                <div className="flex flex-col">
+                                    <div>
 
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>
