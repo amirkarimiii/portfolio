@@ -2,6 +2,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/shadcn/t
 import Image from "next/image";
 import {Separator} from "@/components/ui/shadcn/separator";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/shadcn/card";
+import ProjectPhoto from "@/components/ui/sections/projects/ProjectPhoto";
 
 export function ProjectsSection() {
     return (
@@ -12,7 +13,7 @@ export function ProjectsSection() {
                     <TabsList className="flex flex-wrap h-max">
                         <TabsTrigger value="cryptology">
                             <div className="relative w-4 h-4">
-                                <Image src="/cryptology_icon.svg"
+                                <Image src="projects/cryptology/cryptology_icon.svg"
                                        alt="cryptology icon"
                                        fill
                                        className="dark:invert"
@@ -27,7 +28,7 @@ export function ProjectsSection() {
                                 <CardTitle>
                                     <h3 className="flex gap-2">
                                         <span className="relative w-5 h-5 inline-block my-auto">
-                                            <Image src="/cryptology_icon.svg"
+                                            <Image src="projects/cryptology/cryptology_icon.svg"
                                                    alt="cryptology icon"
                                                    fill
                                                    className="dark:invert"
@@ -47,9 +48,9 @@ export function ProjectsSection() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <div className="flex flex-col">
-                                    <div>
-
+                                <div className="flex flex-col gap-3 sm:flex-row">
+                                    <div className="w-full max-w-sm">
+                                        <ProjectPhoto/>
                                     </div>
                                     <div>
 
