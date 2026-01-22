@@ -3,6 +3,8 @@ import Image from "next/image";
 import {Separator} from "@/components/ui/shadcn/separator";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/shadcn/card";
 import ProjectPhoto from "@/components/ui/sections/projects/ProjectPhoto";
+import {Button} from "@/components/ui/shadcn/button";
+import Link from "next/link";
 
 export function ProjectsSection() {
     return (
@@ -40,10 +42,13 @@ export function ProjectsSection() {
                                     </h3>
                                 </CardTitle>
                                 <CardDescription>
-                                    A modern crypto dashboard built with <strong>Next.js App Router</strong>, designed as a portfolio
-                                    project with a strong focus on <strong>clean architecture, type safety,</strong> and <strong>scalable
+                                    A modern crypto dashboard built with <strong>Next.js App Router</strong>, designed
+                                    as a portfolio
+                                    project with a strong focus on <strong>clean architecture, type
+                                    safety,</strong> and <strong>scalable
                                     frontend patterns.</strong>
-                                    <br/><br/>It consumes data from a <strong>private backend API</strong> that aggregates and
+                                    <br/><br/>It consumes data from a <strong>private backend API</strong> that
+                                    aggregates and
                                     normalizes data from <strong>CoinGecko</strong> and <strong>Frankfurter</strong>.
                                 </CardDescription>
                             </CardHeader>
@@ -53,9 +58,23 @@ export function ProjectsSection() {
                                         <ProjectPhoto/>
                                     </div>
                                     <div>
-
+                                        <h4 className="text-lg font-bold mt-2">✨ Overview</h4>
+                                        <p className="text-sm ml-7">Cryptology is a practice-oriented project developed
+                                            to showcase real-world frontend skills, including:</p>
+                                        <ul className="list-disc ml-10 mt-2 text-sm">
+                                            <li>Structured layout composition</li>
+                                            <li>API abstraction and validation</li>
+                                            <li>Modern UI development with shadcn/ui</li>
+                                            <li>Caching strategies in Next.js 16</li>
+                                            <li>Production-ready project organization</li>
+                                        </ul>
                                     </div>
                                 </div>
+                                <Button asChild className="block w-full max-w-md mt-5 mx-auto text-center">
+                                    <Link href="https://github.com/amirkarimiii/cryptology" target="_blank">
+                                        More on Github
+                                    </Link>
+                                </Button>
                             </CardContent>
                         </Card>
                     </TabsContent>
