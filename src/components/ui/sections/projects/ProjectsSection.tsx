@@ -5,6 +5,8 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import ProjectPhoto from "@/components/ui/sections/projects/ProjectPhoto";
 import {Button} from "@/components/ui/shadcn/button";
 import Link from "next/link";
+import {BadgeCheck, InfoIcon} from "lucide-react";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert";
 
 export function ProjectsSection() {
     return (
@@ -79,7 +81,25 @@ export function ProjectsSection() {
                         </Card>
                     </TabsContent>
                     <TabsContent value="more">
-
+                        <Card className="w-full">
+                            <CardHeader>
+                                <CardTitle>
+                                    <h3 className="flex gap-2">➕ More...</h3>
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <Alert variant="default">
+                                    <InfoIcon/>
+                                    <AlertTitle className="lg:text-base">stay tuned...</AlertTitle>
+                                    <AlertDescription className="lg:text-base">
+                                        I am currently focusing on completing the existing projects. New projects will be added soon to better reflect the range of my skills and areas of work.<br/>
+                                        A new section covering my open-source contributions — such as pull requests, bug fixes, feature implementations, and documentation improvements in public repositories — along with other relevant activities will also be added shortly.<br/>
+                                        Updates will be published progressively.<br/>
+                                        Feedback and suggestions for improvement are welcome.<br/>
+                                    </AlertDescription>
+                                </Alert>
+                            </CardContent>
+                        </Card>
                     </TabsContent>
                 </Tabs>
             </div>
