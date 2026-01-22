@@ -54,14 +54,14 @@ export function ProjectsSection() {
                             </CardHeader>
                             <CardContent>
                                 <div className="flex flex-col gap-3 sm:flex-row">
-                                    <div className="w-full max-w-sm">
+                                    <div className="w-full sm:min-w-xs max-w-sm mx-auto">
                                         <ProjectPhoto/>
                                     </div>
                                     <div>
-                                        <h4 className="text-lg font-bold mt-2">✨ Overview</h4>
-                                        <p className="text-sm ml-7">Cryptology is a practice-oriented project developed
+                                        <h4 className="text-xl font-bold lg:mt-5">✨ Overview</h4>
+                                        <p className="text-sm md:text-base ml-5">Cryptology is a practice-oriented project developed
                                             to showcase real-world frontend skills, including:</p>
-                                        <ul className="list-disc ml-10 mt-2 text-sm">
+                                        <ul className="text-sm md:text-base list-disc ml-5 mt-2">
                                             <li>Structured layout composition</li>
                                             <li>API abstraction and validation</li>
                                             <li>Modern UI development with shadcn/ui</li>
