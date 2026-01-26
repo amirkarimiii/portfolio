@@ -7,6 +7,7 @@ import {Button} from "@/components/ui/shadcn/button";
 import Link from "next/link";
 import {BadgeCheck, InfoIcon} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert";
+import {Badge} from "@/components/ui/shadcn/badge";
 
 export function ProjectsSection() {
     return (
@@ -38,9 +39,10 @@ export function ProjectsSection() {
                                                    className="dark:invert"
                                             />
                                         </span>
-                                        <span className="text-lg ">
+                                        <span className="text-lg">
                                             Cryptology
                                         </span>
+                                        <Badge className="my-auto h-max text-2xs">v1.0.0</Badge>
                                     </h3>
                                 </CardTitle>
                                 <CardDescription>
