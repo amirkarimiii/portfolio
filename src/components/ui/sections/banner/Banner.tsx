@@ -9,7 +9,7 @@ export const Banner = () => {
     return (
         <section className="max-w-4xl mx-auto">
             <div className="py-2 px-5 flex flex-col gap-10 lg:flex-row-reverse mb-5 lg:mt-20">
-                <div className="w-full">
+                <div className="w-full lg:my-auto">
                     <MyImage />
                 </div>
                 <div>
