@@ -41,8 +41,8 @@ export const Banner = () => {
                     <Button asChild className="block w-full mx-auto text-xs h-max mt-2">
                         <Link href="https://www.linkedin.com/in/amirhosein-karimkhani/" target="_blank">My Linkedin: /in/amirhosein-karimkhani/</Link>
                     </Button>
-                    <Button asChild variant="destructive" className="block w-full mx-auto text-xs h-max mt-2">
-                        <a href="#contact">Contact me</a>
+                    <Button asChild variant="outline" className="block w-full mx-auto text-xs h-max border-4 mt-2">
+                        <a href="#contact">Get in Touch</a>
                     </Button>
                 </div>
             </div>

@@ -5,7 +5,7 @@ export function ContactSection() {
     return (
         <section className="max-w-4xl mx-auto" id="contact">
             <div className="py-2 px-5 mb-10">
-                <h2 className="font-bold text-xl my-5 lg:mt-5 lg:text-3xl">📩 Contact Me</h2>
+                <h2 className="font-bold text-xl my-5 lg:mt-5 lg:text-3xl">📩 Contact Information</h2>
                 <div>
                     <Button asChild className="block w-full mx-auto text-center h-max mt-2 md:text-lg">
                         <Link href="https://calendar.app.google/7TVynmWgCn4J3JqK7" target="_blank">Book a call via Google Meet 👋</Link>
