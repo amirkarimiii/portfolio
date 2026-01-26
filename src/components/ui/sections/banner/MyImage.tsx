@@ -1,6 +1,7 @@
 "use client"
 import Image from 'next/image';
 import {useState} from "react";
+import {Badge} from "@/components/ui/shadcn/badge";
 
 export function MyImage() {
 
@@ -15,6 +16,7 @@ export function MyImage() {
                        fill
                 />
             </div>
+            <Badge className="block mx-auto mt-5">tap on photo 👆🏻</Badge>
         </div>
     );
 }
