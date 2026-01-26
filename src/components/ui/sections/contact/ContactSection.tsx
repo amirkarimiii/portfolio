@@ -11,7 +11,7 @@ export function ContactSection() {
                         <Link href="https://calendar.app.google/7TVynmWgCn4J3JqK7" target="_blank">Book a call via Google Meet 👋</Link>
                     </Button>
                     <Button asChild variant="outline" className="block w-full mx-auto text-center h-max mt-2 md:text-lg">
-                        <Link href="mailto:amir.kk@gmail.com" target="_blank">Email me: amir.kk1999@gmail.com</Link>
+                        <Link href="mailto:amir.kk1999@gmail.com">Email me: amir.kk1999@gmail.com</Link>
                     </Button>
                     <Button asChild variant="outline" className="block w-full mx-auto text-center h-max mt-2 md:text-lg">
                         <Link href="https://www.t.me/amirkarimi99" target="_blank">Message me on Telegram</Link>
