@@ -5,7 +5,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import ProjectPhoto from "@/components/ui/sections/projects/ProjectPhoto";
 import {Button} from "@/components/ui/shadcn/button";
 import Link from "next/link";
-import {BadgeCheck, InfoIcon} from "lucide-react";
+import {InfoIcon} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert";
 import {Badge} from "@/components/ui/shadcn/badge";
 
