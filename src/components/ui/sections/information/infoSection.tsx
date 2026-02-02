@@ -95,7 +95,7 @@ export function InfoSection() {
                             <AlertDescription className="lg:text-base">
                                 <div className="flex gap-3">
                                     <div className="relative w-4">
-                                        <Image src="/University_of_Guilan_logo.svg"
+                                        <Image src="/universities/University_of_Guilan_logo.svg"
                                                alt="University of Guilan logo"
                                                fill
                                                className="dark:invert"
@@ -119,7 +119,7 @@ export function InfoSection() {
                             <AlertDescription className="lg:text-base">
                                 <div className="flex gap-3">
                                     <div className="relative w-4">
-                                        <Image src="/Kharazmy_University_logo.svg"
+                                        <Image src="/universities/Kharazmy_University_logo.svg"
                                                alt="Kharazmy University logo"
                                                fill
                                                className="dark:invert"
