@@ -14,7 +14,7 @@ export function ContactSection() {
                         <Link href="mailto:amir.kk1999@gmail.com">Email me: amir.kk1999@gmail.com</Link>
                     </Button>
                     <Button asChild variant="outline" className="block w-full mx-auto text-center h-max mt-2 md:text-lg">
-                        <Link href="https://www.t.me/amirkarimi99" target="_blank">Message me on Telegram</Link>
+                        <Link href="https://www.t.me/amirworks" target="_blank">Message me on Telegram</Link>
                     </Button>
                     <Button asChild variant="outline" className="block w-full mx-auto text-center h-max mt-2 md:text-lg">
                         <Link href="https://wa.me/989910868255" target="_blank">Message me on Whatsapp</Link>
