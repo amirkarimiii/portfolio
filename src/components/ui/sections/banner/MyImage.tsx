@@ -11,9 +11,17 @@ export function MyImage() {
         <div>
             <div className="relative bg-secondary rounded-full w-70 h-70 mx-auto overflow-hidden select-none md:w-90 md:h-90 cursor-pointer"
                  onClick={() => setShow(!show)}>
-                <Image src={`/me.${show? "png" : "svg"}`}
+                <Image src={`/me.svg`}
                        alt="amirhosein karimkhani's art-logo"
                        fill
+                       preload
+                       className={`${show ? "hidden" : ""}`}
+                />
+                <Image src={`/me.png`}
+                       alt="amirhosein karimkhani's art-logo"
+                       fill
+                       preload
+                       className={`${show ? "" : "hidden"}`}
                 />
             </div>
             <Badge className="block mx-auto mt-5">tap on photo 👆🏻</Badge>
