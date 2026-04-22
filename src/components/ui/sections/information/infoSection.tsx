@@ -104,6 +104,7 @@ export function InfoSection() {
                                     <Link href="https://en.guilan.ac.ir/"
                                           target="_blank"
                                           className="flex gap-1"
+                                          rel="noopener noreferrer"
                                     >
                                         <p>University of Guilan, Rasht, Iran</p>
                                         <div className="w-3">
@@ -128,6 +129,7 @@ export function InfoSection() {
                                     <Link href="https://khu.ac.ir/en"
                                           target="_blank"
                                           className="flex gap-1"
+                                          rel="noopener noreferrer"
                                     >
                                         <p>Kharazmi University, Tehran, Iran</p>
                                         <div className="w-3">

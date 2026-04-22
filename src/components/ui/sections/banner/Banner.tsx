@@ -42,6 +42,7 @@ export const Banner = () => {
                                 href="https://www.linkedin.com/in/amirhosein-karimkhani/"
                                 target="_blank"
                                 className="flex"
+                                rel="noopener noreferrer"
                             >
                                 Checkout my Github
                                 <span className="w-3">
@@ -54,6 +55,7 @@ export const Banner = () => {
                                 href="https://www.linkedin.com/in/amirhosein-karimkhani/"
                                 target="_blank"
                                 className="flex items-center justify-center gap-1"
+                                rel="noopener noreferrer"
                             >
                                 Checkout my Linkedin
                                 <span className="w-3">

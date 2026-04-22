@@ -75,7 +75,7 @@ export function ProjectsSection() {
                                     </div>
                                 </div>
                                 <Button asChild className="block w-full max-w-md mt-5 mx-auto text-center">
-                                    <Link href="https://github.com/amirkarimiii/cryptology" target="_blank">
+                                    <Link href="https://github.com/amirkarimiii/cryptology" target="_blank" rel="noopener noreferrer">
                                         More on Github
                                     </Link>
                                 </Button>
