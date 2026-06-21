@@ -44,7 +44,7 @@ export const Banner = () => {
                                 className="flex"
                                 rel="noopener noreferrer"
                             >
-                                Checkout my Github
+                                My Github
                                 <span className="w-3">
                                     <ExternalLink/>
                                 </span>
@@ -57,7 +57,7 @@ export const Banner = () => {
                                 className="flex items-center justify-center gap-1"
                                 rel="noopener noreferrer"
                             >
-                                Checkout my Linkedin
+                                My Linkedin
                                 <span className="w-3">
                                     <ExternalLink/>
                                 </span>
@@ -65,7 +65,12 @@ export const Banner = () => {
                         </Button>
                     </div>
                     <Button asChild variant="outline" className="block w-full mx-auto text-xs h-max border-4 mt-2">
-                        <a href="#contact">Get in Touch</a>
+                        <a
+                            className="flex items-center justify-center gap-1"
+                            href="#contact"
+                        >
+                            Get in Touch
+                        </a>
                     </Button>
                 </div>
             </div>
