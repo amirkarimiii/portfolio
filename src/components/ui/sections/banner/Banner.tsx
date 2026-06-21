@@ -65,7 +65,12 @@ export const Banner = () => {
                         </Button>
                     </div>
                     <Button asChild variant="outline" className="block w-full mx-auto text-xs h-max border-4 mt-2">
-                        <a href="#contact">Get in Touch</a>
+                        <a
+                            className="flex items-center justify-center gap-1"
+                            href="#contact"
+                        >
+                            Get in Touch
+                        </a>
                     </Button>
                 </div>
             </div>
