@@ -9,7 +9,7 @@ export function MyImage() {
 
     return (
         <div>
-            <div className="relative bg-secondary rounded-full w-70 h-70 mx-auto overflow-hidden select-none md:w-90 md:h-90 cursor-pointer"
+            <div className="relative bg-secondary rounded-full w-60 h-60 mx-auto overflow-hidden select-none md:w-90 md:h-90 cursor-pointer"
                  onClick={() => setShow(!show)}>
                 <Image src={`/me.svg`}
                        alt="amirhosein karimkhani's art-logo"
