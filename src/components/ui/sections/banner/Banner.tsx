@@ -44,7 +44,7 @@ export const Banner = () => {
                                 className="flex"
                                 rel="noopener noreferrer"
                             >
-                                Checkout my Github
+                                My Github
                                 <span className="w-3">
                                     <ExternalLink/>
                                 </span>
@@ -57,7 +57,7 @@ export const Banner = () => {
                                 className="flex items-center justify-center gap-1"
                                 rel="noopener noreferrer"
                             >
-                                Checkout my Linkedin
+                                My Linkedin
                                 <span className="w-3">
                                     <ExternalLink/>
                                 </span>
