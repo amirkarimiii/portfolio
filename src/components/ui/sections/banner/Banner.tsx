@@ -20,24 +20,24 @@ export const Banner = () => {
                         <strong>high-performance, scalable web applications</strong> with&nbsp;
                         <strong>Next.js.</strong>
                     </p>
+                    <Button asChild variant="outline" className="block w-full mx-auto text-xs h-max border-4 my-5">
+                        <Link
+                            href="/blog"
+                            target="_blank"
+                            className="flex"
+                            rel="noopener noreferrer"
+                        >
+                            Checkout my Blog
+                        </Link>
+                    </Button>
                     <div className="flex flex-col">
-                        <p className="mt-4 text-sm lg:text-base">
+                        <p className="mt-2 text-sm lg:text-base">
                             I work primarily with&nbsp;
                             <strong>React (App Router & Server Components)</strong> and&nbsp;
                             <strong>TypeScript</strong>, with a strong emphasis on&nbsp;
                             <strong>clean architecture</strong>,&nbsp;
                             <strong>performance optimization</strong>, and writing code that scales well within teams.
                         </p>
-                        <Button asChild variant="outline" className="block w-full mx-auto text-xs h-max border-4 mt-2">
-                            <Link
-                                href="/blog"
-                                target="_blank"
-                                className="flex"
-                                rel="noopener noreferrer"
-                            >
-                                Checkout my Blog
-                            </Link>
-                        </Button>
                         <Alert variant="verified" className="mt-4">
                             <BadgeCheck/>
                             <AlertTitle className="lg:text-base">I’m open to full-time remote opportunities</AlertTitle>
