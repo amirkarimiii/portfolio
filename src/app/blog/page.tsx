@@ -1,10 +1,9 @@
-
-
+import {BlogBanner} from "@/components/ui/sections/blog/banner/BlogBanner";
 
 export default function Blog() {
     return (
-        <div>
-            this is the blog page
-        </div>
+        <>
+            <BlogBanner/>
+        </>
     );
 }
