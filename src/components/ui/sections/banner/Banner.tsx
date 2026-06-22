@@ -4,6 +4,7 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert"
 import {Separator} from "@/components/ui/shadcn/separator";
 import {Button} from "@/components/ui/shadcn/button";
 import Link from "next/link";
+import {ids} from "@/common/constants/ids";
 
 export const Banner = () => {
     return (
@@ -77,7 +78,7 @@ export const Banner = () => {
                     <Button asChild variant="outline" className="block w-full mx-auto text-xs h-max border-4 mt-2">
                         <a
                             className="flex items-center justify-center gap-1"
-                            href="#contact"
+                            href={`#${ids.contact}`}
                         >
                             Get in Touch
                         </a>
