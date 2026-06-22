@@ -1,13 +1,13 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/shadcn/tabs";
-import Image from "next/image";
-import {Separator} from "@/components/ui/shadcn/separator";
+import Image from 'next/image';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/shadcn/card";
-import ProjectPhoto from "@/components/ui/sections/projects/ProjectPhoto";
+import {Badge} from "@/components/ui/shadcn/badge";
+import ProjectPhoto from "@/components/ui/sections/main/projects/ProjectPhoto";
 import {Button} from "@/components/ui/shadcn/button";
 import Link from "next/link";
-import {InfoIcon} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert";
-import {Badge} from "@/components/ui/shadcn/badge";
+import {InfoIcon} from "lucide-react";
+import {Separator} from "@/components/ui/shadcn/separator";
 
 export function ProjectsSection() {
     return (

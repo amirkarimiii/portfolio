@@ -1,5 +1,5 @@
-import {Button} from "@/components/ui/shadcn/button";
 import Link from "next/link";
+import {Button} from "@/components/ui/shadcn/button";
 import {ids} from "@/common/constants/ids";
 
 export function ContactSection() {

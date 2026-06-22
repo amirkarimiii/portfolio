@@ -1,10 +1,10 @@
-import {MyImage} from "@/components/ui/sections/banner/MyImage";
-import {BadgeCheck, ExternalLink} from "lucide-react";
-import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert";
-import {Separator} from "@/components/ui/shadcn/separator";
+import {MyImage} from "@/components/ui/sections/main/banner/MyImage";
 import {Button} from "@/components/ui/shadcn/button";
 import Link from "next/link";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert";
+import {BadgeCheck, ExternalLink} from "lucide-react";
 import {ids} from "@/common/constants/ids";
+import {Separator} from "@/components/ui/shadcn/separator";
 
 export const Banner = () => {
     return (

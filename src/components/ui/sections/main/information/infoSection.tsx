@@ -1,9 +1,10 @@
-import {Separator} from "@/components/ui/shadcn/separator";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/shadcn/tabs";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert";
-import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink } from 'lucide-react';
+import {ExternalLink} from "lucide-react";
+import Image from 'next/image';
+import {Separator} from "@/components/ui/shadcn/separator";
+
 
 export function InfoSection() {
     return (
