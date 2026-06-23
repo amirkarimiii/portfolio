@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {Button} from "@/components/ui/shadcn/button";
-import {HomeIcon, Moon, SunDim} from "lucide-react";
+import {HomeIcon} from "lucide-react";
 
 
 export function HomeButton() {
