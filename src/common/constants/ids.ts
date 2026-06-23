@@ -1,3 +1,3 @@
-export const ids = {
+export const Ids = {
     contact: 'contact',
 } as const;
