@@ -4,8 +4,8 @@ import {Separator} from "@/components/ui/shadcn/separator";
 export function BlogBanner() {
     return (
         <section className="max-w-4xl mx-auto max-h-max">
-            <div className="select-none relative w-65 sm:w-80 md:w-100 aspect-120/100 mt-5 mx-auto">
-                <Image src={`/me-blog-banner.png`}
+            <div className="select-none relative w-70 sm:w-85 md:w-110 aspect-120/100 mt-5 mx-auto">
+                <Image src={`/me-blog.png`}
                        alt="amirhosein karimkhani's art-logo"
                        fill
                        preload
