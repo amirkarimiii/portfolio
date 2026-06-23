@@ -5,6 +5,7 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert"
 import {BadgeCheck, ExternalLink} from "lucide-react";
 import {Ids} from "@/common/constants/ids";
 import {Separator} from "@/components/ui/shadcn/separator";
+import {Paths} from "@/common/constants/paths";
 
 export const Banner = () => {
     return (
@@ -22,7 +23,7 @@ export const Banner = () => {
                     </p>
                     <Button asChild variant="outline" className="block w-full mx-auto text-xs h-max border-4 my-5">
                         <Link
-                            href="/blog"
+                            href={Paths.blog}
                             target="_blank"
                             className="flex"
                             rel="noopener noreferrer"
