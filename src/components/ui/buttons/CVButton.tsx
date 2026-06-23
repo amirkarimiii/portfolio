@@ -1,7 +1,6 @@
 "use client"
 
 import {Button} from "@/components/ui/shadcn/button";
-import {ExternalLink} from "lucide-react";
 import Link from "next/link";
 
 export function CvButton() {
