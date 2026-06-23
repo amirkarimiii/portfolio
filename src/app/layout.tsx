@@ -3,6 +3,8 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import {Provider} from './theme-provider'
 import {Navbar} from "@/components/layout/Navbar";
+import React from "react";
+import {MainNavbarActions} from "@/components/layout/MainNavbarActions";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -84,7 +86,7 @@ export default function RootLayout({
         >
         <Provider>
             <div className="container mx-auto">
-                <Navbar/>
+                <Navbar action={MainNavbarActions()}/>
                 <main>{children}</main>
             </div>
         </Provider>
