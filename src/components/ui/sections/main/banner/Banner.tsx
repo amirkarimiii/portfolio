@@ -27,6 +27,7 @@ export const Banner = () => {
                             target="_blank"
                             className="flex"
                             rel="noopener noreferrer"
+                            prefetch
                         >
                             Checkout my Blog
                         </Link>
