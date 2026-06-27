@@ -4,10 +4,12 @@ import { z } from "zod";
 export const env = createEnv({
     server: {
         MONGODB_URI: z.url("MONGODB_URI is not a valid url"),
+        NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
     },
     client: {},
     runtimeEnv: {
         MONGODB_URI: process.env.MONGODB_URI,
+        NODE_ENV: process.env.NODE_ENV
     },
     onValidationError: (error) => {
         console.error("invalid environment variables");
