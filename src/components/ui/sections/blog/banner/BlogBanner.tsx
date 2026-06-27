@@ -4,7 +4,7 @@ import {Separator} from "@/components/ui/shadcn/separator";
 export function BlogBanner() {
     return (
         <section className="max-w-4xl mx-auto max-h-max">
-            <div className="select-none relative w-70 sm:w-85 md:w-110 aspect-120/107 mt-5 mx-auto">
+            <div className="select-none relative w-55 sm:w-65 md:w-80 aspect-120/107 mt-5 mx-auto">
                 <Image src={`/me-blog.png`}
                        alt="amirhosein karimkhani's art-logo"
                        fill
