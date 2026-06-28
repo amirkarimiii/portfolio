@@ -1,10 +1,8 @@
-import type {Metadata} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import {Provider} from './theme-provider'
-import {Navbar} from "../components/layout/navbar/Navbar";
 import React from "react";
-import {MainNavbarActions} from "../components/layout/navbar/MainNavbarActions";
+import {AdminLoginListener} from "@/components/layout/listeners/AdminLoginListener";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -29,6 +27,7 @@ export default function RootLayout({
         >
         <Provider>
             {children}
+            <AdminLoginListener/>
         </Provider>
         </body>
         </html>
