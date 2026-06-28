@@ -1,5 +1,5 @@
-import { Navbar } from "@/components/layout/Navbar";
-import {MainNavbarActions} from "@/components/layout/MainNavbarActions";
+import { Navbar } from "../../components/layout/navbar/Navbar";
+import {MainNavbarActions} from "../../components/layout/navbar/MainNavbarActions";
 import React from "react";
 import {Metadata} from "next";
 

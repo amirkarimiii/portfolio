@@ -1,6 +1,6 @@
-import {ThemeButton} from "@/components/ui/buttons/ThemeButton";
-import {HomeButton} from "@/components/ui/buttons/HomeButton";
-import {BlogNavSearchbar} from "@/components/ui/inputs/BlogNavSearchbar";
+import {ThemeButton} from "src/components/ui/buttons/ThemeButton";
+import {HomeButton} from "src/components/ui/buttons/HomeButton";
+import {BlogNavSearchbar} from "src/components/ui/inputs/BlogNavSearchbar";
 
 export function BlogNavbarActions() {
     return (
