@@ -4,8 +4,7 @@ import {useEffect, useState} from "react";
 import {useTheme} from "next-themes";
 import {Card} from "@/components/ui/shadcn/card";
 import {Skeleton} from "@/components/ui/shadcn/skeleton";
-import {Badge} from "lucide-react";
-
+import {Badge} from "@/components/ui/shadcn/badge";
 
 
 
