@@ -4,6 +4,7 @@ import {Provider} from './theme-provider'
 import React from "react";
 import {AdminLoginListener} from "@/components/layout/listeners/AdminLoginListener";
 import {LoginDialog} from "@/components/layout/dialogs/LoginDialog";
+import {DialogCloseListener} from "@/components/layout/listeners/DialogCloseListener";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({
         <Provider>
             {children}
             <AdminLoginListener/>
+            <DialogCloseListener/>
             <LoginDialog />
         </Provider>
         </body>
