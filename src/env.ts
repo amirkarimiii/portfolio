@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const env = createEnv({
     server: {
-        MONGODB_URI: z.url("MONGODB_URI is not a valid url"),
+        MONGODB_URI: z.string("MONGODB_URI is not a valid string"),
         NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
     },
     client: {},
