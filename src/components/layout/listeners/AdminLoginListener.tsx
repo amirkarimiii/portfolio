@@ -9,7 +9,7 @@ export function AdminLoginListener() {
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "a") {
+            if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "k") {
                 event.preventDefault();
                 openDialog();
             }
