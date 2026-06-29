@@ -4,9 +4,8 @@ import bcrypt from 'bcryptjs';
 import {v4 as uuidv4} from 'uuid';
 import {ObjectId} from "mongodb";
 
-export default async function POST(request: Request) {
+export async function POST(request: Request) {
     try {
-
         const { password } = await request.json();
         if (!password) {
             return NextResponse.json(
@@ -14,10 +13,8 @@ export default async function POST(request: Request) {
                 {status: 400}
             );
         }
-
-        const client = await clientPromise;
+        const client = await clientPromise.catch();
         const db = client.db();
-
         const config = await db.collection('adminConfig').findOne({
             _id: new ObjectId('6a4012498a8251c60725be91')
         });
@@ -55,9 +52,15 @@ export default async function POST(request: Request) {
         return response;
 
     } catch (e) {
+        if (e instanceof Error) {
+            console.error(e.message);
+            console.error(e.stack);
+        } else {
+            console.error(e);
+        }
         return NextResponse.json(
-            {error: 'Internal server error'},
-            {status: 500}
+            { error: "Internal server error" },
+            { status: 500 }
         );
     }
 }
