@@ -8,7 +8,7 @@ interface AdminAuthState {
     setAuthenticated: (status: boolean) => void;
 }
 
-export const useAdminAuthState = create<AdminAuthState>(
+export const useAdminAuthStore = create<AdminAuthState>(
     (set) => ({
         isAuthenticated: false,
         isLoading: false,
