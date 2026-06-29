@@ -15,11 +15,13 @@ import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/shad
 import {Eye, EyeOff, InfoIcon} from "lucide-react";
 import React from "react";
 import {Alert, AlertTitle} from "@/components/ui/shadcn/alert";
+import { useAdminAuthStore } from "@/stores/adminAuthStore";
 
 export function LoginDialog() {
 
     const open = useLoginDialog((s) => s.open);
     const setOpen = useLoginDialog((s) => s.setOpen);
+    const setAuthenticated = useAdminAuthStore((s) => s.setAuthenticated);
     const [visible, setVisible] = React.useState(false);
 
     const [password, setPassword] = React.useState("");
@@ -52,8 +54,7 @@ export function LoginDialog() {
 
             setPassword("");
             setOpen(false);
-
-            alert("login successfully");
+            setAuthenticated(true);
 
         } catch (err: unknown) {
             setError(
