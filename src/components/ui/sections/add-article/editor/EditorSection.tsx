@@ -1,3 +1,5 @@
+"use client"
+
 import {Button} from "@/components/ui/shadcn/button";
 import React, {useRef} from "react";
 import type {EditorHandle} from "@/components/ui/sections/add-article/editor/Editor";
