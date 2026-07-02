@@ -1,8 +1,12 @@
 import {forwardRef, useEffect, useImperativeHandle, useRef} from "react";
-import EditorJS from "@editorjs/editorjs";
+import EditorJS, {OutputData} from "@editorjs/editorjs";
 
 
-const Editor = forwardRef((_, ref) => {
+export interface EditorHandle {
+    save(): Promise<OutputData | undefined>;
+}
+
+const Editor = forwardRef<EditorHandle>((_, ref) => {
     const holderRef = useRef<HTMLDivElement | null>(null);
     const editorInstanceRef = useRef<EditorJS | null>(null);
 
