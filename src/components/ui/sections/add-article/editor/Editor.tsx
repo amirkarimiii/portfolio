@@ -1,9 +1,8 @@
-import {useEffect, useRef} from "react";
+import {forwardRef, useEffect, useImperativeHandle, useRef} from "react";
 import EditorJS from "@editorjs/editorjs";
 
 
-export function Editor() {
-
+const Editor = forwardRef((_, ref) => {
     const holderRef = useRef<HTMLDivElement | null>(null);
     const editorInstanceRef = useRef<EditorJS | null>(null);
 
@@ -17,17 +16,32 @@ export function Editor() {
         });
 
         return () => {
-            if (editorInstanceRef.current) {
-                editorInstanceRef.current.destroy();
-                editorInstanceRef.current = null;
-            }
+            editorInstanceRef.current?.isReady
+                .then(() => {
+                    editorInstanceRef.current?.destroy();
+                    editorInstanceRef.current = null;
+                })
+                .catch(() => {});
         };
 
     }, []);
 
-    return (
-        <div ref={holderRef}>
+    useImperativeHandle(ref, ()=> {
+        return {
+            async save() {
+                if (!editorInstanceRef.current) return;
+                return await editorInstanceRef.current.save();
+            }
+        };
+    }, []);
 
+    return (
+        <div>
+            <div ref={holderRef} />
         </div>
     );
-}
+});
+
+Editor.displayName = "Editor";
+
+export default Editor;
