@@ -1,70 +1,33 @@
-"use client";
-
-import {
-    forwardRef,
-    useEffect,
-    useImperativeHandle,
-    useRef,
-} from "react";
-
-import EditorJS, { OutputData } from "@editorjs/editorjs";
+import {useEffect, useRef} from "react";
+import EditorJS from "@editorjs/editorjs";
 
 
-export interface EditorHandle {
-    save(): Promise<OutputData | undefined>;
-}
+export function Editor() {
 
-const Editor = forwardRef<EditorHandle>((_, ref) => {
-
-    const editorRef = useRef<EditorJS | null>(null);
     const holderRef = useRef<HTMLDivElement | null>(null);
+    const editorInstanceRef = useRef<EditorJS | null>(null);
 
     useEffect(() => {
 
-        if (editorRef.current || !holderRef.current) {
-            return;
-        }
+        if (!holderRef.current || editorInstanceRef.current) return;
 
-        editorRef.current = new EditorJS({
+        editorInstanceRef.current = new EditorJS({
             holder: holderRef.current,
-            placeholder: "Start writing your article...",
+            placeholder: "what's up?... "
         });
 
         return () => {
-            editorRef.current?.isReady
-                .then(() => {
-                    editorRef.current?.destroy();
-                    editorRef.current = null;
-                })
-                .catch(() => {
-                    editorRef.current = null;
-                });
+            if (editorInstanceRef.current) {
+                editorInstanceRef.current.destroy();
+                editorInstanceRef.current = null;
+            }
         };
+
     }, []);
 
-    useImperativeHandle(
-        ref,
-        () => ({
-            async save() {
-                if (!editorRef.current) {
-                    return;
-                }
-                return await editorRef.current.save();
-            },
-        }),
-        []
-    );
-
     return (
-        <div className="w-full border rounded-lg p-6">
-            <div
-                ref={holderRef}
-                className="prose dark:prose-invert max-w-none"
-            />
+        <div ref={holderRef}>
+
         </div>
     );
-});
-
-Editor.displayName = "Editor";
-
-export default Editor;
+}
