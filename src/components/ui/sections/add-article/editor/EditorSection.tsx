@@ -8,6 +8,11 @@ const EditorSection = () => {
     const editor = useEditor({
         extensions: [StarterKit],
         immediatelyRender: false,
+        editorProps: {
+            attributes: {
+                class: 'mt-10 min-h-[300px] w-full rounded-md border p-4 focus:outline-none prose prose-sm sm:prose lg:prose-lg mx-auto',
+            },
+        },
     })
 
     const handleLogContent = () => {
