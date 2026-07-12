@@ -1,4 +1,4 @@
-import {EditorSection} from "@/components/ui/sections/add-article/editor/EditorSection";
+import EditorSection from "@/components/ui/sections/add-article/editor/EditorSection";
 
 export default function NewArticle() {
 
