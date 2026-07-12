@@ -1,6 +1,6 @@
 import {Skeleton} from "@/components/ui/shadcn/skeleton";
 
-export default function TiptapSkeleton() {
+export default function EditorSectionSkeleton() {
     return (
         <div className="mt-10 w-full rounded-md border p-4">
             <div className="min-h-[300px] space-y-3">
