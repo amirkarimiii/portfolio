@@ -1,8 +1,9 @@
 'use client'
-import { useEditor } from '@tiptap/react'
+import {useEditor} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Tiptap from './Tiptap'
 import {Button} from "@/components/ui/shadcn/button";
+import Toolbar from "@/components/ui/sections/add-article/editor/toolbar/Toolbar";
 
 const EditorSection = () => {
     const editor = useEditor({
@@ -24,10 +25,10 @@ const EditorSection = () => {
         <section className="max-w-4xl mx-auto max-h-max mt-8">
             <Button onClick={handleLogContent}>log</Button>
             <div className="flex flex-col">
-                <div className="sticky top-2 z-10 mt-10 h-20 w-full rounded-md border p-4">
-                    {/*menubar here*/}
+                <div className="bg-background self-center sticky top-2 z-10 mt-10 w-[calc(100%-2.5rem)] rounded-md border p-1 shadow-lg">
+                    <Toolbar editor={editor} />
                 </div>
-                <Tiptap editor={editor} />
+                <Tiptap editor={editor}/>
                 <Button className="self-center w-sm mt-3 mb-15" onClick={handleLogContent}>log</Button>
             </div>
         </section>
