@@ -66,22 +66,22 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
-                <Button variant="ghost" className="w-max px-2">
+                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().toggleBold().run()}>
                     <div className="w-5 aspect-square">
                         <BoldIcon/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-2">
+                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().toggleItalic().run()}>
                     <div className="w-5 aspect-square">
                         <ItalicIcon/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-2">
+                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().toggleUnderline().run()}>
                     <div className="w-5 aspect-square">
                         <UnderlineIcon/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-2">
+                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().toggleStrike().run()}>
                     <div className="w-5 aspect-square">
                         <StrikethroughIcon/>
                     </div>
