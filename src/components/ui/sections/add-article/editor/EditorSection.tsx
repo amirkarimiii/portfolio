@@ -4,6 +4,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Tiptap from './Tiptap'
 import {Button} from "@/components/ui/shadcn/button";
 import SimpleToolbar from "./toolbar/SimpleToolbar";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/shadcn/tabs";
 
 const EditorSection = () => {
     const editor = useEditor({
@@ -25,9 +26,21 @@ const EditorSection = () => {
         <section className="max-w-4xl mx-auto max-h-max mt-8">
             <Button onClick={handleLogContent}>log</Button>
             <div className="flex flex-col">
-                <div className="bg-background self-center sticky top-2 z-10 mt-10 w-[calc(100%-2.5rem)] rounded-md border p-1 shadow-lg">
-                    <SimpleToolbar editor={editor} />
-                </div>
+                <Tabs defaultValue="simple" className="w-max self-center sticky top-2 z-10 mt-10">
+                    <TabsList className="flex flex-wrap h-max">
+                        <TabsTrigger value="simple">
+                            <span className="text-xs">simple</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="advance">
+                            <span className="text-xs">advance</span>
+                        </TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="simple">
+                        <div className="w-full bg-background  rounded-md border p-1 shadow-lg">
+                            <SimpleToolbar editor={editor} />
+                        </div>
+                    </TabsContent>
+                </Tabs>
                 <Tiptap editor={editor}/>
                 <Button className="self-center w-sm mt-3 mb-15" onClick={handleLogContent}>log</Button>
             </div>
