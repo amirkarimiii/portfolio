@@ -6,7 +6,7 @@ import {
     ChevronDownIcon, HighlighterIcon,
     ItalicIcon,
     RedoIcon,
-    StrikethroughIcon, TypeOutline,
+    StrikethroughIcon, TextAlignStart, TypeOutline,
     UnderlineIcon,
     UndoIcon
 } from "lucide-react";
@@ -19,12 +19,12 @@ function Toolbar({editor}: { editor: Editor | null }) {
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-2">
                     <div className="w-4 aspect-square">
-                        <UndoIcon />
+                        <UndoIcon/>
                     </div>
                 </Button>
                 <Button variant="ghost" className="w-max px-2">
                     <div className="w-4 aspect-square">
-                        <RedoIcon />
+                        <RedoIcon/>
                     </div>
                 </Button>
             </ButtonGroup>
@@ -85,6 +85,19 @@ function Toolbar({editor}: { editor: Editor | null }) {
                             <TypeOutline/>
                         </div>
                         <div className="w-full h-1 bg-amber-300"/>
+                    </div>
+                </Button>
+                <Button variant="ghost" className="w-max px-1">
+                    <div className="w-3 aspect-square">
+                        <ChevronDownIcon/>
+                    </div>
+                </Button>
+            </ButtonGroup>
+            <ButtonGroupSeparator/>
+            <ButtonGroup>
+                <Button variant="ghost" className="w-max px-1">
+                    <div className="w-5 aspect-square">
+                        <TextAlignStart/>
                     </div>
                 </Button>
                 <Button variant="ghost" className="w-max px-1">
