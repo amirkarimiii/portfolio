@@ -3,7 +3,7 @@ import {useEditor} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Tiptap from './Tiptap'
 import {Button} from "@/components/ui/shadcn/button";
-import Toolbar from "@/components/ui/sections/add-article/editor/toolbar/Toolbar";
+import SimpleToolbar from "./toolbar/SimpleToolbar";
 
 const EditorSection = () => {
     const editor = useEditor({
@@ -26,7 +26,7 @@ const EditorSection = () => {
             <Button onClick={handleLogContent}>log</Button>
             <div className="flex flex-col">
                 <div className="bg-background self-center sticky top-2 z-10 mt-10 w-[calc(100%-2.5rem)] rounded-md border p-1 shadow-lg">
-                    <Toolbar editor={editor} />
+                    <SimpleToolbar editor={editor} />
                 </div>
                 <Tiptap editor={editor}/>
                 <Button className="self-center w-sm mt-3 mb-15" onClick={handleLogContent}>log</Button>

@@ -11,7 +11,7 @@ import {
     UndoIcon
 } from "lucide-react";
 
-function Toolbar({editor}: { editor: Editor | null }) {
+function SimpleToolbar({editor}: { editor: Editor | null }) {
     if (!editor) return null
 
     return (
@@ -150,4 +150,4 @@ function Toolbar({editor}: { editor: Editor | null }) {
     )
 }
 
-export default Toolbar;
+export default SimpleToolbar;
