@@ -10,7 +10,7 @@ const EditorSection = () => {
         immediatelyRender: false,
         editorProps: {
             attributes: {
-                class: 'mt-10 min-h-[300px] w-full rounded-md border p-4 focus:outline-none prose prose-sm sm:prose lg:prose-lg mx-auto',
+                class: 'mt-3 min-h-[300px] w-full rounded-md border p-4 focus:outline-none prose prose-sm sm:prose lg:prose-lg mx-auto',
             },
         },
     })
@@ -23,7 +23,13 @@ const EditorSection = () => {
     return (
         <section className="max-w-4xl mx-auto max-h-max mt-8">
             <Button onClick={handleLogContent}>log</Button>
-            <Tiptap editor={editor} />
+            <div className="flex flex-col">
+                <div className="sticky top-2 z-10 mt-10 h-20 w-full rounded-md border p-4">
+                    {/*menubar here*/}
+                </div>
+                <Tiptap editor={editor} />
+                <Button className="self-center w-sm mt-3 mb-15" onClick={handleLogContent}>log</Button>
+            </div>
         </section>
     )
 }
