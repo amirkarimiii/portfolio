@@ -4,7 +4,7 @@ import {Button} from "@/components/ui/shadcn/button";
 import {
     BoldIcon,
     ChevronDownIcon, CodeIcon, HighlighterIcon, ImageIcon,
-    ItalicIcon, LinkIcon, QuoteIcon,
+    ItalicIcon, LinkIcon, List, QuoteIcon,
     RedoIcon,
     StrikethroughIcon, TextAlignStart, TypeOutline,
     UnderlineIcon,
@@ -44,6 +44,18 @@ function Toolbar({editor}: { editor: Editor | null }) {
                 <Button variant="ghost" className="w-max px-1">
                     <div className="w-5 aspect-square">
                         <TextAlignStart/>
+                    </div>
+                </Button>
+                <Button variant="ghost" className="w-max px-1">
+                    <div className="w-3 aspect-square">
+                        <ChevronDownIcon/>
+                    </div>
+                </Button>
+            </ButtonGroup>
+            <ButtonGroup>
+                <Button variant="ghost" className="w-max px-1">
+                    <div className="w-5 aspect-square">
+                        <List/>
                     </div>
                 </Button>
                 <Button variant="ghost" className="w-max px-1">
