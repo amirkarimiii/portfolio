@@ -17,12 +17,12 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
     return (
         <ButtonGroup>
             <ButtonGroup>
-                <Button variant="ghost" className="w-max px-2">
+                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().undo().run()}>
                     <div className="w-4 aspect-square">
                         <UndoIcon/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-2">
+                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().redo().run()}>
                     <div className="w-4 aspect-square">
                         <RedoIcon/>
                     </div>
