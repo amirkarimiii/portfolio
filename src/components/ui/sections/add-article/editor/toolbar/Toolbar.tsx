@@ -3,8 +3,8 @@ import {ButtonGroup, ButtonGroupSeparator} from "@/components/ui/shadcn/button-g
 import {Button} from "@/components/ui/shadcn/button";
 import {
     BoldIcon,
-    ChevronDownIcon, CodeIcon, HighlighterIcon,
-    ItalicIcon, LinkIcon,
+    ChevronDownIcon, CodeIcon, HighlighterIcon, ImageIcon,
+    ItalicIcon, LinkIcon, QuoteIcon,
     RedoIcon,
     StrikethroughIcon, TextAlignStart, TypeOutline,
     UnderlineIcon,
@@ -59,6 +59,11 @@ function Toolbar({editor}: { editor: Editor | null }) {
                 <Button variant="ghost" className="w-max px-2">
                     <div className="w-5 aspect-square">
                         <StrikethroughIcon/>
+                    </div>
+                </Button>
+                <Button variant="ghost" className="w-max px-2">
+                    <div className="w-5 aspect-square">
+                        <QuoteIcon/>
                     </div>
                 </Button>
             </ButtonGroup>
@@ -118,6 +123,14 @@ function Toolbar({editor}: { editor: Editor | null }) {
                 <Button variant="ghost" className="w-max px-2">
                     <div className="w-5 aspect-square">
                         <CodeIcon/>
+                    </div>
+                </Button>
+            </ButtonGroup>
+            <ButtonGroupSeparator/>
+            <ButtonGroup>
+                <Button variant="ghost" className="w-max px-2">
+                    <div className="w-5 aspect-square">
+                        <ImageIcon/>
                     </div>
                 </Button>
             </ButtonGroup>
