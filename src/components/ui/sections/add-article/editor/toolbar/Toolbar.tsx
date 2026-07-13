@@ -3,7 +3,7 @@ import {ButtonGroup, ButtonGroupSeparator} from "@/components/ui/shadcn/button-g
 import {Button} from "@/components/ui/shadcn/button";
 import {
     BoldIcon,
-    ChevronDownIcon, HighlighterIcon,
+    ChevronDownIcon, CodeIcon, HighlighterIcon,
     ItalicIcon, LinkIcon,
     RedoIcon,
     StrikethroughIcon, TextAlignStart, TypeOutline,
@@ -111,6 +111,13 @@ function Toolbar({editor}: { editor: Editor | null }) {
                 <Button variant="ghost" className="w-max px-2">
                     <div className="w-5 aspect-square">
                         <LinkIcon/>
+                    </div>
+                </Button>
+            </ButtonGroup>
+            <ButtonGroup>
+                <Button variant="ghost" className="w-max px-2">
+                    <div className="w-5 aspect-square">
+                        <CodeIcon/>
                     </div>
                 </Button>
             </ButtonGroup>
