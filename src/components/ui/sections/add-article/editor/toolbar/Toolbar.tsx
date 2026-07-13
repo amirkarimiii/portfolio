@@ -6,7 +6,7 @@ import {
     ChevronDownIcon, HighlighterIcon,
     ItalicIcon,
     RedoIcon,
-    StrikethroughIcon,
+    StrikethroughIcon, TypeOutline,
     UnderlineIcon,
     UndoIcon
 } from "lucide-react";
@@ -68,6 +68,21 @@ function Toolbar({editor}: { editor: Editor | null }) {
                     <div className="w-5 p-0.5 aspect-square flex flex-col gap-1 items-center">
                         <div className="w-3 aspect-square">
                             <HighlighterIcon/>
+                        </div>
+                        <div className="w-full h-1 bg-amber-300"/>
+                    </div>
+                </Button>
+                <Button variant="ghost" className="w-max px-1">
+                    <div className="w-3 aspect-square">
+                        <ChevronDownIcon/>
+                    </div>
+                </Button>
+            </ButtonGroup>
+            <ButtonGroup>
+                <Button variant="ghost" className="w-max px-1">
+                    <div className="w-5 p-0.5 aspect-square flex flex-col gap-1 items-center">
+                        <div className="w-3 aspect-square">
+                            <TypeOutline/>
                         </div>
                         <div className="w-full h-1 bg-amber-300"/>
                     </div>
