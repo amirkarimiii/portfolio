@@ -13,6 +13,7 @@ import {
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/shadcn/popover";
 import {Textarea} from "@/components/ui/shadcn/textarea";
 import {useState} from "react";
+import {toast} from "sonner";
 
 function SimpleToolbar({editor}: { editor: Editor | null }) {
 
@@ -25,7 +26,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
         let value = link.trim();
 
         if (value.startsWith("http://")) {
-            alert("This link is not secure (http). Please use https.");
+            toast.warning("This link is not secure (http). Please use https", { position: "top-center" })
             return;
         }
 
@@ -44,7 +45,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
         })();
 
         if (!isValidUrl) {
-            alert("The input must be a valid URL.");
+            toast.error("The input must be a valid URL", { position: "top-center" });
             return;
         }
         console.log(value);
