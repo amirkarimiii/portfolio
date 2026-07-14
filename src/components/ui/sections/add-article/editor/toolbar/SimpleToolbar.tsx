@@ -29,13 +29,13 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
     const [palette, setPalette] = useState(Array(PALETTE_SIZE).fill(null));
     const [highlightColor, setHighlightColor] = useState(DEFAULT_DRAFT_COLOR);
     const [highlightPopoverOpen, setHighlightPopoverOpen] = useState(false);
-    const [editingTarget, setEditingTarget] = useState<string | null>(null);
+    const [editingTarget, setEditingTarget] = useState<string | number | null>(null);
     const [draftColor, setDraftColor] = useState<string>(DEFAULT_DRAFT_COLOR);
     const isColorPickerOpen = editingTarget !== null;
 
     if (!editor) return null
 
-    const openColorPickerFor = (target: string, initialColor: string) => {
+    const openColorPickerFor = (target: string | number | null, initialColor: string) => {
         setDraftColor(initialColor || DEFAULT_DRAFT_COLOR);
         setEditingTarget(target);
     };
@@ -60,6 +60,16 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                 return next;
             });
             closeColorPicker();
+        }
+    };
+
+    const handleSlotClick = (index: number) => {
+        const existingColor = palette[index];
+        if (existingColor) {
+            setHighlightColor(existingColor);
+            setHighlightPopoverOpen(false);
+        } else {
+            openColorPickerFor(index, DEFAULT_DRAFT_COLOR);
         }
     };
 
@@ -253,6 +263,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                                                 key={index}
                                                 type="button"
                                                 title={color ? color : "add color"}
+                                                onClick={() => handleSlotClick(index)}
                                                 className={cn(
                                                     "w-6 h-6 rounded-full transition",
                                                     color
