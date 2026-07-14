@@ -22,7 +22,33 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
     if (!editor) return null
 
     const handleDone = () => {
-        console.log(link);
+        let value = link.trim();
+
+        if (value.startsWith("http://")) {
+            alert("This link is not secure (http). Please use https.");
+            return;
+        }
+
+        if (!/^https?:\/\//i.test(value)) {
+            value = "https://" + value;
+        }
+
+        const isValidUrl = (() => {
+            try {
+                const url = new URL(value);
+                const domainPattern = /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/;
+                return domainPattern.test(url.hostname);
+            } catch {
+                return false;
+            }
+        })();
+
+        if (!isValidUrl) {
+            alert("The input must be a valid URL.");
+            return;
+        }
+        console.log(value);
+        setLink(value);
         setOpen(false);
     };
 
