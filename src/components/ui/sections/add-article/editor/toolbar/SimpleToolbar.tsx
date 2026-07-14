@@ -3,7 +3,7 @@ import {ButtonGroup, ButtonGroupSeparator} from "@/components/ui/shadcn/button-g
 import {Button} from "@/components/ui/shadcn/button";
 import {
     BoldIcon,
-    ChevronDownIcon, CodeIcon, Eraser, HighlighterIcon, ImageIcon,
+    ChevronDownIcon, ChevronRightIcon, CodeIcon, Eraser, HighlighterIcon, ImageIcon,
     ItalicIcon, LinkIcon, List,
     RedoIcon, RotateCcwIcon,
     StrikethroughIcon, TextAlignStart, TypeOutline,
@@ -17,6 +17,12 @@ import {toast} from "sonner";
 import {cn} from "@/lib/utils/shadcnUtils";
 import {Separator} from "@/components/ui/shadcn/separator";
 import {HexColorPicker} from "react-colorful";
+import {
+    DropdownMenu, DropdownMenuContent,
+    DropdownMenuItem, DropdownMenuPortal,
+    DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger,
+    DropdownMenuTrigger
+} from "@/components/ui/shadcn/dropdown-menu";
 
 const PALETTE_SIZE = 12;
 const DEFAULT_DRAFT_COLOR = "#FEE685";
@@ -32,6 +38,19 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
     const [editingTarget, setEditingTarget] = useState<string | number | null>(null);
     const [draftColor, setDraftColor] = useState<string>(DEFAULT_DRAFT_COLOR);
     const isColorPickerOpen = editingTarget !== null;
+
+    const BLOCK_LABELS = {
+        paragraph: "paragraph",
+        heading1: "heading 1",
+        heading2: "heading 2",
+        heading3: "heading 3",
+        heading4: "heading 4",
+        quote: "quote block",
+        code: "code block",
+    } as const;
+
+    type BlockLabelsType = keyof typeof BLOCK_LABELS;
+    const [blockType, setBlockType] = useState<BlockLabelsType>("paragraph");
 
     if (!editor) return null
 
@@ -128,13 +147,53 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             <ButtonGroupSeparator/>
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-2">
-                    Paragraph
+                    {BLOCK_LABELS[blockType]}
                 </Button>
-                <Button variant="ghost" className="w-max px-2">
-                    <div className="w-3 aspect-square">
-                        <ChevronDownIcon/>
-                    </div>
-                </Button>
+
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="w-max px-2">
+                            <div className="w-3 aspect-square">
+                                <ChevronDownIcon />
+                            </div>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="center" className="w-44">
+                        <DropdownMenuItem onSelect={() => setBlockType("paragraph")}>
+                            Paragraph
+                        </DropdownMenuItem>
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger
+                                onSelect={(e) => e.preventDefault()}
+                                className="flex items-center justify-between"
+                            >
+                                Heading
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuPortal>
+                                <DropdownMenuSubContent>
+                                    <DropdownMenuItem onSelect={() => setBlockType("heading1")}>
+                                        Heading 1
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => setBlockType("heading2")}>
+                                        Heading 2
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => setBlockType("heading3")}>
+                                        Heading 3
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => setBlockType("heading4")}>
+                                        Heading 4
+                                    </DropdownMenuItem>
+                                </DropdownMenuSubContent>
+                            </DropdownMenuPortal>
+                        </DropdownMenuSub>
+                        <DropdownMenuItem onSelect={() => setBlockType("quote")}>
+                            Quote block
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => setBlockType("code")}>
+                            Code block
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
