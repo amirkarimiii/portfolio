@@ -12,7 +12,7 @@ const EditorSection = () => {
         immediatelyRender: false,
         editorProps: {
             attributes: {
-                class: 'mt-3 min-h-[300px] w-full rounded-md border p-4 focus:outline-none prose prose-sm sm:prose lg:prose-lg mx-auto',
+                class: 'mt-3 min-h-[300px] w-full rounded-md border p-4 focus:outline-none mx-auto',
             },
         },
     })
