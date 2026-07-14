@@ -49,7 +49,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             return;
         }
         editor?.chain().focus().toggleLink({
-            href: link,
+            href: value,
         }).run();
         setLink("");
         setOpen(false);
@@ -184,7 +184,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                     <Textarea
                         value={link}
                         onChange={(e) => setLink(e.target.value)}
-                        placeholder="https://example.com"
+                        placeholder="example.com"
                         className="max-h-24 overflow-hidden resize-none"
                     />
                     <Button onClick={handleDone} className="w-full">
