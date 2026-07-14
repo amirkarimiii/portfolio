@@ -131,7 +131,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                         <StrikethroughIcon/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-2">
+                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().unsetAllMarks().run()}>
                     <div className="w-5 aspect-square">
                         <Eraser/>
                     </div>
