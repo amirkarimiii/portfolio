@@ -196,7 +196,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
-                <Button variant="ghost" className="w-max px-1">
+                <Button variant="ghost" className="w-max px-1" onClick={() => editor.chain().focus().toggleHighlight({ color: highlightColor }).run()}>
                     <div className="w-5 p-0.5 aspect-square flex flex-col gap-1 items-center">
                         <div className="w-3 aspect-square">
                             <HighlighterIcon/>
