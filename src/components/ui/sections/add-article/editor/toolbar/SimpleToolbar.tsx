@@ -20,6 +20,10 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
     const [open, setOpen] = useState(false);
     const [link, setLink] = useState("");
 
+    const [highlightColor, setHighlightColor] = useState("#FEE685");
+    const [highlightPopoverOpen, setHighlightPopoverOpen] = useState(false);
+
+
     if (!editor) return null
 
     const handleDone = () => {
@@ -144,14 +148,27 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                         <div className="w-3 aspect-square">
                             <HighlighterIcon/>
                         </div>
-                        <div className="w-full h-1 bg-amber-300"/>
+                        <div className="w-full h-1" style={{backgroundColor: highlightColor}}/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-1">
-                    <div className="w-3 aspect-square">
-                        <ChevronDownIcon/>
-                    </div>
-                </Button>
+                <Popover
+                    open={highlightPopoverOpen}
+                    onOpenChange={(open) => {
+                        setHighlightPopoverOpen(open);
+                    }}
+                >
+                    <PopoverTrigger asChild>
+                        <Button variant="ghost" className="w-max px-1">
+                            <div className="w-3 aspect-square">
+                                <ChevronDownIcon />
+                            </div>
+                        </Button>
+                    </PopoverTrigger>
+
+                    <PopoverContent className="w-56 p-3" align="center">
+                        here would be content
+                    </PopoverContent>
+                </Popover>
             </ButtonGroup>
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-1">
