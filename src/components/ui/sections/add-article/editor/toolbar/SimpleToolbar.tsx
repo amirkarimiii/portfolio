@@ -16,6 +16,7 @@ import {useState} from "react";
 import {toast} from "sonner";
 import {cn} from "@/lib/utils/shadcnUtils";
 import {Separator} from "@/components/ui/shadcn/separator";
+import {HexColorPicker} from "react-colorful";
 
 const PALETTE_SIZE = 12;
 const DEFAULT_DRAFT_COLOR = "#FEE685";
@@ -28,9 +29,39 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
     const [palette, setPalette] = useState(Array(PALETTE_SIZE).fill(null));
     const [highlightColor, setHighlightColor] = useState(DEFAULT_DRAFT_COLOR);
     const [highlightPopoverOpen, setHighlightPopoverOpen] = useState(false);
-
+    const [editingTarget, setEditingTarget] = useState<string | null>(null);
+    const [draftColor, setDraftColor] = useState<string>(DEFAULT_DRAFT_COLOR);
+    const isColorPickerOpen = editingTarget !== null;
 
     if (!editor) return null
+
+    const openColorPickerFor = (target: string, initialColor: string) => {
+        setDraftColor(initialColor || DEFAULT_DRAFT_COLOR);
+        setEditingTarget(target);
+    };
+
+    const closeColorPicker = () => {
+        setEditingTarget(null);
+    };
+
+    const handleChooseColorClick = () => {
+        openColorPickerFor("choose", highlightColor);
+    };
+
+    const handleConfirmColorHighlight = () => {
+        if (editingTarget === "choose") {
+            setHighlightColor(draftColor);
+            closeColorPicker();
+            setHighlightPopoverOpen(false);
+        } else if (typeof editingTarget === "number") {
+            setPalette((prev) => {
+                const next = [...prev];
+                next[editingTarget] = draftColor;
+                return next;
+            });
+            closeColorPicker();
+        }
+    };
 
     const handleDone = () => {
         let value = link.trim();
@@ -172,40 +203,78 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-56 p-3" align="center">
-                        <div className="space-y-3">
-                            <Button variant="outline" size="sm" className="w-full justify-center gap-2">
-                                <div className="w-max flex flex-row gap-2">
+                        {
+                            isColorPickerOpen ? (
+                                <div className="space-y-3">
+                                    <HexColorPicker
+                                        color={draftColor}
+                                        onChange={setDraftColor}
+                                        style={{ width: "100%" }}
+                                    />
+                                    <div className="flex items-center gap-2">
+                                        <div
+                                            className="w-6 h-6 rounded-full border shrink-0"
+                                            style={{ backgroundColor: draftColor }}
+                                        />
+                                        <input
+                                            value={draftColor}
+                                            onChange={(e) => setDraftColor(e.target.value)}
+                                            className="flex-1 h-8 text-xs border rounded px-2 font-mono"
+                                            spellCheck={false}
+                                        />
+                                    </div>
+
+                                    <div className="flex gap-2">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="flex-1"
+                                            onClick={closeColorPicker}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button size="sm" className="flex-1 gap-1" onClick={handleConfirmColorHighlight}>
+                                            Confirm
+                                        </Button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="space-y-3">
+                                    <Button variant="outline" size="sm" className="w-full justify-center gap-2" onClick={handleChooseColorClick}>
+                                        <div className="w-max flex flex-row gap-2">
                                     <span className="w-3.5 h-3.5 block mt-1 rounded-full border shrink-0"
                                           style={{backgroundColor: highlightColor}}/>
-                                    Choose Color
-                                </div>
-                            </Button>
-                            <div className="grid grid-cols-4 gap-2 justify-items-center">
-                                {palette.map((color, index) => (
-                                    <button
-                                        key={index}
-                                        type="button"
-                                        title={color ? color : "افزودن رنگ"}
-                                        className={cn(
-                                            "w-6 h-6 rounded-full transition",
-                                            color
-                                                ? "border border-black/10 hover:scale-110"
-                                                : "border border-dashed border-muted-foreground/40 hover:border-muted-foreground"
-                                        )}
-                                        style={color ? {backgroundColor: color} : undefined}
-                                    />
-                                ))}
-                            </div>
-                            <Separator/>
-                            <Button variant="ghost" size="sm" className="w-full justify-center gap-2 text-muted-foreground">
-                                <div className="w-max flex flex-row gap-2">
-                                    <div className="w-3.5 aspect-square">
-                                        <RotateCcwIcon/>
+                                            Choose Color
+                                        </div>
+                                    </Button>
+                                    <div className="grid grid-cols-4 gap-2 justify-items-center">
+                                        {palette.map((color, index) => (
+                                            <button
+                                                key={index}
+                                                type="button"
+                                                title={color ? color : "add color"}
+                                                className={cn(
+                                                    "w-6 h-6 rounded-full transition",
+                                                    color
+                                                        ? "border border-black/10 hover:scale-110"
+                                                        : "border border-dashed border-muted-foreground/40 hover:border-muted-foreground"
+                                                )}
+                                                style={color ? {backgroundColor: color} : undefined}
+                                            />
+                                        ))}
                                     </div>
-                                    Reset palette
+                                    <Separator/>
+                                    <Button variant="ghost" size="sm" className="w-full justify-center gap-2 text-muted-foreground">
+                                        <div className="w-max flex flex-row gap-2">
+                                            <div className="w-3.5 aspect-square">
+                                                <RotateCcwIcon/>
+                                            </div>
+                                            Reset palette
+                                        </div>
+                                    </Button>
                                 </div>
-                            </Button>
-                        </div>
+                            )
+                        }
                     </PopoverContent>
                 </Popover>
             </ButtonGroup>
