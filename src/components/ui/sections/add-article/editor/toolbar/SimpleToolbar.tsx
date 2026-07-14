@@ -132,7 +132,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                 </Button>
             </ButtonGroup>
             <ButtonGroup>
-                <Button variant="ghost" className="w-max px-2">
+                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().toggleCode().run()}>
                     <div className="w-5 aspect-square">
                         <CodeIcon/>
                     </div>
