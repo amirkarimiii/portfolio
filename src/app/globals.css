@@ -153,3 +153,24 @@ svg[class] {
   font-size: 0.85em;
   font-weight: 500;
 }
+
+.ProseMirror a {
+  background: rgb(239 246 255);
+  border: 1px solid rgb(191 219 254);
+  color: rgb(37 99 235);
+
+  padding: 0 0.2rem 0.1rem;
+  border-radius: 0.45rem;
+
+  text-decoration: none;
+}
+
+.dark .ProseMirror a {
+  background: rgb(30 41 59);
+  border-color: rgb(59 130 246 / .4);
+  color: rgb(147 197 253);
+}
+
+.ProseMirror a:hover {
+  filter: brightness(0.95);
+}
