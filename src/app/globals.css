@@ -134,3 +134,22 @@ svg[class] {
     height: 100% !important;
     flex-shrink: 1;
 }
+
+/* ---------- Tiptap ---------- */
+
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror :not(pre) > code {
+  background: color-mix(in oklab, var(--muted) 90%, transparent);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+
+  padding: 0.12rem 0.38rem;
+  border-radius: 0.45rem;
+
+  font-family: var(--font-geist-mono);
+  font-size: 0.85em;
+  font-weight: 500;
+}
