@@ -10,9 +10,21 @@ import {
     UnderlineIcon,
     UndoIcon
 } from "lucide-react";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/shadcn/popover";
+import {Textarea} from "@/components/ui/shadcn/textarea";
+import {useState} from "react";
 
 function SimpleToolbar({editor}: { editor: Editor | null }) {
+    
+    const [open, setOpen] = useState(false);
+    const [link, setLink] = useState("");
+
     if (!editor) return null
+
+    const handleDone = () => {
+        console.log(link);
+        setOpen(false);
+    };
 
     return (
         <ButtonGroup>
@@ -66,22 +78,26 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
-                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().toggleBold().run()}>
+                <Button variant="ghost" className="w-max px-2"
+                        onClick={() => editor?.chain().focus().toggleBold().run()}>
                     <div className="w-5 aspect-square">
                         <BoldIcon/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().toggleItalic().run()}>
+                <Button variant="ghost" className="w-max px-2"
+                        onClick={() => editor?.chain().focus().toggleItalic().run()}>
                     <div className="w-5 aspect-square">
                         <ItalicIcon/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().toggleUnderline().run()}>
+                <Button variant="ghost" className="w-max px-2"
+                        onClick={() => editor?.chain().focus().toggleUnderline().run()}>
                     <div className="w-5 aspect-square">
                         <UnderlineIcon/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().toggleStrike().run()}>
+                <Button variant="ghost" className="w-max px-2"
+                        onClick={() => editor?.chain().focus().toggleStrike().run()}>
                     <div className="w-5 aspect-square">
                         <StrikethroughIcon/>
                     </div>
@@ -124,15 +140,32 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                 </Button>
             </ButtonGroup>
             <ButtonGroupSeparator/>
+            <Popover open={open} onOpenChange={setOpen}>
+                <ButtonGroup>
+                    <PopoverTrigger asChild>
+                        <Button variant="ghost" className="w-max px-2">
+                            <div className="w-5 aspect-square">
+                                <LinkIcon/>
+                            </div>
+                        </Button>
+                    </PopoverTrigger>
+                </ButtonGroup>
+                <PopoverContent className="flex flex-col items-center gap-3 w-72">
+                    <p className="text-sm text-center">insert link below</p>
+                    <Textarea
+                        value={link}
+                        onChange={(e) => setLink(e.target.value)}
+                        placeholder="https://example.com"
+                        className="max-h-24 overflow-hidden resize-none"
+                    />
+                    <Button onClick={handleDone} className="w-full">
+                        Done
+                    </Button>
+                </PopoverContent>
+            </Popover>
             <ButtonGroup>
-                <Button variant="ghost" className="w-max px-2">
-                    <div className="w-5 aspect-square">
-                        <LinkIcon/>
-                    </div>
-                </Button>
-            </ButtonGroup>
-            <ButtonGroup>
-                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().toggleCode().run()}>
+                <Button variant="ghost" className="w-max px-2"
+                        onClick={() => editor?.chain().focus().toggleCode().run()}>
                     <div className="w-5 aspect-square">
                         <CodeIcon/>
                     </div>
