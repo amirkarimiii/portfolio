@@ -15,7 +15,7 @@ import {Textarea} from "@/components/ui/shadcn/textarea";
 import {useState} from "react";
 
 function SimpleToolbar({editor}: { editor: Editor | null }) {
-    
+
     const [open, setOpen] = useState(false);
     const [link, setLink] = useState("");
 
@@ -151,7 +151,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                     </PopoverTrigger>
                 </ButtonGroup>
                 <PopoverContent className="flex flex-col items-center gap-3 w-72">
-                    <p className="text-sm text-center">insert link below</p>
+                    <p className="text-sm text-center font-semibold">insert link below 👇🏻</p>
                     <Textarea
                         value={link}
                         onChange={(e) => setLink(e.target.value)}
