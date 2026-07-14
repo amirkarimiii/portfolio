@@ -5,7 +5,7 @@ import {
     BoldIcon,
     ChevronDownIcon, CodeIcon, Eraser, HighlighterIcon, ImageIcon,
     ItalicIcon, LinkIcon, List,
-    RedoIcon,
+    RedoIcon, RotateCcwIcon,
     StrikethroughIcon, TextAlignStart, TypeOutline,
     UnderlineIcon,
     UndoIcon
@@ -14,13 +14,19 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/shadcn/po
 import {Textarea} from "@/components/ui/shadcn/textarea";
 import {useState} from "react";
 import {toast} from "sonner";
+import {cn} from "@/lib/utils/shadcnUtils";
+import {Separator} from "@/components/ui/shadcn/separator";
+
+const PALETTE_SIZE = 12;
+const DEFAULT_DRAFT_COLOR = "#FEE685";
 
 function SimpleToolbar({editor}: { editor: Editor | null }) {
 
     const [open, setOpen] = useState(false);
     const [link, setLink] = useState("");
 
-    const [highlightColor, setHighlightColor] = useState("#FEE685");
+    const [palette, setPalette] = useState(Array(PALETTE_SIZE).fill(null));
+    const [highlightColor, setHighlightColor] = useState(DEFAULT_DRAFT_COLOR);
     const [highlightPopoverOpen, setHighlightPopoverOpen] = useState(false);
 
 
@@ -135,7 +141,8 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                         <StrikethroughIcon/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-2" onClick={() => editor?.chain().focus().unsetAllMarks().run()}>
+                <Button variant="ghost" className="w-max px-2"
+                        onClick={() => editor?.chain().focus().unsetAllMarks().run()}>
                     <div className="w-5 aspect-square">
                         <Eraser/>
                     </div>
@@ -160,13 +167,45 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                     <PopoverTrigger asChild>
                         <Button variant="ghost" className="w-max px-1">
                             <div className="w-3 aspect-square">
-                                <ChevronDownIcon />
+                                <ChevronDownIcon/>
                             </div>
                         </Button>
                     </PopoverTrigger>
-
                     <PopoverContent className="w-56 p-3" align="center">
-                        here would be content
+                        <div className="space-y-3">
+                            <Button variant="outline" size="sm" className="w-full justify-center gap-2">
+                                <div className="w-max flex flex-row gap-2">
+                                    <span className="w-3.5 h-3.5 block mt-1 rounded-full border shrink-0"
+                                          style={{backgroundColor: highlightColor}}/>
+                                    Choose Color
+                                </div>
+                            </Button>
+                            <div className="grid grid-cols-4 gap-2 justify-items-center">
+                                {palette.map((color, index) => (
+                                    <button
+                                        key={index}
+                                        type="button"
+                                        title={color ? color : "افزودن رنگ"}
+                                        className={cn(
+                                            "w-6 h-6 rounded-full transition",
+                                            color
+                                                ? "border border-black/10 hover:scale-110"
+                                                : "border border-dashed border-muted-foreground/40 hover:border-muted-foreground"
+                                        )}
+                                        style={color ? {backgroundColor: color} : undefined}
+                                    />
+                                ))}
+                            </div>
+                            <Separator/>
+                            <Button variant="ghost" size="sm" className="w-full justify-center gap-2 text-muted-foreground">
+                                <div className="w-max flex flex-row gap-2">
+                                    <div className="w-3.5 aspect-square">
+                                        <RotateCcwIcon/>
+                                    </div>
+                                    Reset palette
+                                </div>
+                            </Button>
+                        </div>
                     </PopoverContent>
                 </Popover>
             </ButtonGroup>
