@@ -63,6 +63,11 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
         }
     };
 
+    const handleResetPalette = () => {
+        setPalette(Array(PALETTE_SIZE).fill(null));
+    };
+
+
     const handleSlotClick = (index: number) => {
         const existingColor = palette[index];
         if (existingColor) {
@@ -275,7 +280,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                                         ))}
                                     </div>
                                     <Separator/>
-                                    <Button variant="ghost" size="sm" className="w-full justify-center gap-2 text-muted-foreground">
+                                    <Button variant="ghost" size="sm" className="w-full justify-center gap-2 text-muted-foreground" onClick={handleResetPalette}>
                                         <div className="w-max flex flex-row gap-2">
                                             <div className="w-3.5 aspect-square">
                                                 <RotateCcwIcon/>
