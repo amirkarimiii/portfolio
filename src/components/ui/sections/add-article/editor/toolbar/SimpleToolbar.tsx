@@ -26,7 +26,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
         let value = link.trim();
 
         if (value.startsWith("http://")) {
-            toast.warning("This link is not secure (http). Please use https", { position: "top-center" })
+            toast.warning("This link is not secure (http). Please use https", {position: "top-center"})
             return;
         }
 
@@ -45,11 +45,13 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
         })();
 
         if (!isValidUrl) {
-            toast.error("The input must be a valid URL", { position: "top-center" });
+            toast.error("The input must be a valid URL", {position: "top-center"});
             return;
         }
-        console.log(value);
-        setLink(value);
+        editor?.chain().focus().toggleLink({
+            href: link,
+        }).run();
+        setLink("");
         setOpen(false);
     };
 
