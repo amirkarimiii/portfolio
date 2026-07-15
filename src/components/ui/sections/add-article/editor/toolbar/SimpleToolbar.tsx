@@ -163,18 +163,6 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-1">
                     <div className="w-5 aspect-square">
-                        <TextAlignStart/>
-                    </div>
-                </Button>
-                <Button variant="ghost" className="w-max px-1">
-                    <div className="w-3 aspect-square">
-                        <ChevronDownIcon/>
-                    </div>
-                </Button>
-            </ButtonGroup>
-            <ButtonGroup>
-                <Button variant="ghost" className="w-max px-1">
-                    <div className="w-5 aspect-square">
                         <List/>
                     </div>
                 </Button>
