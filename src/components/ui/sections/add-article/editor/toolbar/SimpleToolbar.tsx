@@ -60,12 +60,12 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
         <ButtonGroup>
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-1.5" onClick={() => editor?.chain().focus().undo().run()}>
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <UndoIcon/>
                     </div>
                 </Button>
                 <Button variant="ghost" className="w-max px-1.5" onClick={() => editor?.chain().focus().redo().run()}>
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <RedoIcon/>
                     </div>
                 </Button>
@@ -74,17 +74,17 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             <ButtonGroup>
                 <ButtonGroup>
                     <Button variant="ghost" className="w-max px-1.5">
-                        <div className="w-3.5 aspect-square">
+                        <div className="w-4 aspect-square">
                             <Heading2Icon/>
                         </div>
                     </Button>
                     <Button variant="ghost" className="w-max px-1.5">
-                        <div className="w-3.5 aspect-square">
+                        <div className="w-4 aspect-square">
                             <Heading3Icon/>
                         </div>
                     </Button>
                     <Button variant="ghost" className="w-max px-1.5">
-                        <div className="w-3.5 aspect-square">
+                        <div className="w-4 aspect-square">
                             <Heading4Icon/>
                         </div>
                     </Button>
@@ -92,12 +92,12 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                 <ButtonGroupSeparator/>
                 <ButtonGroup>
                     <Button variant="ghost" className="w-max px-1.5">
-                        <div className="w-3.5 aspect-square">
+                        <div className="w-4 aspect-square">
                             <QuoteIcon/>
                         </div>
                     </Button>
                     <Button variant="ghost" className="w-max px-1.5">
-                        <div className="w-3.5 aspect-square">
+                        <div className="w-4 aspect-square">
                             <FileCodeCorner/>
                         </div>
                     </Button>
@@ -106,12 +106,12 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             <ButtonGroupSeparator/>
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-1.5">
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <List/>
                     </div>
                 </Button>
                 <Button variant="ghost" className="w-max px-1.5">
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <ListOrdered/>
                     </div>
                 </Button>
@@ -120,30 +120,30 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-1.5"
                         onClick={() => editor?.chain().focus().toggleBold().run()}>
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <BoldIcon/>
                     </div>
                 </Button>
                 <Button variant="ghost" className="w-max px-1.5"
                         onClick={() => editor?.chain().focus().toggleItalic().run()}>
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <ItalicIcon/>
                     </div>
                 </Button>
                 <Button variant="ghost" className="w-max px-1.5"
                         onClick={() => editor?.chain().focus().toggleUnderline().run()}>
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <UnderlineIcon/>
                     </div>
                 </Button>
                 <Button variant="ghost" className="w-max px-1.5"
                         onClick={() => editor?.chain().focus().toggleStrike().run()}>
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <StrikethroughIcon/>
                     </div>
                 </Button>
                 <Button variant="ghost" className="w-max px-1.5">
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <HighlighterIcon/>
                     </div>
                 </Button>
@@ -151,7 +151,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-2"
                         onClick={() => editor?.chain().focus().unsetAllMarks().run()}>
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <Eraser/>
                     </div>
                 </Button>
@@ -161,7 +161,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                 <ButtonGroup>
                     <PopoverTrigger asChild>
                         <Button variant="ghost" className="w-max px-2">
-                            <div className="w-3.5 aspect-square">
+                            <div className="w-4 aspect-square">
                                 <LinkIcon/>
                             </div>
                         </Button>
@@ -182,7 +182,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-2"
                         onClick={() => editor?.chain().focus().toggleCode().run()}>
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <CodeIcon/>
                     </div>
                 </Button>
@@ -190,17 +190,17 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             <ButtonGroupSeparator/>
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-1.5">
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <ImagePlus />
                     </div>
                 </Button>
                 <Button variant="ghost" className="w-max px-1.5" disabled>
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <YouTubeIcon />
                     </div>
                 </Button>
                 <Button variant="ghost" className="w-max px-1.5" disabled>
-                    <div className="w-3.5 aspect-square">
+                    <div className="w-4 aspect-square">
                         <XCorpIcon />
                     </div>
                 </Button>
