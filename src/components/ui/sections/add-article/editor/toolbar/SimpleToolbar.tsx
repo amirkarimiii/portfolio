@@ -142,6 +142,12 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                         <StrikethroughIcon/>
                     </div>
                 </Button>
+                <Button variant="ghost" className="w-max px-1.5"
+                        onClick={() => editor?.chain().focus().toggleCode().run()}>
+                    <div className="w-4 aspect-square">
+                        <CodeIcon/>
+                    </div>
+                </Button>
                 <Button variant="ghost" className="w-max px-1.5">
                     <div className="w-4 aspect-square">
                         <HighlighterIcon/>
@@ -179,14 +185,6 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                     </Button>
                 </PopoverContent>
             </Popover>
-            <ButtonGroup>
-                <Button variant="ghost" className="w-max px-2"
-                        onClick={() => editor?.chain().focus().toggleCode().run()}>
-                    <div className="w-4 aspect-square">
-                        <CodeIcon/>
-                    </div>
-                </Button>
-            </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-1.5">
