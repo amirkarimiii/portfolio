@@ -3,7 +3,8 @@ import {ButtonGroup, ButtonGroupSeparator} from "@/components/ui/shadcn/button-g
 import {Button} from "@/components/ui/shadcn/button";
 import {
     BoldIcon,
-    ChevronDownIcon, ChevronRightIcon, CodeIcon, Eraser, HighlighterIcon, ImageIcon,
+    ChevronDownIcon, ChevronRightIcon, CodeIcon, Eraser, Heading2Icon, Heading3Icon,
+    Heading4Icon, HighlighterIcon, ImageIcon,
     ItalicIcon, LinkIcon, List,
     RedoIcon, RotateCcwIcon,
     StrikethroughIcon, TextAlignStart, TypeOutline,
@@ -146,10 +147,26 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
+                <ButtonGroup>
+                    <Button variant="ghost" className="w-max px-1.5">
+                        <div className="w-3.5 aspect-square">
+                            <Heading2Icon/>
+                        </div>
+                    </Button>
+                    <Button variant="ghost" className="w-max px-1.5">
+                        <div className="w-3.5 aspect-square">
+                            <Heading3Icon/>
+                        </div>
+                    </Button>
+                    <Button variant="ghost" className="w-max px-1.5">
+                        <div className="w-3.5 aspect-square">
+                            <Heading4Icon/>
+                        </div>
+                    </Button>
+                </ButtonGroup>
                 <Button variant="ghost" className="w-max px-2">
                     {BLOCK_LABELS[blockType]}
                 </Button>
-
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="w-max px-2">
