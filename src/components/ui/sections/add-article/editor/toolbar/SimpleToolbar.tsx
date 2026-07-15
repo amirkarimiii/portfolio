@@ -5,9 +5,9 @@ import {
     BoldIcon,
     ChevronDownIcon, CodeIcon, Eraser, FileCodeCorner, Heading2Icon, Heading3Icon,
     Heading4Icon, HighlighterIcon, ImageIcon,
-    ItalicIcon, LinkIcon, List, QuoteIcon,
+    ItalicIcon, LinkIcon, List, ListOrdered, QuoteIcon,
     RedoIcon, RotateCcwIcon,
-    StrikethroughIcon, TextAlignStart, TypeOutline,
+    StrikethroughIcon, TypeOutline,
     UnderlineIcon,
     UndoIcon
 } from "lucide-react";
@@ -161,14 +161,14 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
-                <Button variant="ghost" className="w-max px-1">
-                    <div className="w-5 aspect-square">
+                <Button variant="ghost" className="w-max px-1.5">
+                    <div className="w-3.5 aspect-square">
                         <List/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-1">
-                    <div className="w-3 aspect-square">
-                        <ChevronDownIcon/>
+                <Button variant="ghost" className="w-max px-1.5">
+                    <div className="w-3.5 aspect-square">
+                        <ListOrdered/>
                     </div>
                 </Button>
             </ButtonGroup>
