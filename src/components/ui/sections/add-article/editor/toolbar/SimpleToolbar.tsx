@@ -14,6 +14,7 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/shadcn/po
 import {Textarea} from "@/components/ui/shadcn/textarea";
 import {useState} from "react";
 import {toast} from "sonner";
+import {XCorpIcon, YouTubeIcon} from "@/components/ui/sections/add-article/editor/toolbar/icons";
 
 function SimpleToolbar({editor}: { editor: Editor | null }) {
 
@@ -191,6 +192,16 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                 <Button variant="ghost" className="w-max px-1.5">
                     <div className="w-3.5 aspect-square">
                         <ImagePlus />
+                    </div>
+                </Button>
+                <Button variant="ghost" className="w-max px-1.5" disabled>
+                    <div className="w-3.5 aspect-square">
+                        <YouTubeIcon />
+                    </div>
+                </Button>
+                <Button variant="ghost" className="w-max px-1.5" disabled>
+                    <div className="w-3.5 aspect-square">
+                        <XCorpIcon />
                     </div>
                 </Button>
             </ButtonGroup>
