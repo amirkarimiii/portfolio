@@ -16,7 +16,7 @@ import {useState} from "react";
 import {toast} from "sonner";
 import {XCorpIcon, YouTubeIcon} from "@/components/ui/sections/add-article/editor/toolbar/icons";
 
-function SimpleToolbar({editor}: { editor: Editor | null }) {
+function Toolbar({editor}: { editor: Editor | null }) {
 
     const [open, setOpen] = useState(false);
     const [link, setLink] = useState("");
@@ -207,4 +207,4 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
     )
 }
 
-export default SimpleToolbar;
+export default Toolbar;

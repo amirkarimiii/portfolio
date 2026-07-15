@@ -4,7 +4,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Highlight from '@tiptap/extension-highlight'
 import Tiptap from './Tiptap'
 import {Button} from "@/components/ui/shadcn/button";
-import SimpleToolbar from "./toolbar/SimpleToolbar";
+import Toolbar from "./toolbar/Toolbar";
 
 const EditorSection = () => {
     const editor = useEditor({
@@ -33,7 +33,7 @@ const EditorSection = () => {
             <Button onClick={handleLogContent}>log</Button>
             <div className="flex flex-col">
                 <div className="w-max self-center sticky top-2 z-10 mt-10 bg-background rounded-md border p-1 shadow-lg">
-                    <SimpleToolbar editor={editor} />
+                    <Toolbar editor={editor} />
                 </div>
                 <Tiptap editor={editor}/>
             </div>
