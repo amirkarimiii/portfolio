@@ -198,6 +198,11 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                         <StrikethroughIcon/>
                     </div>
                 </Button>
+                <Button variant="ghost" className="w-max px-1.5">
+                    <div className="w-3.5 aspect-square">
+                        <HighlighterIcon/>
+                    </div>
+                </Button>
             </ButtonGroup>
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-2"
