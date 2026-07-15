@@ -160,7 +160,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                 <ButtonGroup>
                     <PopoverTrigger asChild>
                         <Button variant="ghost" className="w-max px-2">
-                            <div className="w-5 aspect-square">
+                            <div className="w-3.5 aspect-square">
                                 <LinkIcon/>
                             </div>
                         </Button>
@@ -182,7 +182,7 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-2"
                         onClick={() => editor?.chain().focus().toggleCode().run()}>
-                    <div className="w-5 aspect-square">
+                    <div className="w-3.5 aspect-square">
                         <CodeIcon/>
                     </div>
                 </Button>
