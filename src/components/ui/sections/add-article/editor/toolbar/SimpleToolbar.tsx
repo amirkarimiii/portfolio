@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/shadcn/button";
 import {
     BoldIcon,
     CodeIcon, Eraser, FileCodeCorner, Heading2Icon, Heading3Icon,
-    Heading4Icon, HighlighterIcon, ImageIcon, ItalicIcon,
+    Heading4Icon, HighlighterIcon, ImagePlus, ItalicIcon,
     LinkIcon, List, ListOrdered, QuoteIcon, RedoIcon,
     StrikethroughIcon, UnderlineIcon, UndoIcon
 } from "lucide-react";
@@ -188,9 +188,9 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
-                <Button variant="ghost" className="w-max px-2">
-                    <div className="w-5 aspect-square">
-                        <ImageIcon/>
+                <Button variant="ghost" className="w-max px-1.5">
+                    <div className="w-3.5 aspect-square">
+                        <ImagePlus />
                     </div>
                 </Button>
             </ButtonGroup>
