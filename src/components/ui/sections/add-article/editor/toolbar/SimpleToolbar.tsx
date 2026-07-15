@@ -167,7 +167,6 @@ function SimpleToolbar({editor}: { editor: Editor | null }) {
                     </PopoverTrigger>
                 </ButtonGroup>
                 <PopoverContent className="flex flex-col items-center gap-3 w-72">
-                    <p className="text-sm text-center font-semibold">insert link below 👇🏻</p>
                     <Textarea
                         value={link}
                         onChange={(e) => setLink(e.target.value)}
