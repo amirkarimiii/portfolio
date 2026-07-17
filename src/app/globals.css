@@ -141,6 +141,8 @@ svg[class] {
   outline: none;
 }
 
+/* Headings */
+
 .ProseMirror h2 {
   font-size: 1.5rem;
   font-weight: 700;
@@ -163,6 +165,24 @@ svg[class] {
   line-height: 1.5;
   margin-top: 1.25rem;
   margin-bottom: 0.5rem;
+}
+
+/* Blockquote */
+
+.ProseMirror blockquote {
+  margin: 1rem 0;
+  padding: 0.25rem 0 0.25rem 1rem;
+  border-left: 0.125rem solid var(--primary);
+  background-color: color-mix(in srgb, var(--primary), transparent 95%);
+  font-style: italic;
+}
+
+.ProseMirror blockquote p {
+  margin: 0;
+}
+
+.dark .ProseMirror blockquote {
+  border-left-color: var(--primary);
 }
 
 .ProseMirror :not(pre) > code {
