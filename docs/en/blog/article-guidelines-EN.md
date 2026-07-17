@@ -1,4 +1,4 @@
-# Article Guidelines (v1.1)
+# Article Guidelines (v1.1.2)
 
 ## Purpose
 
@@ -147,7 +147,25 @@ version 1.2.
 
 ---
 
-# 8. Rendering Guidelines
+---
+
+# 8. Editor History (Hotfix Documentation)
+
+Supported commands to manage the editor's state and history during the writing session. *Note: This feature has been present since v1.0; its inclusion here corrects a previous documentation omission.*
+
+## Undo
+* Reverts the last unsaved change in the editor.
+* The control must be disabled when there are no actions left to undo.
+
+## Redo
+* Reapplies the last action that was undone.
+* The control must be disabled when there are no undone actions left to restore.
+
+### Scope Control
+* Editor state history is temporary and lives in-memory during the editing session.
+* These controls are purely operational within the editor UI and do not affect the final rendered article content.
+
+# 9. Rendering Guidelines
 
 The visual appearance of each supported content element is documented
 incrementally during development.
@@ -234,6 +252,9 @@ New content elements may be introduced only after evaluating whether they
 align with the blog's publishing requirements.
 
 ## Changelog
+
+**v1.1.2**
+* **Documentation Fix:** Added missing guidelines for **Editor History (Undo / Redo)**. This capability has been supported in the editor since v1.0 but was previously omitted from the documentation.
 
 **v1.1**
 
