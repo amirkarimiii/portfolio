@@ -198,9 +198,12 @@ The following typography tokens apply specifically to headings rendered within t
 
 ## Paragraph
 
-Style
+Paragraphs serve as the default block-level structural element for body text, inheriting core typography tokens from the global design system.
 
-> TODO
+* **Typography:** Inherits the global body font-family, base font-weight, and base font-size from the global styles.
+* **Line Height:** Inherits the project's standard readability-optimized line-height (e.g., `1.5` or `1.6`).
+* **Spacing:** Accommodates default vertical block margins (`margin-top: 0`, `margin-bottom: 1rem` or user-agent defaults) to ensure consistent content pacing between text blocks.
+* **Context Constraints:** When nested inside structured containers like `blockquote`, default vertical margins are discarded (`margin: 0`) to maintain container alignment.
 
 ---
 
@@ -292,6 +295,7 @@ align with the blog's publishing requirements.
 **v1.1.2**
 * **Documentation Fix:** Added missing guidelines for **Editor History (Undo / Redo)**. This capability has been supported in the editor since v1.0 but was previously omitted from the documentation.
 * **Specification Update:** Documented explicit typography and spacing tokens for **Headings (H2, H3, H4)** under Rendering Guidelines, matching the newly added styles in `globals.css`.
+* **Specification Update:** Documented baseline rendering rules and structural constraints for **Paragraph**, formalizing the reliance on default editor and global layout typography.
 * **Specification Update:** Documented design tokens, border, background, and theme requirements for **Blockquote** under Rendering Guidelines, aligned with the CSS implementation.
 * **Specification Update:** Documented container geometry, typography stacks, overflow behaviors, and theme-specific contrasts for **Code Block** under Rendering Guidelines.
 
