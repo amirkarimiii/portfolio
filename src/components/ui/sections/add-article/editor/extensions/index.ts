@@ -1,5 +1,5 @@
-import {coreExtensions} from "./core";
-import {historyExtensions} from "./history";
+import {coreExtensions} from "./core-extensions";
+import {historyExtensions} from "./history-extentions";
 
 export const extensions = [
     ...coreExtensions,
