@@ -214,9 +214,17 @@ Style
 
 ## Blockquote
 
-Style
+Rendered with a subtle background and a distinct left border using the core Design System tokens.
 
-> TODO
+* **Margins:** Vertical margin `1rem`, Horizontal margin `0`
+* **Padding:** Top/Bottom `0.25rem`, Left padding `1rem` (Right padding `1rem` for RTL layout if applicable)
+* **Border:** Left border of `0.125rem` (2px) solid `var(--primary)`
+* **Background:** `color-mix(in srgb, var(--primary), transparent 95%)` (Creates a 5% opacity tint of the primary color)
+* **Typography:** Inherits default text sizes but enforces `font-style: italic`
+* **Child Elements:** Inner paragraphs (`p`) must have their default vertical margins removed (`margin: 0`) to prevent padding distortion.
+* **Theme Support:**
+  * **Light Mode:** Uses the light-theme primary accent for the left border.
+  * **Dark Mode:** Inherits the dark-theme primary accent via `.dark` container context.
 
 ---
 
@@ -272,6 +280,7 @@ align with the blog's publishing requirements.
 **v1.1.2**
 * **Documentation Fix:** Added missing guidelines for **Editor History (Undo / Redo)**. This capability has been supported in the editor since v1.0 but was previously omitted from the documentation.
 * **Specification Update:** Documented explicit typography and spacing tokens for **Headings (H2, H3, H4)** under Rendering Guidelines, matching the newly added styles in `globals.css`.
+* **Specification Update:** Documented design tokens, border, background, and theme requirements for **Blockquote** under Rendering Guidelines, aligned with the CSS implementation.
 
 **v1.1**
 
