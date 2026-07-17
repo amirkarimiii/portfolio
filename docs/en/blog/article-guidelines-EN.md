@@ -209,9 +209,22 @@ Paragraphs serve as the default block-level structural element for body text, in
 
 ## Lists
 
-Style
+Supports both bulleted and ordered structures with strict nesting indentation rules and multi-level indicator variations.
 
-> TODO
+* **Containers (`ul`, `ol`):**
+  * **Margins:** Top/Bottom `1rem`, Left/Right `0` (for root level)
+  * **Indentation:** Controlled via `padding-inline-start: 1.5rem` to support both LTR and RTL directions natively.
+* **List Items (`li`):**
+  * **Spacing:** Vertical margin `0.25rem`, Horizontal `0`
+  * **Child Elements:** Any inner paragraph (`li > p`) must have its vertical margins removed (`margin: 0`) to preserve tight list item spacing.
+* **List Markers (Bulleted - `ul`):**
+  * **Level 1 (Root):** `disc`
+  * **Level 2 (Nested):** `circle`
+  * **Level 3+ (Deep Nested):** `square`
+* **List Markers (Ordered - `ol`):**
+  * Standard sequential numbering using `decimal`.
+* **Nesting Behavior:**
+  * When any list type is nested inside another list item, root vertical margins are discarded and replaced with a compact vertical margin (`margin: 0.25rem 0`).
 
 ---
 
@@ -296,6 +309,7 @@ align with the blog's publishing requirements.
 * **Documentation Fix:** Added missing guidelines for **Editor History (Undo / Redo)**. This capability has been supported in the editor since v1.0 but was previously omitted from the documentation.
 * **Specification Update:** Documented explicit typography and spacing tokens for **Headings (H2, H3, H4)** under Rendering Guidelines, matching the newly added styles in `globals.css`.
 * **Specification Update:** Documented baseline rendering rules and structural constraints for **Paragraph**, formalizing the reliance on default editor and global layout typography.
+* **Specification Update:** Documented indentation layout, multi-level marker types (disc, circle, square, decimal), and inner spacing behaviors for **Lists** and nested variants.
 * **Specification Update:** Documented design tokens, border, background, and theme requirements for **Blockquote** under Rendering Guidelines, aligned with the CSS implementation.
 * **Specification Update:** Documented container geometry, typography stacks, overflow behaviors, and theme-specific contrasts for **Code Block** under Rendering Guidelines.
 
