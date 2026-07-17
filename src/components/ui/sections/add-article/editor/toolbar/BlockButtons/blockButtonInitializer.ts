@@ -1,4 +1,4 @@
-import {FileCodeCorner, Quote} from "lucide-react";
+import {FileCodeCorner, Quote, SquarePilcrow} from "lucide-react";
 import { Editor, EditorStateSnapshot } from "@tiptap/react";
 
 export const blockButtonInitializer = (editor: Editor | null) => ({
@@ -8,7 +8,8 @@ export const blockButtonInitializer = (editor: Editor | null) => ({
         hint: "Quote",
         canExecute: (ctx: EditorStateSnapshot) =>
             !ctx.editor?.isActive('blockquote') &&
-            (ctx.editor?.can().chain().focus().setBlockquote().run() ?? false)
+            (ctx.editor?.can().chain().focus().setBlockquote().run() ?? false),
+        paddingX: "px-1.5"
     },
     code: {
         icon: FileCodeCorner,
@@ -16,5 +17,14 @@ export const blockButtonInitializer = (editor: Editor | null) => ({
         hint: "Code Block",
         canExecute: (ctx: EditorStateSnapshot) =>
             ctx.editor?.can().chain().focus().setCodeBlock().run() ?? false,
+        paddingX: "px-1.5"
     },
+    paragraph: {
+        icon: SquarePilcrow,
+        command: () => editor?.chain().focus().clearNodes().run(),
+        hint: "paragraph",
+        canExecute: (ctx: EditorStateSnapshot) =>
+            (ctx.editor?.isActive('blockquote') || ctx.editor?.isActive('codeBlock')),
+        paddingX: "px-2"
+    }
 });
