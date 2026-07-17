@@ -16,6 +16,7 @@ import {useState} from "react";
 import {toast} from "sonner";
 import {XCorpIcon, YouTubeIcon} from "@/components/ui/sections/add-article/editor/toolbar/icons";
 import {HistoryButton} from "@/components/ui/sections/add-article/editor/toolbar/HistoryButton/HistoryButton";
+import {HeadingsButton} from "@/components/ui/sections/add-article/editor/toolbar/HeadingsButton/HeadingsButton";
 
 function Toolbar({editor}: { editor: Editor | null }) {
 
@@ -66,21 +67,9 @@ function Toolbar({editor}: { editor: Editor | null }) {
             <ButtonGroupSeparator/>
             <ButtonGroup>
                 <ButtonGroup>
-                    <Button variant="ghost" className="w-max px-1.5">
-                        <div className="w-4 aspect-square">
-                            <Heading2Icon/>
-                        </div>
-                    </Button>
-                    <Button variant="ghost" className="w-max px-1.5">
-                        <div className="w-4 aspect-square">
-                            <Heading3Icon/>
-                        </div>
-                    </Button>
-                    <Button variant="ghost" className="w-max px-1.5">
-                        <div className="w-4 aspect-square">
-                            <Heading4Icon/>
-                        </div>
-                    </Button>
+                    <HeadingsButton type={"h2"} editor={editor} />
+                    <HeadingsButton type={"h3"} editor={editor} />
+                    <HeadingsButton type={"h4"} editor={editor} />
                 </ButtonGroup>
                 <ButtonGroupSeparator/>
                 <ButtonGroup>
