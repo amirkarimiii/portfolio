@@ -174,9 +174,25 @@ The following sections are intentionally left as placeholders.
 
 ## Headings
 
-Style
+The following typography tokens apply specifically to headings rendered within the `.ProseMirror` editor container.
 
-> TODO
+### H2
+* **Font Size:** `1.5rem` (24px)
+* **Weight:** `700` (Bold)
+* **Line Height:** `1.3`
+* **Spacing:** Top margin `1.75rem`, Bottom margin `0.75rem`
+
+### H3
+* **Font Size:** `1.25rem` (20px)
+* **Weight:** `600` (Semi-Bold)
+* **Line Height:** `1.4`
+* **Spacing:** Top margin `1.5rem`, Bottom margin `0.5rem`
+
+### H4
+* **Font Size:** `1.125rem` (18px)
+* **Weight:** `600` (Semi-Bold)
+* **Line Height:** `1.5`
+* **Spacing:** Top margin `1.25rem`, Bottom margin `0.5rem`
 
 ---
 
@@ -255,6 +271,7 @@ align with the blog's publishing requirements.
 
 **v1.1.2**
 * **Documentation Fix:** Added missing guidelines for **Editor History (Undo / Redo)**. This capability has been supported in the editor since v1.0 but was previously omitted from the documentation.
+* **Specification Update:** Documented explicit typography and spacing tokens for **Headings (H2, H3, H4)** under Rendering Guidelines, matching the newly added styles in `globals.css`.
 
 **v1.1**
 
