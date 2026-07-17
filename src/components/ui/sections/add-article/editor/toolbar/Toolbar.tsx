@@ -4,9 +4,9 @@ import {Button} from "@/components/ui/shadcn/button";
 
 import {
     BoldIcon,
-    CodeIcon, Eraser, FileCodeCorner,
+    CodeIcon, Eraser,
     HighlighterIcon, ImagePlus, ItalicIcon,
-    LinkIcon, List, ListOrdered, QuoteIcon,
+    LinkIcon, List, ListOrdered,
     StrikethroughIcon, UnderlineIcon
 } from "lucide-react";
 
@@ -18,6 +18,7 @@ import {XCorpIcon, YouTubeIcon} from "@/components/ui/sections/add-article/edito
 import {HistoryButton} from "@/components/ui/sections/add-article/editor/toolbar/HistoryButton/HistoryButton";
 import {HeadingsButton} from "@/components/ui/sections/add-article/editor/toolbar/HeadingsButton/HeadingsButton";
 import {BlockButton} from "./BlockButton/BlockButton";
+import {ListButton} from "@/components/ui/sections/add-article/editor/toolbar/ListButton/ListButton";
 
 function Toolbar({editor}: { editor: Editor | null }) {
 
@@ -84,16 +85,8 @@ function Toolbar({editor}: { editor: Editor | null }) {
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
-                <Button variant="ghost" className="w-max px-1.5">
-                    <div className="w-4 aspect-square">
-                        <List/>
-                    </div>
-                </Button>
-                <Button variant="ghost" className="w-max px-1.5">
-                    <div className="w-4 aspect-square">
-                        <ListOrdered/>
-                    </div>
-                </Button>
+                <ListButton type={"bullet"} editor={editor}/>
+                <ListButton type={"ordered"} editor={editor}/>
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
