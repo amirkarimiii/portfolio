@@ -185,6 +185,42 @@ svg[class] {
   border-left-color: var(--primary);
 }
 
+/* Code Block */
+
+.ProseMirror pre {
+  margin: 1rem 0;
+  padding: 0.875rem 1rem;
+  border: 0.125rem solid var(--border);
+  border-radius: 0.5rem;
+  background-color: color-mix(in srgb, var(--primary), transparent 95%);
+  overflow-x: auto;
+}
+
+.ProseMirror pre code {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-family:
+          "JetBrains Mono",
+          "Fira Code",
+          "Cascadia Code",
+          Consolas,
+          monospace;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.dark .ProseMirror pre {
+  background: var(--muted);
+  border-color: var(--border);
+}
+
+.dark .ProseMirror pre code {
+  color: var(--foreground);
+}
+
+
 .ProseMirror :not(pre) > code {
   background: color-mix(in oklab, var(--muted) 90%, transparent);
   border: 1px solid var(--border);
