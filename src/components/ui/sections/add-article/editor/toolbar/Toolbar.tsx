@@ -17,7 +17,7 @@ import {toast} from "sonner";
 import {XCorpIcon, YouTubeIcon} from "@/components/ui/sections/add-article/editor/toolbar/icons";
 import {HistoryButton} from "@/components/ui/sections/add-article/editor/toolbar/HistoryButton/HistoryButton";
 import {HeadingsButton} from "@/components/ui/sections/add-article/editor/toolbar/HeadingsButton/HeadingsButton";
-import {BlockButton} from "@/components/ui/sections/add-article/editor/toolbar/BlockButtons/BlockButton";
+import {BlockButton} from "./BlockButton/BlockButton";
 
 function Toolbar({editor}: { editor: Editor | null }) {
 
