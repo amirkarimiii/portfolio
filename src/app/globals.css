@@ -220,6 +220,47 @@ svg[class] {
   color: var(--foreground);
 }
 
+/* Lists */
+
+.ProseMirror ul,
+.ProseMirror ol {
+  margin: 1rem 0;
+  padding-inline-start: 1.5rem;
+}
+
+.ProseMirror li {
+  margin: 0.25rem 0;
+}
+
+.ProseMirror li > p {
+  margin: 0;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+}
+
+.ProseMirror ul ul {
+  list-style-type: circle;
+}
+
+.ProseMirror ul ul ul {
+  list-style-type: square;
+}
+
+
+/* Nested lists */
+
+.ProseMirror ul ul,
+.ProseMirror ul ol,
+.ProseMirror ol ul,
+.ProseMirror ol ol {
+  margin: 0.25rem 0;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+}
 
 .ProseMirror :not(pre) > code {
   background: color-mix(in oklab, var(--muted) 90%, transparent);
