@@ -3,11 +3,12 @@ import {useEditor} from '@tiptap/react'
 import Tiptap from './Tiptap'
 import {Button} from "@/components/ui/shadcn/button";
 import Toolbar from "./toolbar/Toolbar";
+import {extensions} from "@/components/ui/sections/add-article/editor/extensions";
 
 const EditorSection = () => {
     const editor = useEditor({
         extensions: [
-
+            ...extensions
         ],
         immediatelyRender: false,
         editorProps: {
