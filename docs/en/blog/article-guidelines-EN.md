@@ -230,9 +230,21 @@ Rendered with a subtle background and a distinct left border using the core Desi
 
 ## Code Block
 
-Style
+Designed for multi-line source code rendering with built-in dark mode adaptations and horizontal overflow handling.
 
-> TODO
+* **Container (`pre`):**
+  * **Margins:** Vertical margin `1rem`, Horizontal margin `0`
+  * **Padding:** Top/Bottom `0.875rem`, Left/Right `1rem`
+  * **Border:** `0.125rem` (2px) solid `var(--border)`
+  * **Border Radius:** `0.5rem` (8px)
+  * **Overflow:** `overflow-x: auto` (Prevents horizontal clipping by enabling custom container scrolling)
+* **Typography (`code`):**
+  * **Font Family:** `"JetBrains Mono"`, `"Fira Code"`, `"Cascadia Code"`, `Consolas`, `monospace` (Cascading monospace stack)
+  * **Font Size:** `0.9rem`
+  * **Line Height:** `1.7` (Optimized for technical readability)
+* **Theme Support:**
+  * **Light Mode:** Background uses `color-mix(in srgb, var(--primary), transparent 95%)` (5% primary tint) with default inherited text color.
+  * **Dark Mode:** Background switches to `var(--muted)` and text color is explicitly set to `var(--foreground)` for accessible code contrast.
 
 ---
 
@@ -281,6 +293,7 @@ align with the blog's publishing requirements.
 * **Documentation Fix:** Added missing guidelines for **Editor History (Undo / Redo)**. This capability has been supported in the editor since v1.0 but was previously omitted from the documentation.
 * **Specification Update:** Documented explicit typography and spacing tokens for **Headings (H2, H3, H4)** under Rendering Guidelines, matching the newly added styles in `globals.css`.
 * **Specification Update:** Documented design tokens, border, background, and theme requirements for **Blockquote** under Rendering Guidelines, aligned with the CSS implementation.
+* **Specification Update:** Documented container geometry, typography stacks, overflow behaviors, and theme-specific contrasts for **Code Block** under Rendering Guidelines.
 
 **v1.1**
 
