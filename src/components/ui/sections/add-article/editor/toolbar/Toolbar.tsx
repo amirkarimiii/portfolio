@@ -15,6 +15,7 @@ import {Textarea} from "@/components/ui/shadcn/textarea";
 import {useState} from "react";
 import {toast} from "sonner";
 import {XCorpIcon, YouTubeIcon} from "@/components/ui/sections/add-article/editor/toolbar/icons";
+import {HistoryButton} from "@/components/ui/sections/add-article/editor/toolbar/HistoryButton/HistoryButton";
 
 function Toolbar({editor}: { editor: Editor | null }) {
 
@@ -59,16 +60,8 @@ function Toolbar({editor}: { editor: Editor | null }) {
     return (
         <ButtonGroup>
             <ButtonGroup>
-                <Button variant="ghost" className="w-max px-1.5" onClick={() => editor?.chain().focus().undo().run()}>
-                    <div className="w-4 aspect-square">
-                        <UndoIcon/>
-                    </div>
-                </Button>
-                <Button variant="ghost" className="w-max px-1.5" onClick={() => editor?.chain().focus().redo().run()}>
-                    <div className="w-4 aspect-square">
-                        <RedoIcon/>
-                    </div>
-                </Button>
+                <HistoryButton type={"undo"} editor={editor}/>
+                <HistoryButton type={"redo"} editor={editor}/>
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
