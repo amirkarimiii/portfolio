@@ -1,7 +1,5 @@
 'use client'
 import {useEditor} from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import Highlight from '@tiptap/extension-highlight'
 import Tiptap from './Tiptap'
 import {Button} from "@/components/ui/shadcn/button";
 import Toolbar from "./toolbar/Toolbar";
@@ -9,15 +7,12 @@ import Toolbar from "./toolbar/Toolbar";
 const EditorSection = () => {
     const editor = useEditor({
         extensions: [
-            StarterKit,
-            Highlight.configure({
-                multicolor: true,
-            }),
+
         ],
         immediatelyRender: false,
         editorProps: {
             attributes: {
-                class: 'mt-3 min-h-[300px] w-full rounded-md border p-4 focus:outline-none mx-auto',
+                class: 'mt-3 min-h-75 w-full rounded-md border p-4 focus:outline-none mx-auto',
             },
         },
     })
