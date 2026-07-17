@@ -4,10 +4,10 @@ import {Button} from "@/components/ui/shadcn/button";
 
 import {
     BoldIcon,
-    CodeIcon, Eraser, FileCodeCorner, Heading2Icon, Heading3Icon,
-    Heading4Icon, HighlighterIcon, ImagePlus, ItalicIcon,
-    LinkIcon, List, ListOrdered, QuoteIcon, RedoIcon,
-    StrikethroughIcon, UnderlineIcon, UndoIcon
+    CodeIcon, Eraser, FileCodeCorner,
+    HighlighterIcon, ImagePlus, ItalicIcon,
+    LinkIcon, List, ListOrdered, QuoteIcon,
+    StrikethroughIcon, UnderlineIcon
 } from "lucide-react";
 
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/shadcn/popover";
@@ -17,6 +17,7 @@ import {toast} from "sonner";
 import {XCorpIcon, YouTubeIcon} from "@/components/ui/sections/add-article/editor/toolbar/icons";
 import {HistoryButton} from "@/components/ui/sections/add-article/editor/toolbar/HistoryButton/HistoryButton";
 import {HeadingsButton} from "@/components/ui/sections/add-article/editor/toolbar/HeadingsButton/HeadingsButton";
+import {BlockButton} from "@/components/ui/sections/add-article/editor/toolbar/BlockButtons/BlockButton";
 
 function Toolbar({editor}: { editor: Editor | null }) {
 
@@ -73,16 +74,8 @@ function Toolbar({editor}: { editor: Editor | null }) {
                 </ButtonGroup>
                 <ButtonGroupSeparator/>
                 <ButtonGroup>
-                    <Button variant="ghost" className="w-max px-1.5">
-                        <div className="w-4 aspect-square">
-                            <QuoteIcon/>
-                        </div>
-                    </Button>
-                    <Button variant="ghost" className="w-max px-1.5">
-                        <div className="w-4 aspect-square">
-                            <FileCodeCorner/>
-                        </div>
-                    </Button>
+                    <BlockButton type={"quote"} editor={editor}/>
+                    <BlockButton type={"code"} editor={editor}/>
                 </ButtonGroup>
             </ButtonGroup>
             <ButtonGroupSeparator/>
