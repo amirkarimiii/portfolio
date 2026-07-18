@@ -3,6 +3,7 @@ import { Editor, useEditorState } from "@tiptap/react";
 import { Button } from "@/components/ui/shadcn/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/shadcn/tooltip";
 import { headingButtonInitializer } from "./headingsButtonInitializer";
+import {cn} from "@/lib/utils/shadcnUtils";
 
 interface HeadingsButtonProps {
     type: "h2" | "h3" | "h4";
@@ -11,19 +12,26 @@ interface HeadingsButtonProps {
 
 export function HeadingsButton({ type, editor }: HeadingsButtonProps) {
     const BUTTONS = useMemo(() => headingButtonInitializer(editor), [editor]);
-    const { icon: Icon, command, hint, notActive } = BUTTONS[type];
+    const { icon: Icon, command, hint, isActive, canRun } = BUTTONS[type];
 
-    const notActiveButton = useEditorState({
+    const state = useEditorState({
         editor,
-        selector: (ctx) => notActive(ctx),
+        selector: (ctx) => ({
+            active: isActive(ctx),
+            canRun: canRun(ctx),
+        }),
     });
 
     return (
         <Tooltip>
             <TooltipTrigger asChild>
                 <Button
-                    variant={notActiveButton ? "ghost" : "default"}
-                    className={`w-max px-1.5`}
+                    variant="ghost"
+                    className={cn(
+                        "w-max p-1.5",
+                        state?.active && "bg-accent text-accent-foreground"
+                    )}
+                    disabled={!state?.canRun}
                     onClick={command}
                 >
                     <div className="w-4 aspect-square">
