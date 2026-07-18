@@ -3,6 +3,7 @@ import Italic from "@tiptap/extension-italic";
 import Strike from "@tiptap/extension-strike";
 import Underline from "@tiptap/extension-underline";
 import Highlight from "@tiptap/extension-highlight";
+import Code from "@tiptap/extension-code";
 
 export const markExtensions = [
     Bold,
@@ -10,4 +11,5 @@ export const markExtensions = [
     Strike,
     Underline,
     Highlight,
+    Code
 ]
