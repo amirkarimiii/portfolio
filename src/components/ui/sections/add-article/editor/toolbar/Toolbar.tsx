@@ -89,12 +89,7 @@ function Toolbar({editor}: { editor: Editor | null }) {
             <ButtonGroup>
                 <MarkButton type={"bold"} editor={editor}/>
                 <MarkButton type={"italic"} editor={editor}/>
-                <Button variant="ghost" className="w-max px-1.5"
-                        onClick={() => editor?.chain().focus().toggleUnderline().run()}>
-                    <div className="w-4 aspect-square">
-                        <UnderlineIcon/>
-                    </div>
-                </Button>
+                <MarkButton type={"underline"} editor={editor}/>
                 <MarkButton type={"strikethrough"} editor={editor}/>
                 <Button variant="ghost" className="w-max px-1.5"
                         onClick={() => editor?.chain().focus().toggleCode().run()}>
