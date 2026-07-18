@@ -266,9 +266,19 @@ Designed for multi-line source code rendering with built-in dark mode adaptation
 
 ## Links
 
-Style
+Rendered as inline component-like elements with enhanced background contrast, cross-line wrapping support, and interactive states.
 
-> TODO
+* **Geometry & Styling:**
+  * **Border & Radius:** `1px solid` with a `0.45rem` border-radius.
+  * **Padding:** Compact vertical-horizontal alignment (`0` top, `0.2rem` right/left, `0.1rem` bottom).
+  * **Decorations:** `text-decoration: none` (relies on background/border instead of underlines).
+* **Behavior Constraints:**
+  * **Cursor:** Explicitly set to `cursor: text` inside the editor container to allow seamless text selection and editing without triggering accidental navigation.
+  * **Wrapping:** Uses `overflow-wrap: anywhere` and `box-decoration-break: clone` to ensure clean padding and border rendering when a link spans across multiple lines.
+* **Theme Support:**
+  * **Light Mode:** Light blue background (`rgb(239 246 255)`), soft blue border, and rich blue text (`rgb(37 99 235)`).
+  * **Dark Mode:** Deep slate background (`rgb(30 41 59)`), semi-transparent blue border (`rgb(59 130 246 / 0.4)`), and light blue text (`rgb(147 197 253)`).
+  * **Hover State:** Applies a global `filter: brightness(0.95)` for subtle visual feedback.
 
 ---
 
@@ -324,6 +334,7 @@ align with the blog's publishing requirements.
 * **Specification Update:** Documented indentation layout, multi-level marker types (disc, circle, square, decimal), and inner spacing behaviors for **Lists** and nested variants.
 * **Specification Update:** Documented design tokens, border, background, and theme requirements for **Blockquote** under Rendering Guidelines, aligned with the CSS implementation.
 * **Specification Update:** Documented container geometry, typography stacks, overflow behaviors, and theme-specific contrasts for **Code Block** under Rendering Guidelines.
+* **Specification Update:** Documented background geometry, cross-line break cloning rules, interactive hover filters, and editing cursor overrides for **Links** under Rendering Guidelines.
 * **Specification Update:** Documented theme-adaptive states for **Highlight**, color-blended typography configurations for **Inline Code** (using `oklab` color space), and formalized standard fallback policies for native text formatting **Marks** (Bold, Italic, Underline, Strike-through).
 
 **v1.1**
