@@ -88,12 +88,7 @@ function Toolbar({editor}: { editor: Editor | null }) {
             <ButtonGroupSeparator/>
             <ButtonGroup>
                 <MarkButton type={"bold"} editor={editor}/>
-                <Button variant="ghost" className="w-max px-1.5"
-                        onClick={() => editor?.chain().focus().toggleItalic().run()}>
-                    <div className="w-4 aspect-square">
-                        <ItalicIcon/>
-                    </div>
-                </Button>
+                <MarkButton type={"italic"} editor={editor}/>
                 <Button variant="ghost" className="w-max px-1.5"
                         onClick={() => editor?.chain().focus().toggleUnderline().run()}>
                     <div className="w-4 aspect-square">
