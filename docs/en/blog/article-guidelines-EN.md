@@ -272,11 +272,23 @@ Style
 
 ---
 
-## Highlight
+## Text Marks (Highlight & Default Formatting)
 
-Style
+Inline text marks modify inline text appearance. Custom overrides apply to Highlight and Inline Code, while core typographic elements inherit native editor behaviors.
 
-> TODO
+### Highlight (`mark`)
+* **Styling:** Enforced `border-radius: 0.25rem` and exact padding (`0.05em 0.18em`) for blocky inline indicators. Text color explicitly inherits the surrounding block's color context.
+* **Theme Support:**
+  * **Light Mode:** Warm amber background (`#fde68a`) with inherited text color.
+  * **Dark Mode:** Deep dark-gold background (`#a16207`) paired with high-contrast `white` text.
+
+### Inline Code (`:not(pre) > code`)
+* **Typography:** `font-family: var(--font-geist-mono)` with a `0.85em` size and medium weight (`500`).
+* **Geometry:** `1px solid var(--border)` with `0.45rem` rounded corners and tight padding (`0.12rem 0.38rem`).
+* **Coloring:** Utilizes advanced color blending via `color-mix(in oklab, var(--muted) 90%, transparent)` to secure a dynamic adaptive backdrop regardless of layout background depth.
+
+### Default Marks (Bold, Italic, Underline, Strike-through)
+* Reflect baseline browser and native Tiptap behavior with zero custom style overrides, ensuring total compatibility with standard content structure formats.
 
 ---
 
@@ -312,6 +324,7 @@ align with the blog's publishing requirements.
 * **Specification Update:** Documented indentation layout, multi-level marker types (disc, circle, square, decimal), and inner spacing behaviors for **Lists** and nested variants.
 * **Specification Update:** Documented design tokens, border, background, and theme requirements for **Blockquote** under Rendering Guidelines, aligned with the CSS implementation.
 * **Specification Update:** Documented container geometry, typography stacks, overflow behaviors, and theme-specific contrasts for **Code Block** under Rendering Guidelines.
+* **Specification Update:** Documented theme-adaptive states for **Highlight**, color-blended typography configurations for **Inline Code** (using `oklab` color space), and formalized standard fallback policies for native text formatting **Marks** (Bold, Italic, Underline, Strike-through).
 
 **v1.1**
 
