@@ -19,6 +19,7 @@ import {HistoryButton} from "@/components/ui/sections/add-article/editor/toolbar
 import {HeadingsButton} from "@/components/ui/sections/add-article/editor/toolbar/HeadingsButton/HeadingsButton";
 import {BlockButton} from "./BlockButton/BlockButton";
 import {ListButton} from "@/components/ui/sections/add-article/editor/toolbar/ListButton/ListButton";
+import {MarkButton} from "@/components/ui/sections/add-article/editor/toolbar/MarkButton/MarkButton";
 
 function Toolbar({editor}: { editor: Editor | null }) {
 
@@ -86,12 +87,7 @@ function Toolbar({editor}: { editor: Editor | null }) {
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>
-                <Button variant="ghost" className="w-max px-1.5"
-                        onClick={() => editor?.chain().focus().toggleBold().run()}>
-                    <div className="w-4 aspect-square">
-                        <BoldIcon/>
-                    </div>
-                </Button>
+                <MarkButton type={"bold"} editor={editor}/>
                 <Button variant="ghost" className="w-max px-1.5"
                         onClick={() => editor?.chain().focus().toggleItalic().run()}>
                     <div className="w-4 aspect-square">
