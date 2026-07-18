@@ -20,6 +20,7 @@ import {HeadingsButton} from "@/components/ui/sections/add-article/editor/toolba
 import {BlockButton} from "./BlockButton/BlockButton";
 import {ListButton} from "@/components/ui/sections/add-article/editor/toolbar/ListButton/ListButton";
 import {MarkButton} from "@/components/ui/sections/add-article/editor/toolbar/MarkButton/MarkButton";
+import {LinkButton} from "@/components/ui/sections/add-article/editor/toolbar/LinkButton/LinkButton";
 
 function Toolbar({editor}: { editor: Editor | null }) {
 
@@ -95,28 +96,7 @@ function Toolbar({editor}: { editor: Editor | null }) {
                 <MarkButton type={"highlight"} editor={editor}/>
             </ButtonGroup>
             <ButtonGroupSeparator/>
-            <Popover open={open} onOpenChange={setOpen}>
-                <ButtonGroup>
-                    <PopoverTrigger asChild>
-                        <Button variant="ghost" className="w-max px-2">
-                            <div className="w-4 aspect-square">
-                                <LinkIcon/>
-                            </div>
-                        </Button>
-                    </PopoverTrigger>
-                </ButtonGroup>
-                <PopoverContent className="flex flex-col items-center gap-3 w-72">
-                    <Textarea
-                        value={link}
-                        onChange={(e) => setLink(e.target.value)}
-                        placeholder="example.com"
-                        className="max-h-24 overflow-hidden resize-none"
-                    />
-                    <Button onClick={handleDone} className="w-full">
-                        Done
-                    </Button>
-                </PopoverContent>
-            </Popover>
+            <LinkButton editor={editor} />
             <ButtonGroupSeparator/>
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-1.5">
