@@ -4,18 +4,18 @@ import { Editor, EditorStateSnapshot } from "@tiptap/react";
 export const blockButtonInitializer = (editor: Editor | null) => ({
     quote: {
         icon: Quote,
-        command: () => editor?.chain().focus().setBlockquote().run(),
+        command: () => editor?.chain().focus().toggleBlockquote().run(),
         hint: "Quote",
-        canExecute: (ctx: EditorStateSnapshot) =>
+        notActive: (ctx: EditorStateSnapshot) =>
             !ctx.editor?.isActive('blockquote') &&
             (ctx.editor?.can().chain().focus().setBlockquote().run() ?? false),
         paddingX: "px-1.5"
     },
     code: {
         icon: FileCodeCorner,
-        command: () => editor?.chain().focus().setCodeBlock().run(),
+        command: () => editor?.chain().focus().toggleCodeBlock().run(),
         hint: "Code Block",
-        canExecute: (ctx: EditorStateSnapshot) =>
+        notActive: (ctx: EditorStateSnapshot) =>
             ctx.editor?.can().chain().focus().setCodeBlock().run() ?? false,
         paddingX: "px-1.5"
     },
@@ -23,7 +23,7 @@ export const blockButtonInitializer = (editor: Editor | null) => ({
         icon: SquarePilcrow,
         command: () => editor?.chain().focus().clearNodes().run(),
         hint: "paragraph",
-        canExecute: (ctx: EditorStateSnapshot) =>
+        notActive: (ctx: EditorStateSnapshot) =>
             (ctx.editor?.isActive('blockquote') || ctx.editor?.isActive('codeBlock')),
         paddingX: "px-2"
     }
