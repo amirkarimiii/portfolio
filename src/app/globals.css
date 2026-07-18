@@ -262,6 +262,22 @@ svg[class] {
   list-style-type: decimal;
 }
 
+/* Highlight */
+
+.ProseMirror mark {
+  background-color: #fde68a;
+  color: inherit;
+  border-radius: 0.25rem;
+  padding: 0.05em 0.18em;
+}
+
+.dark .ProseMirror mark {
+  background-color: #a16207;
+  color: white;
+}
+
+/* Inline Code */
+
 .ProseMirror :not(pre) > code {
   background: color-mix(in oklab, var(--muted) 90%, transparent);
   border: 1px solid var(--border);
@@ -274,6 +290,8 @@ svg[class] {
   font-size: 0.85em;
   font-weight: 500;
 }
+
+/* Link */
 
 .ProseMirror a {
   background: rgb(239 246 255);
