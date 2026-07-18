@@ -78,10 +78,6 @@ function Toolbar({editor}: { editor: Editor | null }) {
                     <BlockButton type={"quote"} editor={editor}/>
                     <BlockButton type={"code"} editor={editor}/>
                 </ButtonGroup>
-                <ButtonGroupSeparator/>
-                <ButtonGroup>
-                    <BlockButton type={"paragraph"} editor={editor}/>
-                </ButtonGroup>
             </ButtonGroup>
             <ButtonGroupSeparator/>
             <ButtonGroup>

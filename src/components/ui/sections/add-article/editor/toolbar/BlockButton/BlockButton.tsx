@@ -5,13 +5,13 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/shadcn/
 import {blockButtonInitializer} from "./blockButtonInitializer";
 
 interface HeadingsButtonProps {
-    type: "quote" | "code" | "paragraph";
+    type: "quote" | "code";
     editor: Editor | null;
 }
 
 export function BlockButton({ type, editor }: HeadingsButtonProps) {
     const BUTTONS = useMemo(() => blockButtonInitializer(editor), [editor]);
-    const { icon: Icon, command, hint, notActive, paddingX } = BUTTONS[type];
+    const { icon: Icon, command, hint, notActive } = BUTTONS[type];
 
     const notActiveButton = useEditorState({
         editor,
@@ -23,7 +23,7 @@ export function BlockButton({ type, editor }: HeadingsButtonProps) {
             <TooltipTrigger asChild>
                 <Button
                     variant={notActiveButton ? "ghost" : "default"}
-                    className={`w-max ${paddingX}`}
+                    className="w-max p-1.5"
                     onClick={command}
                 >
                     <div className="w-4 aspect-square">

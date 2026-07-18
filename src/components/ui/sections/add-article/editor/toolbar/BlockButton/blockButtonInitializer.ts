@@ -9,7 +9,6 @@ export const blockButtonInitializer = (editor: Editor | null) => ({
         notActive: (ctx: EditorStateSnapshot) =>
             !ctx.editor?.isActive('blockquote') &&
             (ctx.editor?.can().chain().focus().setBlockquote().run() ?? false),
-        paddingX: "px-1.5"
     },
     code: {
         icon: FileCodeCorner,
@@ -17,14 +16,5 @@ export const blockButtonInitializer = (editor: Editor | null) => ({
         hint: "Code Block",
         notActive: (ctx: EditorStateSnapshot) =>
             ctx.editor?.can().chain().focus().setCodeBlock().run() ?? false,
-        paddingX: "px-1.5"
-    },
-    paragraph: {
-        icon: SquarePilcrow,
-        command: () => editor?.chain().focus().clearNodes().run(),
-        hint: "paragraph",
-        notActive: (ctx: EditorStateSnapshot) =>
-            (ctx.editor?.isActive('blockquote') || ctx.editor?.isActive('codeBlock')),
-        paddingX: "px-2"
     }
 });
