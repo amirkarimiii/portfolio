@@ -302,6 +302,11 @@ svg[class] {
   border-radius: 0.45rem;
 
   text-decoration: none;
+  cursor: text;
+  overflow-wrap: anywhere;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+
 }
 
 .dark .ProseMirror a {
