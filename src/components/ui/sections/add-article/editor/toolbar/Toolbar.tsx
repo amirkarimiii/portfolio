@@ -94,14 +94,6 @@ function Toolbar({editor}: { editor: Editor | null }) {
                 <MarkButton type={"inlineCode"} editor={editor}/>
                 <MarkButton type={"highlight"} editor={editor}/>
             </ButtonGroup>
-            <ButtonGroup>
-                <Button variant="ghost" className="w-max px-2"
-                        onClick={() => editor?.chain().focus().unsetAllMarks().run()}>
-                    <div className="w-4 aspect-square">
-                        <Eraser/>
-                    </div>
-                </Button>
-            </ButtonGroup>
             <ButtonGroupSeparator/>
             <Popover open={open} onOpenChange={setOpen}>
                 <ButtonGroup>
