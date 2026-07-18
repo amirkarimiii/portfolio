@@ -97,11 +97,7 @@ function Toolbar({editor}: { editor: Editor | null }) {
                         <CodeIcon/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-1.5">
-                    <div className="w-4 aspect-square">
-                        <HighlighterIcon/>
-                    </div>
-                </Button>
+                <MarkButton type={"highlight"} editor={editor}/>
             </ButtonGroup>
             <ButtonGroup>
                 <Button variant="ghost" className="w-max px-2"
