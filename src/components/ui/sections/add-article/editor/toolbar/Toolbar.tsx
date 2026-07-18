@@ -95,12 +95,7 @@ function Toolbar({editor}: { editor: Editor | null }) {
                         <UnderlineIcon/>
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-1.5"
-                        onClick={() => editor?.chain().focus().toggleStrike().run()}>
-                    <div className="w-4 aspect-square">
-                        <StrikethroughIcon/>
-                    </div>
-                </Button>
+                <MarkButton type={"strikethrough"} editor={editor}/>
                 <Button variant="ghost" className="w-max px-1.5"
                         onClick={() => editor?.chain().focus().toggleCode().run()}>
                     <div className="w-4 aspect-square">
