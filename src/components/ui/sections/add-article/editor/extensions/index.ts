@@ -2,8 +2,9 @@ import {coreExtensions} from "./core-extensions";
 import {historyExtensions} from "./history-extensions";
 import {headingExtensions} from "./heading-extensions";
 import {blockExtensions} from "./block-extensions";
-import {listExtensions} from "@/components/ui/sections/add-article/editor/extensions/list-extention";
-import {markExtensions} from "@/components/ui/sections/add-article/editor/extensions/mark-extensions";
+import {listExtensions} from "./list-extention";
+import {markExtensions} from "./mark-extensions";
+import {linkExtensions} from "./link-extensions";
 
 export const extensions = [
     ...coreExtensions,
@@ -12,4 +13,5 @@ export const extensions = [
     ...blockExtensions,
     ...listExtensions,
     ...markExtensions,
+    ...linkExtensions,
 ]
