@@ -1,4 +1,4 @@
-import { Bold } from "lucide-react";
+import { Bold, Italic } from "lucide-react";
 import { Editor, EditorStateSnapshot } from "@tiptap/react";
 
 export const markButtonInitializer = (editor: Editor | null) => ({
@@ -9,5 +9,13 @@ export const markButtonInitializer = (editor: Editor | null) => ({
         isActive: (ctx: EditorStateSnapshot) => ctx.editor?.isActive('bold') ?? false,
         canRun: (ctx: EditorStateSnapshot) =>
             ctx.editor?.can().chain().focus().toggleBold().run() ?? false,
-    }
+    },
+    italic: {
+        icon: Italic,
+        command: () => editor?.chain().focus().toggleItalic().run(),
+        hint: "Italic",
+        isActive: (ctx: EditorStateSnapshot) => ctx.editor?.isActive('italic') ?? false,
+        canRun: (ctx: EditorStateSnapshot) =>
+            ctx.editor?.can().chain().focus().toggleItalic().run() ?? false,
+    },
 });

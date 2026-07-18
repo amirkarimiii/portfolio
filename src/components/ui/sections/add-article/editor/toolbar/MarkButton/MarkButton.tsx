@@ -6,7 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/shadcn/
 import {cn} from "@/lib/utils/shadcnUtils";
 
 interface MarkButtonProps {
-    type: "bold";
+    type: "bold" | "italic";
     editor: Editor | null;
 }
 
