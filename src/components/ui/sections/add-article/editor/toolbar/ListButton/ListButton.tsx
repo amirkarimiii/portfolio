@@ -1,23 +1,32 @@
 import { useMemo } from "react";
-import { Editor } from "@tiptap/react";
+import {Editor, useEditorState} from "@tiptap/react";
 import { Button } from "@/components/ui/shadcn/button";
 import { listButtonInitializer } from "./listButtonInitializer";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/shadcn/tooltip";
 
-interface HistoryButtonProps {
+interface ListButtonProps {
     type: "bullet" | "ordered";
     editor: Editor | null;
 }
 
-export function ListButton({ type, editor }: HistoryButtonProps) {
+export function ListButton({ type, editor }: ListButtonProps) {
     const BUTTONS = useMemo(() => listButtonInitializer(editor), [editor]);
-    const { icon: Icon, command, hint } = BUTTONS[type];
+    const { icon: Icon, command, hint, isActive, canRun } = BUTTONS[type];
+
+    const state = useEditorState({
+        editor,
+        selector: (ctx) => ({
+            active: isActive(ctx),
+            canRun: canRun(ctx),
+        }),
+    });
 
     return (
         <Tooltip>
             <TooltipTrigger asChild>
                 <Button
-                    variant="ghost"
+                    variant={state?.active ? "default" : "ghost"}
+                    disabled={!state?.canRun}
                     className="w-max px-1.5"
                     onClick={command}
                 >
