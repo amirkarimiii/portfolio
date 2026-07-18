@@ -6,6 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/shadcn/
 import { toast } from "sonner";
 import { linkButtonInitializer } from "./linkButtonInitializer";
 import {cn} from "@/lib/utils/shadcnUtils";
+import {Trash} from "lucide-react";
 
 interface LinkButtonProps {
     editor: Editor | null;
@@ -95,9 +96,18 @@ export function LinkButton({ editor }: LinkButtonProps) {
                     placeholder="example.com"
                     autoFocus
                 />
-                <Button onClick={handleDone} className="w-full">
-                    {state?.currentHref ? "Update" : "Add"}
-                </Button>
+                <div className="flex flex-row gap-1 w-full">
+                    <Button onClick={handleDone} className="flex-4">
+                        {state?.currentHref ? "Update" : "Add"}
+                    </Button>
+                    <Button onClick={() => {
+                        unsetLink();
+                    }} className={cn("w-full flex-1", !state?.currentHref && "hidden")}>
+                        <div className="w-4 aspect-square">
+                            <Trash/>
+                        </div>
+                    </Button>
+                </div>
             </PopoverContent>
         </Popover>
     );
