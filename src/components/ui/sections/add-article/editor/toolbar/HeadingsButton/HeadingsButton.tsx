@@ -11,20 +11,19 @@ interface HeadingsButtonProps {
 
 export function HeadingsButton({ type, editor }: HeadingsButtonProps) {
     const BUTTONS = useMemo(() => headingButtonInitializer(editor), [editor]);
-    const { icon: Icon, command, hint, canExecute } = BUTTONS[type];
+    const { icon: Icon, command, hint, notActive } = BUTTONS[type];
 
-    const isEnabled = useEditorState({
+    const notActiveButton = useEditorState({
         editor,
-        selector: (ctx) => canExecute(ctx),
+        selector: (ctx) => notActive(ctx),
     });
 
     return (
         <Tooltip>
             <TooltipTrigger asChild>
                 <Button
-                    variant="ghost"
-                    className="w-max px-1.5"
-                    disabled={!isEnabled}
+                    variant={notActiveButton ? "ghost" : "default"}
+                    className={`w-max px-1.5`}
                     onClick={command}
                 >
                     <div className="w-4 aspect-square">
