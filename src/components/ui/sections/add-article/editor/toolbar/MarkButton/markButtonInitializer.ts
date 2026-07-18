@@ -1,4 +1,4 @@
-import {Bold, Highlighter, Italic, Strikethrough, Underline} from "lucide-react";
+import {Bold, Highlighter, Italic, Strikethrough, Underline, Code} from "lucide-react";
 import { Editor, EditorStateSnapshot } from "@tiptap/react";
 
 export const markButtonInitializer = (editor: Editor | null) => ({
@@ -41,5 +41,13 @@ export const markButtonInitializer = (editor: Editor | null) => ({
         isActive: (ctx: EditorStateSnapshot) => ctx.editor?.isActive('highlight') ?? false,
         canRun: (ctx: EditorStateSnapshot) =>
             ctx.editor?.can().chain().focus().toggleHighlight().run() ?? false,
+    },
+    inlineCode: {
+        icon: Code,
+        command: () => editor?.chain().focus().toggleCode().run(),
+        hint: "Inline Code",
+        isActive: (ctx: EditorStateSnapshot) => ctx.editor?.isActive('code') ?? false,
+        canRun: (ctx: EditorStateSnapshot) =>
+            ctx.editor?.can().chain().focus().toggleCode().run() ?? false,
     }
 });
