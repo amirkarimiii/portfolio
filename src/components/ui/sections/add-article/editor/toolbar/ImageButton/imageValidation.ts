@@ -18,3 +18,9 @@ const SIGNATURES: Record<AllowedType, number[][]> = {
         [0x47, 0x49, 0x46, 0x38, 0x39, 0x61],
     ],
 };
+
+async function readMagicBytes(file: File, length = 12): Promise<Uint8Array> {
+    const slice = file.slice(0, length);
+    const buffer = await slice.arrayBuffer();
+    return new Uint8Array(buffer);
+}
