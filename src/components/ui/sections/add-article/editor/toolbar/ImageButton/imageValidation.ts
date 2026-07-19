@@ -65,3 +65,42 @@ function getImageDimensions(file: File): Promise<{ width: number; height: number
         img.src = url;
     });
 }
+
+export async function validateImageFile(file: File): Promise<ImageValidationResult> {
+    const { maxSizeBytes, maxWidth, maxHeight, minWidth, minHeight, allowedTypes } =
+        IMAGE_VALIDATION_CONFIG;
+
+    if (file.size === 0) {
+        return { valid: false, error: "File is empty" };
+    }
+
+    if (file.size > maxSizeBytes) {
+        return { valid: false, error: `File size must not exceed ${maxSizeBytes / 1024 / 1024}MB` };
+    }
+
+    const realType = await detectRealType(file);
+    if (!realType || !allowedTypes.includes(realType)) {
+        return { valid: false, error: "File format is not allowed (only JPG, PNG, WEBP, GIF)" };
+    }
+
+    if (file.type && file.type !== realType) {
+        return { valid: false, error: "File type does not match its actual content" };
+    }
+
+    let dimensions: { width: number; height: number };
+    try {
+        dimensions = await getImageDimensions(file);
+    } catch {
+        return { valid: false, error: "Image file is corrupted or unreadable" };
+    }
+
+    if (dimensions.width < minWidth || dimensions.height < minHeight) {
+        return { valid: false, error: "Image dimensions are too small" };
+    }
+
+    if (dimensions.width > maxWidth || dimensions.height > maxHeight) {
+        return { valid: false, error: `Image dimensions must not exceed ${maxWidth}×${maxHeight}` };
+    }
+
+    return { valid: true, dimensions };
+}
