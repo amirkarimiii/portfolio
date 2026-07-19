@@ -24,3 +24,7 @@ async function readMagicBytes(file: File, length = 12): Promise<Uint8Array> {
     const buffer = await slice.arrayBuffer();
     return new Uint8Array(buffer);
 }
+
+function matchesSignature(bytes: Uint8Array, signature: number[]): boolean {
+    return signature.every((b, i) => bytes[i] === b);
+}
