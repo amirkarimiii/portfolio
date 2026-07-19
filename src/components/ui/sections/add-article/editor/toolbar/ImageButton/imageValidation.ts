@@ -7,6 +7,10 @@ export const IMAGE_VALIDATION_CONFIG = {
     allowedTypes: ["image/jpeg", "image/png", "image/webp", "image/gif"] as const,
 };
 
+/**
+ We need global error handling.  We need to use toast in the mentioned global error handling
+ */
+
 type AllowedType = (typeof IMAGE_VALIDATION_CONFIG.allowedTypes)[number];
 
 const SIGNATURES: Record<AllowedType, number[][]> = {
@@ -103,4 +107,30 @@ export async function validateImageFile(file: File): Promise<ImageValidationResu
     }
 
     return { valid: true, dimensions };
+}
+
+export function validateImageUrl(url: string): Promise<{ valid: boolean; error?: string }> {
+    return new Promise((resolve) => {
+        try {
+            new URL(url);
+        } catch {
+            resolve({ valid: false, error: "Invalid URL" });
+            return;
+        }
+
+        const img = new Image();
+        const timeout = setTimeout(() => {
+            resolve({ valid: false, error: "Image loading took too long" });
+        }, 8000);
+
+        img.onload = () => {
+            clearTimeout(timeout);
+            resolve({ valid: true });
+        };
+        img.onerror = () => {
+            clearTimeout(timeout);
+            resolve({ valid: false, error: "This URL does not return a valid image" });
+        };
+        img.src = url;
+    });
 }
