@@ -34,3 +34,18 @@ async function readMagicBytes(file: File, length = 12): Promise<Uint8Array> {
 function matchesSignature(bytes: Uint8Array, signature: number[]): boolean {
     return signature.every((b, i) => bytes[i] === b);
 }
+
+async function detectRealType(file: File): Promise<AllowedType | null> {
+    const bytes = await readMagicBytes(file);
+
+    for (const [type, signatures] of Object.entries(SIGNATURES) as [AllowedType, number[][]][]) {
+        if (signatures.some((sig) => matchesSignature(bytes, sig))) {
+            if (type === "image/webp") {
+                const webpTag = String.fromCharCode(...bytes.slice(8, 12));
+                if (webpTag !== "WEBP") continue;
+            }
+            return type;
+        }
+    }
+    return null;
+}
