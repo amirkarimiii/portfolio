@@ -19,6 +19,12 @@ const SIGNATURES: Record<AllowedType, number[][]> = {
     ],
 };
 
+export interface ImageValidationResult {
+    valid: boolean;
+    error?: string;
+    dimensions?: { width: number; height: number };
+}
+
 async function readMagicBytes(file: File, length = 12): Promise<Uint8Array> {
     const slice = file.slice(0, length);
     const buffer = await slice.arrayBuffer();
