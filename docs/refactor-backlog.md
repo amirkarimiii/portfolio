@@ -14,9 +14,9 @@ Each item below will eventually map to: `branch` → `adr-000X` → implementati
 
 ## Bugs (fix independent of refactor strategy)
 
-- [ ] **B1 — `session/route.ts` uses `export default` instead of named export**
+- [x] **B1 — `session/route.ts` uses `export default` instead of named export**
   Next.js App Router route handlers must be named exports (`export async function GET`). As written, this route does not register as a GET handler at all.
-- [ ] **B2 — Dead `.catch()` call in `login/route.ts`**
+- [x] **B2 — Dead `.catch()` call in `login/route.ts`**
   `clientPromise.catch()` is called with no handler; it silently does nothing and should be removed or implemented properly.
 
 ---
