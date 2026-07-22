@@ -86,7 +86,7 @@ Documentation-Driven Development workspace.
 
 This temporary branch hosts specifications, ADRs and architectural documentation until the documentation phase is complete.
 
-Once synchronized into `staging`, the branch is removed.
+This branch was merged and deleted after the documentation phase was completed in `staging`.
 
 ---
 
