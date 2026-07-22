@@ -13,7 +13,7 @@ export async function POST(request: Request) {
                 {status: 400}
             );
         }
-        const client = await clientPromise.catch();
+        const client = await clientPromise;
         const db = client.db();
         const config = await db.collection('adminConfig').findOne({
             _id: new ObjectId('6a4012498a8251c60725be91')
