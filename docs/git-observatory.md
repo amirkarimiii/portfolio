@@ -88,6 +88,20 @@ This temporary branch hosts specifications, ADRs and architectural documentation
 
 This branch was merged and deleted after the documentation phase was completed in `staging`.
 
+## `refactor/pre-v2-backlog`
+
+**Purpose**
+
+Technical Debt & Pre-V2 Refactor Backlog coordination branch.
+
+Serves as the base for all pre-V2 cleanup work, organized into three sequential sub-branches:
+
+- `fix/pre-v2-bugs` — Bug fixes independent of refactor strategy. Active first.
+- `refactor/pre-v2-architecture` — Foundational architecture decisions that block other work. Active after bugs branch is merged and deleted.
+- `refactor/pre-v2-infrastructure` — Infrastructure and cross-cutting concerns. Active after architecture branch is merged and deleted.
+
+Each sub-branch originates from this branch, is worked independently, merged back, and deleted before the next one begins.
+
 ---
 
 # 4. Historical Development
