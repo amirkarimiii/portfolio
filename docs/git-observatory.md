@@ -212,6 +212,15 @@ Rather, it restores the repository timeline so that infrastructure appears befor
 
 ---
 
+## Parallel Documentation Work on Staging
+
+During active development on `refactor/pre-v2-architecture`, a documentation and
+specification review was performed directly on `staging`. Once those commits landed
+on `staging`, `refactor/pre-v2-architecture` was rebased onto the new `staging` HEAD
+to preserve a clean, linear history — consistent with `ADR-0005`.
+
+---
+
 # 8. Recovery Anchors
 
 Important historical checkpoints include:
