@@ -289,15 +289,15 @@ with chatgpt
 ```
 
 ```todo
-checkout refactor/pre-v2-architecture
+✅ checkout refactor/pre-v2-architecture
 ```
 
 ```todo
-merge refactor/auth-model into refactor/pre-v2-architecture
+✅ merge refactor/auth-model into refactor/pre-v2-architecture
 ```
 
 ```todo
-delete refactor/auth-model
+✅ delete refactor/auth-model
 ```
 </div>
 
@@ -306,28 +306,75 @@ delete refactor/auth-model
 <div id="refactor/pre-v2-architecture-D2-works">
 
 ```todo
-make branch for D2 — Server state vs UI state split
+✅ make branch for D2 — Server state vs UI state split
+branch name: refactor/state-split
 ```
 
 Here we switch to the branch related to D2.
 
 ```todo
-make adr for D2 — Server state vs UI state split
+✅ make adr for D2 — Server state vs UI state split
 with chatgpt
 ```
 
 ```todo
-commit adr for D2 — Server state vs UI state split
+✅ commit adr for D2 — Server state vs UI state split
 ```
 
 ```todo
-start D2: research for how we have to do this
-in deepseek
+✅ step: install @tanstack/react-query
 ```
 
 ```todo
-loop: do each step and  commit
-with gemini
+✅ commit changes
+```
+
+```todo
+step: create QueryProvider and wire it into root layout
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: create service/adminAuth.ts with getAdminSession, loginAdmin, logoutAdmin
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: create hooks/useAdminAuth.ts (useAdminSession, useAdminLogin, useAdminLogout)
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: remove stores/adminAuthStore.ts completely
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: refactor LoginDialog to use useAdminLogin (remove manual loading/error/auth state)
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: refactor LogoutButton and other admin-aware components to use useAdminSession / useAdminLogout
+```
+
+```todo
+commit changes
 ```
 
 ```todo
@@ -358,6 +405,7 @@ delete refactor/state-split
 
 ```todo
 make branch for D3 — Feature-based directory structure
+branch name: refactor/feature-structure
 ```
 
 Here we switch to the branch related to D3.
@@ -410,6 +458,7 @@ delete refactor/feature-structure
 
 ```todo
 make branch for D4 — Service layer boundaries
+branch name: refactor/service-layer
 ```
 
 Here we switch to the branch related to D4.
