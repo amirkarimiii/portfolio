@@ -251,45 +251,41 @@ with chatgpt
 ```
 
 ```todo
-loop: 
+✅ loop: 
   write jwt.ts parts
   commit
 ```
 
 ```todo
-commit changes
+✅ step: refactor app/api/admin/login/route.ts
 ```
 
 ```todo
-step: Design the new API — decide whether a new route such as app/api/admin/refresh/route.ts is needed
+✅ commit changes
 ```
 
 ```todo
-commit changes
+✅ step: refactor src/app/api/admin/session/route.ts
 ```
 
 ```todo
-step: Design DB changes — define the Refresh Token storage structure in MongoDB
+✅ commit changes
 ```
 
 ```todo
-commit changes
+✅ step: add src/app/api/admin/logout/route.ts
 ```
 
 ```todo
-step: Review Middleware — decide how the project Middleware should verify and pass the Access Token cookie
+✅ commit changes
 ```
 
 ```todo
-commit changes
+✅ tick D1 in refactor-backlog
 ```
 
 ```todo
-tick D1 in refactor-backlog
-```
-
-```todo
-commit refactor-backlog
+✅ commit refactor-backlog
 ```
 
 ```todo
@@ -297,11 +293,11 @@ checkout refactor/pre-v2-architecture
 ```
 
 ```todo
-merge D1 branch into refactor/pre-v2-architecture
+merge refactor/auth-model into refactor/pre-v2-architecture
 ```
 
 ```todo
-delete D1 branch
+delete refactor/auth-model
 ```
 </div>
 
@@ -347,11 +343,11 @@ checkout refactor/pre-v2-architecture
 ```
 
 ```todo
-merge D2 branch into refactor/pre-v2-architecture
+merge refactor/state-split into refactor/pre-v2-architecture
 ```
 
 ```todo
-delete D2 branch
+delete refactor/state-split
 ```
 
 </div>
@@ -399,11 +395,11 @@ checkout refactor/pre-v2-architecture
 ```
 
 ```todo
-merge D3 branch into refactor/pre-v2-architecture
+merge refactor/feature-structure into refactor/pre-v2-architecture
 ```
 
 ```todo
-delete D3 branch
+delete refactor/feature-structure
 ```
 
 </div>
@@ -451,11 +447,11 @@ checkout refactor/pre-v2-architecture
 ```
 
 ```todo
-merge D4 branch into refactor/pre-v2-architecture
+merge refactor/service-layer into refactor/pre-v2-architecture
 ```
 
 ```todo
-delete D4 branch
+delete refactor/service-layer
 ```
 
 </div>
