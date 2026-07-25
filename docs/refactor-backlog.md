@@ -23,7 +23,7 @@ Each item below will eventually map to: `branch` → `adr-000X` → implementati
 
 ## Architecture decisions needed (foundational, blocks other work)
 
-- [ ] **D1 — Auth model: session-based vs JWT**
+- [x] **D1 — Auth model: session-based vs JWT**
   Spec (`portfolio-v2-spec.md`) explicitly calls for JWT-based admin access; current implementation is a stateful session stored in MongoDB (`adminSessions`). Needs a decision: keep session-based and update the spec wording, or migrate to JWT. Blocks: admin panel security testing (Definition of Done, Goal 3), rate limiting design, middleware design.
 - [ ] **D2 — Server state vs UI state split**
   Current: manual `fetch` inside Zustand (`adminAuthStore`). Decision: adopt TanStack Query for all server state (session check, and later articles/books/stack data); restrict Zustand to pure UI state (e.g. dialog open/close). Blocks: how future feature stores are written.
