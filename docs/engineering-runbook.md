@@ -386,15 +386,15 @@ with chatgpt
 ```
 
 ```todo
-checkout refactor/pre-v2-architecture
+✅ checkout refactor/pre-v2-architecture
 ```
 
 ```todo
-merge refactor/state-split into refactor/pre-v2-architecture
+✅ merge refactor/state-split into refactor/pre-v2-architecture
 ```
 
 ```todo
-delete refactor/state-split
+✅ delete refactor/state-split
 ```
 
 </div>
@@ -404,7 +404,7 @@ delete refactor/state-split
 <div id="refactor/pre-v2-architecture-D3-works">
 
 ```todo
-make branch for D3 — Feature-based directory structure
+✅ make branch for D3 — Feature-based directory structure
 branch name: refactor/feature-structure
 ```
 
@@ -412,22 +412,108 @@ Here we switch to the branch related to D3.
 
 
 ```todo
-make adr for D3 — Feature-based directory structure
+✅ make adr for D3 — Feature-based directory structure
 with chatgpt
 ```
 
 ```todo
-commit adr for D3 — Feature-based directory structure
+✅ commit adr for D3 — Feature-based directory structure
 ```
 
 ```todo
-start D3: research for how we have to do this
-in deepseek
+step: create src/features/ and src/shared/ base directories
 ```
 
 ```todo
-loop: do each step and  commit
-with gemini
+commit changes
+```
+
+```todo
+step: move admin auth service → features/admin/api/adminAuth.ts
+```
+
+```todo
+step: move admin hooks → features/admin/hooks/useAdminAuth.ts
+```
+
+```todo
+step: move loginDialogStore + LoginDialog → features/admin/
+```
+
+```todo
+step: move LogoutButton + AdminLoginListener → features/admin/components/
+```
+
+```todo
+step: move jwt auth logic → features/admin/lib/ (or utils/)
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: move blog sections/components → features/blog/components/
+```
+
+```todo
+step: move BlogNavSearchbar + BlogNavbarActions → features/blog/components/
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: move main/portfolio sections (Banner, Contact, Info, Projects) → features/main/components/
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: move shadcn UI primitives → shared/components/ui/
+```
+
+```todo
+step: move shared buttons (ThemeButton, CVButton) → shared/components/buttons/
+```
+
+```todo
+step: move Navbar and layout components → shared/components/layout/
+```
+
+```todo
+step: move QueryProvider → shared/providers/
+```
+
+```todo
+step: move constants, mongodb, utils → shared/
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: update tsconfig path aliases for @/features/* and @/shared/*
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: update all imports in src/app/ and remaining files to new paths
+```
+
+```todo
+step: delete empty old directories (components, hooks, stores, service, common, ...)
+```
+
+```todo
+commit changes
 ```
 
 ```todo
