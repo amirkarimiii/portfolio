@@ -354,35 +354,35 @@ with chatgpt
 ```
 
 ```todo
-step: remove stores/adminAuthStore.ts completely
+✅ step: remove stores/adminAuthStore.ts completely
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: refactor LoginDialog to use useAdminLogin (remove manual loading/error/auth state)
+✅ step: refactor LoginDialog to use useAdminLogin (remove manual loading/error/auth state)
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: refactor LogoutButton and other admin-aware components to use useAdminSession / useAdminLogout
+✅ step: refactor LogoutButton and other admin-aware components to use useAdminSession / useAdminLogout
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-tick D2 in refactor-backlog
+✅ tick D2 in refactor-backlog
 ```
 
 ```todo
-commit refactor-backlog
+✅ commit refactor-backlog
 ```
 
 ```todo
