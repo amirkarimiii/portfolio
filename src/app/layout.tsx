@@ -5,6 +5,7 @@ import React from "react";
 import {AdminLoginListener} from "@/components/layout/listeners/AdminLoginListener";
 import {LoginDialog} from "@/components/layout/dialogs/LoginDialog";
 import {DialogCloseListener} from "@/components/layout/listeners/DialogCloseListener";
+import {QueryProvider} from "@/components/providers/QueryProvider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -28,10 +29,12 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
         <Provider>
-            {children}
-            <AdminLoginListener/>
-            <DialogCloseListener/>
-            <LoginDialog />
+            <QueryProvider>
+                {children}
+                <AdminLoginListener/>
+                <DialogCloseListener/>
+                <LoginDialog />
+            </QueryProvider>
         </Provider>
         </body>
         </html>
