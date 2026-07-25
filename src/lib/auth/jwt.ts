@@ -56,3 +56,9 @@ export async function verifyRefreshToken(token: string): Promise<RefreshTokenPay
         return null;
     }
 }
+
+export function getAccessTokenRemainingSeconds(payload: AccessTokenPayload): number {
+    if (!payload.exp) return 0;
+    const nowInSeconds = Math.floor(Date.now() / 1000);
+    return payload.exp - nowInSeconds;
+}
