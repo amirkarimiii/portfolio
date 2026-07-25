@@ -1,5 +1,6 @@
-"use client"
+"use client";
 
+import React, { useState } from "react";
 import {
     Dialog,
     DialogContent,
@@ -7,66 +8,36 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/shadcn/dialog";
-import {Button} from "@/components/ui/shadcn/button";
-import {useLoginDialog} from "@/stores/loginDialogStore";
-import {Label} from "@/components/ui/shadcn/label";
-import {Field, FieldGroup} from "../../ui/shadcn/field";
-import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/shadcn/input-group";
-import {Eye, EyeOff, InfoIcon} from "lucide-react";
-import React from "react";
-import {Alert, AlertTitle} from "@/components/ui/shadcn/alert";
-import { useAdminAuthStore } from "@/stores/adminAuthStore";
+import { Button } from "@/components/ui/shadcn/button";
+import { Label } from "@/components/ui/shadcn/label";
+import { Field, FieldGroup } from "../../ui/shadcn/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/shadcn/input-group";
+import { Eye, EyeOff, InfoIcon } from "lucide-react";
+import { Alert, AlertTitle } from "@/components/ui/shadcn/alert";
+import { useLoginDialog } from "@/stores/loginDialogStore";
+import { useAdminLogin } from "@/hooks/useAdminAuth";
 
 export function LoginDialog() {
-
     const open = useLoginDialog((s) => s.open);
     const setOpen = useLoginDialog((s) => s.setOpen);
-    const setAuthenticated = useAdminAuthStore((s) => s.setAuthenticated);
-    const [visible, setVisible] = React.useState(false);
 
-    const [password, setPassword] = React.useState("");
-    const [error, setError] = React.useState<string | null>(null);
-    const [loading, setLoading] = React.useState(false);
+    const [visible, setVisible] = useState(false);
+    const [password, setPassword] = useState("");
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const { mutate: login, isPending, error } = useAdminLogin();
+
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!password.trim()) return;
+        if (!password.trim() || isPending) return;
 
-        setLoading(true);
-        setError(null);
+        login(password, {
+            onSuccess: () => {
+                setPassword("");
+                setOpen(false);
+            },
+        });
+    };
 
-        try {
-
-            const response = await fetch(
-                "/api/admin/login",
-                {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({password}),
-                }
-
-            );
-
-            if (!response.ok) {
-                const errorData = response.json().catch(() => ({}));
-                throw new Error((await errorData).error || (await errorData).message || "Authentication failed");
-            }
-
-            setPassword("");
-            setOpen(false);
-            setAuthenticated(true);
-
-        } catch (err: unknown) {
-            setError(
-                err instanceof Error
-                    ? err.message
-                    : "Something went wrong"
-            );
-        } finally {
-            setLoading(false);
-        }
-
-    }
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="flex flex-col items-center max-w-sm" showCloseButton={false}>
@@ -83,32 +54,32 @@ export function LoginDialog() {
                                     id="pass"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    disabled={loading}
+                                    disabled={isPending}
                                     autoFocus
                                 />
                                 <InputGroupAddon align="inline-end" className="cursor-pointer">
                                     <div className="w-5 h-5" onClick={() => setVisible(!visible)}>
-                                        {visible ? <EyeOff/> : <Eye/>}
+                                        {visible ? <EyeOff /> : <Eye />}
                                     </div>
                                 </InputGroupAddon>
                             </InputGroup>
                             {error && (
                                 <Alert variant="destructive">
-                                    <InfoIcon/>
+                                    <InfoIcon />
                                     <AlertTitle className="text-xs">
-                                        {error}
+                                        {error.message || "Authentication failed"}
                                     </AlertTitle>
                                 </Alert>
                             )}
                         </Field>
                     </FieldGroup>
                     <DialogFooter className="w-full sm:w-50 mt-4">
-                        <Button className="w-full" type="submit" disabled={loading}>
-                            {loading ? "Authenticating..." : "Login"}
+                        <Button className="w-full" type="submit" disabled={isPending}>
+                            {isPending ? "Authenticating..." : "Login"}
                         </Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
         </Dialog>
-    )
+    );
 }
