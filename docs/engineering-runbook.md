@@ -243,11 +243,11 @@ with chatgpt
 ```
 
 ```todo
-installing jons
+✅ installing jons
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
