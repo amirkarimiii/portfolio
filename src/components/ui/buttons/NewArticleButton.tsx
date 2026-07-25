@@ -2,13 +2,12 @@
 
 import {Pencil} from "lucide-react";
 import {Button} from "@/components/ui/shadcn/button";
-import {useAdminAuthStore} from "@/stores/adminAuthStore";
+import {useAdminSession} from "@/hooks/useAdminAuth";
 
 export function NewArticleButton() {
 
-    const isAuthenticated = useAdminAuthStore((s) => s.isAuthenticated);
-
-    if (!isAuthenticated) return null;
+    const { data: session } = useAdminSession();
+    if (!session?.authenticated) return null;
 
     return (
         <Button
