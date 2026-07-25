@@ -5,7 +5,7 @@ Here we need to investigate whether it wouldn't be better to check out staging a
 ```todo
 ask for decision in rebasing in chatgpt.
 
-if ok: continue ✅
+if ok: continue ⬅️
 in not ok:
   plan again for revising spec and other related docs at the end of this doc right now
   jump to id="pre-v2-architecture"
@@ -123,7 +123,7 @@ These are the four main tasks that need to be done in `refactor/pre-v2-architect
 ```todo
 for D1: research for why we have to do this
 with grok
-if ok: continue
+if ok: continue ⬅️
 in not ok:
   make an adr for why we refused to do that
   commit adr
@@ -136,7 +136,7 @@ in not ok:
 ```todo
 for D2: research for why we have to do this
 with grok
-if ok: continue
+if ok: continue ⬅️
 in not ok:
   make an adr for why we refused to do that
   commit adr
@@ -149,7 +149,7 @@ in not ok:
 ```todo
 for D3: research for why we have to do this
 with grok
-if ok: continue
+if ok: continue ⬅️
 in not ok:
   make an adr for why we refused to do that
   commit adr
@@ -162,7 +162,7 @@ in not ok:
 ```todo
 for D4: research for why we have to do this
 with grok
-if ok: continue
+if ok: continue ⬅️
 in not ok:
   make an adr for why we refused to do that
   commit adr
@@ -177,13 +177,13 @@ in not ok:
 After our investigation, if everything checks out (which is very likely).
 
 ```todo
-upload git-observatory to claude
+✅ upload git-observatory to claude
 ```
 
 <div id="refactor/pre-v2-architecture-subbranch-naming">
 
 ```todo
-ask for four branch names related to
+✅ ask for four branch names related to
 D1 — Auth model: session-based vs JWT
 D2 — Server state vs UI state split
 D3 — Feature-based directory structure
@@ -192,15 +192,15 @@ D4 — Service layer boundaries
 </div>
 
 ```todo
-update git-observatory
+✅ update git-observatory
 ```
 
 ```todo
-commit git observatory
+✅ commit git observatory
 ```
 
 ```todo
-upload git-observatory to claude
+✅ upload git-observatory to claude
 ```
 
 ---
