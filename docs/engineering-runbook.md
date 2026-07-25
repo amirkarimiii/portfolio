@@ -208,28 +208,80 @@ D4 — Service layer boundaries
 <div id="refactor/pre-v2-architecture-D1-works">
 
 ```todo
-make branch for D1 — Auth model: session-based vs JWT
+✅ make branch for D1 — Auth model: session-based vs JWT
 ```
 
 Here we switch to the branch related to D1.
 
 ```todo
-make adr for D1 — Auth model: session-based vs JWT
+✅ make adr for D1 — Auth model: session-based vs JWT
 with chatgpt
 ```
 
 ```todo
-commit adr for D1 — Auth model: session-based vs JWT
+✅ commit adr for D1 — Auth model: session-based vs JWT
 ```
 
 ```todo
-start D1: research for how we have to do this
-in deepseek
+✅ step: Analyze the current login and session verification flow
 ```
 
 ```todo
-loop: do each step and  commit
-with gemini
+✅ step: Design the token structure — define Access Token and Refresh Token patterns (expiration times, Payload structure, and how they are set in cookies)
+```
+
+```todo
+✅ add environment variables
+```
+
+```todo
+✅ validate new environment variables in env.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+installing jons
+```
+
+```todo
+commit changes
+```
+
+```todo
+loop: 
+  write jwt.ts parts
+  commit
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: Design the new API — decide whether a new route such as app/api/admin/refresh/route.ts is needed
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: Design DB changes — define the Refresh Token storage structure in MongoDB
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: Review Middleware — decide how the project Middleware should verify and pass the Access Token cookie
+```
+
+```todo
+commit changes
 ```
 
 ```todo
