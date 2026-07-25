@@ -85,7 +85,19 @@ https://chatgpt.com/c/****
 
 ---
 
+<i><b>🏁 7/25/2026 start </b></i>
+
+<div id="pre-v2-architecture">
 We're switching back to `refactor/pre-v2-backlog`.
+</div>
+
+```todo
+upload git-observatory to claude
+```
+
+```todo
+check operation using claude
+```
 
 ```todo
 rebase refactor/pre-v2-backlog on latest commit
@@ -108,25 +120,56 @@ These are the four main tasks that need to be done in `refactor/pre-v2-architect
 - [ ] **D4 — Service layer boundaries**
   `service/` directory exists but is empty and undefined. Needs a decision on route → service → data-access responsibility split.
 
-
 ```todo
 for D1: research for why we have to do this
 with grok
+if ok: continue
+in not ok:
+  make an adr for why we refused to do that
+  commit adr
+  edit refactor backlog - cancel D1 base on what we decided in adr
+  commit refactor-backlog
+  jump to id="refactor/pre-v2-architecture-subbranch-naming" and delete naming request fot D1 branch
+  delete id="refactor/pre-v2-architecture-D1-works"
 ```
 
 ```todo
 for D2: research for why we have to do this
 with grok
+if ok: continue
+in not ok:
+  make an adr for why we refused to do that
+  commit adr
+  edit refactor backlog - cancel D2 base on what we decided in adr
+  commit refactor-backlog
+  jump to id="refactor/pre-v2-architecture-subbranch-naming" and delete naming request fot D2 branch
+  delete id="refactor/pre-v2-architecture-D2-works"
 ```
 
 ```todo
 for D3: research for why we have to do this
 with grok
+if ok: continue
+in not ok:
+  make an adr for why we refused to do that
+  commit adr
+  edit refactor backlog - cancel D3 base on what we decided in adr
+  commit refactor-backlog
+  jump to id="refactor/pre-v2-architecture-subbranch-naming" and delete naming request fot D3 branch
+  delete id="refactor/pre-v2-architecture-D3-works"
 ```
 
 ```todo
 for D4: research for why we have to do this
 with grok
+if ok: continue
+in not ok:
+  make an adr for why we refused to do that
+  commit adr
+  edit refactor backlog - cancel D4 base on what we decided in adr
+  commit refactor-backlog
+  jump to id="refactor/pre-v2-architecture-subbranch-naming" and delete naming request fot D4 branch
+  delete id="refactor/pre-v2-architecture-D4-works"
 ```
 
 ---
@@ -137,6 +180,8 @@ After our investigation, if everything checks out (which is very likely).
 upload git-observatory to claude
 ```
 
+<div id="refactor/pre-v2-architecture-subbranch-naming">
+
 ```todo
 ask for four branch names related to
 D1 — Auth model: session-based vs JWT
@@ -144,6 +189,7 @@ D2 — Server state vs UI state split
 D3 — Feature-based directory structure
 D4 — Service layer boundaries
 ```
+</div>
 
 ```todo
 update git-observatory
@@ -157,11 +203,13 @@ commit git observatory
 upload git-observatory to claude
 ```
 
+---
+
+<div id="refactor/pre-v2-architecture-D1-works">
+
 ```todo
 make branch for D1 — Auth model: session-based vs JWT
 ```
-
----
 
 Here we switch to the branch related to D1.
 
@@ -197,14 +245,17 @@ checkout refactor/pre-v2-architecture
 ```
 
 ```todo
-merge d1 branch into refactor/pre-v2-architecture
+merge D1 branch into refactor/pre-v2-architecture
 ```
 
 ```todo
-delete d1 branch
+delete D1 branch
 ```
+</div>
 
 ---
+
+<div id="refactor/pre-v2-architecture-D2-works">
 
 ```todo
 make branch for D2 — Server state vs UI state split
@@ -251,7 +302,11 @@ merge D2 branch into refactor/pre-v2-architecture
 delete D2 branch
 ```
 
+</div>
+
 ---
+
+<div id="refactor/pre-v2-architecture-D3-works">
 
 ```todo
 make branch for D3 — Feature-based directory structure
@@ -299,7 +354,11 @@ merge D3 branch into refactor/pre-v2-architecture
 delete D3 branch
 ```
 
+</div>
+
 ---
+
+<div id="refactor/pre-v2-architecture-D4-works">
 
 ```todo
 make branch for D4 — Service layer boundaries
@@ -346,6 +405,8 @@ merge D4 branch into refactor/pre-v2-architecture
 ```todo
 delete D4 branch
 ```
+
+</div>
 
 ---
 
@@ -572,6 +633,8 @@ Here we need to investigate what the issue with staging and Vercel is; after we'
 ```todo
 research in deepseek and grok
 ```
+
+<i><b>🏁 7/25/2026 milestone</b></i>
 
 ---
 
