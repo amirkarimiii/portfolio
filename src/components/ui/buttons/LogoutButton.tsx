@@ -1,23 +1,24 @@
-"use client"
+"use client";
 
-import {LogOutIcon} from "lucide-react";
-import {Button} from "@/components/ui/shadcn/button";
-import {useAdminAuthStore} from "@/stores/adminAuthStore";
+import { Button } from "@/components/ui/shadcn/button";
+import { useAdminLogout, useAdminSession } from "@/hooks/useAdminAuth";
+import { LogOut } from "lucide-react";
 
 export function LogoutButton() {
+    const { data: session } = useAdminSession();
+    const { mutate: logout, isPending } = useAdminLogout();
 
-    const isAuthenticated = useAdminAuthStore((s) => s.isAuthenticated);
-
-    if (!isAuthenticated) return null;
+    if (!session?.authenticated) return null;
 
     return (
         <Button
-            variant="outline"
-            className="w-max h-max rounded-md p-1 cursor-pointer"
+            variant="ghost"
+            size="icon"
+            onClick={() => logout()}
+            disabled={isPending}
+            title="Logout"
         >
-            <div className="w-5 h-5 rounded-md select-none">
-                <LogOutIcon/>
-            </div>
+            <LogOut className="w-4 h-4" />
         </Button>
     );
 }
