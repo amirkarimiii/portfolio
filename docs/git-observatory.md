@@ -102,6 +102,23 @@ Serves as the base for all pre-V2 cleanup work, organized into three sequential 
 
 Each sub-branch originates from this branch, is worked independently, merged back, and deleted before the next one begins.
 
+## `refactor/pre-v2-architecture`
+
+**Purpose**
+
+Foundational architecture decisions that block other work.
+
+This branch hosts a sequence of four focused sub-branches, each merged via fast-forward
+into this branch before the next one begins:
+
+- `refactor/auth-model` — D1: Resolve session-based vs JWT auth model decision.
+- `refactor/state-split` — D2: Define server state vs UI state boundaries.
+- `refactor/feature-structure` — D3: Establish feature-based directory structure.
+- `refactor/service-layer` — D4: Define service layer boundaries.
+
+Each sub-branch originates from this branch, is worked independently,
+fast-forward merged back, and deleted before the next one begins.
+
 ---
 
 # 4. Historical Development
