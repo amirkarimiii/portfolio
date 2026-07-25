@@ -330,27 +330,27 @@ with chatgpt
 ```
 
 ```todo
-step: create QueryProvider and wire it into root layout
+✅ step: create QueryProvider and wire it into root layout
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: create service/adminAuth.ts with getAdminSession, loginAdmin, logoutAdmin
+✅ step: create service/adminAuth.ts with getAdminSession, loginAdmin, logoutAdmin
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: create hooks/useAdminAuth.ts (useAdminSession, useAdminLogin, useAdminLogout)
+✅ step: create hooks/useAdminAuth.ts (useAdminSession, useAdminLogin, useAdminLogout)
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
