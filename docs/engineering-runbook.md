@@ -92,19 +92,19 @@ We're switching back to `refactor/pre-v2-backlog`.
 </div>
 
 ```todo
-upload git-observatory to claude
+✅ upload git-observatory to claude
 ```
 
 ```todo
-check operation using claude
+✅ check operation using claude
 ```
 
 ```todo
-rebase refactor/pre-v2-backlog on latest commit
+✅ rebase refactor/pre-v2-backlog on latest commit
 ```
 
 ```todo
-checkout refactor/pre-v2-architecture
+✅ checkout refactor/pre-v2-architecture
 ```
 
 ---
