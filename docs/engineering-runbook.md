@@ -421,36 +421,35 @@ with chatgpt
 ```
 
 ```todo
-step: create src/features/ and src/shared/ base directories
+✅ step: create src/features/ and src/shared/ base directories
 ```
 
 ```todo
-commit changes
+✅ step: move admin auth service → features/admin/api/adminAuth.ts
 ```
 
 ```todo
-step: move admin auth service → features/admin/api/adminAuth.ts
+✅ step: move admin hooks → features/admin/hooks/useAdminAuth.ts
 ```
 
 ```todo
-step: move admin hooks → features/admin/hooks/useAdminAuth.ts
+✅ step: move loginDialogStore + LoginDialog → features/admin/
 ```
 
 ```todo
-step: move loginDialogStore + LoginDialog → features/admin/
+✅ step: move LogoutButton + AdminLoginListener → features/admin/components/
 ```
 
 ```todo
-step: move LogoutButton + AdminLoginListener → features/admin/components/
+✅ step: move jwt auth logic → features/admin/lib/ (or utils/)
 ```
 
 ```todo
-step: move jwt auth logic → features/admin/lib/ (or utils/)
+✅ commit changes
 ```
 
-```todo
-commit changes
-```
+<i><b>🏁 7/25/2026 finish here</b></i>
+<i><b>🏁 7/26/2026 start here</b></i>
 
 ```todo
 step: move blog sections/components → features/blog/components/
@@ -817,7 +816,8 @@ Here we need to investigate what the issue with staging and Vercel is; after we'
 research in deepseek and grok
 ```
 
-<i><b>🏁 7/25/2026 milestone</b></i>
+<s><i><b>🏁 7/25/2026 milestone</b></i></s><br/>
+<i><b>🏁 7/26/2026 milestone</b></i>
 
 ---
 
