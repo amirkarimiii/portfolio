@@ -1,4 +1,4 @@
-import {JWTPayload, SignJWT} from 'jose';
+import {JWTPayload, jwtVerify, SignJWT} from 'jose';
 import { env } from '@/env';
 
 const ACCESS_SECRET = new TextEncoder().encode(env.JWT_ACCESS_SECRET);
@@ -36,3 +36,23 @@ export async function signRefreshToken(adminId: string, tokenId: string): Promis
         .sign(REFRESH_SECRET);
 }
 
+export async function verifyAccessToken(token: string): Promise<AccessTokenPayload | null> {
+    try {
+        const { payload } = await jwtVerify(token, ACCESS_SECRET);
+        if (payload.type !== 'access') return null;
+        return payload as AccessTokenPayload;
+    } catch {
+        return null;
+    }
+}
+
+
+export async function verifyRefreshToken(token: string): Promise<RefreshTokenPayload | null> {
+    try {
+        const { payload } = await jwtVerify(token, REFRESH_SECRET);
+        if (payload.type !== 'refresh') return null;
+        return payload as RefreshTokenPayload;
+    } catch {
+        return null;
+    }
+}
