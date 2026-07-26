@@ -116,8 +116,7 @@ into this branch before the next one begins:
 - `refactor/feature-structure` — D3: Establish feature-based directory structure.
 - `refactor/service-layer` — D4: Define service layer boundaries.
 
-Each sub-branch originates from this branch, is worked independently,
-fast-forward merged back, and deleted before the next one begins.
+This branch was merged via fast-forward into `refactor/pre-v2-backlog` after all four decisions were completed, and subsequently deleted.
 
 ---
 
