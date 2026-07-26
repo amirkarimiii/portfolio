@@ -24,7 +24,8 @@ export function ProjectsSection() {
                                        className="dark:invert"
                                 />
                             </div>
-                            Cryptology</TabsTrigger>
+                            Cryptology
+                        </TabsTrigger>
                         <TabsTrigger value="more">➕ More...</TabsTrigger>
                     </TabsList>
                     <TabsContent value="cryptology">
@@ -63,7 +64,8 @@ export function ProjectsSection() {
                                     </div>
                                     <div>
                                         <h4 className="text-xl font-bold lg:mt-5">✨ Overview</h4>
-                                        <p className="text-sm md:text-base ml-5">Cryptology is a practice-oriented project developed
+                                        <p className="text-sm md:text-base ml-5">Cryptology is a practice-oriented
+                                            project developed
                                             to showcase real-world frontend skills, including:</p>
                                         <ul className="text-sm md:text-base list-disc ml-5 mt-2">
                                             <li>Structured layout composition</li>
@@ -75,7 +77,8 @@ export function ProjectsSection() {
                                     </div>
                                 </div>
                                 <Button asChild className="block w-full max-w-md mt-5 mx-auto text-center">
-                                    <Link href="https://github.com/amirkarimiii/cryptology" target="_blank" rel="noopener noreferrer">
+                                    <Link href="https://github.com/amirkarimiii/cryptology" target="_blank"
+                                          rel="noopener noreferrer">
                                         More on Github
                                     </Link>
                                 </Button>
@@ -94,8 +97,13 @@ export function ProjectsSection() {
                                     <InfoIcon/>
                                     <AlertTitle className="lg:text-base">stay tuned...</AlertTitle>
                                     <AlertDescription className="lg:text-base">
-                                        I am currently focusing on completing the existing projects. New projects will be added soon to better reflect the range of my skills and areas of work.<br/><br/>
-                                        A new section covering my open-source contributions — such as pull requests, bug fixes, feature implementations, and documentation improvements in public repositories — along with other relevant activities will also be added shortly.<br/><br/>
+                                        I am currently focusing on completing the existing projects. New projects will
+                                        be added soon to better reflect the range of my skills and areas of
+                                        work.<br/><br/>
+                                        A new section covering my open-source contributions — such as pull requests, bug
+                                        fixes, feature implementations, and documentation improvements in public
+                                        repositories — along with other relevant activities will also be added
+                                        shortly.<br/><br/>
                                         Updates will be published progressively.<br/><br/>
                                         Feedback and suggestions for improvement are welcome.
                                     </AlertDescription>

@@ -1,26 +1,22 @@
 "use client"
 import Image from "next/image";
-import {useEffect, useState} from "react";
+import {useSyncExternalStore} from "react";
 import {useTheme} from "next-themes";
 import {Card} from "@/shared/components/ui/card";
 import {Skeleton} from "@/shared/components/ui/skeleton";
 import {Badge} from "@/shared/components/ui/badge";
 
-
+function useMounted() {
+    return useSyncExternalStore(
+        () => () => {},
+        () => true,
+        () => false
+    );
+}
 
 function ProjectPhoto() {
-
-    const {resolvedTheme} = useTheme();
-    const [mounted, setMounted] = useState(false);
-    const [theme, setTheme] = useState(resolvedTheme);
-
-    useEffect(() => {
-        setMounted(true);
-        if (resolvedTheme) {
-            setTheme(resolvedTheme as "dark" | "light");
-        }
-    }, [resolvedTheme]);
-
+    const {theme, setTheme, resolvedTheme} = useTheme();
+    const mounted = useMounted();
 
     if (!mounted) return (
         <Card className="p-5">
@@ -30,31 +26,31 @@ function ProjectPhoto() {
     );
 
     return (
-        <Card className="p-5" onClick={(e) =>
-            theme === "light" ? setTheme("dark") : setTheme("light")
+        <Card className="p-5" onClick={() =>
+            setTheme(resolvedTheme === "light" ? "dark" : "light")
         }>
             <div
-                className={`relative w-full aspect-[1.62] mx-auto select-none cursor-pointer ${theme === "light" ? "hidden" : ""}`}>
+                className={`relative w-full aspect-[1.62] mx-auto select-none cursor-pointer ${resolvedTheme === "light" ? "hidden" : ""}`}>
                 <Image
                     src={`/projects/cryptology/dark.png`}
                     alt={`cryptology screenshots dark`}
                     fill
-                    preload
+                    priority
                 />
             </div>
             <div
-                className={`relative w-full aspect-[1.62] mx-auto select-none cursor-pointer ${theme === "dark" ? "hidden" : ""}`}>
+                className={`relative w-full aspect-[1.62] mx-auto select-none cursor-pointer ${resolvedTheme === "dark" ? "hidden" : ""}`}>
                 <Image
                     src={`/projects/cryptology/light.png`}
                     alt={`cryptology screenshots light`}
                     fill
-                    preload
+                    priority
                 />
             </div>
 
-            <Badge className="block mx-auto mt-5">{`tap to see ${theme === "light" ? "dark" : "light"} mode 👆🏻`}</Badge>
+            <Badge className="block mx-auto mt-5">{`tap to see ${resolvedTheme === "light" ? "dark" : "light"} mode 👆🏻`}</Badge>
         </Card>
     );
 }
 
-export default ProjectPhoto
+export default ProjectPhoto;
