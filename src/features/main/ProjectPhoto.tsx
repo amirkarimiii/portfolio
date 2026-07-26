@@ -2,9 +2,9 @@
 import Image from "next/image";
 import {useEffect, useState} from "react";
 import {useTheme} from "next-themes";
-import {Card} from "@/components/ui/shadcn/card";
-import {Skeleton} from "@/components/ui/shadcn/skeleton";
-import {Badge} from "@/components/ui/shadcn/badge";
+import {Card} from "@/shared/components/ui/card";
+import {Skeleton} from "@/shared/components/ui/skeleton";
+import {Badge} from "@/shared/components/ui/badge";
 
 
 
@@ -13,7 +13,6 @@ function ProjectPhoto() {
     const {resolvedTheme} = useTheme();
     const [mounted, setMounted] = useState(false);
     const [theme, setTheme] = useState(resolvedTheme);
-
 
     useEffect(() => {
         setMounted(true);
