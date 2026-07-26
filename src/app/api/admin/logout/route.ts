@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import clientPromise from '@/lib/mongodb';
-import { verifyRefreshToken } from '@/lib/auth/jwt';
+import {verifyRefreshToken} from "@/features/admin/utils/jwt";
+import clientPromise from "@/shared/lib/mongodb";
+
 
 export async function POST() {
     try {
