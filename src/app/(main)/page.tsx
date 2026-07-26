@@ -1,7 +1,8 @@
-import {Banner} from "@/components/ui/sections/main/banner/Banner";
-import {InfoSection} from "@/components/ui/sections/main/information/infoSection";
-import {ProjectsSection} from "@/components/ui/sections/main/projects/ProjectsSection";
-import {ContactSection} from "@/components/ui/sections/main/contact/ContactSection";
+import {Banner} from "@/features/main/Banner";
+import {InfoSection} from "@/features/main/infoSection";
+import {ProjectsSection} from "@/features/main/ProjectsSection";
+import {ContactSection} from "@/features/main/ContactSection";
+
 
 export default function Home() {
     return (
