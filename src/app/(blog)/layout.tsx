@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
-import {Navbar} from "../../components/layout/navbar/Navbar";
-import {BlogNavbarActions} from "../../components/layout/navbar/BlogNavbarActions";
-import React from "react";
+import {Navbar} from "@/shared/components/layout/Navbar";
+import {BlogNavbarActions} from "@/features/blog/components/BlogNavbarActions";
+
 
 export const metadata: Metadata = {
     title: {
