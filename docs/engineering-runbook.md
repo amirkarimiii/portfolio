@@ -117,8 +117,8 @@ These are the four main tasks that need to be done in `refactor/pre-v2-architect
   Current: manual `fetch` inside Zustand (`adminAuthStore`). Decision: adopt TanStack Query for all server state (session check, and later articles/books/stack data); restrict Zustand to pure UI state (e.g. dialog open/close). Blocks: how future feature stores are written.
 - [ ] **D3 — Feature-based directory structure**
   Current structure is type-based (`components/ui`, `components/layout`, `stores`), not domain-based. Needs a decision on target layout (`features/`, `shared/`) and migration approach (big-bang vs incremental, per-feature). Blocks: where all new feature code (blog, stack-mapping, playground, bookshelf) gets placed.
-- [ ] **D4 — Service layer boundaries**
-  `service/` directory exists but is empty and undefined. Needs a decision on route → service → data-access responsibility split.
+- [ ] **D4 — Application service architecture**
+  Backend responsibility boundaries are not yet formally defined. Decide the architectural split between Route Handlers (HTTP), feature-owned Application Services (business workflows), and Repository (data access), and establish conventions that all future backend features must follow.
 
 ```todo
 for D1: research for why we have to do this
@@ -187,7 +187,7 @@ After our investigation, if everything checks out (which is very likely).
 D1 — Auth model: session-based vs JWT
 D2 — Server state vs UI state split
 D3 — Feature-based directory structure
-D4 — Service layer boundaries
+D4 — Application service architectur
 ```
 </div>
 
@@ -540,25 +540,20 @@ with chatgpt
 <div id="refactor/pre-v2-architecture-D4-works">
 
 ```todo
-make branch for D4 — Service layer boundaries
-branch name: refactor/service-layer
+make branch for D4 — Application service architectur
+branch name: refactor/application-service
 ```
 
 Here we switch to the branch related to D4.
 
 
 ```todo
-make adr for D4 — Service layer boundaries
+make adr for D4 — Application service architectur
 with chatgpt
 ```
 
 ```todo
-commit adr for D4 — Service layer boundaries
-```
-
-```todo
-start D4: research for how we have to do this
-in deepseek
+commit adr for D4 — Application service architectur
 ```
 
 ```todo
@@ -579,11 +574,11 @@ checkout refactor/pre-v2-architecture
 ```
 
 ```todo
-merge refactor/service-layer into refactor/pre-v2-architecture
+merge refactor/application-service into refactor/pre-v2-architecture
 ```
 
 ```todo
-delete refactor/service-layer
+delete refactor/application-service
 ```
 
 </div>
