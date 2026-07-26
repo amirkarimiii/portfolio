@@ -1,8 +1,9 @@
-import {ThemeButton} from "@/components/ui/buttons/ThemeButton";
-import {BlogNavSearchbar} from "@/components/ui/inputs/BlogNavSearchbar";
-import {HomeButton} from "@/components/ui/buttons/HomeButton";
-import {LogoutButton} from "@/components/ui/buttons/LogoutButton";
-import {NewArticleButton} from "@/components/ui/buttons/NewArticleButton";
+import {ThemeButton} from "@/shared/components/buttons/ThemeButton";
+import {LogoutButton} from "@/features/admin/components/LogoutButton";
+import {HomeButton} from "@/shared/components/buttons/HomeButton";
+import {NewArticleButton} from "@/features/admin/components/NewArticleButton";
+import {BlogNavSearchbar} from "@/features/blog/components/BlogNavSearchbar";
+
 
 export function BlogNavbarActions() {
     return (
