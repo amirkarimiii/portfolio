@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import {Separator} from "@/components/ui/shadcn/separator";
+import {Separator} from "@/shared/components/ui/separator";
 
 export function BlogBanner() {
     return (
