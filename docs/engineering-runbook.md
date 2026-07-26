@@ -581,63 +581,63 @@ with chatgpt
 ```
 
 ```todo
-working on file app/api/admin/login/route.ts
+✅ working on file app/api/admin/login/route.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-working on file app/api/admin/logout/route.ts
+✅ working on file app/api/admin/logout/route.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-working on file app/api/admin/session/route.ts
+✅ working on file app/api/admin/session/route.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: manual test – admin login flow
+✅ step: manual test – admin login flow
 ```
 
 ```todo
-step: manual test – automatic token refresh
+✅ step: manual test – automatic token refresh
 ```
 
 ```todo
-step: manual test – logout and cookie cleanup
+✅ step: manual test – logout and cookie cleanup
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-tick D4 in refactor-backlog
+✅ tick D4 in refactor-backlog
 ```
 
 ```todo
-commit refactor-backlog
+✅ commit refactor-backlog
 ```
 
 ```todo
-checkout refactor/pre-v2-architecture
+✅ checkout refactor/pre-v2-architecture
 ```
 
 ```todo
-merge refactor/application-service into refactor/pre-v2-architecture
+✅ merge refactor/application-service into refactor/pre-v2-architecture
 ```
 
 ```todo
-delete refactor/application-service
+✅ delete refactor/application-service
 ```
 
 </div>
@@ -650,12 +650,25 @@ Here, the work related to the `refactor/pre-v2-architecture` branch is finished.
 checkout refactor/pre-v2-backlog
 ```
 
+
 ```todo
 merge branch refactor/pre-v2-architecture into refactor/pre-v2-backlog
 ```
 
 ```todo
 delete refactor/pre-v2-architecture
+```
+
+```todo
+update git observatory
+```
+
+```todo
+commit changes
+```
+
+```todo
+upload git observatory to claude
 ```
 
 ---
