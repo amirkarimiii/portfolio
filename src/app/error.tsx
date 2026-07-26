@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image";
-import {Alert, AlertDescription, AlertTitle} from "@/components/ui/shadcn/alert";
 import {InfoIcon} from "lucide-react";
+import {Alert, AlertDescription} from "@/shared/components/ui/alert";
 
 export default function Error() {
     return (
