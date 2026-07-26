@@ -1,7 +1,7 @@
 "use client"
 
 import {useEffect} from "react";
-import {useLoginDialog} from "@/stores/loginDialogStore";
+import {useLoginDialog} from "@/features/admin/stores/loginDialogStore";
 
 export function AdminLoginListener() {
 
