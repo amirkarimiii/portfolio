@@ -1,7 +1,7 @@
 "use client"
 
-import {Button} from "@/components/ui/shadcn/button";
 import Link from "next/link";
+import {Button} from "@/shared/components/ui/button";
 
 export function CvButton() {
     return (
