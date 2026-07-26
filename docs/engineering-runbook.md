@@ -508,29 +508,29 @@ with chatgpt
 ```
 
 ```todo
-loop:
+✅ loop:
   update imports in src/app/ and remaining files to new paths
   commit changes
 ```
 
 ```todo
-tick D3 in refactor-backlog
+✅ tick D3 in refactor-backlog
 ```
 
 ```todo
-commit refactor-backlog
+✅ commit refactor-backlog
 ```
 
 ```todo
-checkout refactor/pre-v2-architecture
+✅ checkout refactor/pre-v2-architecture
 ```
 
 ```todo
-merge refactor/feature-structure into refactor/pre-v2-architecture
+✅ merge refactor/feature-structure into refactor/pre-v2-architecture
 ```
 
 ```todo
-delete refactor/feature-structure
+✅ delete refactor/feature-structure
 ```
 
 </div>
