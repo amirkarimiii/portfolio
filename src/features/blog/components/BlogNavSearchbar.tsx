@@ -1,7 +1,7 @@
 "use client"
 
-import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/shadcn/input-group";
 import {Search} from "lucide-react";
+import {InputGroup, InputGroupAddon, InputGroupInput} from "@/shared/components/ui/input-group";
 
 export function BlogNavSearchbar() {
     return (
