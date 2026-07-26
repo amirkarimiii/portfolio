@@ -29,9 +29,8 @@ Each item below will eventually map to: `branch` → `adr-000X` → implementati
   Current: manual `fetch` inside Zustand (`adminAuthStore`). Decision: adopt TanStack Query for all server state (session check, and later articles/books/stack data); restrict Zustand to pure UI state (e.g. dialog open/close). Blocks: how future feature stores are written.
 - [x] **D3 — Feature-based directory structure**
   Current structure is type-based (`components/ui`, `components/layout`, `stores`), not domain-based. Needs a decision on target layout (`features/`, `shared/`) and migration approach (big-bang vs incremental, per-feature). Blocks: where all new feature code (blog, stack-mapping, playground, bookshelf) gets placed.
-- [ ] **D4 — Service layer boundaries**
-  `service/` directory exists but is empty and undefined. Needs a decision on route → service → data-access responsibility split.
-
+- [ ] **D4 — Application service architecture**
+  Backend responsibility boundaries are not yet formally defined. Decide the architectural split between Route Handlers (HTTP), feature-owned Application Services (business workflows), and Repository (data access), and establish conventions that all future backend features must follow.
 ---
 
 ## Infrastructure / cross-cutting concerns
