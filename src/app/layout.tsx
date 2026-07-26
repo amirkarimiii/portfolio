@@ -2,10 +2,11 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import {Provider} from './theme-provider'
 import React from "react";
-import {AdminLoginListener} from "@/components/layout/listeners/AdminLoginListener";
-import {LoginDialog} from "@/components/layout/dialogs/LoginDialog";
-import {DialogCloseListener} from "@/components/layout/listeners/DialogCloseListener";
-import {QueryProvider} from "@/components/providers/QueryProvider";
+import {QueryProvider} from "@/shared/providers/QueryProvider";
+import {AdminLoginListener} from "@/features/admin/components/AdminLoginListener";
+import {DialogCloseListener} from "@/shared/components/layout/listeners/DialogCloseListener";
+import {LoginDialog} from "@/features/admin/components/LoginDialog";
+
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
