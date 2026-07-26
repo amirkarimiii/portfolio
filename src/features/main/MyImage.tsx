@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image';
 import {useState} from "react";
-import {Badge} from "@/components/ui/shadcn/badge";
+import {Badge} from "@/shared/components/ui/badge";
 
 export function MyImage() {
 
