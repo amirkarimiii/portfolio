@@ -1,7 +1,7 @@
 import Link from "next/link";
-import {Button} from "@/components/ui/shadcn/button";
 import {HomeIcon} from "lucide-react";
-import {Paths} from "@/common/constants/paths";
+import {Button} from "@/shared/components/ui/button";
+import {Paths} from "@/shared/constants/paths";
 
 
 export function HomeButton() {
