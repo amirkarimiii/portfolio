@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import clientPromise from '@/lib/mongodb';
+import clientPromise from "@/shared/lib/mongodb";
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import { ObjectId } from 'mongodb';
-import { signAccessToken, signRefreshToken } from '@/lib/auth/jwt';
+import {signAccessToken, signRefreshToken} from "@/features/admin/utils/jwt";
 
 export async function POST(request: Request) {
     try {
