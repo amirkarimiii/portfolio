@@ -1,7 +1,7 @@
-import {ThemeButton} from "@/components/ui/buttons/ThemeButton";
-import {CvButton} from "@/components/ui/buttons/CVButton";
-import {LogoutButton} from "@/components/ui/buttons/LogoutButton";
-import {NewArticleButton} from "@/components/ui/buttons/NewArticleButton";
+import {ThemeButton} from "@/shared/components/buttons/ThemeButton";
+import {NewArticleButton} from "@/features/admin/components/NewArticleButton";
+import {CvButton} from "@/shared/components/buttons/CVButton";
+import {LogoutButton} from "@/features/admin/components/LogoutButton";
 
 export function MainNavbarActions() {
     return (
