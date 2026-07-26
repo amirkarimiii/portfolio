@@ -452,67 +452,65 @@ with chatgpt
 <i><b>🏁 7/26/2026 start here</b></i>
 
 ```todo
-step: move blog sections/components → features/blog/components/
+✅ step: move blog sections/components → features/blog/components/
 ```
 
 ```todo
-step: move BlogNavSearchbar + BlogNavbarActions → features/blog/components/
+✅ step: move BlogNavSearchbar + BlogNavbarActions → features/blog/components/
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: move main/portfolio sections (Banner, Contact, Info, Projects) → features/main/components/
+✅ step: move main/portfolio sections (Banner, Contact, Info, Projects) → features/main/components/
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: move shadcn UI primitives → shared/components/ui/
+✅ step: move shadcn UI primitives → shared/components/ui/
 ```
 
 ```todo
-step: move shared buttons (ThemeButton, CVButton) → shared/components/buttons/
+✅ step: move shared buttons (ThemeButton, CVButton) → shared/components/buttons/
 ```
 
 ```todo
-step: move Navbar and layout components → shared/components/layout/
+✅ step: move Navbar and layout components → shared/components/layout/
 ```
 
 ```todo
-step: move QueryProvider → shared/providers/
+✅ step: move QueryProvider → shared/providers/
 ```
 
 ```todo
-step: move constants, mongodb, utils → shared/
+✅ step: move constants, mongodb, utils → shared/
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: update tsconfig path aliases for @/features/* and @/shared/*
+✅ step: update tsconfig path aliases for @/features/* and @/shared/*
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: update all imports in src/app/ and remaining files to new paths
+✅ step: delete empty old directories (components, hooks, stores, service, common, ...)
 ```
 
 ```todo
-step: delete empty old directories (components, hooks, stores, service, common, ...)
-```
-
-```todo
-commit changes
+loop:
+  update imports in src/app/ and remaining files to new paths
+  commit changes
 ```
 
 ```todo
