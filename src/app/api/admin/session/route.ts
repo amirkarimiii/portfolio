@@ -1,14 +1,13 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import clientPromise from '@/lib/mongodb';
 import { v4 as uuidv4 } from 'uuid';
 import {
-    verifyAccessToken,
-    verifyRefreshToken,
-    getAccessTokenRemainingSeconds,
-    signAccessToken,
-    signRefreshToken
-} from '@/lib/auth/jwt';
+    getAccessTokenRemainingSeconds, signAccessToken,
+    signRefreshToken, verifyAccessToken,
+    verifyRefreshToken
+} from "@/features/admin/utils/jwt";
+import clientPromise from "@/shared/lib/mongodb";
+
 
 export async function GET() {
     try {
