@@ -1,5 +1,5 @@
-import {BlogBanner} from "@/components/ui/sections/blog/banner/BlogBanner";
-import {ArticlesSection} from "@/components/ui/sections/blog/articles/ArticlesSection";
+import {BlogBanner} from "@/features/blog/components/BlogBanner";
+import {ArticlesSection} from "@/features/blog/components/ArticlesSection";
 
 export default function Blog() {
     return (
