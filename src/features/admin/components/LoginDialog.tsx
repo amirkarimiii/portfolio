@@ -1,21 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/shadcn/dialog";
-import { Button } from "@/components/ui/shadcn/button";
-import { Label } from "@/components/ui/shadcn/label";
-import { Field, FieldGroup } from "../../ui/shadcn/field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/shadcn/input-group";
 import { Eye, EyeOff, InfoIcon } from "lucide-react";
-import { Alert, AlertTitle } from "@/components/ui/shadcn/alert";
-import { useLoginDialog } from "@/stores/loginDialogStore";
-import { useAdminLogin } from "@/hooks/useAdminAuth";
+import {useLoginDialog} from "@/features/admin/stores/loginDialogStore";
+import {useAdminLogin} from "@/features/admin/hooks/useAdminAuth";
+import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/shared/components/ui/dialog";
+import {Field, FieldGroup} from "@/shared/components/ui/field";
+import {InputGroup, InputGroupAddon, InputGroupInput} from "@/shared/components/ui/input-group";
+import {Label} from "@/shared/components/ui/label";
+import {Alert, AlertTitle} from "@/shared/components/ui/alert";
+import {Button} from "@/shared/components/ui/button";
+
 
 export function LoginDialog() {
     const open = useLoginDialog((s) => s.open);
