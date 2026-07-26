@@ -3,8 +3,9 @@
 import * as React from "react"
 import { XIcon } from "lucide-react"
 import { Dialog as DialogPrimitive } from "radix-ui"
-import {cn} from "@/lib/utils/shadcnUtils";
-import {Button} from "@/components/ui/shadcn/button";
+import {cn} from "@/shared/utils/shadcnUtils";
+import {Button} from "@/shared/components/ui/button";
+
 
 function Dialog({
   ...props
