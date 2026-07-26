@@ -1,8 +1,8 @@
 "use client"
 
-import {Button} from "@/components/ui/shadcn/button";
 import {useTheme} from "next-themes";
 import {Moon, SunDim} from 'lucide-react';
+import {Button} from "@/shared/components/ui/button";
 
 export const ThemeButton = () => {
 
