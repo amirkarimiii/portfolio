@@ -647,28 +647,28 @@ with chatgpt
 Here, the work related to the `refactor/pre-v2-architecture` branch is finished.
 
 ```todo
-checkout refactor/pre-v2-backlog
+✅ checkout refactor/pre-v2-backlog
 ```
 
 
 ```todo
-merge branch refactor/pre-v2-architecture into refactor/pre-v2-backlog
+✅ merge branch refactor/pre-v2-architecture into refactor/pre-v2-backlog
 ```
 
 ```todo
-delete refactor/pre-v2-architecture
+✅ delete refactor/pre-v2-architecture
 ```
 
 ```todo
-update git observatory
+✅ update git observatory
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-upload git observatory to claude
+✅ upload git observatory to claude
 ```
 
 ---
@@ -676,10 +676,13 @@ upload git observatory to claude
 Here, the work related to the `refactor/pre-v2-infrastructure` branch begins.
 
 ```todo
-make branch refactor/pre-v2-infrastructure
+✅ make branch refactor/pre-v2-infrastructure
 
 git checkout -b refactor/pre-v2-infrastructure
 ```
+
+<i><b>🏁 7/26/2026 finish here</b></i>
+<i><b>🏁 7/27/2026 start here</b></i>
 
 We are currently inside the refactor/pre-v2-infrastructure branch;
 
@@ -875,6 +878,38 @@ delete refactor/pre-v2-backlog
 
 ---
 
+Here we do some Side jobs
+
+```todo
+step: research – decide whether to add search feature in this version or next
+```
+
+```todo
+step: update ADR-0005 (add date + content updates)
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: fix headers of ADR-0006 to ADR-0010 to match the style of the early ADRs
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: create documentation file explaining how AI is used in the project
+```
+
+```todo
+commit changes
+```
+
+---
+
 Here we need to investigate what the issue with staging and Vercel is; after we've looked into it and applied a potential fix, we'll push to staging.
 
 ```todo
@@ -882,8 +917,23 @@ research in deepseek and grok
 ```
 
 <s><i><b>🏁 7/25/2026 milestone</b></i></s><br/>
-<i><b>🏁 7/26/2026 milestone</b></i>
+<s><i><b>🏁 7/26/2026 milestone</b></i></s><br/>
+<i><b>🏁 7/27/2026 milestone</b></i>
 
 ---
 
 Here we implement the features one by one according to the spec file.
+
+---
+
+---
+
+Here we perform pre-production cleanups
+
+```todo
+working on file next.config.ts (production-ready configuration)
+```
+
+```todo
+commit changes
+```
