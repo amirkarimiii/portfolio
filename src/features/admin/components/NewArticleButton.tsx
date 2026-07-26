@@ -1,8 +1,9 @@
 "use client"
 
 import {Pencil} from "lucide-react";
-import {Button} from "@/components/ui/shadcn/button";
-import {useAdminSession} from "@/hooks/useAdminAuth";
+import {useAdminSession} from "@/features/admin/hooks/useAdminAuth";
+import {Button} from "@/shared/components/ui/button";
+
 
 export function NewArticleButton() {
 
