@@ -1,23 +1,20 @@
-import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { AdminAuthService } from "@/features/admin/services/adminAuthService";
+import { withErrorHandler, createSuccessResponse } from '@/shared/lib/api/routeHandler';
 
-export async function POST() {
+export const POST = withErrorHandler(async () => {
+    const cookieStore = await cookies();
+    const refreshTokenStr = cookieStore.get('admin_refresh_token')?.value;
+
     try {
-        const cookieStore = await cookies();
-        const refreshTokenStr = cookieStore.get('admin_refresh_token')?.value;
-
         await AdminAuthService.logout(refreshTokenStr);
-
-        const response = NextResponse.json({ success: true });
-        response.cookies.delete('admin_access_token');
-        response.cookies.delete('admin_refresh_token');
-
-        return response;
-    } catch {
-        const response = NextResponse.json({ success: true });
-        response.cookies.delete('admin_access_token');
-        response.cookies.delete('admin_refresh_token');
-        return response;
+    } catch (e: unknown) {
+        console.warn('[LOGOUT_SERVICE_WARNING]:', e);
     }
-}
+
+    const response = createSuccessResponse({ success: true });
+    response.cookies.delete('admin_access_token');
+    response.cookies.delete('admin_refresh_token');
+
+    return response;
+});
