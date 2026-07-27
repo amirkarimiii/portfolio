@@ -1,12 +1,9 @@
 # ADR-0009 — Adopt a Feature-Based Project Structure
 
-**Status**
+- **Status:** Accepted
+- **Date:** 2026-07-25
 
-Accepted
-
-**Date**
-
-2026-07-25
+---
 
 ## Context
 

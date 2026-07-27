@@ -1,12 +1,9 @@
-# ADR-0008 — Establish Separate Responsibilities for Server and UI State
+# ADR-0008: Establish Separate Responsibilities for Server and UI State
 
-**Status**
+- **Status:** Accepted
+- **Date:** 2026-07-25
 
-Accepted
-
-**Date**
-
-2026-07-25
+---
 
 ## Context
 

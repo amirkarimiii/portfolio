@@ -1,7 +1,9 @@
-# ADR-0002 — Establish Article Authoring Guidelines Prior to Editor Development
+# ADR-0002: Establish Article Authoring Guidelines Prior to Editor Development
 
 * **Status:** Accepted
 * **Date:** 2026-07-15
+
+---
 
 ## Context
 

@@ -1,8 +1,9 @@
-# ADR-0005 — Specification-First Rebase Policy
+# ADR-0005: Specification-First Rebase Policy
 
-## Status
+* **Status:** Accepted
+* **Date:** 2026-07-22
 
-Accepted
+---
 
 ## Context
 

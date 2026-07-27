@@ -1,7 +1,9 @@
-# ADR-0001 --- Migration from Editor.js to Tiptap
+# ADR-0001: Migration from Editor.js to Tiptap
 
 -   **Status:** Accepted
 -   **Date:** 2026-07-02
+
+---
 
 ## Context
 

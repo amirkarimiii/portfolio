@@ -1,12 +1,9 @@
-# ADR-0007 — Adopt Hybrid JWT Authentication for Admin Access
+# ADR-0007: Adopt Hybrid JWT Authentication for Admin Access
 
-**Status**
+- **Status:** Accepted
+- **Date:** 2026-07-25
 
-Accepted
-
-**Date**
-
-2026-07-25
+---
 
 ## Context
 

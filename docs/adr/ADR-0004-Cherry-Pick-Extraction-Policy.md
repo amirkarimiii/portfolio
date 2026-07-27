@@ -5,7 +5,7 @@
 
 ---
 
-# Context
+## Context
 
 During the initial implementation of the blog subsystem, development occurred before the repository adopted its current architectural standards, branch strategy, documentation process, and commit conventions.
 
@@ -33,7 +33,7 @@ The repository therefore requires a mechanism that preserves the genuine develop
 
 ---
 
-# Decision
+## Decision
 
 Historical implementation branches SHALL be integrated through **Git Rebase** rather than Cherry-Pick or manual reimplementation.
 
@@ -43,11 +43,11 @@ Rebasing historical branches is considered a structural reorganization of reposi
 
 ---
 
-# Rationale
+## Rationale
 
 Historical rebasing provides several advantages.
 
-## Preserve Authentic Development History
+### Preserve Authentic Development History
 
 The original sequence of implementation is retained.
 
@@ -55,7 +55,7 @@ Each commit continues to represent a genuine development step rather than a newl
 
 ---
 
-## Preserve Author Dates
+### Preserve Author Dates
 
 The original Author Date of every historical commit remains intact.
 
@@ -63,7 +63,7 @@ This accurately reflects when the implementation work was performed and preserve
 
 ---
 
-## Align Repository History with Architecture
+### Align Repository History with Architecture
 
 Although portions of the editor were implemented before the surrounding infrastructure existed, the repository's long-term history should present architectural foundations before dependent features.
 
@@ -71,7 +71,7 @@ Rebasing allows the repository history to reflect that logical evolution without
 
 ---
 
-## Avoid Artificial Recreation
+### Avoid Artificial Recreation
 
 Manual porting or commit-by-commit Cherry-Pick would create entirely new commits whose primary purpose is reproducing work that already exists.
 
@@ -79,7 +79,7 @@ The repository instead recognizes those historical commits as the canonical impl
 
 ---
 
-# Commit Message Policy
+## Commit Message Policy
 
 The repository's current commit-message convention applies **only to commits created after the convention was adopted**.
 
@@ -93,7 +93,7 @@ Repository conventions are therefore **not retroactive**.
 
 ---
 
-# Historical Branch Lifecycle
+## Historical Branch Lifecycle
 
 Historical branches serve as temporary carriers of repository history during migration.
 
@@ -111,9 +111,9 @@ Its history has already become part of the modern repository through rebasing.
 
 ---
 
-# Alternatives Considered
+## Alternatives Considered
 
-## Cherry-Pick Extraction
+### Cherry-Pick Extraction
 
 Rejected.
 
@@ -123,7 +123,7 @@ For this repository, the objective is historical preservation rather than histor
 
 ---
 
-## Manual Porting
+### Manual Porting
 
 Rejected.
 
@@ -131,7 +131,7 @@ Reimplementing existing work discards authentic development history, increases m
 
 ---
 
-## Direct Merge
+### Direct Merge
 
 Rejected.
 
@@ -139,7 +139,7 @@ Merging historical branch chains would import obsolete branch topology and reduc
 
 ---
 
-## Permanent Historical Branches
+### Permanent Historical Branches
 
 Rejected.
 
@@ -149,9 +149,9 @@ Keeping them indefinitely would increase repository complexity without preservin
 
 ---
 
-# Consequences
+## Consequences
 
-## Positive
+### Positive
 
 * Preserves authentic implementation history.
 * Preserves original Author Dates.
@@ -162,7 +162,7 @@ Keeping them indefinitely would increase repository complexity without preservin
 
 ---
 
-## Trade-offs
+### Trade-offs
 
 * Rebasing rewrites commit hashes because commit ancestry changes.
 * Historical branches must not be considered immutable until migration has completed.
@@ -170,7 +170,7 @@ Keeping them indefinitely would increase repository complexity without preservin
 
 ---
 
-# Repository Philosophy
+## Repository Philosophy
 
 This repository treats its Git history as part of the project's engineering documentation.
 

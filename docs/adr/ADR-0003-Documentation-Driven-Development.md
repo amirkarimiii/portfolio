@@ -3,6 +3,8 @@
 * **Status:** Accepted
 * **Date:** 2026-07-21
 
+---
+
 ## Context
 
 During the implementation of the portfolio redesign and the blog system, development initially focused on implementing the editor and its surrounding infrastructure. As the project evolved, it became clear that several product-level decisions—including the article authoring flow, feature boundaries, roadmap, and overall portfolio architecture—had never been fully documented.
