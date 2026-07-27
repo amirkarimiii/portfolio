@@ -1197,7 +1197,7 @@ Here we need to investigate what the issue with staging and Vercel is; after we'
 ```
 
 ```todo
-push staging
+✅ push staging
 ```
 
 ---
@@ -1205,35 +1205,36 @@ push staging
 Here we do some Side jobs
 
 ```todo
-step: research – decide whether to add search feature in this version or next
+✅ step: research – decide whether to add search feature in this version or next
+with chatgpt
 ```
 
 ```todo
-step: update ADR-0005 (add date + content updates)
+✅ step: update ADR-0005 (add date + content updates)
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: fix headers of ADR-0006 to ADR-0010 to match the style of the early ADRs
+✅ step: fix headers of ADR-0006 to ADR-0010 to match the style of the early ADRs
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: create documentation file explaining how AI is used in the project
+✅ step: create documentation file explaining how AI is used in the project
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: create documentation file for teckstack
+✅ step: create documentation file for teckstack
 explicitly add this:
 ## Environment Variables Setup
 
@@ -1252,16 +1253,21 @@ All environment variables are validated at runtime using `@t3-oss/env-nextjs` an
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 <s><i><b>🏁 7/25/2026 milestone</b></i></s><br/>
 <s><i><b>🏁 7/26/2026 milestone</b></i></s><br/>
-<i><b>🏁 7/27/2026 milestone</b></i>
+<i><b>🏁 7/27/2026 milestone - finished</b></i>
 
 ---
 
+```todo
+step: research for a better documenting approach
+```
+
 Here we implement the features one by one according to the spec file.
+we can use TEMPLATE.md to make steps for each feature
 
 ---
 
@@ -1283,6 +1289,14 @@ commit changes
 
 ```todo
 cleanup code from every production-unfriendly lines (logs, ets.)
+```
+
+```todo
+commit changes
+```
+
+```todo
+research for the proper license on github
 ```
 
 ```todo
