@@ -1101,12 +1101,12 @@ for I8 — Route protection for admin write routes
 using deepseek and grok
 For each of these refactors:
     Q: Are they worth doing? Or is doing them recommended at all?
-        yes? → go to next Q
+        yes? → go to next Q ⬅️
         no?
             wrap I8 in <s></s>
             commit changes
     Q: Is doing them recommended, but not in the way the refactor backlog suggested?
-        yes? → go to next Q
+        yes? → go to next Q ⬅️
         no?
             change I8 description
             commit changes
@@ -1116,15 +1116,31 @@ For each of these refactors:
 ```
 
 ```todo
-loop: do it with gemini and commit
+✅ step: new not-found page design
 ```
 
 ```todo
-tick I8 in refactor-backlog
+✅ commit changes
 ```
 
 ```todo
-commit refactor-backlog
+✅ step: work on src/middleware.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: verify protected routes with valid, expired, and missing token
+```
+
+```todo
+✅ tick I8 in refactor-backlog
+```
+
+```todo
+✅ commit refactor-backlog
 ```
 
 ---
@@ -1132,20 +1148,32 @@ commit refactor-backlog
 Here, the work related to the `refactor/pre-v2-infrastructure` branch is finished.
 
 ```todo
-checkout refactor/pre-v2-backlog
+✅ checkout refactor/pre-v2-backlog
 ```
 
 ```todo
-merge branch refactor/pre-v2-infrastructure into refactor/pre-v2-backlog
+✅ merge branch refactor/pre-v2-infrastructure into refactor/pre-v2-backlog
 ```
 
 ```todo
-delete refactor/pre-v2-infrastructure
+✅ delete refactor/pre-v2-infrastructure
 ```
 
 ---
 
 Here, the work related to the `refactor/pre-v2-backlog` branch is finished.
+
+```todo
+checkout staging
+```
+
+```todo
+merge branch refactor/pre-v2-backlog into staging
+```
+
+```todo
+delete refactor/pre-v2-backlog
+```
 
 ```todo
 git observatory update
@@ -1158,18 +1186,6 @@ commmit git observatory
 
 ```todo
 uploade git observatory to claude
-```
-
-```todo
-checkout staging
-```
-
-```todo
-merge branch refactor/pre-v2-backlog into staging
-```
-
-```todo
-delete refactor/pre-v2-backlog
 ```
 
 ---
