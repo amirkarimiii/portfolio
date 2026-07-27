@@ -1,8 +1,8 @@
 import clientPromise from "@/shared/lib/mongodb";
-import {ObjectId} from "mongodb";
+import { ADMIN_CONFIG_KEY } from "@/shared/constants/admin";
 
 export interface AdminConfigDocument {
-    _id: ObjectId;
+    key: string;
     passwordHash: string;
 }
 
@@ -22,7 +22,7 @@ export class AdminRepository {
     static async getAdminConfig(): Promise<AdminConfigDocument | null> {
         const db = await this.getDb();
         return await db.collection<AdminConfigDocument>('adminConfig').findOne({
-            _id: new ObjectId('6a4012498a8251c60725be91')
+            key: ADMIN_CONFIG_KEY,
         });
     }
 
