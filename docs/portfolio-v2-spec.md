@@ -123,6 +123,8 @@ Features:
 * Architecture explorer
 * CI/CD walkthroughs
 * Interactive system diagrams
+* Global article search
+* Full-text search with tag filtering
 
 This phase represents **Portfolio V2.1**.
 
@@ -231,6 +233,8 @@ Portfolio V2 is considered complete only when the following conditions are satis
 * [ ] Every technology drawer contains complete content.
 * [ ] Engineering Playground contains at least one complete architecture.
 * [ ] Analytical Bookshelf contains multiple documented learning analyses.
+* [ ] Full-text article search returns relevant results.
+* [ ] Search supports tag-based filtering.
 
 ---
 
@@ -285,7 +289,7 @@ Their inclusion will be evaluated in a future version once suitable technical an
 | Version  | Scope                                                                                                                   |
 |----------|-------------------------------------------------------------------------------------------------------------------------|
 | **V2.0** | Private publishing infrastructure + public portfolio + owner-only blog + AI/SEO foundations + Stack Mapping + Bookshelf |
-| **V2.1** | Interactive Engineering Playground and architecture exploration                                                         |
+| **V2.1** | Interactive Engineering Playground, architecture exploration, and global article search<br/>                            |
 | **V2.2** | Optional enhancements (Telegram messaging, telemetry, automation, and results of future interaction-feature research)   |
 
 ---
