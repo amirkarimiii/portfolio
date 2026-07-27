@@ -711,13 +711,13 @@ for I1 — Global API error handling
 using deepseek and grok
 For each of these refactors:
     Q: Are they worth doing? Or is doing them recommended at all? 
-        yes? → go to next Q ✅
+        yes? → go to next Q ⬅️
         no?
             wrap I1 in <s></s>
             commit changes
             go to I2
     Q: Is doing them recommended, but not in the way the refactor backlog suggested?
-        yes? → go to next Q ✅
+        yes? → go to next Q ⬅️
         no?
             change I1 description
             commit changes
@@ -808,13 +808,13 @@ for I2 — Request validation with Zod
 using deepseek and grok
 For each of these refactors:
     Q: Are they worth doing? Or is doing them recommended at all?
-        yes? → go to next Q
+        yes? → go to next Q ⬅️
         no?
             wrap I2 in <s></s>
             commit changes
             go to I4
     Q: Is doing them recommended, but not in the way the refactor backlog suggested?
-        yes? → go to next Q
+        yes? → go to next Q ⬅️
         no?
             change I2 description
             commit changes
@@ -824,15 +824,47 @@ For each of these refactors:
 ```
 
 ```todo
-loop: do it with gemini and commit
+✅ step: work on features/admin/schemas/authSchema.ts
 ```
 
 ```todo
-tick I2 in refactor-backlog
+✅ commit changes
 ```
 
 ```todo
-commit refactor-backlog
+✅ step: work on shared/lib/api/routeHandler.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on app/api/admin/login/route.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on features/admin/components/LoginDialog.tsx
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: verify validation with empty body, short/empty password, and valid password
+```
+
+```todo
+✅ tick I2 in refactor-backlog
+```
+
+```todo
+✅ commit refactor-backlog
 ```
 
 for I4 — `env.ts` completeness
