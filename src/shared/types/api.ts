@@ -6,6 +6,7 @@ export const ErrorCode = {
     SESSION_EXPIRED: 'SESSION_EXPIRED',
     VALIDATION_ERROR: 'VALIDATION_ERROR',
     NOT_FOUND: 'NOT_FOUND',
+    TOO_MANY_REQUESTS: 'TOO_MANY_REQUESTS'
 } as const;
 
 export type ErrorCodeType = (typeof ErrorCode)[keyof typeof ErrorCode];

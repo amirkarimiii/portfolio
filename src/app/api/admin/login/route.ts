@@ -3,9 +3,19 @@ import { AdminAuthService } from "@/features/admin/services/adminAuthService";
 import { withErrorHandler, createSuccessResponse, validateBody } from '@/shared/lib/api/routeHandler';
 import { AppError, ErrorCode } from '@/shared/types/api';
 import { LoginInputSchema } from '@/features/admin/schemas/authSchema';
-import {env} from "@/env";
+import { env } from "@/env";
+import { checkRateLimit } from '@/shared/lib/api/rateLimiter';
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
+    const rateLimit = checkRateLimit(request);
+    if (!rateLimit.success) {
+        throw new AppError(
+            'Too many login attempts. Please try again later.',
+            429,
+            ErrorCode.TOO_MANY_REQUESTS
+        );
+    }
+
     const { password } = await validateBody(request, LoginInputSchema);
 
     try {
