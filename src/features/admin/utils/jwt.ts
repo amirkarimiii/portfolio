@@ -1,4 +1,4 @@
-import {JWTPayload, jwtVerify, SignJWT} from 'jose';
+import { JWTPayload, jwtVerify, SignJWT } from 'jose';
 import { env } from '@/env';
 
 const ACCESS_SECRET = new TextEncoder().encode(env.JWT_ACCESS_SECRET);
@@ -16,23 +16,21 @@ export interface RefreshTokenPayload extends JWTPayload {
     type: 'refresh';
 }
 
-
 export async function signAccessToken(adminId: string): Promise<string> {
     return new SignJWT({ role: 'admin', type: 'access' })
         .setProtectedHeader({ alg: 'HS256' })
         .setSubject(adminId)
         .setIssuedAt()
-        .setExpirationTime('15m')
+        .setExpirationTime(env.JWT_ACCESS_EXPIRES_IN)
         .sign(ACCESS_SECRET);
 }
-
 
 export async function signRefreshToken(adminId: string, tokenId: string): Promise<string> {
     return new SignJWT({ tokenId, type: 'refresh' })
         .setProtectedHeader({ alg: 'HS256' })
         .setSubject(adminId)
         .setIssuedAt()
-        .setExpirationTime('7d')
+        .setExpirationTime(env.JWT_REFRESH_EXPIRES_IN)
         .sign(REFRESH_SECRET);
 }
 
@@ -45,7 +43,6 @@ export async function verifyAccessToken(token: string): Promise<AccessTokenPaylo
         return null;
     }
 }
-
 
 export async function verifyRefreshToken(token: string): Promise<RefreshTokenPayload | null> {
     try {
