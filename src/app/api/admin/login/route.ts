@@ -1,14 +1,11 @@
 import { NextRequest } from 'next/server';
 import { AdminAuthService } from "@/features/admin/services/adminAuthService";
-import { withErrorHandler, createSuccessResponse } from '@/shared/lib/api/routeHandler';
+import { withErrorHandler, createSuccessResponse, validateBody } from '@/shared/lib/api/routeHandler';
 import { AppError, ErrorCode } from '@/shared/types/api';
+import { LoginInputSchema } from '@/features/admin/schemas/authSchema';
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
-    const { password } = await request.json();
-
-    if (!password) {
-        throw new AppError('Password is required', 400, ErrorCode.VALIDATION_ERROR);
-    }
+    const { password } = await validateBody(request, LoginInputSchema);
 
     try {
         const { accessToken, refreshToken } = await AdminAuthService.login(password);
