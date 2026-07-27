@@ -9,6 +9,8 @@ export const env = createEnv({
         JWT_REFRESH_SECRET: z.string().min(32, "JWT_REFRESH_SECRET must be at least 32 characters"),
         JWT_ACCESS_EXPIRES_IN: z.string().default("15m"),
         JWT_REFRESH_EXPIRES_IN: z.string().default("7d"),
+        MAX_LOGIN_ATTEMPTS: z.coerce.number().default(5),
+        LOGIN_RATE_LIMIT_WINDOW_MS: z.coerce.number().default(15 * 60 * 1000),
     },
     client: {},
     runtimeEnv: {
@@ -18,6 +20,8 @@ export const env = createEnv({
         JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET,
         JWT_ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN,
         JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN,
+        MAX_LOGIN_ATTEMPTS: process.env.MAX_LOGIN_ATTEMPTS,
+        LOGIN_RATE_LIMIT_WINDOW_MS: process.env.LOGIN_RATE_LIMIT_WINDOW_MS,
     },
     onValidationError: (error) => {
         console.error("Invalid environment variables:", error);
