@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Eye, EyeOff, InfoIcon } from "lucide-react";
 import { useLoginDialog } from "@/features/admin/stores/loginDialogStore";
 import { useAdminLogin } from "@/features/admin/hooks/useAdminAuth";
+import { LoginInputSchema } from "@/features/admin/schemas/authSchema";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/shared/components/ui/dialog";
 import { Field, FieldGroup } from "@/shared/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/shared/components/ui/input-group";
@@ -17,12 +18,14 @@ export function LoginDialog() {
 
     const [visible, setVisible] = useState(false);
     const [password, setPassword] = useState("");
+    const [clientError, setClientError] = useState<string | null>(null);
 
-    const { mutate: login, isPending, error, reset } = useAdminLogin();
+    const { mutate: login, isPending, error: serverError, reset } = useAdminLogin();
 
     const handleOpenChange = (isOpen: boolean) => {
         if (!isOpen) {
             setPassword("");
+            setClientError(null);
             reset();
         }
         setOpen(isOpen);
@@ -30,22 +33,32 @@ export function LoginDialog() {
 
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
-        if (error) {
-            reset();
-        }
+        if (clientError) setClientError(null);
+        if (serverError) reset();
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!password.trim() || isPending) return;
+        if (isPending) return;
 
-        login(password, {
+        const validationResult = LoginInputSchema.safeParse({ password });
+
+        if (!validationResult.success) {
+            const firstError = validationResult.error.issues[0]?.message || "Invalid input";
+            setClientError(firstError);
+            return;
+        }
+
+        login(validationResult.data.password, {
             onSuccess: () => {
                 setPassword("");
+                setClientError(null);
                 setOpen(false);
             },
         });
     };
+
+    const activeError = clientError || serverError?.message;
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -77,11 +90,11 @@ export function LoginDialog() {
                                     </button>
                                 </InputGroupAddon>
                             </InputGroup>
-                            {error && (
+                            {activeError && (
                                 <Alert variant="destructive" className="mt-2">
                                     <InfoIcon className="w-4 h-4" />
                                     <AlertTitle className="text-xs">
-                                        {error.message || "Authentication failed"}
+                                        {activeError}
                                     </AlertTitle>
                                 </Alert>
                             )}
