@@ -45,7 +45,7 @@ Each item below will eventually map to: `branch` → `adr-000X` → implementati
   Currently only validates `MONGODB_URI` and `NODE_ENV`. Missing keys likely needed soon (`JWT_SECRET` if D1 goes JWT-based, `ADMIN_PASSWORD_HASH`, etc.). Also: codebase should consistently import from `env.ts` rather than reading `process.env` directly (currently done in `login/route.ts`).
 - [x] **I5 — Hardcoded ObjectId**
   `ObjectId('6a4012498a8251c60725be91')` is hardcoded in `login/route.ts` to look up admin config. Fragile against DB reseeding/migration; needs to move to a constant or config lookup by a stable key.
-- [ ] **I6 — Rate limiting on `/api/admin/login`**
+- [x] **I6 — Rate limiting on `/api/admin/login`**
   No protection against brute-force attempts. Required by Definition of Done (Goal 3: "login rate limiting").
 - [ ] **I7 — Session cleanup strategy**
   Expired sessions in `adminSessions` are only cleaned up lazily (on next lookup). Consider a MongoDB TTL index on `expiresAt` for automatic cleanup.
