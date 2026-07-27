@@ -1,19 +1,19 @@
-import { NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { AdminAuthService } from "@/features/admin/services/adminAuthService";
+import { withErrorHandler, createSuccessResponse } from '@/shared/lib/api/routeHandler';
+import { AppError, ErrorCode } from '@/shared/types/api';
 
-export async function POST(request: Request) {
+export const POST = withErrorHandler(async (request: NextRequest) => {
+    const { password } = await request.json();
+
+    if (!password) {
+        throw new AppError('Password is required', 400, ErrorCode.VALIDATION_ERROR);
+    }
+
     try {
-        const { password } = await request.json();
-        if (!password) {
-            return NextResponse.json(
-                { error: 'Password required' },
-                { status: 400 }
-            );
-        }
-
         const { accessToken, refreshToken } = await AdminAuthService.login(password);
 
-        const response = NextResponse.json({ success: true });
+        const response = createSuccessResponse({ success: true });
         const isProduction = process.env.NODE_ENV === 'production';
 
         response.cookies.set({
@@ -37,18 +37,15 @@ export async function POST(request: Request) {
         });
 
         return response;
-    } catch (e) {
+    } catch (e: unknown) {
         if (e instanceof Error) {
             if (e.message === 'SERVER_CONFIG_MISSING') {
-                return NextResponse.json({ error: 'Server configuration missing' }, { status: 500 });
+                throw new AppError('Server configuration missing', 500, ErrorCode.SERVER_CONFIG_MISSING);
             }
             if (e.message === 'INVALID_CREDENTIALS') {
-                return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+                throw new AppError('Invalid credentials', 401, ErrorCode.INVALID_CREDENTIALS);
             }
         }
-        return NextResponse.json(
-            { error: "Internal server error" },
-            { status: 500 }
-        );
+        throw e;
     }
-}
+});
