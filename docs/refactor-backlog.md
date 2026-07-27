@@ -47,7 +47,7 @@ Each item below will eventually map to: `branch` → `adr-000X` → implementati
   `ObjectId('6a4012498a8251c60725be91')` is hardcoded in `login/route.ts` to look up admin config. Fragile against DB reseeding/migration; needs to move to a constant or config lookup by a stable key.
 - [x] **I6 — Rate limiting on `/api/admin/login`**
   No protection against brute-force attempts. Required by Definition of Done (Goal 3: "login rate limiting").
-- [ ] **I7 — Session cleanup strategy**
+- [x] **I7 — Session cleanup strategy**
   Expired sessions in `adminSessions` are only cleaned up lazily (on next lookup). Consider a MongoDB TTL index on `expiresAt` for automatic cleanup.
 - [ ] **I8 — Route protection for admin write routes**
   No middleware currently protects admin-only routes; needed before article authoring API exists (Definition of Done, Goal 3).
