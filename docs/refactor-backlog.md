@@ -35,7 +35,7 @@ Each item below will eventually map to: `branch` → `adr-000X` → implementati
 
 ## Infrastructure / cross-cutting concerns
 
-- [ ] **I1 — Global API error handling**
+- [x] **I1 — Global API error handling**
   No shared error shape or handler; each route currently does its own try/catch with inconsistent response shapes (`{success:true}`, `{authenticated:false}`, `{error:"..."}`). Needs a standardized `ApiResponse<T>` type and a shared handler/wrapper for route handlers.
 - [ ] **I2 — Request validation with Zod**
   No schema validation on API input (e.g. `login` only checks `if (!password)`). Needs shared `schemas/` (or `types/`) with Zod schemas per endpoint, reused client + server side.
