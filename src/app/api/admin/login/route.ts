@@ -3,6 +3,7 @@ import { AdminAuthService } from "@/features/admin/services/adminAuthService";
 import { withErrorHandler, createSuccessResponse, validateBody } from '@/shared/lib/api/routeHandler';
 import { AppError, ErrorCode } from '@/shared/types/api';
 import { LoginInputSchema } from '@/features/admin/schemas/authSchema';
+import {env} from "@/env";
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
     const { password } = await validateBody(request, LoginInputSchema);
@@ -11,7 +12,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
         const { accessToken, refreshToken } = await AdminAuthService.login(password);
 
         const response = createSuccessResponse({ success: true });
-        const isProduction = process.env.NODE_ENV === 'production';
+        const isProduction = env.NODE_ENV === 'production';
 
         response.cookies.set({
             name: 'admin_access_token',
