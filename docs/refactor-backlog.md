@@ -41,7 +41,7 @@ Each item below will eventually map to: `branch` → `adr-000X` → implementati
   No schema validation on API input (e.g. `login` only checks `if (!password)`). Needs shared `schemas/` (or `types/`) with Zod schemas per endpoint, reused client + server side.
 - [ ] **I3 — Domain types / DTOs**
   No shared type definitions yet for entities the V2 features depend on: Article, Book, TechStack, Project. Needs a home (`types/` or `shared/types/`) before feature work starts.
-- [ ] **I4 — `env.ts` completeness**
+- [x] **I4 — `env.ts` completeness**
   Currently only validates `MONGODB_URI` and `NODE_ENV`. Missing keys likely needed soon (`JWT_SECRET` if D1 goes JWT-based, `ADMIN_PASSWORD_HASH`, etc.). Also: codebase should consistently import from `env.ts` rather than reading `process.env` directly (currently done in `login/route.ts`).
 - [ ] **I5 — Hardcoded ObjectId**
   `ObjectId('6a4012498a8251c60725be91')` is hardcoded in `login/route.ts` to look up admin config. Fragile against DB reseeding/migration; needs to move to a constant or config lookup by a stable key.

@@ -1,6 +1,6 @@
 Right now, as this file is being written as a draft, we are inside the `refactor/pre-v2-architecture` branch.
 
-Here we need to investigate whether it wouldn't be better to check out staging and then rebase the refactor/pre-v2-backlog branch afterwards.
+Here we need to investigate whether it wouldn't be better to check out staging and then rebase the refactor/pre-v2-backlog branch afterward.
 
 ```todo
 ask for decision in rebasing in chatgpt.
@@ -873,13 +873,13 @@ for I4 — `env.ts` completeness
 using deepseek and grok
 For each of these refactors:
     Q: Are they worth doing? Or is doing them recommended at all?
-        yes? → go to next Q
+        yes? → go to next Q ⬅️
         no?
             wrap I4 in <s></s>
             commit changes
             go to I5
     Q: Is doing them recommended, but not in the way the refactor backlog suggested?
-        yes? → go to next Q
+        yes? → go to next Q ⬅️
         no?
             change I4 description
             commit changes
@@ -889,15 +889,63 @@ For each of these refactors:
 ```
 
 ```todo
-loop: do it with gemini and commit
+✅ step: work on env.ts
 ```
 
 ```todo
-tick I4 in refactor-backlog
+✅ commit changes
 ```
 
 ```todo
-commit refactor-backlog
+✅ step: work on app/api/admin/login/route.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on app/api/admin/session/route.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on features/admin/services/adminAuthService.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on features/admin/utils/jwt.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on .env.example
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: verify app runs without errors and reacts correctly to missing required .env keys
+```
+
+```todo
+✅ tick I4 in refactor-backlog
+```
+
+```todo
+✅ commit refactor-backlog
 ```
 
 for I5 — Hardcoded ObjectId
@@ -1108,6 +1156,29 @@ step: create documentation file explaining how AI is used in the project
 commit changes
 ```
 
+```todo
+step: create documentation file for teckstack
+explicitly add this:
+## Environment Variables Setup
+
+All environment variables are validated at runtime using `@t3-oss/env-nextjs` and Zod (`env.ts`).
+
+### MongoDB Connection (`MONGODB_URI`)
+
+> ⚠️ **Important Note on MongoDB Atlas Connection Strings:**
+> Avoid using the SRV connection string style (`mongodb+srv://...`) if your network environment or node runtime exhibits DNS lookup issues with Node's native `dns` module.
+> 
+> **Recommended Format (Standard Seed List):**
+> Use the legacy/standard multi-node connection string with explicit port numbers and query parameters:
+> `` `text
+> mongodb://<user>:<password>@node1.example.net:27017,node2.example.net:27017/portfolio?ssl=true&replicaSet=atlas-xxx&authSource=admin
+> `` `
+```
+
+```todo
+commit changes
+```
+
 ---
 
 Here we need to investigate what the issue with staging and Vercel is; after we've looked into it and applied a potential fix, we'll push to staging.
@@ -1129,6 +1200,10 @@ Here we implement the features one by one according to the spec file.
 ---
 
 Here we perform pre-production cleanups
+
+```todo
+‼️IMPORTANT: change mongo atlas password
+```
 
 ```todo
 working on file next.config.ts (production-ready configuration)
