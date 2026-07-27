@@ -2,15 +2,14 @@
 
 import React, { useState } from "react";
 import { Eye, EyeOff, InfoIcon } from "lucide-react";
-import {useLoginDialog} from "@/features/admin/stores/loginDialogStore";
-import {useAdminLogin} from "@/features/admin/hooks/useAdminAuth";
-import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/shared/components/ui/dialog";
-import {Field, FieldGroup} from "@/shared/components/ui/field";
-import {InputGroup, InputGroupAddon, InputGroupInput} from "@/shared/components/ui/input-group";
-import {Label} from "@/shared/components/ui/label";
-import {Alert, AlertTitle} from "@/shared/components/ui/alert";
-import {Button} from "@/shared/components/ui/button";
-
+import { useLoginDialog } from "@/features/admin/stores/loginDialogStore";
+import { useAdminLogin } from "@/features/admin/hooks/useAdminAuth";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/shared/components/ui/dialog";
+import { Field, FieldGroup } from "@/shared/components/ui/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/shared/components/ui/input-group";
+import { Label } from "@/shared/components/ui/label";
+import { Alert, AlertTitle } from "@/shared/components/ui/alert";
+import { Button } from "@/shared/components/ui/button";
 
 export function LoginDialog() {
     const open = useLoginDialog((s) => s.open);
@@ -19,7 +18,22 @@ export function LoginDialog() {
     const [visible, setVisible] = useState(false);
     const [password, setPassword] = useState("");
 
-    const { mutate: login, isPending, error } = useAdminLogin();
+    const { mutate: login, isPending, error, reset } = useAdminLogin();
+
+    const handleOpenChange = (isOpen: boolean) => {
+        if (!isOpen) {
+            setPassword("");
+            reset();
+        }
+        setOpen(isOpen);
+    };
+
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
+        if (error) {
+            reset();
+        }
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,9 +48,9 @@ export function LoginDialog() {
     };
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogContent className="flex flex-col items-center max-w-sm" showCloseButton={false}>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="w-full flex flex-col items-center">
                     <DialogHeader>
                         <DialogTitle className="text-center text-2xl">Login</DialogTitle>
                     </DialogHeader>
@@ -48,19 +62,24 @@ export function LoginDialog() {
                                     type={visible ? "text" : "password"}
                                     id="pass"
                                     value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={handlePasswordChange}
                                     disabled={isPending}
                                     autoFocus
                                 />
                                 <InputGroupAddon align="inline-end" className="cursor-pointer">
-                                    <div className="w-5 h-5" onClick={() => setVisible(!visible)}>
-                                        {visible ? <EyeOff /> : <Eye />}
-                                    </div>
+                                    <button
+                                        type="button"
+                                        className="w-5 h-5 flex items-center justify-center focus:outline-none"
+                                        onClick={() => setVisible(!visible)}
+                                        tabIndex={-1}
+                                    >
+                                        {visible ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                    </button>
                                 </InputGroupAddon>
                             </InputGroup>
                             {error && (
-                                <Alert variant="destructive">
-                                    <InfoIcon />
+                                <Alert variant="destructive" className="mt-2">
+                                    <InfoIcon className="w-4 h-4" />
                                     <AlertTitle className="text-xs">
                                         {error.message || "Authentication failed"}
                                     </AlertTitle>
