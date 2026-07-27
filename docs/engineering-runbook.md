@@ -1064,13 +1064,13 @@ for I7 — Session cleanup strategy
 using deepseek and grok
 For each of these refactors:
     Q: Are they worth doing? Or is doing them recommended at all?
-        yes? → go to next Q
+        yes? → go to next Q ⬅️
         no?
             wrap I7 in <s></s>
             commit changes
             go to I8
     Q: Is doing them recommended, but not in the way the refactor backlog suggested?
-        yes? → go to next Q
+        yes? → go to next Q ⬅️
         no?
             change I7 description
             commit changes
@@ -1080,15 +1080,19 @@ For each of these refactors:
 ```
 
 ```todo
-loop: do it with gemini and commit
+✅ step: create TTL index on adminRefreshTokens collection
 ```
 
 ```todo
-tick I7 in refactor-backlog
+✅ step: verify TTL index auto-deletes expired documents
 ```
 
 ```todo
-commit refactor-backlog
+✅ tick I7 in refactor-backlog
+```
+
+```todo
+✅ commit refactor-backlog
 ```
 
 for I8 — Route protection for admin write routes
