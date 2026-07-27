@@ -1164,28 +1164,40 @@ Here, the work related to the `refactor/pre-v2-infrastructure` branch is finishe
 Here, the work related to the `refactor/pre-v2-backlog` branch is finished.
 
 ```todo
-checkout staging
+✅ checkout staging
 ```
 
 ```todo
-merge branch refactor/pre-v2-backlog into staging
+✅ merge branch refactor/pre-v2-backlog into staging
 ```
 
 ```todo
-delete refactor/pre-v2-backlog
+✅ delete refactor/pre-v2-backlog
 ```
 
 ```todo
-git observatory update
+✅ git observatory update
 with claude
 ```
 
 ```todo
-commmit git observatory
+✅ commmit git observatory
 ```
 
 ```todo
-uploade git observatory to claude
+✅ uploade git observatory to claude
+```
+
+---
+
+Here we need to investigate what the issue with staging and Vercel is; after we've looked into it and applied a potential fix, we'll push to staging.
+
+```todo
+✅ research in deepseek and grok
+```
+
+```todo
+push staging
 ```
 
 ---
@@ -1241,14 +1253,6 @@ All environment variables are validated at runtime using `@t3-oss/env-nextjs` an
 
 ```todo
 commit changes
-```
-
----
-
-Here we need to investigate what the issue with staging and Vercel is; after we've looked into it and applied a potential fix, we'll push to staging.
-
-```todo
-research in deepseek and grok
 ```
 
 <s><i><b>🏁 7/25/2026 milestone</b></i></s><br/>
