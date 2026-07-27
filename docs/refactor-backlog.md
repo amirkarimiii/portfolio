@@ -49,7 +49,7 @@ Each item below will eventually map to: `branch` → `adr-000X` → implementati
   No protection against brute-force attempts. Required by Definition of Done (Goal 3: "login rate limiting").
 - [x] **I7 — Session cleanup strategy**
   Expired sessions in `adminSessions` are only cleaned up lazily (on next lookup). Consider a MongoDB TTL index on `expiresAt` for automatic cleanup.
-- [ ] **I8 — Route protection for admin write routes**
+- [x] **I8 — Route protection for admin write routes**
   No middleware currently protects admin-only routes; needed before article authoring API exists (Definition of Done, Goal 3).
 - [ ] **I9 — Constants expansion**
   `common/constants/` currently has only `ids.ts` and `paths.ts`. Will likely need `routes.ts`, `metadata.ts`, `nav.ts`, `admin.ts` as features grow — centralize magic strings as they appear rather than after the fact.
