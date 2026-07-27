@@ -1261,6 +1261,7 @@ All environment variables are validated at runtime using `@t3-oss/env-nextjs` an
 <i><b>🏁 7/27/2026 milestone - finished</b></i>
 
 ---
+<i><b>🏁 7/28/2026 start </b></i>
 
 ```todo
 step: research for a better documenting approach
@@ -1268,6 +1269,12 @@ step: research for a better documenting approach
 
 Here we implement the features one by one according to the spec file.
 we can use TEMPLATE.md to make steps for each feature
+
+```todo
+loop: make Admin feature implementation steps here
+```
+
+<i><b>🏁 7/28/2026 milestone</b></i>
 
 ---
 
