@@ -1007,13 +1007,13 @@ for I6 — Rate limiting on `/api/admin/login`
 using deepseek and grok
 For each of these refactors:
     Q: Are they worth doing? Or is doing them recommended at all?
-        yes? → go to next Q
+        yes? → go to next Q ⬅️
         no?
             wrap I6 in <s></s>
             commit changes
             go to I7
     Q: Is doing them recommended, but not in the way the refactor backlog suggested?
-        yes? → go to next Q
+        yes? → go to next Q ⬅️
         no?
             change I6 description
             commit changes
@@ -1023,15 +1023,39 @@ For each of these refactors:
 ```
 
 ```todo
-loop: do it with gemini and commit
+✅ step: work on env.ts
 ```
 
 ```todo
-tick I6 in refactor-backlog
+✅ commit changes
 ```
 
 ```todo
-commit refactor-backlog
+✅ step: work on shared/lib/api/rateLimiter.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on app/api/admin/login/route.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: verify consecutive requests get blocked with 429 after reaching the limit
+```
+
+```todo
+✅ tick I6 in refactor-backlog
+```
+
+```todo
+✅ commit refactor-backlog
 ```
 
 for I7 — Session cleanup strategy
