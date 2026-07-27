@@ -708,7 +708,22 @@ These seven tasks need to be done, but they don't require separate branches or A
 for I1 — Global API error handling
 
 ```todo
-research for it in deepseek
+using deepseek and grok
+For each of these refactors:
+    Q: Are they worth doing? Or is doing them recommended at all?
+        yes? → go to next Q
+        no?
+            wrap I1 in <s></s>
+            commit changes
+            go to I2
+    Q: Is doing them recommended, but not in the way the refactor backlog suggested?
+        yes? → go to next Q
+        no?
+            change I1 description
+            commit changes
+            go to next Q
+    Q: If they should be done, what is the best practice for doing them?
+        change the loop below into clearer steps
 ```
 
 ```todo
@@ -726,7 +741,22 @@ commit refactor-backlog
 for I2 — Request validation with Zod
 
 ```todo
-research for it in deepseek
+using deepseek and grok
+For each of these refactors:
+    Q: Are they worth doing? Or is doing them recommended at all?
+        yes? → go to next Q
+        no?
+            wrap I2 in <s></s>
+            commit changes
+            go to I4
+    Q: Is doing them recommended, but not in the way the refactor backlog suggested?
+        yes? → go to next Q
+        no?
+            change I2 description
+            commit changes
+            go to next Q
+    Q: If they should be done, what is the best practice for doing them?
+        change the loop below into clearer steps
 ```
 
 ```todo
@@ -744,7 +774,22 @@ commit refactor-backlog
 for I4 — `env.ts` completeness
 
 ```todo
-research for it in deepseek
+using deepseek and grok
+For each of these refactors:
+    Q: Are they worth doing? Or is doing them recommended at all?
+        yes? → go to next Q
+        no?
+            wrap I4 in <s></s>
+            commit changes
+            go to I5
+    Q: Is doing them recommended, but not in the way the refactor backlog suggested?
+        yes? → go to next Q
+        no?
+            change I4 description
+            commit changes
+            go to next Q
+    Q: If they should be done, what is the best practice for doing them?
+        change the loop below into clearer steps
 ```
 
 ```todo
@@ -762,7 +807,22 @@ commit refactor-backlog
 for I5 — Hardcoded ObjectId
 
 ```todo
-research for it in deepseek
+using deepseek and grok
+For each of these refactors:
+    Q: Are they worth doing? Or is doing them recommended at all?
+        yes? → go to next Q
+        no?
+            wrap I5 in <s></s>
+            commit changes
+            go to I6
+    Q: Is doing them recommended, but not in the way the refactor backlog suggested?
+        yes? → go to next Q
+        no?
+            change I5 description
+            commit changes
+            go to next Q
+    Q: If they should be done, what is the best practice for doing them?
+        change the loop below into clearer steps
 ```
 
 ```todo
@@ -780,7 +840,22 @@ commit refactor-backlog
 for I6 — Rate limiting on `/api/admin/login`
 
 ```todo
-research for it in deepseek
+using deepseek and grok
+For each of these refactors:
+    Q: Are they worth doing? Or is doing them recommended at all?
+        yes? → go to next Q
+        no?
+            wrap I6 in <s></s>
+            commit changes
+            go to I7
+    Q: Is doing them recommended, but not in the way the refactor backlog suggested?
+        yes? → go to next Q
+        no?
+            change I6 description
+            commit changes
+            go to next Q
+    Q: If they should be done, what is the best practice for doing them?
+        change the loop below into clearer steps
 ```
 
 ```todo
@@ -798,7 +873,22 @@ commit refactor-backlog
 for I7 — Session cleanup strategy
 
 ```todo
-research for it in deepseek
+using deepseek and grok
+For each of these refactors:
+    Q: Are they worth doing? Or is doing them recommended at all?
+        yes? → go to next Q
+        no?
+            wrap I7 in <s></s>
+            commit changes
+            go to I8
+    Q: Is doing them recommended, but not in the way the refactor backlog suggested?
+        yes? → go to next Q
+        no?
+            change I7 description
+            commit changes
+            go to next Q
+    Q: If they should be done, what is the best practice for doing them?
+        change the loop below into clearer steps
 ```
 
 ```todo
@@ -816,7 +906,21 @@ commit refactor-backlog
 for I8 — Route protection for admin write routes
 
 ```todo
-research for it in deepseek
+using deepseek and grok
+For each of these refactors:
+    Q: Are they worth doing? Or is doing them recommended at all?
+        yes? → go to next Q
+        no?
+            wrap I8 in <s></s>
+            commit changes
+    Q: Is doing them recommended, but not in the way the refactor backlog suggested?
+        yes? → go to next Q
+        no?
+            change I8 description
+            commit changes
+            go to next Q
+    Q: If they should be done, what is the best practice for doing them?
+        change the loop below into clearer steps
 ```
 
 ```todo
