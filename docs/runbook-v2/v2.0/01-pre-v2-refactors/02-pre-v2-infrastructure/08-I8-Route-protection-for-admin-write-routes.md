@@ -45,3 +45,7 @@ For each of these refactors:
 ```todo
 ✅ commit refactor-backlog
 ```
+
+```todo
+✅ go to 01-pre-v2-infrastructure.md line 30
+```

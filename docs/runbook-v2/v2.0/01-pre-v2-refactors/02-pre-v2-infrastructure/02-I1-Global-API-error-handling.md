@@ -8,7 +8,7 @@ For each of these refactors:
         no?
             wrap I1 in <s></s>
             commit changes
-            go to I2
+            go to 03-I2-Request-validation-with-Zod.md
     Q: Is doing them recommended, but not in the way the refactor backlog suggested?
         yes? → go to next Q ⬅️
         no?
@@ -93,4 +93,8 @@ For each of these refactors:
 
 ```todo
 ✅ commit refactor-backlog
+```
+
+```todo
+✅ go to 03-I2-Request-validation-with-Zod.md
 ```

@@ -8,7 +8,7 @@ For each of these refactors:
         no?
             wrap I2 in <s></s>
             commit changes
-            go to I4
+            go to 04-I4-env.ts-completeness.md
     Q: Is doing them recommended, but not in the way the refactor backlog suggested?
         yes? → go to next Q ⬅️
         no?
@@ -61,4 +61,8 @@ For each of these refactors:
 
 ```todo
 ✅ commit refactor-backlog
+```
+
+```todo
+✅ go to 04-I4-env.ts-completeness.md
 ```

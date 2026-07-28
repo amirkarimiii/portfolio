@@ -1,45 +1,7 @@
-Here, the work related to the `refactor/pre-v2-infrastructure` branch is finished.
-
-```todo
-✅ checkout refactor/pre-v2-backlog
-```
-
-```todo
-✅ merge branch refactor/pre-v2-infrastructure into refactor/pre-v2-backlog
-```
-
-```todo
-✅ delete refactor/pre-v2-infrastructure
-```
 
 ---
 
-Here, the work related to the `refactor/pre-v2-backlog` branch is finished.
 
-```todo
-✅ checkout staging
-```
-
-```todo
-✅ merge branch refactor/pre-v2-backlog into staging
-```
-
-```todo
-✅ delete refactor/pre-v2-backlog
-```
-
-```todo
-✅ git observatory update
-with claude
-```
-
-```todo
-✅ commmit git observatory
-```
-
-```todo
-✅ uploade git observatory to claude
-```
 
 ---
 

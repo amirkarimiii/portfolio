@@ -24,3 +24,26 @@ These seven tasks need to be done, but they don't require separate branches or A
   Expired sessions in `adminSessions` are only cleaned up lazily (on next lookup). Consider a MongoDB TTL index on `expiresAt` for automatic cleanup.
 - [ ] **I8 — Route protection for admin write routes**
   No middleware currently protects admin-only routes; needed before article authoring API exists (Definition of Done, Goal 3).
+
+
+```todo
+✅ go to 02-I1-Global-API-error-handling.md
+```
+
+Here, the work related to the `refactor/pre-v2-infrastructure` branch is finished.
+
+```todo
+✅ checkout refactor/pre-v2-backlog
+```
+
+```todo
+✅ merge branch refactor/pre-v2-infrastructure into refactor/pre-v2-backlog
+```
+
+```todo
+✅ delete refactor/pre-v2-infrastructure
+```
+
+```todo
+✅ go to 01-pre-refactors-runbook.md line 112
+```

@@ -8,7 +8,7 @@ For each of these refactors:
         no?
             wrap I4 in <s></s>
             commit changes
-            go to I5
+            go to 05-I5-Hardcoded-ObjectId.md
     Q: Is doing them recommended, but not in the way the refactor backlog suggested?
         yes? → go to next Q ⬅️
         no?
@@ -77,4 +77,8 @@ For each of these refactors:
 
 ```todo
 ✅ commit refactor-backlog
+```
+
+```todo
+✅ go to 05-I5-Hardcoded-ObjectId.md
 ```

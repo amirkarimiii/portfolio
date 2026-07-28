@@ -8,7 +8,7 @@ For each of these refactors:
         no?
             wrap I6 in <s></s>
             commit changes
-            go to I7
+            go to 07-I7-Session-cleanup-strategy.md
     Q: Is doing them recommended, but not in the way the refactor backlog suggested?
         yes? → go to next Q ⬅️
         no?
@@ -53,4 +53,8 @@ For each of these refactors:
 
 ```todo
 ✅ commit refactor-backlog
+```
+
+```todo
+✅ go to 07-I7-Session-cleanup-strategy.md
 ```

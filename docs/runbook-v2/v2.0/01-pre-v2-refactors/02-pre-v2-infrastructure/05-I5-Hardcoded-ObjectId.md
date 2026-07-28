@@ -8,7 +8,7 @@ For each of these refactors:
         no?
             wrap I5 in <s></s>
             commit changes
-            go to I6
+            go to 06-I6-Rate-limiting-on-api-admin-login.md
     Q: Is doing them recommended, but not in the way the refactor backlog suggested?
         yes? → go to next Q ⬅️
         no?
@@ -49,4 +49,8 @@ For each of these refactors:
 
 ```todo
 ✅ commit refactor-backlog
+```
+
+```todo
+✅ go to 06-I6-Rate-limiting-on-api-admin-login.md
 ```

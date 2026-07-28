@@ -104,3 +104,34 @@ We're switching back to `refactor/pre-v2-backlog`.
 ```todo
 ✅ checkout refactor/pre-v2-architecture
 ```
+
+```todo
+✅ go to 01-pre-v2-architecture.md
+```
+
+Here, the work related to the `refactor/pre-v2-backlog` branch is finished.
+
+```todo
+✅ checkout staging
+```
+
+```todo
+✅ merge branch refactor/pre-v2-backlog into staging
+```
+
+```todo
+✅ delete refactor/pre-v2-backlog
+```
+
+```todo
+✅ git observatory update
+with claude
+```
+
+```todo
+✅ commmit git observatory
+```
+
+```todo
+✅ uploade git observatory to claude
+```
