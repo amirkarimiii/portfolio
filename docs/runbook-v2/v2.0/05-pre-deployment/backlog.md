@@ -27,3 +27,11 @@ research for the proper license on github
 ```todo
 commit changes
 ```
+
+```todo
+step: Clean the documents from verbosity
+```
+
+```todo
+commit changes
+```
