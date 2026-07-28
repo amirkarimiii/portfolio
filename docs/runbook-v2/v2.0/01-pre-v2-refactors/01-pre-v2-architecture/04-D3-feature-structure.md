@@ -123,3 +123,7 @@ with chatgpt
 ```todo
 ✅ delete refactor/feature-structure
 ```
+
+```todo
+✅ go to 05-D4-application-service.md
+```

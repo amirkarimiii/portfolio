@@ -89,3 +89,7 @@ with chatgpt
 ```todo
 ✅ delete refactor/state-split
 ```
+
+```todo
+✅ go to 04-D3-feature-structure.md
+```

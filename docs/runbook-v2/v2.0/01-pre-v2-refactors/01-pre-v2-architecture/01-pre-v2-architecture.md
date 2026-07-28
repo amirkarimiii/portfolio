@@ -90,3 +90,33 @@ D4 — Application service architectur
 ```todo
 ✅ upload git-observatory to claude
 ```
+
+```todo
+✅ go to 02-D1-auth-model.md
+```
+
+Here, the work related to the `refactor/pre-v2-architecture` branch is finished.
+
+```todo
+✅ checkout refactor/pre-v2-backlog
+```
+
+```todo
+✅ merge branch refactor/pre-v2-architecture into refactor/pre-v2-backlog
+```
+
+```todo
+✅ delete refactor/pre-v2-architecture
+```
+
+```todo
+✅ update git observatory
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ upload git observatory to claude
+```

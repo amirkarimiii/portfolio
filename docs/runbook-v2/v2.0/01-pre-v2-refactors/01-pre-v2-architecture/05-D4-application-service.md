@@ -97,3 +97,7 @@ with chatgpt
 ```todo
 ✅ delete refactor/application-service
 ```
+
+```todo
+✅ go to 01-pre-v2-architecture.md line 98
+```

@@ -90,3 +90,7 @@ with chatgpt
 ```todo
 ✅ delete refactor/auth-model
 ```
+
+```todo
+✅ go to 03-D2-state-split.md
+```

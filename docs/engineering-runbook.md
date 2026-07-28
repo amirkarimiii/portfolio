@@ -2,35 +2,6 @@
 
 ---
 
-Here, the work related to the `refactor/pre-v2-architecture` branch is finished.
-
-```todo
-✅ checkout refactor/pre-v2-backlog
-```
-
-
-```todo
-✅ merge branch refactor/pre-v2-architecture into refactor/pre-v2-backlog
-```
-
-```todo
-✅ delete refactor/pre-v2-architecture
-```
-
-```todo
-✅ update git observatory
-```
-
-```todo
-✅ commit changes
-```
-
-```todo
-✅ upload git observatory to claude
-```
-
----
-
 Here, the work related to the `refactor/pre-v2-infrastructure` branch begins.
 
 ```todo
