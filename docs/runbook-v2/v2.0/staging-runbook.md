@@ -56,3 +56,28 @@ with chatgpt
 ```todo
 ✅ step: research for a better documenting approach
 ```
+
+---
+
+```todo
+For commit messages related to runbook, research define a new mark or keep the same doc mark?
+if ok:
+  add new mark to conventions
+  add to conventions changelog
+  commit changes
+  upload conventions to claude
+in not ok:
+  continue
+```
+
+```todo
+step: add a new instruction to grok in firefox in order to fix unnecessary "commit changes" messages
+```
+
+```todo
+step: change ai-integration document, add a new role for grok. making steps in runbook from personal planning drafts
+```
+
+```todo
+commit changes
+```

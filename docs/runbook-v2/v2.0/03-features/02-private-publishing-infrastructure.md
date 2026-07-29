@@ -20,6 +20,26 @@ using deepseek
 ✅ commit changes
 ```
 
+```todo
+step: In V2 Feature Branch Registry, correct the branch names: feature/private-publishing-infra → feature/private-publishing (or newer name, both in the table and in the subsection header); feature/aio-geo-suite → feature/ai-optimization
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: In observatory for the branch refactor/pre-v2-backlog (which has been merged and deleted) add the final status sentence, similar to what was done for refactor/pre-v2-architecture
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: make branch: [ ]
+```
+
 Here we do cleanups
 
 ```todo
@@ -429,22 +449,6 @@ commit changes
 
 ```todo
 change status in TRACKING for this feature
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: In V2 Feature Branch Registry, correct the branch names: feature/private-publishing-infra → feature/private-publishing (both in the table and in the subsection header); feature/aio-geo-suite → feature/ai-optimization
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: In observatory for the branch refactor/pre-v2-backlog (which has been merged and deleted) add the final status sentence, similar to what was done for refactor/pre-v2-architecture
 ```
 
 ```todo
