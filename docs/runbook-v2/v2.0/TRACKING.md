@@ -21,11 +21,12 @@ It provides an overview of the version's engineering runbooks, their status, mil
 
 | Runbook               | Status      | Planned Start    | Target Milestone | Completed |
 |-----------------------|-------------|------------------|------------------|-----------|
-| 01 – Pre-V2 Refactors | In Progress | 2026-07-15       | Late July 2026   | —         |
-| 02 – Features         | Planned     | After Runbook 01 | Mid August 2026  | —         |
-| 03 – Polishings       | Planned     | After Runbook 02 | Not Estimated    | —         |
-| 04 – Testings         | Planned     | After Runbook 03 | Not Estimated    | —         |
-| 05 – Pre-deployment   | Planned     | Before Release   | Not Estimated    | —         |
+| 01 – Pre-V2 Refactors | Done        | 2026-07-15       | 2026-07-24       | —         |
+| 02 – Foundations      | In Progress | 2026-07-29       | 2026-07-29       | —         |
+| 03 – Features         | Planned     | After Runbook 02 | Not Estimated    | —         |
+| 04 – Polishings       | Planned     | After Runbook 03 | Not Estimated    | —         |
+| 05 – Testings         | Planned     | After Runbook 04 | Not Estimated    | —         |
+| 06 – Pre-deployment   | Planned     | Before Release   | Not Estimated    | —         |
 
 ---
 
@@ -46,6 +47,7 @@ It provides an overview of the version's engineering runbooks, their status, mil
 
 # Appendix A — Change Log
 
-| Date       | Change                          |
-|------------|---------------------------------|
-| 2026-07-28 | Portfolio V2.0 roadmap created. |
+| Date       | Change                                                                                                                                                                                                              |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2026-07-28 | Portfolio V2.0 roadmap created.                                                                                                                                                                                     |
+| 2026-07-29 | Runbook 01 marked as Done (completed 2026-07-24). New Runbook "02 – Foundations" added and set to In Progress. Subsequent runbooks renumbered (03 – Features, 04 – Polishings, 05 – Testings, 06 – Pre-deployment). |
