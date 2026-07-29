@@ -118,6 +118,32 @@ into this branch before the next one begins:
 
 This branch was merged via fast-forward into `refactor/pre-v2-backlog` after all four decisions were completed, and subsequently deleted.
 
+## V2 Feature Branch Registry
+
+The following branch names are reserved for V2 roadmap features.
+Branches are created only when the preceding feature is complete.
+
+| Branch Name                          | Feature                           | Status     |
+|--------------------------------------|-----------------------------------|------------|
+| `feature/private-publishing-infra`   | Private Publishing Infrastructure | Active     |
+| `feature/public-content-platform`    | Public Content Platform (Core V2) | Pending    |
+| `feature/stack-map`                  | Interactive Stack Mapping         | Pending    |
+| `feature/bookshelf`                  | Analytical Bookshelf              | Pending    |
+| `feature/aio-geo-suite`              | AI Optimization Suite (AIO/GEO)   | Pending    |
+| `feature/production-readiness`       | Production Readiness              | Pending    |
+
+## `feature/private-publishing-infra`
+
+**Purpose**
+
+Private Publishing Infrastructure feature workspace.
+
+Originates from `staging`, per the standard feature-branch workflow. This is the
+first feature branch of the V2 roadmap
+
+This branch will be merged and deleted upon completion, following the standard
+merge policy defined in `docs/conventions.md`.
+
 ---
 
 # 4. Historical Development
