@@ -36,10 +36,10 @@ export class AdminAuthService {
             throw new Error("INVALID_CREDENTIALS");
         }
 
-        const adminId = config._id.toString();
+        const adminId = config.key.toString();
         const tokenId = uuidv4();
         const createdAt = new Date();
-        const expiresAt = new Date(createdAt.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 Days
+        const expiresAt = new Date(createdAt.getTime() + 7 * 24 * 60 * 60 * 1000);
 
         await AdminRepository.createRefreshToken({
             tokenId,
