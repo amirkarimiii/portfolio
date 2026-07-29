@@ -21,6 +21,10 @@ loop: create steps based on [dedicated feature file in docs/features]
 ```
 
 ```todo
+update Private-Publishing-Infrastructure.md, section 7: Routes, part Protected
+```
+
+```todo
 change status in TRACKING for this feature
 ```
 

@@ -1,6 +1,14 @@
 Here we perform pre-deployment works and cleanups
 
 ```todo
+step: Research on whether the project source should remain open or we close it; or be different from what we deploy
+```
+
+```todo
+step: Research about extracting the images and transferring them to CDN or not touching them
+```
+
+```todo
 ‼️IMPORTANT: change mongo atlas password
 ```
 
