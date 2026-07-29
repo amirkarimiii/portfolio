@@ -1,5 +1,9 @@
 ```todo
-step: make branch: 
+step: make branch: feature/private-publishing
+```
+
+```todo
+step: make other featuer files in /02-features for backlog
 ```
 
 ```todo
@@ -17,5 +21,57 @@ using deepseek
 ```
 
 ```todo
-✅ loop: create steps based on Private-Publishing-Infrastructure.md
+loop: create steps based on Private-Publishing-Infrastructure.md
+```
+
+```todo
+change status in TRACKING for this feature
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: In V2 Feature Branch Registry, correct the branch names: feature/private-publishing-infra → feature/private-publishing (both in the table and in the subsection header); feature/aio-geo-suite → feature/ai-optimization
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: In observatory for the branch refactor/pre-v2-backlog (which has been merged and deleted) add the final status sentence, similar to what was done for refactor/pre-v2-architecture
+```
+
+```todo
+commit changes
+```
+
+```todo
+checkout statging
+```
+
+```todo
+merge feature/private-publishing into staging
+```
+
+```todo
+delete feature/private-publishing
+```
+
+```todo
+upload git observatory to claude
+```
+
+```todo
+change observatory based on new refactors
+```
+
+```todo
+commit changes
+```
+
+```todo
+go to 03-public-content-platform.md
 ```

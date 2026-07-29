@@ -3,19 +3,23 @@
 ```
 
 ```todo
-upload git observatory to claude
+✅ upload git observatory to claude
 ```
 
 ```todo
-ask for branching updates based on 2. Tracking in ./TRACKING.md
+✅ ask for branching updates based on 2. Tracking in ./TRACKING.md
 ```
 
 ```todo
-change git observatoy
+✅ change git observatoy
 ```
 
 ```todo
-commit git observatory
+✅ commit git observatory
+```
+
+```todo
+✅ upload git observatory to claud
 ```
 
 ```todo
