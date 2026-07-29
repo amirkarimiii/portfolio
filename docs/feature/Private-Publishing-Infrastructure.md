@@ -328,6 +328,7 @@ Document important implementation decisions that are too small for an ADR.
 
 ## Cleanup
 
+- [ ] Integrate toast notifications (Sonner) for client-side errors and actions
 - [ ] Remove temporary debugging logs
 - [ ] Remove commented-out code
 - [ ] Remove unused imports
