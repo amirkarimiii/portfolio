@@ -38,15 +38,56 @@ Every commit message must follow this structure:
 | 🔧    | `chore`    | Build tasks, package updates, configuration changes       |
 
 ### Commit Scope & Examples
-- **Scopes:** `editor`, `blog`, `bookshelf`, `stack-map`, `adr`, `seo`, `ui`, `deps`
-- **Examples:**
 
-  ```
-  ➕ feat(editor): add image upload extension
-  🐞 fix(blog): resolve hydration mismatch on article date
-  📖 docs(conventions): establish git workflow rules
-  ⚡️ perf(stack-map): dynamic import for heavy drawer components
-  ```
+Scopes represent stable repository responsibilities, not temporary implementation details or raw directory names.
+
+When a commit primarily affects a known subsystem, feature, or documentation artifact, a scope **should** be provided.
+
+The scope registry must be reviewed whenever a significant repository restructure introduces new long-lived responsibilities or removes existing ones.
+
+#### Product / Code Scopes
+(based on current `src` structure)
+
+| Scope        | Responsibility                                                                                                          |
+|--------------|-------------------------------------------------------------------------------------------------------------------------|
+| `admin`      | Admin authentication, login/logout/session APIs, admin feature components, hooks, services, stores, JWT utils           |
+| `blog`       | Public blog surface — article listing, previews, banner, navbar actions, search                                         |
+| `main`       | Main portfolio surface — banner, contact, projects, info sections, main navbar actions                                  |
+| `shared`     | Cross-cutting UI primitives, layout (Navbar, listeners), constants, lib (API helpers, MongoDB), providers, types, utils |
+| `env`        | Environment configuration (`src/env.ts`, `.env*` files, validation)                                                     |
+| `ui`         | Shared UI components under `shared/components/ui` (shadcn primitives)                                                   |
+| `seo`        | Metadata, Open Graph, icons, manifest, robots/sitemap related changes                                                   |
+| `middleware` | Next.js middleware (`src/middleware.ts`) — route protection, auth guards, etc.                                          |
+
+> `ui` should be used only when the change is limited to shared UI primitives. Broader cross-cutting changes should use `shared`.
+
+#### Documentation Scopes
+(based on root `docs/` artifacts)
+
+| Scope         | Responsibility                                                                |
+|---------------|-------------------------------------------------------------------------------|
+| `adr`         | Architecture Decision Records (`docs/adr/`)                                   |
+| `spec`        | Product / technical specifications (`portfolio-v2-spec.md`, feature specs, …) |
+| `runbook`     | Engineering runbooks (`docs/runbook-v2/`)                                     |
+| `tracking`    | Tracking files (`TRACKING.md` and related progress trackers)                  |
+| `roadmap`     | Roadmap documents (`ROADMAP.md`)                                              |
+| `observatory` | Git / process observatory (`docs/git-observatory.md`)                         |
+| `conventions` | Coding & process conventions (`docs/conventions.md`)                          |
+| `ai-wf`       | AI / engineering workflow docs (`docs/ai-engineering-workflow.md`)            |
+| `environment` | Environment documentation (`docs/environment.md`)                             |
+| `tech-stack`  | Tech stack documentation (`docs/tech-stack.md`)                               |
+
+> spec includes `portfolio-v2-spec.md` and all documents under `docs/feature/` and `docs/capablity/`
+
+#### Examples
+
+```
+➕ feat(admin): add hybrid JWT session endpoint
+🐞 fix(blog): resolve hydration mismatch on article date
+📖 docs(adr): record decision for server/UI state split
+⚡️ perf(shared): dynamic import for heavy dialog components
+🔧 chore(env): complete Zod validation for all required vars
+```
 
 ---
 
@@ -149,3 +190,32 @@ All documentation inside `docs/` falls into one of four distinct categories:
 
 * AI tools (Claude, ChatGPT, Copilot, Cursor, etc.) must generate code, file names, branch names, and commits that comply 100% with these conventions.
 * AI-generated PRs or commits must be vetted to prevent multi-subject commits or violation of naming conventions.
+
+---
+
+## Changelog
+
+### 2026-07-30
+
+#### Commit Scope Guidance Expanded
+
+Commit scopes are maintained explicitly as part of repository governance.
+
+Scopes should represent stable repository responsibilities rather than
+temporary implementation details or directory names.
+
+When a commit primarily affects a known subsystem, feature, or documentation
+artifact, a scope should be provided.
+
+Documentation commits should prefer artifact-oriented scopes such as:
+
+- adr
+- spec
+- runbook
+- tracking
+- roadmap
+- observatory
+- conventions
+
+The scope registry is reviewed whenever significant repository structure
+changes occur.
