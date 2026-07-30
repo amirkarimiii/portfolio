@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { env } from "@/env";
+import {logger} from "@/shared/logger/logger";
+import {getClientIp} from "@/shared/http/get-client-ip";
 
 const PUBLIC_API_ROUTES = [
     "/api/admin/login",
@@ -17,6 +19,12 @@ export async function middleware(request: NextRequest) {
     const accessToken = request.cookies.get("admin_access_token")?.value;
 
     if (!accessToken) {
+        logger.warn("Admin access blocked: Missing access token", {
+            pathname,
+            method: request.method,
+            ip: getClientIp(request),
+        });
+
         return NextResponse.json(
             {
                 success: false,
@@ -38,12 +46,22 @@ export async function middleware(request: NextRequest) {
             requestHeaders.set("x-admin-id", payload.sub);
         }
 
+        logger.debug("Admin request authenticated", {
+            pathname,
+            adminId: payload.sub,
+        });
+
         return NextResponse.next({
             request: {
                 headers: requestHeaders,
             },
         });
-    } catch {
+    } catch (error) {
+        logger.warn(error instanceof Error ? error : new Error(String(error)), "Admin access blocked: Invalid or expired access token", {
+            pathname,
+            method: request.method,
+        });
+
         return NextResponse.json(
             {
                 success: false,
