@@ -1,23 +1,4 @@
 ```todo
-step: Research on whether it is good to merge and delete a branch and later recreate that branch from scratch
-
-if ok:
-  upload git observatory to claude
-  report problem and ask for proper changes
-  merge feature/private-publishing to staging
-  delete feature/private-publishing
-  change observatory based in reviewed suggestions
-  commit observatory
-in not ok:
-  upload git observatory to claude
-  report problem and ask for proper changes and new branch name in observatory
-  merge feature/private-publishing to staging
-  delete feature/private-publishing
-  change observatory based in reviewed suggestions
-  commit observatory
-```
-
-```todo
 step: upload git observatory to claude
 ```
 

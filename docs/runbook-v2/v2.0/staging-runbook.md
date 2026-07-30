@@ -60,24 +60,37 @@ with chatgpt
 ---
 
 ```todo
+step: Research on whether it is good to merge and delete a branch and later recreate that branch from scratch
+
+if ok: ⬅️
+✅  upload git observatory to claude
+✅   report problem and ask for proper changes
+✅   merge feature/private-publishing to staging
+✅   delete feature/private-publishing
+if not ok:
+  upload git observatory to claude
+  report problem and ask for proper changes and new branch name in observatory
+  merge feature/private-publishing to staging
+  delete feature/private-publishing
+  change observatory based in reviewed suggestions
+  commit observatory
+```
+
+```todo
 For commit messages related to runbook, research define a new mark or keep the same doc mark?
 if ok:
   add new mark to conventions
   add to conventions changelog
   commit changes
   upload conventions to claude
-in not ok:
+if not ok:
   continue
+
+result: not ok but changed the way we were scoping
+✅ commit changes 
+✅ upload conventions to claude
 ```
 
 ```todo
-step: add a new instruction to grok in firefox in order to fix unnecessary "commit changes" messages
-```
-
-```todo
-step: change ai-integration document, add a new role for grok. making steps in runbook from personal planning drafts
-```
-
-```todo
-commit changes
+✅ step: add a new instruction to grok in firefox in order to fix unnecessary "commit changes" messages
 ```
