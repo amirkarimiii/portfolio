@@ -7,6 +7,10 @@ export interface LogMethod {
     (error: Error, message?: string, metadata?: LogMetadata): void;
 }
 
+export type LogArgs =
+    | [message: string, metadata?: LogMetadata]
+    | [error: Error, message?: string, metadata?: LogMetadata];
+
 export interface Logger {
     trace: LogMethod;
     debug: LogMethod;
