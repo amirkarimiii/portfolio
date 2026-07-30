@@ -48,16 +48,21 @@ The scope registry must be reviewed whenever a significant repository restructur
 #### Product / Code Scopes
 (based on current `src` structure)
 
-| Scope        | Responsibility                                                                                                          |
-|--------------|-------------------------------------------------------------------------------------------------------------------------|
-| `admin`      | Admin authentication, login/logout/session APIs, admin feature components, hooks, services, stores, JWT utils           |
-| `blog`       | Public blog surface — article listing, previews, banner, navbar actions, search                                         |
-| `main`       | Main portfolio surface — banner, contact, projects, info sections, main navbar actions                                  |
-| `shared`     | Cross-cutting UI primitives, layout (Navbar, listeners), constants, lib (API helpers, MongoDB), providers, types, utils |
-| `env`        | Environment configuration (`src/env.ts`, `.env*` files, validation)                                                     |
-| `ui`         | Shared UI components under `shared/components/ui` (shadcn primitives)                                                   |
-| `seo`        | Metadata, Open Graph, icons, manifest, robots/sitemap related changes                                                   |
-| `middleware` | Next.js middleware (`src/middleware.ts`) — route protection, auth guards, etc.                                          |
+| Scope        | Responsibility                                                                                                              |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------|
+| `admin`      | Admin authentication, login/logout/session APIs, admin feature components, hooks, services, stores, JWT utils               |
+| `blog`       | Public blog surface — article listing, previews, banner, navbar actions, search                                             |
+| `main`       | Main portfolio surface — banner, contact, projects, info sections, main navbar actions                                      |
+| `shared`     | Cross-cutting UI primitives, layout (Navbar, listeners), constants, lib (API helpers, MongoDB), providers, types, utils     |
+| `env`        | Environment configuration (`src/env.ts`, `.env*` files, validation)                                                         |
+| `ui`         | Shared UI components under `shared/components/ui` (shadcn primitives)                                                       |
+| `seo`        | Metadata, Open Graph, icons, manifest, robots/sitemap related changes                                                       |
+| `middleware` | Next.js middleware (`src/middleware.ts`) — route protection, auth guards, etc.                                              |
+| `deps`       | Dependency management (`package.json`, `bun.lock`, package upgrades/removals)                                               |
+| `config`     | Framework configuration (`next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `vercel.json`, `postcss.config.mjs`, etc.) |
+| `repo`       | Repository (`.gitignore`, `README.md`, `.github/*`, `.gitattributes`, etc.)                                                 |
+
+
 
 > `ui` should be used only when the change is limited to shared UI primitives. Broader cross-cutting changes should use `shared`.
 
@@ -204,8 +209,8 @@ Commit scopes are maintained explicitly as part of repository governance.
 Scopes should represent stable repository responsibilities rather than
 temporary implementation details or directory names.
 
-When a commit primarily affects a known subsystem, feature, or documentation
-artifact, a scope should be provided.
+When a commit primarily affects a known subsystem, feature, documentation
+artifact, or repository infrastructure, a scope should be provided.
 
 Documentation commits should prefer artifact-oriented scopes such as:
 
@@ -216,6 +221,9 @@ Documentation commits should prefer artifact-oriented scopes such as:
 - roadmap
 - observatory
 - conventions
+
+Repository-wide changes should use dedicated infrastructure scopes where
+applicable (e.g. `deps`, `config`, `repo`).
 
 The scope registry is reviewed whenever significant repository structure
 changes occur.
