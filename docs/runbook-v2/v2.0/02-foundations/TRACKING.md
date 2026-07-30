@@ -43,8 +43,8 @@ Unlike product features, these capabilities are not directly visible to end user
 ---
 
 # Appendix A — Change Log
-
 | Date       | Change                                                                                              |
 |------------|-----------------------------------------------------------------------------------------------------|
 | 2026-07-29 | Foundation tracking document created.                                                               |
 | 2026-07-29 | Application Logging Layer: Planned Start updated to 2026-07-30, Target Milestone set to 2026-07-30. |
+| 2026-07-30 | Application Logging Layer: Target Milestone updated from 2026-07-30 to 2026-07-31.                  |
