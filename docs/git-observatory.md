@@ -100,7 +100,7 @@ Serves as the base for all pre-V2 cleanup work, organized into three sequential 
 - `refactor/pre-v2-architecture` — Foundational architecture decisions that block other work. Active after bugs branch is merged and deleted.
 - `refactor/pre-v2-infrastructure` — Infrastructure and cross-cutting concerns. Active after architecture branch is merged and deleted.
 
-Each sub-branch originates from this branch, is worked independently, merged back, and deleted before the next one begins.
+This branch was merged via fast-forward into `staging` after all three works were completed, and subsequently deleted.
 
 ## `refactor/pre-v2-architecture`
 
@@ -118,21 +118,32 @@ into this branch before the next one begins:
 
 This branch was merged via fast-forward into `refactor/pre-v2-backlog` after all four decisions were completed, and subsequently deleted.
 
+## `feature/logging`
+
+**Purpose**
+
+Application Logging Layer foundation capability.
+
+Establishes shared logging infrastructure before product features are implemented.
+Originates from `staging` and will be merged back via fast-forward upon completion.
+
+This branch precedes all V2 product feature branches.
+
 ## V2 Feature Branch Registry
 
 The following branch names are reserved for V2 roadmap features.
 Branches are created only when the preceding feature is complete.
 
-| Branch Name                          | Feature                           | Status     |
-|--------------------------------------|-----------------------------------|------------|
-| `feature/private-publishing-infra`   | Private Publishing Infrastructure | Active     |
-| `feature/public-content-platform`    | Public Content Platform (Core V2) | Pending    |
-| `feature/stack-map`                  | Interactive Stack Mapping         | Pending    |
-| `feature/bookshelf`                  | Analytical Bookshelf              | Pending    |
-| `feature/aio-geo-suite`              | AI Optimization Suite (AIO/GEO)   | Pending    |
-| `feature/production-readiness`       | Production Readiness              | Pending    |
+| Branch Name                       | Feature                           | Status  |
+|-----------------------------------|-----------------------------------|---------|
+| `feature/private-publishing`      | Private Publishing Infrastructure | Active  |
+| `feature/public-content-platform` | Public Content Platform (Core V2) | Pending |
+| `feature/stack-map`               | Interactive Stack Mapping         | Pending |
+| `feature/bookshelf`               | Analytical Bookshelf              | Pending |
+| `feature/ai-optimization`         | AI Optimization Suite (AIO/GEO)   | Pending |
+| `feature/production-readiness`    | Production Readiness              | Pending |
 
-## `feature/private-publishing-infra`
+## `feature/private-publishing`
 
 **Purpose**
 
