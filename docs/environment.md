@@ -45,7 +45,24 @@ openssl rand -base64 32
 
 ---
 
+## Logging Configuration
+
+`LOG_LEVEL` controls the minimum severity level of logs emitted by the application logger layer.
+
+Supported values (ordered by priority):
+* `trace`
+* `debug`
+* `info`
+* `warn`
+* `error`
+* `fatal`
+
+If omitted, it defaults to `debug` in development and `info` in production.
+
+---
+
 ## Related Files
 
 * `env.ts`
 * `.env.example`
+* `src/shared/logger/`
