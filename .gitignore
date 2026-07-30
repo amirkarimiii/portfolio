@@ -42,3 +42,4 @@ next-env.d.ts
 /.idea/
 /.nvmrc
 /docs/feature/TEMPLATE.md
+/docs/capability/TEMPLATE.md
