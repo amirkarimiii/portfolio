@@ -1,4 +1,7 @@
 Here we perform pre-deployment works and cleanups
+```todo
+step: Review all documents to check for deficiencies or errors
+```
 
 ```todo
 step: Research on whether the project source should remain open or we close it; or be different from what we deploy
