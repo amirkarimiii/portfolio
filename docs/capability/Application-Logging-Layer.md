@@ -278,14 +278,14 @@ Final structure may evolve during implementation.
 
 ## Foundation
 
-* [ ] Define logging contract.
-* [ ] Define supported log levels.
-* [ ] Define structured log schema.
-* [ ] Create centralized logging API.
+* [x] Define logging contract.
+* [x] Define supported log levels.
+* [x] Define structured log schema.
+* [x] Create centralized logging API.
 
 ## Integration
 
-* [ ] Integrate logging into middleware.
+* [x] Integrate logging into middleware.
 * [ ] Integrate logging into route handlers.
 * [ ] Integrate logging into services.
 * [ ] Integrate logging into repositories.
