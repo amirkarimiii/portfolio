@@ -11,6 +11,10 @@ export const env = createEnv({
         JWT_REFRESH_EXPIRES_IN: z.string().default("7d"),
         MAX_LOGIN_ATTEMPTS: z.coerce.number().default(5),
         LOGIN_RATE_LIMIT_WINDOW_MS: z.coerce.number().default(15 * 60 * 1000),
+        LOG_LEVEL: z
+            .enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal'])
+            .optional()
+            .default('debug'),
     },
     client: {},
     runtimeEnv: {
@@ -22,6 +26,7 @@ export const env = createEnv({
         JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN,
         MAX_LOGIN_ATTEMPTS: process.env.MAX_LOGIN_ATTEMPTS,
         LOGIN_RATE_LIMIT_WINDOW_MS: process.env.LOGIN_RATE_LIMIT_WINDOW_MS,
+        LOG_LEVEL: process.env.LOG_LEVEL,
     },
     onValidationError: (error) => {
         console.error("Invalid environment variables:", error);
