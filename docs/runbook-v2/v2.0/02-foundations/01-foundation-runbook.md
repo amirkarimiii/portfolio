@@ -79,6 +79,34 @@ step: Implement central Logging API (Facade pattern): Observe security cases (Sa
 ```
 
 ```todo
+✅ step: update 02-foundations\TRACKING.md
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: v2.0\TRACKING.md
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+step: add ADR 13 about our testing policies
+```
+
+```todo
+step: add ADR 13 about our testing policies
+```
+
+```todo
+loop: make changes based on what we decided in ADR 13
+```
+
+```todo
 step: Test and validation (Validation & Verification): Automated tests (Automated Verification): Write Unit Tests to ensure correctness of the logger contract
 ```
 
