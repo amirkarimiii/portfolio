@@ -290,11 +290,11 @@ Final structure may evolve during implementation.
 * [ ] Integrate logging into services.
 * [ ] Integrate logging into repositories.
 
-## Validation
+### Validation
 
-* [ ] Verify structured log output.
-* [ ] Verify runtime visibility.
-* [ ] Verify environment behavior.
+- [x] Verify structured log output.
+- [x] Verify runtime visibility.
+- [x] Verify environment behavior.
 
 ## Documentation
 
@@ -348,10 +348,10 @@ Final structure may evolve during implementation.
 
 #### Unit Tests
 
-- [ ] Log level mapping tests pass.
-- [ ] Structured payload generation tests pass.
-- [ ] Metadata sanitization tests pass.
-- [ ] Logger contract tests pass.
+- [x] Log level mapping tests pass.
+- [x] Structured payload generation tests pass.
+- [x] Metadata sanitization tests pass.
+- [x] Logger contract tests pass.
 
 #### Integration Tests
 
@@ -361,9 +361,9 @@ Final structure may evolve during implementation.
 
 #### Failure Tests
 
-- [ ] Transport failure scenarios pass.
-- [ ] Invalid payload scenarios pass.
-- [ ] Logging failures do not crash execution.
+- [x] Transport failure scenarios pass.
+- [x] Invalid payload scenarios pass.
+- [x] Logging failures do not crash execution.
 
 ---
 
