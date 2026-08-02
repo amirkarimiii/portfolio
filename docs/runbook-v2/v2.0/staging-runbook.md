@@ -94,3 +94,11 @@ result: not ok but changed the way we were scoping
 ```todo
 ✅ step: add a new instruction to grok in firefox in order to fix unnecessary "commit changes" messages
 ```
+
+```todo
+commit .gitignore
+```
+
+```todo
+loop: do planned works for today
+```

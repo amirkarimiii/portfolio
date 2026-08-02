@@ -55,14 +55,6 @@
 ```
 
 ```todo
-step: Implement central Logging API (Facade pattern): Observe security cases (Sanitization) to prevent logging of sensitive information (such as passwords, tokens, secrets)
-```
-
-```todo
-✅ ommit changes
-```
-
-```todo
 ✅ step: Set behavior based on environment (Environment-Awareness): Set log level and output method based on environment (e.g. Dev vs Prod)
 ```
 
@@ -95,83 +87,75 @@ step: Implement central Logging API (Facade pattern): Observe security cases (Sa
 ```
 
 ```todo
-step: add ADR 13 about our testing policies
+✅ step: add ADR 13 about our testing policies
 ```
 
 ```todo
-step: add ADR 13 about our testing policies
+✅ step: commit ADR 13
 ```
 
 ```todo
-loop: make changes based on what we decided in ADR 13
+✅ step: Implement central Logging API (Facade pattern): Observe security cases (Sanitization) to prevent logging of sensitive information (such as passwords, tokens, secrets)
 ```
 
 ```todo
-step: Test and validation (Validation & Verification): Automated tests (Automated Verification): Write Unit Tests to ensure correctness of the logger contract
+✅ commit changes
 ```
 
 ```todo
-commit changes
+✅ step: Add vitest library with bun: bun add -d vitest
 ```
 
 ```todo
-step: Test and validation (Validation & Verification): Failure scenario tests (Failure Testing): Test that requests/application are not interrupted when error occurs in logger or invalid Payload is sent
+✅ step: Add test script to package.json
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Test and validation (Validation & Verification): Manual test and review (Manual Verification): Review Structured Logs output in local Development environment
+✅ step: Add vitest config file
 ```
 
 ```todo
-step: Test and validation (Validation & Verification): Manual test and review (Manual Verification): Review log observability in Deployment / Runtime environment
+✅ commit changes
 ```
 
 ```todo
-step: Documentation: Update capability status and Foundation tracking
+✅ step: Set up test file src/shared/logger/logger.test.ts and implement tests for Logger Contract & Level Mapping
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Documentation: Document contracts and logging standards (Conventions)
+✅ step: Test Structured Payload & Timestamp Generation
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Documentation: Provide practical code samples (Usage Examples) for use by other team members
+step: Test Metadata Attachment & Sanitization
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: change ./TRACKING.md status for Application Logging Layer
+✅ step: Test Invalid Payload & Unexpected Metadata Values
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: change ./TRACKING.md status and Completed for Application Logging Layer
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: changes \docs\runbook-v2\v2.0\TRACKING.md status and Completed for Foundations
+step: Test Transport & Internal Error Resilience (testing that the application does not crash on internal error or sudden pressures - concepts: Error Testing)
 ```
 
 ```todo
@@ -179,5 +163,76 @@ commit changes
 ```
 
 ```todo
-go to 02-private-publishing-infrastructure.md line 24
+step: Manual Verification of Structured Logs output in local Development environment
 ```
+
+```todo
+step: Review observability and format of logs in Runtime / Deployment environment
+```
+
+```todo
+step: Update Capability status and tracking of the main spec file
+```
+
+```todo
+commit changes: docs(logger): update capability status and verification checklist
+```
+
+```todo
+step: Document contracts and logging standards in conventions.md
+```
+
+```todo
+commit changes: docs(logger): add logging standards to conventions
+```
+
+```todo
+step: Provide practical code samples (Usage Examples) for team members to use
+```
+
+```todo
+commit changes: docs(logger): add usage examples and guidelines
+```
+
+```todo
+step: change ./TRACKING.md status for Application Logging Layer:
+  change Status to: Completed
+  reform Tracking table
+  add explantion for 31/7 and 1/8
+  add changelogs
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: changes \docs\runbook-v2\v2.0\TRACKING.md
+  change Last Updated to today's date
+  reform Tracking table based on new changes
+  add information for foundation:
+    targeted milestone date
+    completed date
+  add changelogs
+```
+
+```todo
+commit changes
+```
+
+```todo
+draft other irrelevant changes
+```
+
+```todo
+chackout staging
+```
+
+```todo
+merge feature/logging into staging
+```
+
+```todo
+go to staging-runbook.md line 99
+```
+
