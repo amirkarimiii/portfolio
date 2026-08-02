@@ -2,7 +2,7 @@
 
 **Status:** In Progress
 
-**Last Updated:** 2026-07-28
+**Last Updated:** 2026-08-02
 
 **Owner:** Amir Karimi
 
@@ -19,14 +19,14 @@ It provides an overview of the version's engineering runbooks, their status, mil
 
 # 2. Tracking
 
-| Runbook               | Status      | Planned Start    | Target Milestone | Completed |
-|-----------------------|-------------|------------------|------------------|-----------|
-| 01 – Pre-V2 Refactors | Done        | 2026-07-15       | 2026-07-24       | —         |
-| 02 – Foundations      | In Progress | 2026-07-30       | 2026-07-31       | —         |
-| 03 – Features         | Planned     | 2026-08-04       | Not Estimated    | —         |
-| 04 – Polishings       | Planned     | After Runbook 03 | Not Estimated    | —         |
-| 05 – Testings         | Planned     | After Runbook 04 | Not Estimated    | —         |
-| 06 – Pre-deployment   | Planned     | Before Release   | Not Estimated    | —         |
+| Runbook               | Status    | Planned Start    | Target Milestone | Completed  |
+|-----------------------|-----------|------------------|------------------|------------|
+| 01 – Pre-V2 Refactors | Completed | 2026-07-15       | 2026-07-24       | 2026-07-24 |
+| 02 – Foundations      | Completed | 2026-07-30       | 2026-08-02       | 2026-08-02 |
+| 03 – Features         | Planned   | 2026-08-04       | Not Estimated    | —          |
+| 04 – Polishings       | Planned   | After Runbook 03 | Not Estimated    | —          |
+| 05 – Testings         | Planned   | After Runbook 04 | Not Estimated    | —          |
+| 06 – Pre-deployment   | Planned   | Before Release   | Not Estimated    | —          |
 
 ---
 
@@ -47,8 +47,9 @@ It provides an overview of the version's engineering runbooks, their status, mil
 
 # Appendix A — Change Log
 
-| Date       | Change                                                                                                                                                                                                              |
-|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 2026-07-28 | Portfolio V2.0 roadmap created.                                                                                                                                                                                     |
-| 2026-07-29 | Runbook 01 marked as Done (completed 2026-07-24). New Runbook "02 – Foundations" added and set to In Progress. Subsequent runbooks renumbered (03 – Features, 04 – Polishings, 05 – Testings, 06 – Pre-deployment). |
-| 2026-07-30 | Runbook 02 – Foundations: Planned Start updated to 2026-07-30, Target Milestone updated to 2026-07-31. Runbook 03 – Features: Planned Start set to 2026-08-04.                                                      |
+| Date       | Change                                                                                                                                                                                                                   |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2026-07-28 | Portfolio V2.0 roadmap created.                                                                                                                                                                                          |
+| 2026-07-29 | Runbook 01 marked as Completed (completed 2026-07-24). New Runbook "02 – Foundations" added and set to In Progress. Subsequent runbooks renumbered (03 – Features, 04 – Polishings, 05 – Testings, 06 – Pre-deployment). |
+| 2026-07-30 | Runbook 02 – Foundations: Planned Start updated to 2026-07-30, Target Milestone updated to 2026-07-31. Runbook 03 – Features: Planned Start set to 2026-08-04.                                                           |
+| 2026-08-02 | Runbook 02 – Foundations: Status updated to Completed, Completed date set to 2026-08-02.                                                                                                                                 |
