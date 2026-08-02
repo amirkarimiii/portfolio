@@ -26,4 +26,24 @@ describe('Logger Capability - Contract & Level Mapping', () => {
         expect(output.message).toBe('Info level log test');
     });
 
+    it('should generate a valid structured payload with ISO timestamp', () => {
+        const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+        const logMessage = 'System initialization started';
+
+        logger.info(logMessage);
+
+        expect(consoleSpy).toHaveBeenCalledTimes(1);
+
+        const rawOutput = consoleSpy.mock.calls[0][0];
+        const parsedPayload = JSON.parse(rawOutput);
+
+        expect(parsedPayload).toHaveProperty('timestamp');
+        expect(parsedPayload).toHaveProperty('level', 'info');
+        expect(parsedPayload).toHaveProperty('message', logMessage);
+
+        const timestampDate = new Date(parsedPayload.timestamp);
+        expect(timestampDate.getTime()).not.toBeNaN();
+        expect(parsedPayload.timestamp).toBe(timestampDate.toISOString());
+    });
+
 });
