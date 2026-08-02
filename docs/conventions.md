@@ -180,7 +180,32 @@ Git tags follow Semantic Versioning (SemVer):
 
 ---
 
-## 7. Documentation Convention
+## 7. Application Logging Conventions
+
+### Principles
+- **Centralized Usage:** Always import the logger instance from `@/shared/logger`. Direct use of `console.log`, `console.error`, or `console.warn` in application code is strictly prohibited.
+- **Resilience & Non-Blocking:** Logging operations must never throw uncaught exceptions or interrupt the execution flow of requests and business logic.
+
+### Log Levels & Guidelines
+Use appropriate log levels based on severity and context:
+
+| Level   | Purpose & Usage Guideline                                                                      |
+|:--------|:-----------------------------------------------------------------------------------------------|
+| `trace` | Fine-grained diagnostic details (e.g., raw payload inspection during development).             |
+| `debug` | Detailed operational information for debugging (e.g., internal algorithm state, method steps). |
+| `info`  | Key system events and milestones (e.g., successful user auth, cache initialization).           |
+| `warn`  | Non-fatal issues or unexpected conditions (e.g., missing optional config, rate-limit hits).    |
+| `error` | Operations/request level failures requiring investigation (e.g., DB error, API timeout).       |
+| `fatal` | Critical system failures causing application shutdown or complete outage.                      |
+
+### Structured Metadata & Security
+- **Metadata Format:** Pass contextual details as a key-value object (`Record<string, unknown>`).
+- **Automatic Sanitization:** Never log raw sensitive data. The logger automatically redacts keys matching sensitive patterns (e.g., `password`, `token`, `secret`, `authorization`), but developers must remain cautious.
+- **Error Handling:** When logging exceptions, pass the `Error` instance directly to preserve stack traces.
+
+---
+
+## 8. Documentation Convention
 
 All documentation inside `docs/` falls into one of four distinct categories:
 
@@ -191,7 +216,7 @@ All documentation inside `docs/` falls into one of four distinct categories:
 
 ---
 
-## 8. AI Assistance Rules
+## 9. AI Assistance Rules
 
 * AI tools (Claude, ChatGPT, Copilot, Cursor, etc.) must generate code, file names, branch names, and commits that comply 100% with these conventions.
 * AI-generated PRs or commits must be vetted to prevent multi-subject commits or violation of naming conventions.
@@ -227,3 +252,13 @@ applicable (e.g. `deps`, `config`, `repo`).
 
 The scope registry is reviewed whenever significant repository structure
 changes occur.
+
+### 2026-08-02
+
+#### Application Logging Standards Added
+
+Defined centralized application logging rules and log level standards.
+
+- Mandated centralized logger usage (`@/shared/logger`) and banned raw `console` calls.
+- Defined 6-tier log level severity matrix (`trace`, `debug`, `info`, `warn`, `error`, `fatal`).
+- Established structured metadata standards and sensitive key auto-sanitization rules.
