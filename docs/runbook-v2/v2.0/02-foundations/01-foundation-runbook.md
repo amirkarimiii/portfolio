@@ -155,51 +155,70 @@ step: Test Metadata Attachment & Sanitization
 ```
 
 ```todo
-step: Test Transport & Internal Error Resilience (testing that the application does not crash on internal error or sudden pressures - concepts: Error Testing)
+✅ step: Test Transport & Internal Error Resilience (testing that the application does not crash on internal error or sudden pressures - concepts: Error Testing)
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Manual Verification of Structured Logs output in local Development environment
+✅ step: Update Capability status and tracking of the main spec file
 ```
 
 ```todo
-step: Review observability and format of logs in Runtime / Deployment environment
+✅ commit changes: docs(logger): update verification checklist
 ```
 
 ```todo
-step: Update Capability status and tracking of the main spec file
+✅ step: Document contracts and logging standards in conventions.md
 ```
 
 ```todo
-commit changes: docs(logger): update capability status and verification checklist
+✅ step: add changelog in conventions.md
 ```
 
 ```todo
-step: Document contracts and logging standards in conventions.md
+✅ commit changes: docs(logger): add logging standards to conventions
 ```
 
 ```todo
-commit changes: docs(logger): add logging standards to conventions
+✅ step: Change the application logging directory in /capability to maintain cohesion
 ```
 
 ```todo
-step: Provide practical code samples (Usage Examples) for team members to use
+✅ step: work on Application-Logger/Specifications.md
 ```
 
 ```todo
-commit changes: docs(logger): add usage examples and guidelines
+✅ commit changes
+```
+
+```todo
+✅ step: add scope for Usages and Guidline kind of docs in conventions.md
+```
+
+```todo
+✅ step: add changelog in conventions.md
+```
+
+```todo
+✅ commit changes in conventions.md
+```
+
+```todo
+✅ step: Provide practical code samples (Usage Examples) for team members to use
+```
+
+```todo
+✅ commit changes
 ```
 
 ```todo
 step: change ./TRACKING.md status for Application Logging Layer:
-  change Status to: Completed
-  reform Tracking table
-  add explantion for 31/7 and 1/8
-  add changelogs
+✅ change Status to: Completed
+✅ reform Tracking table
+✅ add changelogs
 ```
 
 ```todo
@@ -208,16 +227,15 @@ commit changes
 
 ```todo
 step: changes \docs\runbook-v2\v2.0\TRACKING.md
-  change Last Updated to today's date
-  reform Tracking table based on new changes
-  add information for foundation:
-    targeted milestone date
-    completed date
-  add changelogs
+✅ change Last Updated to today's date
+✅ add information for foundation:
+✅   targeted milestone date
+✅   completed date
+✅ add changelogs
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
