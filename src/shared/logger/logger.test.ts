@@ -46,4 +46,36 @@ describe('Logger Capability - Contract & Level Mapping', () => {
         expect(parsedPayload.timestamp).toBe(timestampDate.toISOString());
     });
 
+    it('should attach metadata and sanitize sensitive keys', () => {
+        const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+
+        const inputMetadata = {
+            userId: 'user_123',
+            role: 'admin',
+            password: 'super_secret_password',
+            authToken: 'bearer_token_xyz',
+            nested: {
+                secretKey: 'top_secret',
+                allowedField: 'safe_value',
+            },
+        };
+
+        logger.info('User authentication event', inputMetadata);
+
+        expect(consoleSpy).toHaveBeenCalledTimes(1);
+
+        const rawOutput = consoleSpy.mock.calls[0][0];
+        const parsedPayload = JSON.parse(rawOutput);
+
+        expect(parsedPayload).toHaveProperty('metadata');
+
+        expect(parsedPayload.metadata.userId).toBe('user_123');
+        expect(parsedPayload.metadata.role).toBe('admin');
+        expect(parsedPayload.metadata.nested.allowedField).toBe('safe_value');
+
+        expect(parsedPayload.metadata.password).toBe('[REDACTED]');
+        expect(parsedPayload.metadata.authToken).toBe('[REDACTED]');
+        expect(parsedPayload.metadata.nested.secretKey).toBe('[REDACTED]');
+    });
+
 });
