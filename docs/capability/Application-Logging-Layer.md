@@ -306,20 +306,64 @@ Final structure may evolve during implementation.
 
 # 16. Verification
 
-## Manual Verification
+## Unit Test Scope
 
-* [ ] Logs appear during local development.
-* [ ] Logs appear in deployment runtime logs.
-* [ ] All server-side layers can emit logs.
+- Log level mapping
+- Structured payload generation
+- Timestamp generation
+- Metadata attachment
+- Sensitive metadata sanitization
+- Logger public API contract
 
-## Automated Verification
+## Integration Test Scope
 
-* [ ] Logging contract tests pass.
+- Runtime log emission
+- Middleware logging integration
+- Route handler logging integration
+- Service logging integration
+- Repository logging integration
 
-## Failure Testing
+## Failure Testing Scope
 
-* [ ] Application remains functional when logging fails.
-* [ ] Invalid log payloads do not crash execution.
+- Transport failures
+- Invalid payload structures
+- Unexpected metadata values
+
+## Explicit Non-Goals
+
+- External log aggregation platforms
+- Monitoring systems
+- Tracing systems
+- Alerting systems
+
+## Verification Checklist
+
+### Manual Verification
+
+- [ ] Logs appear during local development.
+- [ ] Logs appear in deployment runtime logs.
+- [ ] All server-side layers can emit logs.
+
+### Automated Verification
+
+#### Unit Tests
+
+- [ ] Log level mapping tests pass.
+- [ ] Structured payload generation tests pass.
+- [ ] Metadata sanitization tests pass.
+- [ ] Logger contract tests pass.
+
+#### Integration Tests
+
+- [ ] Runtime log emission tests pass.
+- [ ] Middleware integration tests pass.
+- [ ] Route handler integration tests pass.
+
+#### Failure Tests
+
+- [ ] Transport failure scenarios pass.
+- [ ] Invalid payload scenarios pass.
+- [ ] Logging failures do not crash execution.
 
 ---
 
