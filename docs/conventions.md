@@ -69,18 +69,19 @@ The scope registry must be reviewed whenever a significant repository restructur
 #### Documentation Scopes
 (based on root `docs/` artifacts)
 
-| Scope         | Responsibility                                                                |
-|---------------|-------------------------------------------------------------------------------|
-| `adr`         | Architecture Decision Records (`docs/adr/`)                                   |
-| `spec`        | Product / technical specifications (`portfolio-v2-spec.md`, feature specs, …) |
-| `runbook`     | Engineering runbooks (`docs/runbook-v2/`)                                     |
-| `tracking`    | Tracking files (`TRACKING.md` and related progress trackers)                  |
-| `roadmap`     | Roadmap documents (`ROADMAP.md`)                                              |
-| `observatory` | Git / process observatory (`docs/git-observatory.md`)                         |
-| `conventions` | Coding & process conventions (`docs/conventions.md`)                          |
-| `ai-wf`       | AI / engineering workflow docs (`docs/ai-engineering-workflow.md`)            |
-| `environment` | Environment documentation (`docs/environment.md`)                             |
-| `tech-stack`  | Tech stack documentation (`docs/tech-stack.md`)                               |
+| Scope         | Responsibility                                                                  |
+|---------------|---------------------------------------------------------------------------------|
+| `adr`         | Architecture Decision Records (`docs/adr/`)                                     |
+| `spec`        | Product / technical specifications (`portfolio-v2-spec.md`, feature specs, …)   |
+| `runbook`     | Engineering runbooks (`docs/runbook-v2/`)                                       |
+| `tracking`    | Tracking files (`TRACKING.md` and related progress trackers)                    |
+| `roadmap`     | Roadmap documents (`ROADMAP.md`)                                                |
+| `observatory` | Git / process observatory (`docs/git-observatory.md`)                           |
+| `conventions` | Coding & process conventions (`docs/conventions.md`)                            |
+| `ai-wf`       | AI / engineering workflow docs (`docs/ai-engineering-workflow.md`)              |
+| `environment` | Environment documentation (`docs/environment.md`)                               |
+| `tech-stack`  | Tech stack documentation (`docs/tech-stack.md`)                                 |
+| `guide`       | Developer guides, usage examples, implementation guidance, authoring guidelines |
 
 > spec includes `portfolio-v2-spec.md` and all documents under `docs/feature/` and `docs/capablity/`
 
@@ -262,3 +263,10 @@ Defined centralized application logging rules and log level standards.
 - Mandated centralized logger usage (`@/shared/logger`) and banned raw `console` calls.
 - Defined 6-tier log level severity matrix (`trace`, `debug`, `info`, `warn`, `error`, `fatal`).
 - Established structured metadata standards and sensitive key auto-sanitization rules.
+
+#### Documentation Scope Expanded
+
+Added the `guide` documentation scope to distinguish developer-facing guidance from specifications and operational documentation.
+
+- Introduced the `guide` scope for developer guides, usage examples, implementation guidance, and authoring guidelines.
+- Clarified the separation between specifications (what the system defines) and guides (how developers use or implement it).
