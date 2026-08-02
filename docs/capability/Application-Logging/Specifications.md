@@ -298,8 +298,8 @@ Final structure may evolve during implementation.
 
 ## Documentation
 
-* [ ] Update foundation tracking.
-* [ ] Document logging conventions.
+* [x] Update foundation tracking.
+* [x] Document logging conventions.
 * [ ] Document usage examples.
 
 ---
