@@ -96,7 +96,7 @@ result: not ok but changed the way we were scoping
 ```
 
 ```todo
-commit .gitignore
+✅ commit .gitignore
 ```
 
 ```todo

@@ -139,7 +139,7 @@
 ```
 
 ```todo
-step: Test Metadata Attachment & Sanitization
+✅ step: Test Metadata Attachment & Sanitization
 ```
 
 ```todo
@@ -239,18 +239,22 @@ step: changes \docs\runbook-v2\v2.0\TRACKING.md
 ```
 
 ```todo
-draft other irrelevant changes
+✅ draft other irrelevant changes
 ```
 
 ```todo
-chackout staging
+✅ chackout staging
 ```
 
 ```todo
-merge feature/logging into staging
+✅ merge feature/logging into staging
 ```
 
 ```todo
-go to staging-runbook.md line 99
+✅ delete feature/logging
+```
+
+```todo
+✅ go to staging-runbook.md line 99
 ```
 

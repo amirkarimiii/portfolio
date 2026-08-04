@@ -47,6 +47,10 @@ step: research proper logging way with grok, deepseek
 ```
 
 ```todo
+loop: feature directory structure should be revised
+```
+
+```todo
 step: Check the latest optimal way in chatgpt
 ```
 
