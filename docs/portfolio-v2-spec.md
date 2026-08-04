@@ -1,7 +1,5 @@
 # Portfolio V2 Specification (`portfolio-v2-spec.md`)
 
-**Status:** Draft
-
 **Version:** 2.0
 
 **Last Updated:** 2026-07-23
