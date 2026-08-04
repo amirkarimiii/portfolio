@@ -1,6 +1,8 @@
-# Application Logging Layer
+# Application Logging Layer Specifications
 
-**Status:** In Progress
+**Version:** 2.0
+
+**Last Updated:** 2026-08-04
 
 **Owner:** Amir Karimi
 
@@ -47,21 +49,13 @@ The logging layer serves as a foundational engineering capability that supports 
 
 # 3. Related Documents
 
-### ADRs
-
-* ADR-0012 — Application Logging Layer
-
-### Runbooks
-
-* Foundation / Application Logging Layer
-
-### Specifications
-
-* Portfolio V2 Specification
-
-### Conventions
-
-* conventions.md
+| Document                                  | Project Path                                          | Purpose                                                                                       |
+|-------------------------------------------|-------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| ADR-0012 – Application Logging Layer      | `docs/adr/ADR-0012-Application-Logging-Layer.md`      | Defines the architectural decisions and design rationale for the centralized logging layer.   |
+| Application Logging Checklist             | `docs/capability/Application-Logging/checklist.md`    | Defines implementation and readiness checkpoints for this capability.                         |
+| Application Logging Usage                 | `docs/capability/Application-Logging/usage.md`        | Provides implementation patterns and usage examples across the application layers.            |
+| Application Logging Verification          | `docs/capability/Application-Logging/verification.md` | Defines the verification strategy and acceptance criteria for this capability.                |
+| Project Conventions (Application Logging) | `docs/conventions.md`                                 | Defines mandatory logging conventions, log levels, metadata rules, and security requirements. |
 
 ---
 
@@ -93,11 +87,7 @@ Supported log levels:
 # 5. Success Criteria
 
 * No direct `console.*` usage remains in server-side application code.
-* All server-side logs are emitted through the logging layer.
-* Middleware can emit logs through the logging layer.
-* API routes can emit logs through the logging layer.
-* Services can emit logs through the logging layer.
-* Repositories can emit logs through the logging layer.
+* All server-side application logs are emitted through the logging layer.
 * Logs follow a consistent structure.
 * Logs are visible through the deployment runtime logging system.
 * Application code has no dependency on logging vendors.
@@ -225,19 +215,18 @@ Personally identifiable information (PII) should be minimized whenever possible.
 
 ---
 
-# 12. Planned File Structure
+# 12. Reference Implementation Structure
 
 ```text
 src/
 └── shared/
-    └── logging/
-        ├── logger.ts
-        ├── types.ts
-        ├── levels.ts
-        └── index.ts
+       └── logger
+          ├── levels.ts
+          ├── logger.failure.test.ts
+          ├── logger.test.ts
+          ├── logger.ts
+          └── types.ts
 ```
-
-Final structure may evolve during implementation.
 
 ---
 
@@ -246,10 +235,6 @@ Final structure may evolve during implementation.
 ## Requires
 
 * ADR-0012 — Application Logging Layer
-
-## Blocked By
-
-* None
 
 ## Enables
 
@@ -264,126 +249,15 @@ Final structure may evolve during implementation.
 
 ---
 
-# 14. Decision Log
-
-| Date       | Decision                                                     |
-|------------|--------------------------------------------------------------|
-| 2026-07-29 | Logging introduced as a foundational engineering capability. |
-| 2026-07-29 | Logging separated from product feature tracking.             |
-| 2026-07-29 | Initial implementation limited to server-side logging.       |
-
----
-
-# 15. Implementation Checklist
-
-## Foundation
-
-* [x] Define logging contract.
-* [x] Define supported log levels.
-* [x] Define structured log schema.
-* [x] Create centralized logging API.
-
-## Integration
-
-* [x] Integrate logging into middleware.
-* [ ] Integrate logging into route handlers.
-* [ ] Integrate logging into services.
-* [ ] Integrate logging into repositories.
-
-### Validation
-
-- [x] Verify structured log output.
-- [x] Verify runtime visibility.
-- [x] Verify environment behavior.
-
-## Documentation
-
-* [x] Update foundation tracking.
-* [x] Document logging conventions.
-* [ ] Document usage examples.
-
----
-
-# 16. Verification
-
-## Unit Test Scope
-
-- Log level mapping
-- Structured payload generation
-- Timestamp generation
-- Metadata attachment
-- Sensitive metadata sanitization
-- Logger public API contract
-
-## Integration Test Scope
-
-- Runtime log emission
-- Middleware logging integration
-- Route handler logging integration
-- Service logging integration
-- Repository logging integration
-
-## Failure Testing Scope
-
-- Transport failures
-- Invalid payload structures
-- Unexpected metadata values
-
-## Explicit Non-Goals
-
-- External log aggregation platforms
-- Monitoring systems
-- Tracing systems
-- Alerting systems
-
-## Verification Checklist
-
-### Manual Verification
-
-- [ ] Logs appear during local development.
-- [ ] Logs appear in deployment runtime logs.
-- [ ] All server-side layers can emit logs.
-
-### Automated Verification
-
-#### Unit Tests
-
-- [x] Log level mapping tests pass.
-- [x] Structured payload generation tests pass.
-- [x] Metadata sanitization tests pass.
-- [x] Logger contract tests pass.
-
-#### Integration Tests
-
-- [ ] Runtime log emission tests pass.
-- [ ] Middleware integration tests pass.
-- [ ] Route handler integration tests pass.
-
-#### Failure Tests
-
-- [x] Transport failure scenarios pass.
-- [x] Invalid payload scenarios pass.
-- [x] Logging failures do not crash execution.
-
----
-
-# 17. Future Enhancements
-
-* Request correlation identifiers
-* Context propagation
-* External log transports
-* Log retention strategy
-* Sentry integration
-* OpenTelemetry integration
-* Client-side logging
-* Log enrichment
-* Trace integration
-* Alerting integration
-
----
-
-# 18. Notes
+# 14. Notes
 
 This capability intentionally focuses on logging only.
 
 Monitoring, tracing, alerting, telemetry, and external observability tooling will be introduced through future capabilities and ADRs.
+
+# 15. Changelog
+
+| Version | Date       | Changes                                                                                                                                                                                        |
+|---------|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2.0     | 2026-08-04 | Specification restructured. Removed implementation tracking, verification content, decision log, and future enhancements. Introduced dedicated Usage, Verification, and Checkpoints documents. |
+| 1.0     | 2026-07-29 | Initial Application Logging capability specification.                                                                                                                                          |
