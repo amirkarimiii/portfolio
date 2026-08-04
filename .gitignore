@@ -43,3 +43,4 @@ next-env.d.ts
 /.nvmrc
 /docs/feature/TEMPLATE.md
 /docs/capability/TEMPLATE.md
+/docs/.obsidian/
