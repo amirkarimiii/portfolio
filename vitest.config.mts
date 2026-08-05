@@ -5,6 +5,7 @@ export default defineConfig({
     test: {
         globals: true,
         environment: 'node',
+        setupFiles: ['./src/shared/test/setup.ts'],
         env: {
             NODE_ENV: 'test',
             MONGODB_URI: 'mongodb://localhost:27017/test_db',
