@@ -100,5 +100,5 @@ result: not ok but changed the way we were scoping
 ```
 
 ```todo
-loop: do planned works for today
+✅ loop: do planned works for today
 ```

@@ -37,415 +37,279 @@ using deepseek
 ```
 
 ```todo
-step: make branch: feature/private-publishing
+✅ step: make branch: feature/private-publishing
 ```
 
 Here we do cleanups
 
 ```todo
-step: research proper logging way with grok, deepseek
+✅ loop: feature document directory structure should be revised
 ```
 
 ```todo
-loop: feature directory structure should be revised
+✅ loop: verification steps here should be revised
 ```
 
 ```todo
-step: Check the latest optimal way in chatgpt
+✅ step: JWT configuration validated
 ```
 
 ```todo
-step: Replace server console logs with proper logger/Sentry.
+✅ step: add sonner to project 
 ```
 
 ```todo
-update specifications and teck stack for logger
+✅ commit changes
 ```
 
 ```todo
-commit changes
+✅ step: add app level scope to conventions
 ```
 
 ```todo
-step: Integrate toast notifications (Sonner) for client-side errors and actions
+✅ commit changes
 ```
 
 ```todo
-commit changes
+✅ step: add toaster to layout
 ```
 
 ```todo
-step: Remove temporary debugging logs
+✅ commit changes
 ```
 
-```todo
-commit changes
-```
-
-```todo
-step: Remove commented-out code
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Remove unused imports
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Remove unused utilities
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Remove obsolete TODO comments
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Verify consistent naming across files
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Verify API responses are standardized
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Verify environment configuration
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Verify route protection coverage
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Run lint and resolve warnings
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Run TypeScript type checking
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Review code for dead code and redundant logic
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Review documentation for consistency
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Final implementation review before merge
-```
-
-```todo
-commit changes
-```
-
-Here we do testing stuff
-Manual Testings:
-
-```todo
-step: Verify successful administrator login
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Verify invalid password displays appropriate error
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Verify authenticated session persists after page refresh
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Verify automatic session validation on application load
-```
-
-```todo
-commit changes
-```
+---
 
-```todo
-step: Verify automatic access token refresh
-```
+from readiness.md we have to check these:
 
-```todo
-commit changes
-```
+Application Logging integrated
+Authentication events logged
+Authentication failures logged
+Session lifecycle logged
+No direct console logging remains
 
 ```todo
-step: Verify logout clears authentication state
+✅ step: work on src/shared/constants/admin.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Verify administrator UI is hidden before authentication
+✅ step: work on src/shared/logger/logger.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Verify administrator UI becomes visible after login
+✅ step: work on src/features/admin/utils/jwt.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Verify protected administrator APIs require authentication
+✅ step: work on src/features/admin/services/adminAuthService.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Verify login dialog opens using the hidden shortcut
+✅ step: work on src/features/admin/repositories/adminRepository.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Verify rate limiting is applied after repeated failed login attempts
+✅ step: work on src/app/api/admin/login/route.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
-checking Edge Cases
-
 ```todo
-step: Empty password submission
+✅ step: work on src/app/api/admin/logout/route.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Invalid request payload
+✅ step: work on src/app/api/admin/session/route.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Expired access token with valid refresh token
+✅ step: work on src/middleware.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Expired refresh token
+✅ step: work on src/features/admin/hooks/useAdminAuth.ts
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Invalid or tampered JWT
+✅ step: work on src/features/admin/components/LoginDialog.tsx
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Missing authentication cookies
+✅ step: work on src/features/admin/components/LogoutButton.tsx
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Direct access to protected endpoints without authentication
+✅ step: work on src/features/admin/components/AdminLoginListener.tsx
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Refresh token reuse after logout
+✅ step: Full project review to ensure no direct logging remains: Global search for the word console. in the folders src/app/api/admin and src/features/admin to completely remove remaining cases
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: Missing or invalid environment configuration
+✅ step: Manual testing of Auth scenarios: Successful login (check log creation + Toast display)
 ```
 
 ```todo
-commit changes
+✅ step: make logout button ui better
 ```
 
 ```todo
-step: Database unavailable during authentication
+✅ commit changes
 ```
 
 ```todo
-commit changes
+✅ step: Manual testing of Auth scenarios: Unsuccessful login (check Failure log + error Toast display)
 ```
-
-Regression Testings
 
 ```todo
-step: Verify public blog remains accessible without authentication
+✅ step: Manual testing of Auth scenarios: Logout (check Lifecycle log + notification Toast display)
 ```
 
 ```todo
-commit changes
+✅ step: Manual testing of Auth scenarios: Unauthorized attempt in Middleware (check access error log)
 ```
 
 ```todo
-step: Verify main website remains unaffected
+✅ step: check Capability Integration in readiness
 ```
 
 ```todo
-commit changes
+commit runbook prgress
 ```
 
-```todo
-step: Verify existing navigation behavior
-```
+---
 
-```todo
-commit changes
-```
+from readiness.md we have to check these:
 
-```todo
-step: Verify Login dialog behavior across page navigation
-```
+Database connectivity verified (⚠️)
+Authentication runtime verified (⚠️)
+Runtime logging verified (⚠️)
 
 ```todo
-commit changes
+loop: make steps from above
 ```
 
-```todo
-step: Verify authentication state survives route changes
-```
+---
 
-```todo
-commit changes
-```
+from readiness.md we have to check these:
 
-```todo
-step: Verify logout removes administrator access everywhere
-```
+Unit verification implemented
+Unit verification passing
+Failure scenarios implemented
+Failure verification passing
+Security verification implemented
+Security verification passing
+Integration verification implemented
+Integration verification passing
+Regression verification implemented
+Regression verification passing
 
 ```todo
-commit changes
+loop: make steps from above
 ```
 
-```todo
-step: Verify middleware does not affect public routes
-```
+---
 
-```todo
-commit changes
-```
+from readiness.md we have to check these:
 
-```todo
-step: Verify API response format remains standardized
-```
+Route handler verification completed
+Application service verification completed
+Repository verification completed
+JWT utility verification completed
+Authentication hook verification completed
+Login dialog verification completed
+Authentication state verification completed
+Administrative UI verification completed
+Login workflow verified
+Logout workflow verified
+Session validation verified
+Refresh token rotation verified
+Cookie behavior verified
+Authorization rules verified
 
 ```todo
-commit changes
+loop: make steps from above
 ```
 
-```todo
-step: Verify TypeScript builds successfully
-```
+---
 
-```todo
-commit changes
-```
+from readiness.md we have to check these:
 
-```todo
-step: Verify ESLint passes without new warnings
-```
+Route handler verification completed
+Application service verification completed
+Repository verification completed
+JWT utility verification completed
+Authentication hook verification completed
+Login dialog verification completed
+Authentication state verification completed
+Administrative UI verification completed
+Login workflow verified
+Logout workflow verified
+Session validation verified
+Refresh token rotation verified
+Cookie behavior verified
+Authorization rules verified
 
 ```todo
-commit changes
+loop: make steps from above
 ```
 
-Testings are ended here.
-
-```todo
-step: Check Private-Publishing-Infrastructure.md section 16, compare with project specification "out of scops"
-```
+---
 
 ```todo
 commit changes

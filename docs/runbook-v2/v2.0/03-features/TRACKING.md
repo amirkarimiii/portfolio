@@ -20,7 +20,7 @@ It provides an overview of feature status, planning milestones, and execution or
 
 | Feature                           | Status      | Planned Start                           | Target Milestone | Completed |
 |-----------------------------------|-------------|-----------------------------------------|------------------|-----------|
-| Private Publishing Infrastructure | In Progress | 2026-07-28                              | 2026-07-29       | —         |
+| Private Publishing Infrastructure | In Progress | 2026-08-05                              | 2026-08-05       | —         |
 | Public Content Platform (Core V2) | Planned     | After Private Publishing Infrastructure | Not Estimated    | —         |
 | Interactive Stack Mapping         | Planned     | After Public Content Platform           | Not Estimated    | —         |
 | Analytical Bookshelf              | Planned     | After Interactive Stack Mapping         | Not Estimated    | —         |
