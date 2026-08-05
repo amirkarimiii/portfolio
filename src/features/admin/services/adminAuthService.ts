@@ -8,6 +8,7 @@ import {
     verifyAccessToken,
     verifyRefreshToken,
 } from "../utils/jwt";
+import { logger } from "@/shared/logger/logger";
 
 export interface LoginResult {
     accessToken: string;
@@ -54,13 +55,18 @@ export class AdminAuthService {
         return { accessToken, refreshToken };
     }
 
-
     static async logout(refreshTokenStr?: string): Promise<void> {
-        if (!refreshTokenStr) return;
+        if (!refreshTokenStr) {
+            logger.debug('Logout initiated without refresh token');
+            return;
+        }
 
         const refreshPayload = await verifyRefreshToken(refreshTokenStr);
         if (refreshPayload?.tokenId) {
             await AdminRepository.deleteRefreshToken(refreshPayload.tokenId);
+            logger.info('Admin session revoked on logout', { tokenId: refreshPayload.tokenId });
+        } else {
+            logger.warn('Logout attempted with invalid or expired refresh token');
         }
     }
 
@@ -96,6 +102,9 @@ export class AdminAuthService {
         if (!storedToken || new Date() > new Date(storedToken.expiresAt)) {
             if (storedToken) {
                 await AdminRepository.deleteRefreshToken(refreshPayload.tokenId);
+                logger.info('Expired refresh token cleaned up during session validation', {
+                    tokenId: refreshPayload.tokenId,
+                });
             }
             return { authenticated: false };
         }
@@ -116,6 +125,8 @@ export class AdminAuthService {
 
         const newAccessToken = await signAccessToken(adminId);
         const newRefreshToken = await signRefreshToken(adminId, newTokenId);
+
+        logger.info('Admin session refreshed successfully', { adminId, oldTokenId: refreshPayload.tokenId, newTokenId });
 
         return {
             authenticated: true,
