@@ -229,19 +229,19 @@ No direct console logging remains
 ```
 
 ```todo
-commit runbook prgress
+✅ commit runbook prgress
 ```
 
 ---
 
 from readiness.md we have to check these:
 
-Database connectivity verified (⚠️)
-Authentication runtime verified (⚠️)
-Runtime logging verified (⚠️)
+Database connectivity verified
+Authentication runtime verified
+Runtime logging verified
 
 ```todo
-loop: make steps from above
+✅ loop: make steps from above
 ```
 
 ---
@@ -260,7 +260,47 @@ Regression verification implemented
 Regression verification passing
 
 ```todo
-loop: make steps from above
+✅ step: work on src/features/admin/utils/jwt.test.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on src/features/admin/services/adminAuthService.test.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on src/app/api/admin/login/route.test.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on src/middleware.test.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: Step 4.1: Run Vitest command for admin feature: Run the command bun vitest run src/features/admin and bun vitest run src/middleware.test.ts
+```
+
+```todo
+✅ step: Step 4.2: Check for no Regression: Run previous infrastructure tests (bun vitest run src/shared/logger) to ensure previous layers do not fail
+```
+
+```todo
+✅ commit runbook prgress
 ```
 
 ---
