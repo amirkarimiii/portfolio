@@ -48,19 +48,20 @@ The scope registry must be reviewed whenever a significant repository restructur
 #### Product / Code Scopes
 (based on current `src` structure)
 
-| Scope        | Responsibility                                                                                                              |
-|--------------|-----------------------------------------------------------------------------------------------------------------------------|
-| `admin`      | Admin authentication, login/logout/session APIs, admin feature components, hooks, services, stores, JWT utils               |
-| `blog`       | Public blog surface — article listing, previews, banner, navbar actions, search                                             |
-| `main`       | Main portfolio surface — banner, contact, projects, info sections, main navbar actions                                      |
-| `shared`     | Cross-cutting UI primitives, layout (Navbar, listeners), constants, lib (API helpers, MongoDB), providers, types, utils     |
-| `env`        | Environment configuration (`src/env.ts`, `.env*` files, validation)                                                         |
-| `ui`         | Shared UI components under `shared/components/ui` (shadcn primitives)                                                       |
-| `seo`        | Metadata, Open Graph, icons, manifest, robots/sitemap related changes                                                       |
-| `middleware` | Next.js middleware (`src/middleware.ts`) — route protection, auth guards, etc.                                              |
-| `deps`       | Dependency management (`package.json`, `bun.lock`, package upgrades/removals)                                               |
-| `config`     | Framework configuration (`next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `vercel.json`, `postcss.config.mjs`, etc.) |
-| `repo`       | Repository (`.gitignore`, `README.md`, `.github/*`, `.gitattributes`, etc.)                                                 |
+| Scope        | Responsibility                                                                                                                                                                        |
+|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `admin`      | Admin authentication, login/logout/session APIs, admin feature components, hooks, services, stores, JWT utils                                                                         |
+| `blog`       | Public blog surface — article listing, previews, banner, navbar actions, search                                                                                                       |
+| `main`       | Main portfolio surface — banner, contact, projects, info sections, main navbar actions                                                                                                |
+| `shared`     | Cross-cutting UI primitives, layout (Navbar, listeners), constants, lib (API helpers, MongoDB), providers, types, utils                                                               |
+| `env`        | Environment configuration (`src/env.ts`, `.env*` files, validation)                                                                                                                   |
+| `ui`         | Shared UI components under `shared/components/ui` (shadcn primitives)                                                                                                                 |
+| `seo`        | Metadata, Open Graph, icons, manifest, robots/sitemap related changes                                                                                                                 |
+| `middleware` | Next.js middleware (`src/middleware.ts`) — route protection, auth guards, etc.                                                                                                        |
+| `deps`       | Dependency management (`package.json`, `bun.lock`, package upgrades/removals)                                                                                                         |
+| `config`     | Framework configuration (`next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `vercel.json`, `postcss.config.mjs`, etc.)                                                           |
+| `repo`       | Repository (`.gitignore`, `README.md`, `.github/*`, `.gitattributes`, etc.)                                                                                                           |
+| `app`        | Next.js App Router structure — root `layout.tsx`, `template.tsx`, `error.tsx`, `global-error.tsx`, `loading.tsx`, `not-found.tsx`, route groups, root pages, global route composition |
 
 
 
@@ -270,3 +271,13 @@ Added the `guide` documentation scope to distinguish developer-facing guidance f
 
 - Introduced the `guide` scope for developer guides, usage examples, implementation guidance, and authoring guidelines.
 - Clarified the separation between specifications (what the system defines) and guides (how developers use or implement it).
+
+### 2026-08-05
+
+#### App Router Scope Added
+
+Introduced the `app` scope to cover Next.js App Router files that belong to the application shell rather than any individual feature.
+
+- Added the `app` scope for root App Router files such as `layout.tsx`, `template.tsx`, `loading.tsx`, `error.tsx`, `global-error.tsx`, `not-found.tsx`, and `default.tsx`.
+- Clarified that application shell and route composition files are owned by the `app` scope instead of feature scopes.
+- Distinguished application entrypoints from reusable infrastructure (`shared`) and feature-specific implementations (`main`, `blog`, `admin`).
