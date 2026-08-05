@@ -1,12 +1,14 @@
 # Private Publishing Infrastructure
 
-**Status:** Draft
+**Version:** 2.0
+
+**Last Updated:** 2026-08-05
 
 **Owner:** Amir Karimi
 
 ---
 
-# 1. Goal
+# 1. Purpose
 
 Establish a secure authentication and authorization foundation for all future private publishing capabilities.
 
@@ -45,26 +47,16 @@ This feature introduces a private admin access layer that enables authenticated 
 
 # 3. Related Documents
 
-### Specification
-
-* portfolio-v2-spec.md
-
-### ADRs
-
-* ADR-0007 — Hybrid JWT Authentication for Admin Access
-* ADR-0008 — Separate Responsibilities for Server and UI State
-* ADR-0009 — Feature-Based Project Structure
-* ADR-0010 — Application Service Boundaries
-
-### Engineering Runbook
-
-* runbook-v2/v2.0/02-features/02-private-publishing-infrastructure.md
-* runbook-v2/v2.0/01-pre-v2-refactors/
-
-### Conventions
-
-* conventions.md
-* environment.md
+| Document                                                     | Project Path                                                             | Purpose                                                                                         |
+|--------------------------------------------------------------|--------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| ADR-0007 – Hybrid JWT Authentication for Admin Access        | `docs/adr/ADR-0007-Hybrid-JWT-Authentication-for-Admin-Access.md`        | Defines the hybrid authentication architecture governing this feature.                          |
+| ADR-0008 – Separate Responsibilities for Server and UI State | `docs/adr/ADR-0008-Separate-Responsibilities-for-Server-and-UI-State.md` | Defines the separation of server and UI state responsibilities.                                 |
+| ADR-0009 – Feature-Based Project Structure                   | `docs/adr/ADR-0009-Feature-Based-Project-Structure.md`                   | Defines the project structure and module organization.                                          |
+| ADR-0010 – Application Service Boundaries                    | `docs/adr/ADR-0010-Application-Service-Boundaries.md`                    | Defines application service boundaries and responsibilities.                                    |
+| Feature Verification                                         | `docs/feature/Private-Publishing-Infrastructure/verification.md`         | Defines how the feature specification is verified. Derived from this specification.             |
+| Feature Checklist                                            | `docs/feature/Private-Publishing-Infrastructure/checklist.md`            | Defines implementation checkpoints and production-readiness tasks.                              |
+| Project Conventions                                          | `docs/conventions.md`                                                    | Defines project-wide engineering conventions applicable to this feature.                        |
+| Environment Configuration                                    | `docs/environment.md`                                                    | Defines environment configuration, variables, and runtime constraints relevant to this faeture. |
 
 ---
 
@@ -218,7 +210,7 @@ The feature exposes reusable authentication infrastructure that future admin cap
 
 ---
 
-# 11. Planned File Structure
+# 11. Reference Implementation Structure
 
 ```text
 src/
@@ -238,7 +230,8 @@ src/
 └── shared/
     ├── lib/
     ├── providers/
-    └── constants/
+    ├── constants/
+    └── http/
 ```
 
 ---
@@ -255,12 +248,7 @@ src/
 * bcrypt
 * jose
 
-## Blocked By
-
-* Environment configuration
-* Database connectivity
-
-## Affects
+## Enables
 
 * Future article management
 * Future publishing workflow
@@ -269,141 +257,15 @@ src/
 
 ---
 
-# 13. Decision Log
-
-Document important implementation decisions that are too small for an ADR.
-
-| Date       | Decision                                                                                    |
-|------------|---------------------------------------------------------------------------------------------|
-| 2026-06-20 | Authentication infrastructure implemented independently from publishing features.           |
-| 2026-06-21 | Add Article visibility depends on authentication state rather than a dedicated admin panel. |
-
----
-
-# 14. Implementation Checklist
-
-## Preparation
-
-- [x] Finalize authentication architecture (Hybrid JWT model)
-- [x] Define feature boundaries and application service architecture
-- [x] Introduce feature-based project structure
-- [x] Prepare environment configuration and required dependencies
-- [x] Document implementation strategy and supporting ADRs
-
-## Backend
-
-- [x] Configure environment validation
-- [x] Add MongoDB connection
-- [x] Implement administrator login API
-- [x] Implement session validation API
-- [x] Implement logout API
-- [x] Implement JWT access and refresh token lifecycle
-- [x] Introduce admin repository layer
-- [x] Introduce admin application service layer
-- [x] Standardize API error handling
-- [x] Add request validation with Zod
-- [x] Replace hardcoded configuration values
-- [x] Add login rate limiting
-- [x] Protect administrator routes with authentication middleware
-
-## Frontend
-
-- [x] Implement Login dialog
-- [x] Add login dialog state management
-- [x] Connect login form to authentication APIs
-- [x] Improve authentication error handling and UX
-- [x] Introduce React Query authentication state
-- [x] Replace store-based authentication with service architecture
-- [x] Show administrator UI only after authentication
-- [x] Add logout support
-- [x] Update Add Article visibility based on authentication status
-
-## Integration
-
-- [x] Connect frontend authentication flow to backend APIs
-- [x] Enable automatic session validation
-- [x] Enable refresh token rotation
-- [x] Verify authenticated administrator workflow
-- [x] Update documentation and engineering runbooks
-
-## Cleanup
-
-- [ ] Integrate toast notifications (Sonner) for client-side errors and actions
-- [ ] Remove temporary debugging logs
-- [ ] Remove commented-out code
-- [ ] Remove unused imports
-- [ ] Remove unused utilities
-- [ ] Remove obsolete TODO comments
-- [ ] Verify consistent naming across files
-- [ ] Verify API responses are standardized
-- [ ] Verify environment configuration
-- [ ] Verify route protection coverage
-- [ ] Run lint and resolve warnings
-- [ ] Run TypeScript type checking
-- [ ] Review code for dead code and redundant logic
-- [ ] Review documentation for consistency
-- [ ] Final implementation review before merge
-
----
-
-# 15. Testing
-
-## Manual Testing
-
-- [ ] Verify successful administrator login
-- [ ] Verify invalid password displays appropriate error
-- [ ] Verify authenticated session persists after page refresh
-- [ ] Verify automatic session validation on application load
-- [ ] Verify automatic access token refresh
-- [ ] Verify logout clears authentication state
-- [ ] Verify administrator UI is hidden before authentication
-- [ ] Verify administrator UI becomes visible after login
-- [ ] Verify protected administrator APIs require authentication
-- [ ] Verify login dialog opens using the hidden shortcut
-- [ ] Verify rate limiting is applied after repeated failed login attempts
-
-## Edge Cases
-
-- [ ] Empty password submission
-- [ ] Invalid request payload
-- [ ] Expired access token with valid refresh token
-- [ ] Expired refresh token
-- [ ] Invalid or tampered JWT
-- [ ] Missing authentication cookies
-- [ ] Direct access to protected endpoints without authentication
-- [ ] Refresh token reuse after logout
-- [ ] Missing or invalid environment configuration
-- [ ] Database unavailable during authentication
-
-## Regression Testing
-
-- [ ] Verify public blog remains accessible without authentication
-- [ ] Verify main website remains unaffected
-- [ ] Verify existing navigation behavior
-- [ ] Verify Login dialog behavior across page navigation
-- [ ] Verify authentication state survives route changes
-- [ ] Verify logout removes administrator access everywhere
-- [ ] Verify middleware does not affect public routes
-- [ ] Verify API response format remains standardized
-- [ ] Verify TypeScript builds successfully
-- [ ] Verify ESLint passes without new warnings
-
----
-
-# 16. Future Improvements
-
-* Middleware-based authorization for all write routes
-* Persistent distributed rate limiting
-* Role-based authorization
-* Multi-admin support
-* Audit logging
-* Session management dashboard
-* Configurable session lifetime
-
----
-
-# 17. Notes
+# 13. Notes
 
 This feature intentionally focuses on authentication infrastructure only.
 
 Publishing, article authoring, editing, and content management are documented and implemented as separate features that build upon this authentication layer.
+
+# 14. Changelog
+
+| Version | Date       | Changes                                                                                                                                                                                                                                                                                        |
+|---------|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2.0     | 2026-08-05 | Specification restructured. Removed status tracking, decision log, implementation checklist, testing content, and future improvements. Introduced dedicated Verification and Checklist documents. Added versioned metadata, related-document registry, and reference implementation structure. |
+| 1.0     | 2026-07-27 | Initial Private Publishing Infrastructure feature specification.                                                                                                                                                                                                                               |
