@@ -152,8 +152,7 @@ Private Publishing Infrastructure feature workspace.
 Originates from `staging`, per the standard feature-branch workflow. This is the
 first feature branch of the V2 roadmap
 
-This branch will be merged and deleted upon completion, following the standard
-merge policy defined in `docs/conventions.md`.
+This branch was merged via fast-forward into staging and subsequently deleted upon completion of the Private Publishing Infrastructure feature.
 
 ---
 
