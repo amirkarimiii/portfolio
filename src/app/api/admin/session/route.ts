@@ -1,7 +1,8 @@
 import { cookies } from 'next/headers';
 import { AdminAuthService } from "@/features/admin/services/adminAuthService";
 import { withErrorHandler, createSuccessResponse } from '@/shared/lib/api/routeHandler';
-import {env} from "@/env";
+import { env } from "@/env";
+import { logger } from "@/shared/logger/logger";
 
 export interface SessionData {
     authenticated: boolean;
@@ -17,6 +18,9 @@ export const GET = withErrorHandler(async () => {
     const result = await AdminAuthService.validateOrRefreshSession(accessTokenStr, refreshTokenStr);
 
     if (!result.authenticated) {
+        if (accessTokenStr || refreshTokenStr) {
+            logger.info('Admin session invalid or expired, clearing cookies');
+        }
         return clearAuthCookiesResponse();
     }
 
