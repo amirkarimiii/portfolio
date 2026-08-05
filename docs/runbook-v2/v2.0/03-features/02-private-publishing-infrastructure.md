@@ -323,30 +323,53 @@ Cookie behavior verified
 Authorization rules verified
 
 ```todo
-loop: make steps from above
+✅ step: work on src/features/admin/repositories/adminRepository.test.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: Create authentication hook test (e.g. useAdminAuth.test.tsx or related hook)
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: Create login dialog component test (e.g. LoginDialog.test.tsx)
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: Review Administrative UI: Check that sensitive management sections are not displayed if the user is not authenticated in the UI
+```
+
+```todo
+✅ commit runbook prgress
 ```
 
 ---
 
 from readiness.md we have to check these:
 
-Route handler verification completed
-Application service verification completed
-Repository verification completed
-JWT utility verification completed
-Authentication hook verification completed
-Login dialog verification completed
-Authentication state verification completed
-Administrative UI verification completed
-Login workflow verified
-Logout workflow verified
-Session validation verified
-Refresh token rotation verified
-Cookie behavior verified
-Authorization rules verified
+All required tests passing
+Security requirements satisfied (⚠️)
+Runtime requirements satisfied
+No known blocking issues remain
+Ready for production use
 
 ```todo
 loop: make steps from above
+```
+
+```todo
+commit runbook prgress
 ```
 
 ---
