@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Eye, EyeOff, InfoIcon } from "lucide-react";
+import { toast } from "sonner";
 import { useLoginDialog } from "@/features/admin/stores/loginDialogStore";
 import { useAdminLogin } from "@/features/admin/hooks/useAdminAuth";
 import { LoginInputSchema } from "@/features/admin/schemas/authSchema";
@@ -51,6 +52,7 @@ export function LoginDialog() {
 
         login(validationResult.data.password, {
             onSuccess: () => {
+                toast.success("LOGIN_SUCCESS");
                 setPassword("");
                 setClientError(null);
                 setOpen(false);
