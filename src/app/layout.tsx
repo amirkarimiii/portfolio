@@ -6,6 +6,7 @@ import {QueryProvider} from "@/shared/providers/QueryProvider";
 import {AdminLoginListener} from "@/features/admin/components/AdminLoginListener";
 import {DialogCloseListener} from "@/shared/components/layout/listeners/DialogCloseListener";
 import {LoginDialog} from "@/features/admin/components/LoginDialog";
+import {Toaster} from "@/shared/components/ui/sonner";
 
 
 const geistSans = Geist({
@@ -35,6 +36,7 @@ export default function RootLayout({
                 <AdminLoginListener/>
                 <DialogCloseListener/>
                 <LoginDialog />
+                <Toaster />
             </QueryProvider>
         </Provider>
         </body>
