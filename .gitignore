@@ -41,6 +41,5 @@ yarn-error.log*
 next-env.d.ts
 /.idea/
 /.nvmrc
-/docs/feature/TEMPLATE.md
-/docs/capability/TEMPLATE.md
 /docs/.obsidian/
+/docs/TEMPLATE_DOCS/
