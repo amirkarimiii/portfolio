@@ -106,19 +106,79 @@ result: not ok but changed the way we were scoping
 ---
 
 ```todo
-step: Update git observatory and conventions in cloud in chrome and firefox
+✅ step: Update git observatory and conventions in cloud in chrome and firefox
 ```
 
 ```todo
-step: Define a new folder DOC_TEMPLATE and gitignore it (for any template that we will have in the continuation of the work)
+✅ loop: Define a new folder DOC_TEMPLATE and gitignore it (for any template that we will have in the continuation of the work)
 ```
 
 ```todo
-step: Define runbook_work_chuncks in it for work pieces; define these chunks
+✅ step: Define runbook_work_chuncks in it for work pieces
 ```
 
 ```todo
-step: Research for Notification to add as a capability (and do it if it was ok)
+✅ step: Research for Notification to add as a capability (and do it if it was ok)
+```
+
+```todo
+✅ step: work on notification.constants.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on notification.service.ts
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: Set default position top-center (position="top-center") on the <Toaster/> component or related Provider of sonner in the UI/Layout folder so that it is consistent everywhere
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on LoginDialog.tsx
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: work on LogoutButton.tsx
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: Write Unit Test for notification.service.ts (check whether calling the service methods invokes sonner with the correct parameters or not)
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+✅ step: Update Mocks in existing test files such as LoginDialog.test.tsx (if needed)
+```
+
+```todo
+✅ commit changes
+```
+
+```todo
+commit runbook
 ```
 
 ```todo
