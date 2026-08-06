@@ -22,6 +22,15 @@ loop: create steps based on [dedicated feature file in docs/features]
 
 ```todo
 change status in TRACKING for this feature
+(header status should be mark as completed!)
+```
+
+```todo
+commit changes
+```
+
+```todo
+change status in v2.0\TRACKING.md for all feature
 ```
 
 ```todo

@@ -27,5 +27,23 @@
 ```
 
 ```todo
-✅ go to 02-private-publishing-infrastructure.md
+✅ go to 01-private-publishing-infrastructure.md
+```
+
+---
+
+```todo
+step: Complete the work of documentations related to 03-public-content-platform
+```
+
+```todo
+commit changes
+```
+
+```todo
+step: Planning for starting the work of this project and specifying today's milestone
+```
+
+```todo
+go to 02-public-content-platform.md
 ```

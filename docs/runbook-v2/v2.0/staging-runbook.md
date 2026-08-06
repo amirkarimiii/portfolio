@@ -102,3 +102,25 @@ result: not ok but changed the way we were scoping
 ```todo
 ✅ loop: do planned works for today
 ```
+
+---
+
+```todo
+step: Update git observatory and conventions in cloud in chrome and firefox
+```
+
+```todo
+step: Define a new folder DOC_TEMPLATE and gitignore it (for any template that we will have in the continuation of the work)
+```
+
+```todo
+step: Define runbook_work_chuncks in it for work pieces; define these chunks
+```
+
+```todo
+step: Research for Notification to add as a capability (and do it if it was ok)
+```
+
+```todo
+go to features-runbook.md line 36
+```

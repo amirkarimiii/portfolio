@@ -365,51 +365,47 @@ No known blocking issues remain
 Ready for production use
 
 ```todo
-loop: make steps from above
+✅ loop: make steps from above
 ```
 
 ```todo
-commit runbook prgress
+✅ commit runbook prgress
 ```
 
 ---
 
 ```todo
-commit changes
+✅ change status in TRACKING for this feature
 ```
 
 ```todo
-change status in TRACKING for this feature
+✅ commit changes
 ```
 
 ```todo
-commit changes
+✅ checkout statging
 ```
 
 ```todo
-checkout statging
+✅ merge feature/private-publishing into staging
 ```
 
 ```todo
-merge feature/private-publishing into staging
+✅ delete feature/private-publishing
 ```
 
 ```todo
-delete feature/private-publishing
+✅ upload git observatory to claude
 ```
 
 ```todo
-upload git observatory to claude
+✅ change observatory based on new refactors
 ```
 
 ```todo
-change observatory based on new refactors
+✅ commit changes
 ```
 
 ```todo
-commit changes
-```
-
-```todo
-go to 03-public-content-platform.md
+✅ go to staging-runbook.md, line 109
 ```
