@@ -5,11 +5,14 @@ import React from 'react';
 import { LoginDialog } from './LoginDialog';
 import { useLoginDialog } from '@/features/admin/stores/loginDialogStore';
 import { useAdminLogin } from '@/features/admin/hooks/useAdminAuth';
-import { toast } from 'sonner';
+import {notify} from "@/shared/notification/notification.service";
 
-vi.mock('sonner', () => ({
-    toast: {
+vi.mock("@/shared/notification/notification.service", () => ({
+    notify: {
         success: vi.fn(),
+        error: vi.fn(),
+        info: vi.fn(),
+        warning: vi.fn(),
     },
 }));
 
@@ -114,7 +117,7 @@ describe('LoginDialog', () => {
         expect(mockReset).toHaveBeenCalled();
     });
 
-    it('should trigger toast.success and close dialog on login success callback', () => {
+    it('should trigger notify.success and close dialog on login success callback', () => {
         render(<LoginDialog />);
 
         const passwordInput = screen.getByLabelText(/password/i);
@@ -126,7 +129,7 @@ describe('LoginDialog', () => {
         const options = mockLogin.mock.calls[0][1];
         options.onSuccess();
 
-        expect(toast.success).toHaveBeenCalledWith('LOGIN_SUCCESS');
+        expect(notify.success).toHaveBeenCalledWith('LOGIN_SUCCESS');
         expect(useLoginDialog.getState().open).toBe(false);
     });
 });
