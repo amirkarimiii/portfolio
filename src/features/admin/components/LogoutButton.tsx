@@ -1,7 +1,7 @@
 "use client";
 
 import {LogOut} from "lucide-react";
-import { toast } from "sonner";
+import {notify} from "@/shared/notification/notification.service";
 import { useAdminLogout, useAdminSession } from "@/features/admin/hooks/useAdminAuth";
 import { Button } from "@/shared/components/ui/button";
 
@@ -14,7 +14,7 @@ export function LogoutButton() {
     const handleLogout = () => {
         logout(undefined, {
             onSuccess: () => {
-                toast.info("LOGOUT_SUCCESS");
+                notify.info("LOGOUT_SUCCESS");
             },
         });
     };
