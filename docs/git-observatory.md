@@ -134,25 +134,14 @@ This branch precedes all V2 product feature branches.
 The following branch names are reserved for V2 roadmap features.
 Branches are created only when the preceding feature is complete.
 
-| Branch Name                       | Feature                           | Status  |
-|-----------------------------------|-----------------------------------|---------|
-| `feature/private-publishing`      | Private Publishing Infrastructure | Active  |
-| `feature/public-content-platform` | Public Content Platform (Core V2) | Pending |
-| `feature/stack-map`               | Interactive Stack Mapping         | Pending |
-| `feature/bookshelf`               | Analytical Bookshelf              | Pending |
-| `feature/ai-optimization`         | AI Optimization Suite (AIO/GEO)   | Pending |
-| `feature/production-readiness`    | Production Readiness              | Pending |
-
-## `feature/private-publishing`
-
-**Purpose**
-
-Private Publishing Infrastructure feature workspace.
-
-Originates from `staging`, per the standard feature-branch workflow. This is the
-first feature branch of the V2 roadmap
-
-This branch was merged via fast-forward into staging and subsequently deleted upon completion of the Private Publishing Infrastructure feature.
+| Branch Name                       | Feature                           | Status    |
+|-----------------------------------|-----------------------------------|-----------|
+| `feature/private-publishing`      | Private Publishing Infrastructure | Completed |
+| `feature/public-content-platform` | Public Content Platform (Core V2) | Active    |
+| `feature/stack-map`               | Interactive Stack Mapping         | Pending   |
+| `feature/bookshelf`               | Analytical Bookshelf              | Pending   |
+| `feature/ai-optimization`         | AI Optimization Suite (AIO/GEO)   | Pending   |
+| `feature/production-readiness`    | Production Readiness              | Pending   |
 
 ---
 
