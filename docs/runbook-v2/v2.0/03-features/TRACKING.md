@@ -21,7 +21,7 @@ It provides an overview of feature status, planning milestones, and execution or
 | Feature                           | Status      | Planned Start                   | Target Milestone | Completed  |
 |-----------------------------------|-------------|---------------------------------|------------------|------------|
 | Private Publishing Infrastructure | Completed   | 2026-08-05                      | 2026-08-05       | 2026-08-05 |
-| Public Content Platform (Core V2) | In Progress | 2026-08-06                      | 2026-08-09       | —          |
+| Public Content Platform (Core V2) | In Progress | 2026-08-06                      | 2026-08-12       | —          |
 | Interactive Stack Mapping         | Planned     | After Public Content Platform   | Not Estimated    | —          |
 | Analytical Bookshelf              | Planned     | After Interactive Stack Mapping | Not Estimated    | —          |
 | AI Optimization Suite (AIO/GEO)   | Planned     | After Analytical Bookshelf      | Not Estimated    | —          |

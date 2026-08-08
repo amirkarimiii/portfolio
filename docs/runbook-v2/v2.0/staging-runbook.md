@@ -178,9 +178,9 @@ result: not ok but changed the way we were scoping
 ```
 
 ```todo
-commit runbook
+✅ commit runbook
 ```
 
 ```todo
-go to features-runbook.md line 36
+✅ go to features-runbook.md line 36
 ```

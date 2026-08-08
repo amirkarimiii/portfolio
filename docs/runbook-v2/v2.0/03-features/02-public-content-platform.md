@@ -1,23 +1,81 @@
-```todo
-step: make branch: feature/public-content-platform
+we have to make branch: feature/public-content-platform
+
+```todo:git-observatory
+✅ step: upload git observatory to claude
 ```
 
-```todo
-step: Making the conversation centered on the dimensions of this feature
-make as much as questions and answers for the feature
-using deepseek
+```todo:git-observatory
+✅ step: request for changes: making branch feature/public-content-platform
 ```
 
-```todo
-step: Create the main feature file in the feature directory using the obtained questions and answers; using chatgpt
+```todo:git-observatory
+✅ step: change git observatory
 ```
 
+```todo:git-observatory
+✅ commit changes
+```
+
+```todo:git-observatory
+✅ step: upload git observatory to claude in firefox and chrome
+```
+
+here we have to make documentations for this feature
+
 ```todo
+✅ step: Making the conversation centered on user stories of this feature
+using chatgpt
+```
+
+```todo:feature-docs
+✅ step: make specifications
+```
+
+```todo:feature-docs
+✅ commit changes
+```
+
+```todo:feature-docs
+✅ step: make verifications
+```
+
+```todo:feature-docs
+✅ commit changes
+```
+
+```todo:feature-docs
+✅ step: make readiness
+```
+
+```todo:feature-docs
+✅ commit changes
+```
+
+At this point we have to rebase our historical branch
+
+### git observatory
+```todo:git-observatory
+✅ step: upload git observatory to claude
+```
+
+```todo:git-observatory
+step: request for changes
+```
+
+```todo:git-observatory
+step: change git observatory
+```
+
+```todo:git-observatory
 commit changes
 ```
 
+```todo:git-observatory
+step: upload git observatory to claude in firefox and chrome
+```
+
 ```todo
-loop: create steps based on [dedicated feature file in docs/features]
+loop: create steps based on feature readiness
 ```
 
 ```todo
