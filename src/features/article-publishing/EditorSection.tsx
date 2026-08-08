@@ -1,9 +1,9 @@
 'use client'
 import {useEditor} from '@tiptap/react'
 import Tiptap from './article-editor/Tiptap'
-import {Button} from "@/components/ui/shadcn/button";
 import Toolbar from "./article-editor/toolbar/Toolbar";
-import {extensions} from "src/features/article-publishing/article-editor/extensions";
+import {extensions} from "@/features/article-publishing/article-editor/extensions";
+import {Button} from "@/shared/components/ui/button";
 
 const EditorSection = () => {
     const editor = useEditor({
