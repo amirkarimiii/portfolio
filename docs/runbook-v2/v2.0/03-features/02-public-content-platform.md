@@ -59,20 +59,55 @@ At this point we have to rebase our historical branch
 ```
 
 ```todo:git-observatory
-step: request for changes
+✅ step: request for changes
 ```
 
 ```todo:git-observatory
-step: change git observatory
+✅ step: change git observatory
 ```
 
 ```todo:git-observatory
-commit changes
+✅ commit changes
 ```
 
 ```todo:git-observatory
-step: upload git observatory to claude in firefox and chrome
+✅ step: upload git observatory to claude in firefox and chrome
 ```
+
+We have dozens of conflicts to resolve, so we need to define a commit message scope for them.
+
+### conventions
+```todo:conventions
+✅ step: upload conventions to chatgpt
+```
+
+```todo:conventions
+✅ step: research for changes
+```
+
+```todo:conventions
+✅ step: update conventions needed parts
+```
+
+```todo:conventions
+✅ step: update conventions changlog
+```
+
+```todo:conventions
+✅  changes
+```
+
+```todo:conventions
+✅ step: upload conventions to claude in firefox and chrome
+```
+
+```todo
+✅ loop: manage rebase conflicts
+```
+
+```todo:conventions
+step: commit runbook
+``
 
 ```todo
 loop: create steps based on feature readiness
