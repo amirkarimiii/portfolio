@@ -9,6 +9,3 @@ Shared Middleware
 Request Context
 Health Checks
 etc.
-
-
-for ─────── HISTORICAL REBASE: BEGIN ───────
