@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { Editor, useEditorState } from "@tiptap/react";
-import { Button } from "@/components/ui/shadcn/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/shadcn/tooltip";
 import { blockButtonInitializer } from "./blockButtonInitializer";
-import {cn} from "@/lib/utils/shadcnUtils";
+import {Button} from "@/shared/components/ui/button";
+import {cn} from "@/shared/utils/shadcnUtils";
+import {Tooltip, TooltipContent, TooltipTrigger} from "@/shared/components/ui/tooltip";
 
 interface BlockButtonProps {
     type: "quote" | "code";
