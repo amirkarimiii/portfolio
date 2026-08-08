@@ -19,6 +19,7 @@
     "@tiptap/extension-blockquote": "^3.29.2",
     "@tiptap/extension-code-block": "^3.29.2",
     "@tiptap/extension-document": "^3.29.2",
+    "@tiptap/extension-paragraph": "^3.29.2",
     "@tiptap/pm": "^3.29.2",
     "@tiptap/react": "^3.29.2",
     "@types/bcryptjs": "^3.0.0",
