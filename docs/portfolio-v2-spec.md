@@ -1,366 +1,163 @@
 # Portfolio V2 Specification (`portfolio-v2-spec.md`)
 
-**Version:** 2.0
+**Version:** 3.0
 
-**Last Updated:** 2026-07-23
+**Status:** Approved
+
+**Last Updated:** 2026-08-08
 
 **Owner:** Amir Karimi
 
-## 1. Vision
+---
 
-Transform the personal portfolio from a static project showcase into a **dynamic, highly transparent engineering platform and personal brand hub (Amir Karimi)**. The goal is to clearly convey deep technical expertise, enterprise-level problem-solving abilities, architecture-first thinking, and continuous professional growth to both human evaluators (Engineering Managers, Recruiters) and AI agents (LLMs, GEO/AIO crawlers).
+# 1. Purpose & Vision
 
-Portfolio V2 is designed as a **public, read-only engineering platform** rather than a community product or SaaS application.
+Portfolio V2 transforms the personal portfolio from a static project showcase into a dynamic, transparent engineering platform and personal brand hub (**Amir Karimi**).
+
+The platform is designed to convey:
+
+* Deep technical expertise and enterprise-level problem-solving
+* Architecture-first thinking and documented engineering decision-making
+* Continuous professional growth and active research
+
+Portfolio V2 is built for both **human evaluators** (Engineering Managers, Recruiters) and **AI/Search systems** (LLMs, GEO/AIO crawlers). The portfolio is treated as a production software product with rigorous standards around documentation, security, testing, maintainability, and performance.
 
 ---
 
-## 2. Motivation
+# 2. System Model
 
-* **Low Signal-to-Noise Ratio in V1:** The previous version (`a-karimkhani.ir`) lacked sufficient engineering depth, architectural reasoning, and documented technical decisions.
-* **AI & Search Engine Invisibility:** Modern AI systems and search engines could not accurately understand the portfolio due to insufficient semantic content and structured technical documentation.
-* **Lack of Continuous Learning Signals:** There was no structured way to demonstrate long-term learning, research, and architectural evolution.
-* **Personal Rebranding:** Establish the identity of **Amir Karimi** for international visibility and remote engineering opportunities.
+Portfolio V2 consists of three distinct conceptual surfaces:
 
----
-
-## 3. Goals
-
-1. **Maximized AI & Search Discoverability (AIO/GEO)**
-
-   Enable AI systems and search engines to understand engineering capabilities through structured metadata (`JSON-LD`, `llms.txt`, semantic content).
-
-2. **Proof of Engineering & Thought Process**
-
-   Demonstrate architectural thinking through technical write-ups, stack mapping, engineering playgrounds, and analytical reading notes.
-
-3. **Production-Grade Engineering Standards**
-
-   Treat the portfolio as a real software product with documentation, ADRs, security, maintainability, testing, and high performance.
-
-4. **Personal Brand Alignment**
-
-   Build a consistent technical identity around **Amir Karimi** across every public touchpoint.
+1. **Public Platform:** A public, read-only platform providing access to technical articles, project breakdowns, stack mappings, bookshelf analyses, and engineering experiences. No authentication is required for public access.
+2. **Owner Administration:** Protected administrative functionality reserved exclusively for the site owner to manage and publish content. It does not introduce a multi-user CMS.
+3. **Engineering Documentation System:** The structured documentation base (Specifications, ADRs, Guidelines, Verification artifacts, and Runbooks) that governs and reflects the implemented software product.
 
 ---
 
-# 4. Access Model
+# 3. System Boundaries
 
-Portfolio V2 is a **public read-only platform**.
+## 3.1 Public Access
 
-Visitors can freely browse projects, articles, and technical content without authentication.
+Portfolio V2 is fundamentally a public read-only platform. Visitors can access published content without logging in.
 
-The platform intentionally **does not include**:
+## 3.2 Administrative Access
 
-* User registration
-* User accounts
-* Public authentication
-* User profiles
-* Multi-user CMS
-* Role management
+Administrative capabilities are restricted strictly to the site owner (Amir Karimi). There are no secondary administrators, contributors, or editors.
 
-Administrative functionality exists **only** for the site owner (Amir Karimi) to publish and manage technical articles.
+## 3.3 Core Invariants
 
-There is no concept of editors, contributors, or multiple administrators.
+The system explicitly maintains the following boundary constraints:
 
----
-
-# 5. Delivery Roadmap
-
-The implementation order is intentional. Each phase depends on the successful completion of the previous one.
-
-## Phase 1 — Private Publishing Infrastructure
-
-This phase establishes the technical foundation required before introducing any public blogging functionality.
-
-Features:
-
-* Owner-only authentication flow
-* Private Admin Panel
-* Secure article management
-* Draft / Publish workflow
-* JWT authentication
-* Protected write APIs
-* Security hardening
-* Rate limiting
-* Token expiration
-* Documentation for the publishing workflow
-
-**Rationale**
-
-The blog cannot exist before a secure publishing workflow exists. Therefore, the Admin Panel is implemented first.
+* No public registration, login, or user profiles
+* No multi-user role management or contributor workflows
+* Content creation, editing, and deletion operations are strictly protected
+* Unpublished (Draft/Archived) content is never exposed via public APIs or routes
 
 ---
 
-## Phase 2 — Public Content Platform (Core V2)
+# 4. Core Capabilities
 
-After the publishing infrastructure is complete, public-facing features are implemented.
+Portfolio V2 is composed of major capabilities delivered across planned versions. Detailed behavior, domain models, APIs, and functional requirements live within each capability's dedicated specification document.
 
-Features:
-
-* Portfolio pages
-* Project showcase
-* Owner-only Blog
-* Interactive Stack Mapping
-* Analytical Bookshelf
-* AI Optimization Suite
-* SEO foundations
-* Performance optimization
-* Production documentation
-
-This phase represents the **first production release (Portfolio V2.0).**
+* **Private Publishing Infrastructure:** Owner authentication, protected admin workflows, secure write APIs, rate limiting, and token security.
+* **Public Content Platform:** Public article/series rendering, owner authoring workflows, draft autosave/recovery, lifecycle transitions, and SEO metadata.
+* **Interactive Stack Mapping:** Interactive technology index linking tools to mental models, enterprise challenges, code references, and RFCs.
+* **Analytical Bookshelf:** Curated reading library documenting architectural shifts, practical project applications, and learning outcomes.
+* **AI & Search Optimization (AIO/GEO):** Structured semantic data layers (`llms.txt`, `llm.json`, JSON-LD schemas) optimized for AI agent parsing.
+* **Engineering Experience:** Interactive architecture visualizers, React Flow diagrams, system walkthroughs, and global article search with tag filtering.
 
 ---
 
-## Phase 3 — Engineering Experience
+# 5. Architecture Principles
 
-After the portfolio is production-ready, engineering-focused interactive experiences are added.
-
-Features:
-
-* Interactive Engineering Playground
-* Architecture explorer
-* CI/CD walkthroughs
-* Interactive system diagrams
-* Global article search
-* Full-text search with tag filtering
-
-This phase represents **Portfolio V2.1**.
+1. **Explicit Boundaries:** Clear separation between public presentation, owner administration, domain features, and shared infrastructure.
+2. **Specification-First Development:** Features and capabilities must have explicit specifications defining required behavior prior to production release.
+3. **ADRs for Architectural Decisions:** Platform-wide architectural choices, trade-offs, and design rationale are recorded in Architecture Decision Records (`docs/adr/`) rather than duplicated in feature specs.
+4. **Shared Rules in Shared Docs:** Cross-cutting guidelines (rendering, SEO, media, security) live in `docs/guidelines/` or `docs/conventions.md`.
+5. **Separation of Documentation Concerns:**
+* **Specification:** *What* the system/feature must do.
+* **Readiness:** *Are* prerequisites available to begin?
+* **Verification:** *How* do we prove the contract is satisfied?
+* **ADR:** *Why* was an architectural decision made?
+* **Runbook:** *How* to execute operational workflows.
 
 ---
 
-## Phase 4 — Future Enhancements
+# 6. Delivery & Version Plan
 
-These features are intentionally postponed.
+Portfolio V2 is delivered incrementally across clear version milestones:
 
-They are currently planned for **Portfolio V2.2** (tentatively scheduled to begin around **mid-November**).
+| Version  | Milestone Name             | Included Capabilities / Scope                                                                                                        | Status      |
+|----------|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------|-------------|
+| **V2.0** | **Production Foundation**  | Private Publishing Infrastructure, Public Content Platform (Blog & Series), Stack Mapping, Analytical Bookshelf, AI/SEO foundations. | In Progress |
+| **V2.1** | **Engineering Experience** | Interactive Engineering Playground, Architecture Explorer, CI/CD walkthroughs, Global Article Search.                                | Planned     |
+| **V2.2** | **Future Enhancements**    | Deferred research items: Telegram bot messaging, telemetry analytics, social cross-posting.                                          | Deferred    |
 
-Possible features include:
+---
 
-* Anonymous messaging through a Telegram bot
-* Advanced audience analytics and telemetry
+# 7. Non-Goals & Deferred Work
+
+The following capabilities are **permanently excluded** from Portfolio V2:
+
+* Public user registration or authentication
+* User accounts, profiles, or user dashboards
+* Multi-user CMS, role-based access control (RBAC), or contributor roles
+* Community/social networking features (public comments, likes, user bookmarks)
+
+The following items are **deferred for future research** (tentatively V2.2) and are not part of the core platform contract:
+
+* Anonymous messaging via Telegram bot
+* Advanced audience telemetry
 * Automated social media cross-posting
 
-These items are explicitly **out of scope** for Portfolio V2.0 and V2.1.
-
 ---
 
-# 6. Major Features
+# 8. Project-Level Acceptance Criteria
 
-## Owner-only Blog Publishing
-
-A private publishing workflow for Amir Karimi to create, edit, publish, and manage technical articles.
-
-* Articles are publicly readable.
-* Content creation is restricted to the site owner.
-* No public author accounts exist.
-* No contributor workflow exists.
-* Multi-language readiness starts with English.
-
----
-
-## Interactive Stack Mapping
-
-A dedicated stack section where selecting a technology opens a drawer containing:
-
-* Mental model
-* Enterprise challenges solved
-* Curated code snippets
-* Repository references
-* Books
-* Articles
-* RFC references
-
----
-
-## Analytical Bookshelf
-
-A curated reading library documenting:
-
-* Why each book was read
-* What architectural thinking changed
-* Which projects benefited
-* Related blog articles
-
----
-
-## AI Optimization Suite (AIO/GEO)
-
-Support for:
-
-* `llms.txt`
-* `llm.json`
-* JSON-LD schemas
-
-  * Person
-  * BlogPosting
-  * TechArticle
-  * Book
-
----
-
-## Interactive Engineering Playground
-
-An architecture exploration experience allowing visitors to navigate engineering systems visually.
-
-Includes:
-
-* React Flow diagrams
-* Architecture walkthroughs
-* Infrastructure explanations
-* CI/CD pipeline visualization
-* Testing strategy walkthroughs
-
----
-
-# 7. Definition of Done (Acceptance Criteria)
-
-Portfolio V2 is considered complete only when the following conditions are satisfied.
-
----
+Portfolio V2.0 is considered complete when the following project-level conditions are verified:
 
 ## Goal 1 — AI & Search Discoverability
 
-* [ ] `llms.txt` successfully tested with at least one external LLM using blind prompting.
-* [ ] JSON-LD schemas validate successfully.
-* [ ] SEO audit passes the agreed quality threshold.
+* [ ] `llms.txt` and `llm.json` successfully tested and validated with external LLMs via blind prompting.
+* [ ] Structured JSON-LD schemas (Person, BlogPosting, TechArticle) validate without errors.
+* [ ] SEO and metadata audit passes agreed quality thresholds.
 
----
+## Goal 2 — Proof of Engineering & Brand Alignment
 
-## Goal 2 — Proof of Engineering
-
-* [ ] Every technology drawer contains complete content.
-* [ ] Engineering Playground contains at least one complete architecture.
-* [ ] Analytical Bookshelf contains multiple documented learning analyses.
-* [ ] Full-text article search returns relevant results.
-* [ ] Search supports tag-based filtering.
-
----
+* [ ] Interactive Stack Mapping and Analytical Bookshelf contain fully populated, verified entries.
+* [ ] Amir Karimi is consistently represented across branding, metadata, public content, and documentation.
 
 ## Goal 3 — Production-Grade Standards
 
-* [ ] Security headers audit passes the agreed threshold.
-* [ ] Performance audit passes the agreed threshold.
-* [ ] `docs/` documentation is complete and current.
-* [ ] Owner-only authentication flow is security-tested.
-* [ ] Login rate limiting is verified.
-* [ ] Token expiration is verified.
-* [ ] No unauthenticated write access exists.
-* [ ] No public Sign-Up flow exists.
-* [ ] No public Login flow exists.
-* [ ] All public pages are accessible without authentication.
-* [ ] Admin routes are accessible only to the site owner.
+* [ ] All public pages and APIs are accessible read-only without authentication.
+* [ ] Protected administrative routes and write APIs reject unauthenticated or unauthorized requests.
+* [ ] Rate limiting, token expiration, and security headers pass verification audits.
+* [ ] Production documentation (`docs/`) is complete, current, and reflects actual implementation.
 
 ---
 
-## Goal 4 — Brand Alignment
+# 9. Related Documents
 
-* [ ] Amir Karimi is consistently represented across branding, documentation, metadata, and public content.
+This specification serves as the entry point to the Portfolio V2 documentation system.
 
----
 
-# 8. Non-Goals
+| Category                         | Location Pattern                                              | Purpose                                                                                                       |
+|----------------------------------|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| Architecture Decisions           | `docs/adr/ADR-XXXX-*.md`                                      | Individually numbered ADRs recording architectural decisions affecting the project                            |
+| Feature Specs                    | `docs/feature/<feature-name>/specification.md`                | One folder per delivery-roadmap feature; owns that feature's own scope, requirements, and API — see Section 5 |
+| Capability Specs                 | `docs/capability/<capability-name>/specifications.md`         | One folder per cross-cutting capability (e.g. logging), same readiness/verification/usage split as features   |
+| Guidelines                       | `docs/guidelines/*.md`                                        | Shared cross-cutting conventions (rendering, media, SEO, etc.) referenced by multiple feature specs           |
+| Reference Notes                  | `docs/tech-stack.md`, `docs/environment.md`                   | Standalone taxonomy entries outside the feature/capability structure                                          |
 
-The following capabilities are intentionally excluded from Portfolio V2:
 
-* Public user registration
-* Public authentication
-* User accounts
-* User dashboards
-* Multi-user CMS
-* Multiple administrators or contributors
-* Role-based access control
-* Community or social networking features
-
-The following capabilities are **deferred for future research** rather than permanently rejected:
-
-* Comments
-* Likes
-* Bookmarks
-* Other forms of visitor interaction
-
-Their inclusion will be evaluated in a future version once suitable technical and moderation approaches have been researched.
+*Note: Pending capability specifications (Stack Mapping, Analytical Bookshelf, AIO Suite, Engineering Playground) will be added to this table as their respective specification files are created.*
 
 ---
 
-# 9. Version Planning
+# 10. Changelog
 
-| Version  | Scope                                                                                                                   |
-|----------|-------------------------------------------------------------------------------------------------------------------------|
-| **V2.0** | Private publishing infrastructure + public portfolio + owner-only blog + AI/SEO foundations + Stack Mapping + Bookshelf |
-| **V2.1** | Interactive Engineering Playground, architecture exploration, and global article search<br/>                            |
-| **V2.2** | Optional enhancements (Telegram messaging, telemetry, automation, and results of future interaction-feature research)   |
-
----
-
-# Appendix A — Change Log
-
-## Specification Revision 2
-
-This revision refines the original specification by improving project scope, implementation clarity, and long-term maintainability.
-
-### Major Improvements
-
-#### Delivery Roadmap introduced
-
-The specification now explicitly defines the implementation sequence instead of presenting all features at the same priority level.
-
-Implementation order is now:
-
-1. Private Publishing Infrastructure
-2. Public Content Platform (Portfolio V2.0)
-3. Engineering Experience (Portfolio V2.1)
-4. Future Enhancements (Portfolio V2.2)
-
-This makes project planning, milestone tracking, and incremental delivery significantly clearer.
-
----
-
-#### Explicit Access Model
-
-The access model is now clearly documented.
-
-The portfolio is intentionally designed as a public read-only platform.
-
-Administrative capabilities exist exclusively for Amir Karimi to publish technical content.
-
-This removes any ambiguity regarding public authentication, user accounts, or multi-user administration.
-
----
-
-#### Better Feature Scope
-
-Blogging is now described as an owner-only publishing workflow instead of a generic blogging platform, accurately reflecting the intended architecture.
-
----
-
-#### Future Work Separated
-
-Features planned for Portfolio V2.2 are explicitly separated from the core scope.
-
-This prevents optional ideas from being interpreted as requirements for the initial release.
-
----
-
-#### Non-Goals Clarified
-
-Capabilities intentionally excluded from Portfolio V2 are now documented.
-
-Interaction features (such as comments or likes) are marked as future research topics rather than permanently rejected functionality.
-
----
-
-#### Stronger Acceptance Criteria
-
-Production-grade requirements now include verification of:
-
-- Owner-only administration
-- No public authentication
-- No public registration
-- Protected write operations
-- Secure administrative access
-
-This makes the Definition of Done more objective and testable.
-
----
-
-Overall, this revision transforms the specification from a feature list into a phased engineering roadmap with explicit scope boundaries, implementation priorities, and architectural intent.
+| Version | Date       | Summary of Changes                                                                                                                                                                                                                                                                                                                             |
+|---------|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **1.0** | —          | Initial specification: feature list without explicit execution ordering or architectural boundaries.                                                                                                                                                                                                                                           |
+| **2.0** | 2026-07-23 | Introduced delivery roadmap phases, access model, non-goals, and definition of done criteria.                                                                                                                                                                                                                                                  |
+| **3.0** | 2026-08-08 | Restructured into a Project-Level System Charter: removed duplicated feature scopes, unified Access Model & Non-Goals, consolidated Version/Roadmap planning, established explicit System Model & Architecture Principles, and aligned with the 3-file feature documentation standard (`specification.md`, `readiness.md`, `verification.md`). |
