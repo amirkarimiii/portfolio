@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import {Editor, useEditorState} from "@tiptap/react";
-import { Button } from "@/components/ui/shadcn/button";
 import { listButtonInitializer } from "./listButtonInitializer";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/shadcn/tooltip";
+import {Tooltip, TooltipContent, TooltipTrigger} from "@/shared/components/ui/tooltip";
+import {Button} from "@/shared/components/ui/button";
 
 interface ListButtonProps {
     type: "bullet" | "ordered";
