@@ -23,6 +23,7 @@
     "@tiptap/extension-image": "^3.29.2",
     "@tiptap/extension-paragraph": "^3.29.2",
     "@tiptap/extension-text": "^3.29.2",
+    "@tiptap/extensions": "^3.29.2",
     "@tiptap/pm": "^3.29.2",
     "@tiptap/react": "^3.29.2",
     "@types/bcryptjs": "^3.0.0",
