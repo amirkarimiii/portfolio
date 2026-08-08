@@ -301,6 +301,8 @@ Important historical checkpoints include:
 | `fbe8780` | v1.1.0                                    |
 | `c8d9e58` | Staging recovery anchor                   |
 | `57362e9` | Documentation-Driven Development adoption |
+| `caf539d` | Historical rebase begin                   |
+| `c037d8b` | Historical rebase end                     |
 
 These commits represent stable recovery points rather than ordinary development milestones.
 
