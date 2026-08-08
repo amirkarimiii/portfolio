@@ -2,52 +2,19 @@ import {Editor} from "@tiptap/react";
 
 import { ImagePlus } from "lucide-react";
 
-import {useState} from "react";
-import {toast} from "sonner";
 import {BlockButton} from "./BlockButton/BlockButton";
 import {Button} from "@/shared/components/ui/button";
 import {HistoryButton} from "@/features/article-publishing/article-editor/toolbar/HistoryButton/HistoryButton";
 import {HeadingsButton} from "@/features/article-publishing/article-editor/toolbar/HeadingsButton/HeadingsButton";
+import {XCorpIcon, YouTubeIcon} from "@/features/article-publishing/article-editor/toolbar/icons";
+import {LinkButton} from "@/features/article-publishing/article-editor/toolbar/LinkButton/LinkButton";
+import {ListButton} from "@/features/article-publishing/article-editor/toolbar/ListButton/ListButton";
+import { MarkButton } from "./MarkButton/MarkButton";
+import {ButtonGroup, ButtonGroupSeparator} from "@/shared/components/ui/button-group";
 
 function Toolbar({editor}: { editor: Editor | null }) {
 
-    const [open, setOpen] = useState(false);
-    const [link, setLink] = useState("");
-
     if (!editor) return null
-
-    const handleDone = () => {
-        let value = link.trim();
-
-        if (value.startsWith("http://")) {
-            toast.warning("This link is not secure (http). Please use https", {position: "top-center"})
-            return;
-        }
-
-        if (!/^https?:\/\//i.test(value)) {
-            value = "https://" + value;
-        }
-
-        const isValidUrl = (() => {
-            try {
-                const url = new URL(value);
-                const domainPattern = /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/;
-                return domainPattern.test(url.hostname);
-            } catch {
-                return false;
-            }
-        })();
-
-        if (!isValidUrl) {
-            toast.error("The input must be a valid URL", {position: "top-center"});
-            return;
-        }
-        editor?.chain().focus().toggleLink({
-            href: value,
-        }).run();
-        setLink("");
-        setOpen(false);
-    };
 
     return (
         <ButtonGroup>
