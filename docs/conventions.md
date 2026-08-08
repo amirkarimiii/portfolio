@@ -64,7 +64,6 @@ The scope registry must be reviewed whenever a significant repository restructur
 | `app`        | Next.js App Router structure — root `layout.tsx`, `template.tsx`, `error.tsx`, `global-error.tsx`, `loading.tsx`, `not-found.tsx`, route groups, root pages, global route composition |
 
 
-
 > `ui` should be used only when the change is limited to shared UI primitives. Broader cross-cutting changes should use `shared`.
 
 #### Documentation Scopes
@@ -85,6 +84,14 @@ The scope registry must be reviewed whenever a significant repository restructur
 | `guide`       | Developer guides, usage examples, implementation guidance, authoring guidelines |
 
 > spec includes `portfolio-v2-spec.md` and all documents under `docs/feature/` and `docs/capablity/`
+
+#### Historical rebase resolving conflicts
+
+| Scope    | Responsibility                                                                      |
+|----------|-------------------------------------------------------------------------------------|
+| `rebase` | Track every commit related to resolving conflicts after merging historical branches |
+
+> after merging our historical rebases based on what we have on `git-observatory.md`, we have dozens of conflicts to resolve, so we need to define a commit message scope for them.
 
 #### Examples
 
@@ -281,3 +288,12 @@ Introduced the `app` scope to cover Next.js App Router files that belong to the 
 - Added the `app` scope for root App Router files such as `layout.tsx`, `template.tsx`, `loading.tsx`, `error.tsx`, `global-error.tsx`, `not-found.tsx`, and `default.tsx`.
 - Clarified that application shell and route composition files are owned by the `app` scope instead of feature scopes.
 - Distinguished application entrypoints from reusable infrastructure (`shared`) and feature-specific implementations (`main`, `blog`, `admin`).
+
+### 2026-08-08
+
+#### Historical Rebase Conflict Scope Added
+
+Introduced the `rebase` scope for commits that resolve conflicts after merging historical branches.
+
+- Added the `rebase` scope to track every commit related to resolving conflicts that arise from historical rebases (as referenced in `git-observatory.md`).
+- Established a dedicated scope for the large volume of conflict-resolution work that occurs after historical rebase merges, keeping these commits clearly separated from feature or documentation changes.
