@@ -7,6 +7,7 @@ import {AdminLoginListener} from "@/features/admin/components/AdminLoginListener
 import {DialogCloseListener} from "@/shared/components/layout/listeners/DialogCloseListener";
 import {LoginDialog} from "@/features/admin/components/LoginDialog";
 import {Toaster} from "@/shared/components/ui/sonner";
+import {TooltipProvider} from "@/shared/components/ui/tooltip";
 
 
 const geistSans = Geist({
@@ -31,6 +32,7 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
         <Provider>
+            <TooltipProvider>
             <QueryProvider>
                 {children}
                 <AdminLoginListener/>
@@ -38,6 +40,7 @@ export default function RootLayout({
                 <LoginDialog />
                 <Toaster />
             </QueryProvider>
+            </TooltipProvider>
         </Provider>
         </body>
         </html>
