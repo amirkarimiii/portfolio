@@ -1,26 +1,13 @@
 import {Editor} from "@tiptap/react";
-import {ButtonGroup, ButtonGroupSeparator} from "@/components/ui/shadcn/button-group";
-import {Button} from "@/components/ui/shadcn/button";
 
-import {
-    BoldIcon,
-    CodeIcon, Eraser,
-    HighlighterIcon, ImagePlus, ItalicIcon,
-    LinkIcon, List, ListOrdered,
-    StrikethroughIcon, UnderlineIcon
-} from "lucide-react";
+import { ImagePlus } from "lucide-react";
 
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/shadcn/popover";
-import {Textarea} from "@/components/ui/shadcn/textarea";
 import {useState} from "react";
 import {toast} from "sonner";
-import {XCorpIcon, YouTubeIcon} from "@/components/ui/sections/add-article/editor/toolbar/icons";
-import {HistoryButton} from "@/components/ui/sections/add-article/editor/toolbar/HistoryButton/HistoryButton";
-import {HeadingsButton} from "@/components/ui/sections/add-article/editor/toolbar/HeadingsButton/HeadingsButton";
 import {BlockButton} from "./BlockButton/BlockButton";
-import {ListButton} from "@/components/ui/sections/add-article/editor/toolbar/ListButton/ListButton";
-import {MarkButton} from "@/components/ui/sections/add-article/editor/toolbar/MarkButton/MarkButton";
-import {LinkButton} from "@/components/ui/sections/add-article/editor/toolbar/LinkButton/LinkButton";
+import {Button} from "@/shared/components/ui/button";
+import {HistoryButton} from "@/features/article-publishing/article-editor/toolbar/HistoryButton/HistoryButton";
+import {HeadingsButton} from "@/features/article-publishing/article-editor/toolbar/HeadingsButton/HeadingsButton";
 
 function Toolbar({editor}: { editor: Editor | null }) {
 
