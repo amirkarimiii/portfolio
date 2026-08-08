@@ -1,12 +1,12 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { Editor, useEditorState } from "@tiptap/react";
-import { Button } from "@/components/ui/shadcn/button";
-import { Input } from "@/components/ui/shadcn/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/shadcn/popover";
 import { toast } from "sonner";
 import { linkButtonInitializer } from "./linkButtonInitializer";
-import {cn} from "@/lib/utils/shadcnUtils";
 import {Trash} from "lucide-react";
+import {Popover, PopoverContent, PopoverTrigger} from "@/shared/components/ui/popover";
+import {Button} from "@/shared/components/ui/button";
+import {cn} from "@/shared/utils/shadcnUtils";
+import {Input} from "@/shared/components/ui/input";
 
 interface LinkButtonProps {
     editor: Editor | null;
