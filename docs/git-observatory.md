@@ -193,6 +193,21 @@ while allowing the repository to present a clean architectural history.
 
 This repository deliberately treats those historical branches as legitimate development history rather than code requiring reimplementation.
 
+## Historical Rebase Execution
+
+When historical branches are ready to be integrated, the following procedure is followed:
+
+1. Fast-forward merge up through the historical branch chain to the divergence point.
+2. Commit a clearly marked `─────── HISTORICAL REBASE: BEGIN ───────` marker immediately before the rebase.
+3. Rebase the historical chain onto the current `staging` HEAD.
+4. Commit a clearly marked `─────── HISTORICAL REBASE: END ───────` marker immediately after.
+5. Delete historical branches after successful relocation.
+
+The two marker commits intentionally fall outside repository commit conventions.
+Their sole purpose is to make the rebase boundary unambiguous in the commit log.
+
+Author dates and the original development sequence are preserved throughout this process.
+
 ---
 
 # 6. Commit History Philosophy
