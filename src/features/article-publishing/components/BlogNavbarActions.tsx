@@ -1,6 +1,6 @@
-import {ThemeButton} from "src/shared/components/buttons/ThemeButton";
-import {LogoutButton} from "src/features/admin/components/LogoutButton";
-import {HomeButton} from "src/shared/components/buttons/HomeButton";
+import {ThemeButton} from "@/shared/components/buttons/ThemeButton";
+import {LogoutButton} from "@/features/admin/components/LogoutButton";
+import {HomeButton} from "@/shared/components/buttons/HomeButton";
 
 
 export function BlogNavbarActions() {
