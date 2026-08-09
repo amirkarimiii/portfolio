@@ -106,11 +106,37 @@ We have dozens of conflicts to resolve, so we need to define a commit message sc
 ```
 
 ```todo:conventions
-step: commit runbook
-``
+✅ step: commit runbook
+```
+
+3 stages for designing this feature
+
+UI design </br>
+Wiring beneath: line </br>
+Checking with readiness: line </br>
 
 ```todo
-loop: create steps based on feature readiness
+✅ loop: Separate all large steps into smaller steps
+```
+
+```todo
+commit changes
+```
+
+```todo
+loop: Create tracking for each directory
+```
+
+```todo
+commit changes
+```
+
+```todo
+loop: Change git-observatory to fit with each tracking
+```
+
+```todo
+commit changes
 ```
 
 ```todo
@@ -150,5 +176,5 @@ commit changes
 ```
 
 ```todo
-go to 04-interactive-stack-mapping.md
+go to 03-interactive-stack-mapping.md
 ```
