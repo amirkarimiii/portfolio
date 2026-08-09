@@ -1,12 +1,9 @@
 # Portfolio V2 Specification (`portfolio-v2-spec.md`)
 
-**Version:** 3.0
-
-**Status:** Approved
-
-**Last Updated:** 2026-08-08
-
-**Owner:** Amir Karimi
+**Version:** 3.0 </br>
+**Status:** Approved </br>
+**Last Updated:** 2026-08-08 </br>
+**Owner:** Amir Karimi </br>
 
 ---
 

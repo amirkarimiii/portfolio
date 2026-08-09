@@ -1,8 +1,8 @@
 # Public Content Platform (Core V2)
 
-**Version:** 1.1
-**Last Updated:** 2026-08-09
-**Owner:** Amir Karimi
+**Version:** 1.1 </br>
+**Last Updated:** 2026-08-09 </br>
+**Owner:** Amir Karimi </br>
 
 ---
 

@@ -1,10 +1,8 @@
 # Application Logging Layer Specifications
 
-**Version:** 2.0
-
-**Last Updated:** 2026-08-04
-
-**Owner:** Amir Karimi
+**Version:** 2.0 </br>
+**Last Updated:** 2026-08-04 </br>
+**Owner:** Amir Karimi </br>
 
 ---
 
