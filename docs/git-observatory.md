@@ -125,8 +125,7 @@ This branch was merged via fast-forward into `refactor/pre-v2-backlog` after all
 Application Logging Layer foundation capability.
 
 Establishes shared logging infrastructure before product features are implemented.
-Originates from `staging` and will be merged back via fast-forward upon completion.
-
+This branch was merged via fast-forward into `staging` upon completion of the Application Logging Layer, and subsequently deleted.
 This branch precedes all V2 product feature branches.
 
 ## V2 Feature Branch Registry
@@ -134,14 +133,54 @@ This branch precedes all V2 product feature branches.
 The following branch names are reserved for V2 roadmap features.
 Branches are created only when the preceding feature is complete.
 
-| Branch Name                       | Feature                           | Status    |
-|-----------------------------------|-----------------------------------|-----------|
-| `feature/private-publishing`      | Private Publishing Infrastructure | Completed |
-| `feature/public-content-platform` | Public Content Platform (Core V2) | Active    |
-| `feature/stack-map`               | Interactive Stack Mapping         | Pending   |
-| `feature/bookshelf`               | Analytical Bookshelf              | Pending   |
-| `feature/ai-optimization`         | AI Optimization Suite (AIO/GEO)   | Pending   |
-| `feature/production-readiness`    | Production Readiness              | Pending   |
+| Branch Name                       | Feature                           | Diverged / Merged to | Status    |
+|-----------------------------------|-----------------------------------|:--------------------:|-----------|
+| `feature/private-publishing`      | Private Publishing Infrastructure |       staging        | Completed |
+| `feature/public-content-platform` | Public Content Platform (Core V2) |       staging        | Active    |
+| `feature/stack-map`               | Interactive Stack Mapping         |       staging        | Pending   |
+| `feature/bookshelf`               | Analytical Bookshelf              |       staging        | Pending   |
+| `feature/ai-optimization`         | AI Optimization Suite (AIO/GEO)   |       staging        | Pending   |
+| `feature/production-readiness`    | Production Readiness              |       staging        | Pending   |
+
+### `feature/public-content-platform`
+
+This feature is organized into sequential stages.
+Sub-branches are fast-forward merged back into `feature/public-content-platform` upon completion.
+
+| Branch Name                    | Stages                  |      Diverged / Merged to       | Status  |
+|--------------------------------|-------------------------|:-------------------------------:|---------|
+| `feature/pcp-ui-design`        | UI Design               | feature/public-content-platform | Active  |
+| `feature/pcp-wiring-beneath`   | Wiring Beneath          | feature/public-content-platform | Pending |
+| `feature/pcp-readiness-check`  | Checking with Readiness | feature/public-content-platform | Pending |
+
+UI Design and Wiring Beneath stages contain organized sub-tasks tracked as sequential sub-branches. Checking with Readiness is a single-phase stage with no sub-branches.
+
+#### Stage 1: UI Design
+
+This stage is organized into sequential sections.
+Sub-branches are fast-forward merged back into `feature/pcp-ui-design` upon completion.
+
+| Branch Name                    | Sections                  |      Diverged / Merged to      | Status  |
+|--------------------------------|---------------------------|:------------------------------:|---------|
+| `feature/pcp-ui-article-crud`  | Article Creation and Edit |     feature/pcp-ui-design      | Active  |
+| `feature/pcp-ui-series-form`   | New Series Creation Form  |     feature/pcp-ui-design      | Pending |
+| `feature/pcp-ui-security`      | Security Modals           |     feature/pcp-ui-design      | Pending |
+| `feature/pcp-ui-cards`         | Public Layers and Cards   |     feature/pcp-ui-design      | Pending |
+
+Article Creation and Edit section contains organized sub-tasks tracked as sequential sub-branches. Other sections are single-phase with no sub-branches.
+
+##### Section 1: Article Creation and Edit
+
+| Branch Name                      | Steps                       |    Diverged / Merged to     | Status  |
+|----------------------------------|-----------------------------|:---------------------------:|---------|
+| `feature/pcp-article-foundation` | Article Creation Foundation | feature/pcp-ui-article-crud | Active  |
+| `feature/pcp-article-metadata`   | Tab Metadata                | feature/pcp-ui-article-crud | Pending |
+| `feature/pcp-article-content`    | Tab Content                 | feature/pcp-ui-article-crud | Pending |
+| `feature/pcp-article-relations`  | Tab Related Articles        | feature/pcp-ui-article-crud | Pending |
+
+#### Stage 2: Wiring Beneath
+
+Sub-branches and milestones for this stage will be defined upon completion of Stage 1.
 
 ---
 
@@ -155,11 +194,8 @@ Examples include:
 
 ```
 feat/new-article-route
-
 └── feat/new-article-route-b/tiptap
-
     └── feat/new-article-route-b/toolbar
-
         └── feat/new-article-route-b/add-image
 ```
 
