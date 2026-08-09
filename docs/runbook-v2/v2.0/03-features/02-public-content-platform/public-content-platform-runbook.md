@@ -140,7 +140,7 @@ Checking with readiness: line </br>
 ```
 
 ```todo
-step: go to 02-public-content-platform\01-ui-design\ui-design-runbook.md
+✅ step: go to 01-ui-design\ui-design-runbook.md
 ```
 
 ```todo

@@ -33,9 +33,9 @@
 ---
 
 ```todo
-step: Planning for starting the work of this project and specifying today's milestone
+✅ step: Planning for starting the work of this project and specifying today's milestone
 ```
 
 ```todo
-go to 02-public-content-platform.md
+✅ go to 02-public-content-platform/public-content-platform-runbook.md
 ```
