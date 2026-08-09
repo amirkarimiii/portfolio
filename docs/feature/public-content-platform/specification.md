@@ -1,7 +1,7 @@
 # Public Content Platform (Core V2)
 
-**Version:** 1.0
-**Last Updated:** 2026-08-08
+**Version:** 1.1
+**Last Updated:** 2026-08-09
 **Owner:** Amir Karimi
 
 ---
@@ -134,6 +134,7 @@ A Series has its own:
 * Header/Cover Image
 * Thumbnail
 * Alt Text metadata
+* SEO Title, SEO Description, Canonical URL (when applicable) — mirroring the SEO metadata an Article carries (Section 6.2), since a Series has its own indexable public landing page (`/series/:seriesSlug`)
 * Lifecycle Timestamps: `created_at`, `updated_at`
 
 A Series is published as a standalone landing page at `/series/:seriesSlug`, which displays its associated Articles.
@@ -184,9 +185,9 @@ If an Article references Entity B, and Entity B subsequently becomes `Archived`,
 
 * The renderer shall not break or omit the block.
 * The Content Card shall render a graceful **Fallback Card State**, including:
-    * **Header Badge:** "This article is currently unavailable"
-    * **Body Description:** a standardized message explaining the content is unavailable
-    * **Thumbnail:** a system-default neutral placeholder image
+  * **Header Badge:** "This article is currently unavailable"
+  * **Body Description:** a standardized message explaining the content is unavailable
+  * **Thumbnail:** a system-default neutral placeholder image
 
 ---
 
@@ -241,9 +242,9 @@ Article deletion is permanent and destructive. The system enforces two security 
 
 * **From Draft state:** a simple confirmation modal ("Are you sure you want to delete this draft?").
 * **From Published or Archived state:** a high-security confirmation flow:
-    1. The system prompts for Owner password re-authentication.
-    2. The owner must manually type the exact Article Title into a confirmation field.
-    3. Upon verification, the Article and its associated draft records are permanently purged.
+  1. The system prompts for Owner password re-authentication.
+  2. The owner must manually type the exact Article Title into a confirmation field.
+  3. Upon verification, the Article and its associated draft records are permanently purged.
 
 ## 5.4 Lifecycle & Audit Timestamps
 
@@ -361,11 +362,15 @@ The system shall not require a separate Previous Article / Next Article navigati
 
 ## 6.11 Related Articles
 
-The Related Articles tab shall allow the owner to associate related Articles with the current Article. The system shall provide suggestions based primarily on semantic relationships such as shared Tags. The owner shall be able to:
+The Related Articles tab shall allow the owner to associate related Articles with the current Article.
 
-* Add a suggested Article
-* Remove an Article
-* Search for an Article
+**Suggestion list:** the tab shall present, by default, the **20 existing Articles with the highest Tag overlap** with the current Article's currently selected Tags (Section 6.8), ordered by similarity (most shared Tags first). This suggestion list is rendered eagerly, without pagination or an in-list search control — mirroring the Series picker's scope constraints (Section 6.12.1) for this version. If the current Article has no Tags selected yet, the suggestion list is empty until Tags are chosen.
+
+The owner shall be able to:
+
+* Add a suggested Article from the list above
+* Remove a previously added Article
+* Search for an Article outside the suggestion list — a separate, deliberate manual lookup, for cases where the desired Article isn't among the top-20 suggestions
 * Reorder selected Articles
 
 Related Article selection is editorial metadata and shall not automatically publish or modify the referenced Articles. This is distinct from the automatic `inbound_referencing_slugs` tracking in Section 4.4, which tracks in-body Content References rather than curated editorial relationships. The system shall not implement an autonomous recommendation engine as part of this feature.
@@ -380,11 +385,54 @@ Series membership does not exclude an Article from appearing as a card in the `/
 
 **Classification Immutability:** because this version has no automatic slug/route redirect mechanism (Section 2, Excluded; Section 6.4), an Article's classification as Standalone or Series Member is locked as soon as the Article is first published (`first_published_at` is set). Once locked, the owner cannot convert a Standalone Article into a Series Member, remove a Published Article from its Series to make it Standalone, or move it to a different Series — any of these would silently change the Article's public route with no redirect in place. This is a stricter, immediate lock than the 72-hour slug-editing grace window in Section 6.4, since it changes the route pattern itself rather than a slug value within the same pattern. While the Article remains in Draft (never published), Series assignment may be changed freely.
 
+### 6.12.1 Series Selection Interface (Existing Series)
+
+The Metadata tab's Series field shall present the owner with two options: **select an existing Series** or **create a new Series** (Section 6.12.2).
+
+The existing-Series option shall present a flat, single-select list of the **20 most recently created Series**, ordered by `created_at` descending. *(Note: this ordering key is deliberately distinct from the `updated_at` ordering used by the public `/series` index, Section 4.2/6.23 — the Article form always surfaces the newest Series, regardless of which existing Series were most recently edited.)*
+
+* The list is rendered eagerly, without lazy loading.
+* Selection behaves as a single-select control (radio-style): selecting one Series visually indicates the choice and disables the remaining options, enforcing the zero-or-one Series constraint (Section 6.12).
+* Search and pagination over the Series list are explicitly **out of scope for this version**. The 20-item cap is considered sufficient given the expected Series volume during this phase of the project; search/pagination for this picker is deferred to a future version, by which point later Portfolio versions are expected to have already introduced search/pagination for Series more broadly (Section 6.23 groundwork).
+
+### 6.12.2 New Series Creation (Cross-Tab, Event-Driven)
+
+Selecting "Create New Series" opens the Add Series interface (`/admin/add-series`, Section 9; field-level requirements in Section 6.13) in a **new browser tab**, rather than navigating away from the current Article form. The Add Series interface is also reachable directly from the admin dashboard, independent of the Article form. This preserves the in-progress Article Draft — including unsaved TipTap content and metadata state (Sections 6.15–6.16) — without risk of loss through navigation or refresh.
+
+Upon successful creation of the Series in the new tab, the system shall broadcast a cross-tab event (e.g. `series-created`) using the browser's `BroadcastChannel` API, with a `localStorage`-event-based fallback for environments without `BroadcastChannel` support. The originating Article-form tab listens for this event and, upon receipt, shall:
+
+* Update its Series selection list in place, prepending the newly created Series to the top of the 20-item list (Section 6.12.1).
+* Perform this update without a full page reload and without requiring the owner to manually refresh.
+* Leave the Article form's own unsaved state untouched.
+
+This introduces event-driven, cross-tab client communication to the project for the first time. It is a browser-native mechanism — it does not require WebSocket support or additional backend/server infrastructure, and the server remains unaware of the cross-tab sync. As this is a pre-implementation design decision rather than a course-correction away from an already-underway approach, it is captured directly in this specification rather than as an ADR (Section 8's ADR requirement applies to decisions that change course after a direction was already substantially pursued); should this pattern later be revised after implementation, that revision would be the trigger for an ADR.
+
 ---
 
-## 6.13 Series Requirements
+## 6.13 Series Creation & Metadata
 
-A Series intended for publication shall contain: Title, Slug, Description, Header/Cover Image, Thumbnail, and appropriate Alt Text metadata.
+The system shall allow the authenticated owner to create a Series through the protected Add Series workflow (`/admin/add-series`, Section 9), reachable either directly from the admin dashboard or from the Article form's Series field (Section 6.12.2), and shall reject unauthenticated access.
+
+**Relationship to Article Creation:** a Series is a lighter-weight content entity than an Article. Its creation form is deliberately narrower in scope than the Article form (Section 6.1):
+
+* It has **no Content/body tab** — a Series has no rich-text body of its own; it is a container for Articles, not an authored document.
+* It has **no "Related Series" tab or suggestion mechanism** analogous to Related Articles (Section 6.11). Cross-Series discovery is out of scope for this version.
+
+Aside from those two omissions, a Series requires the same category of care as an Article regarding identity, media, and SEO metadata, since it has its own indexable, publicly linked landing page (`/series/:seriesSlug`).
+
+### 6.13.1 Series Fields
+
+The Add Series form shall provide a single **Metadata** tab (no additional tabs), with the following fields:
+
+**Identity:** Title (max 36 characters, Section 4.2) · Slug · Description
+**Media:** Header/Cover Image · Thumbnail
+**SEO:** SEO Title · SEO Description · Canonical URL, when applicable
+
+A Series intended for publication shall contain, at minimum: Title, Slug, Description, Header/Cover Image, Thumbnail, and appropriate Alt Text metadata for both images. Header/Cover Alt Text shall be manually editable, consistent with the Article Cover Image treatment (Section 6.6); Thumbnail Alt Text follows the same auto-derivation pattern as Articles (`<cover-alt>_thmb`, Section 6.7) rather than being independently editable. *(Assumption carried over from the existing Alt Text field in Section 4.2, which did not previously distinguish Header vs. Thumbnail Alt Text — flag for confirmation if a different treatment was intended.)*
+
+Series slugs follow the same reserved-name and uniqueness rules as Article slugs within their own namespace (Section 6.4); slug locking behavior for a published Series is not addressed by this version and is assumed unlocked/always-editable unless specified otherwise.
+
+### 6.13.2 Series Landing Page & Article Ordering
 
 A Series shall have a public landing route `/series/:seriesSlug`, displaying its associated Articles. Articles within the Series shall be sortable according to the visitor's selected ordering preference:
 
@@ -645,6 +693,7 @@ Architectural decisions that affect the broader platform shall be documented thr
 
 ```text
 /admin/add-article
+/admin/add-series
 /admin/articles/drafts
 /admin/articles/archive
 /admin/articles/:id/edit
@@ -674,6 +723,8 @@ Exact endpoint naming shall follow existing API conventions. Public read APIs sh
 | GET    | `/api/tags`                      | Search existing Tags                                                    | Yes           |
 | POST   | `/api/tags`                      | Create Tag                                                              | Yes           |
 | GET    | `/api/articles/search`           | Search Articles for references/related content                          | Yes           |
+| POST   | `/api/series`                    | Create Series (Section 6.12.2)                                          | Yes           |
+| GET    | `/api/series/recent`             | Top 20 most recently created Series, for Article-form picker (6.12.1)   | Yes           |
 | GET    | `/api/blog`                      | Paginated list of Published Articles for `/blog` (Section 6.22)         | No            |
 | GET    | `/api/series`                    | Paginated list of Series for `/series` (Section 6.23)                   | No            |
 
@@ -708,6 +759,7 @@ The server is the source of truth for persisted Article state.
 * Tag search input
 * Related Article selection UI
 * Content Reference selection UI
+* Series selection list (top 20 recent) and its cross-tab `series-created` event listener state (Section 6.12.2)
 * Blog/Series pagination state and prefetch cache (next pages, prefetched Article content, prefetched Series Article Cards — Sections 6.22–6.23)
 
 The client shall not treat unsaved editor state as successfully persisted until the server confirms the save.
@@ -835,6 +887,7 @@ This structure is illustrative and shall follow the existing project architectur
 
 # 17. Changelog
 
-| Version | Date       | Changes               |
-|---------|------------|-----------------------|
-| 1.0     | 2026-08-08 | Initial specification |
+| Version | Date       | Changes                                                                                                                                                                                                                                       |
+|---------|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1.0     | 2026-08-08 | Initial specification                                                                                                                                                                                                                         |
+| 1.1     | 2026-08-09 | Added Series Selection UI & cross-tab New Series flow (6.12.1–2), `/admin/add-series` + APIs; SEO fields on Series (4.2); full Series Creation & Metadata reqs (6.13); Related Articles as top-20 tag-similarity (6.11); updated Client State ||
