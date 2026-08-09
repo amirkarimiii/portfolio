@@ -18,12 +18,12 @@ It provides an overview of Article Creation and Edit status, planning milestones
 
 # 2. Tracking
 
-| Steps                       | Status      | Planned Start                     | Target Milestone | Completed |
-|-----------------------------|-------------|-----------------------------------|------------------|:---------:|
-| Article Creation Foundation | In Progress | 2026-08-09                        | Not Estimated    |     —     |
-| Tab Metadata                | Planned     | After Article Creation Foundation | Not Estimated    |     —     |
-| Tab Content                 | Planned     | After Tab Metadata                | Not Estimated    |     —     |
-| Tab Related Articles        | Planned     | After Tab Content                 | Not Estimated    |     —     |
+| Steps                       | Status      | Planned Start     | Target Milestone | Completed |
+|-----------------------------|-------------|-------------------|------------------|:---------:|
+| Article Creation Foundation | In Progress | 2026-08-09        | 2026-08-09       |     —     |
+| Tab Metadata                | Planned     | 2026-08-09        | 2026-08-09       |     —     |
+| Tab Content                 | Planned     | 2026-08-10        | 2026-08-10       |     —     |
+| Tab Related Articles        | Planned     | After Tab Content | Not Estimated    |     —     |
 
 ---
 

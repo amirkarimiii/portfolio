@@ -120,23 +120,27 @@ Checking with readiness: line </br>
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-loop: Create tracking for each directory
+✅ loop: Create tracking for each directory
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```todo
-loop: Change git-observatory to fit with each tracking
+✅ loop: Change git-observatory to fit with each tracking
 ```
 
 ```todo
-commit changes
+✅ commit changes
+```
+
+```todo
+step: go to 02-public-content-platform\01-ui-design\ui-design-runbook.md
 ```
 
 ```todo

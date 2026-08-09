@@ -5,7 +5,7 @@ import Toolbar from "./article-editor/toolbar/Toolbar";
 import {extensions} from "@/features/article-publishing/article-editor/extensions";
 import {Button} from "@/shared/components/ui/button";
 
-const EditorSection = () => {
+const ArticlePublish = () => {
     const editor = useEditor({
         extensions: [
             ...extensions
@@ -36,4 +36,4 @@ const EditorSection = () => {
         </section>
     )
 }
-export default EditorSection
+export default ArticlePublish

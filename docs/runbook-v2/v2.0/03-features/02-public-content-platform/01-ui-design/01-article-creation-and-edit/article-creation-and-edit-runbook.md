@@ -1,11 +1,19 @@
 Section 1: Article create and edit form (/admin/add-article and /admin/articles/:id/edit) </br>
 This is our main form and includes 3 main tabs:
 
+Foundations: we have to make a composition, consist of three tabs and a header
+
 Tab 1: Metadata (basic info and metadata) </br>
 Tab 2: Content (main text editor) </br>
 Tab 3: Related Articles </br>
 
-and then we have a header to create for all these three
+```todo
+step: create branch feature/pcp-ui-article-crud
+```
+
+```todo
+step: go to 01-foundations.md
+```
 
 ```todo
 loop: creation of foundation for each tab
