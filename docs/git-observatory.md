@@ -133,14 +133,14 @@ This branch precedes all V2 product feature branches.
 The following branch names are reserved for V2 roadmap features.
 Branches are created only when the preceding feature is complete.
 
-| Branch Name                       | Feature                           | Diverged / Merged to | Status    |
-|-----------------------------------|-----------------------------------|:--------------------:|-----------|
-| `feature/private-publishing`      | Private Publishing Infrastructure |       staging        | Completed |
-| `feature/public-content-platform` | Public Content Platform (Core V2) |       staging        | Active    |
-| `feature/stack-map`               | Interactive Stack Mapping         |       staging        | Pending   |
-| `feature/bookshelf`               | Analytical Bookshelf              |       staging        | Pending   |
-| `feature/ai-optimization`         | AI Optimization Suite (AIO/GEO)   |       staging        | Pending   |
-| `feature/production-readiness`    | Production Readiness              |       staging        | Pending   |
+| Branch Name                       | Feature                           | Diverged / Merged to | Status  |
+|-----------------------------------|-----------------------------------|:--------------------:|---------|
+| `feature/private-publishing`      | Private Publishing Infrastructure |       staging        | Merged  |
+| `feature/public-content-platform` | Public Content Platform (Core V2) |       staging        | Active  |
+| `feature/stack-map`               | Interactive Stack Mapping         |       staging        | Pending |
+| `feature/bookshelf`               | Analytical Bookshelf              |       staging        | Pending |
+| `feature/ai-optimization`         | AI Optimization Suite (AIO/GEO)   |       staging        | Pending |
+| `feature/production-readiness`    | Production Readiness              |       staging        | Pending |
 
 ### `feature/public-content-platform`
 
@@ -173,8 +173,8 @@ Article Creation and Edit section contains organized sub-tasks tracked as sequen
 
 | Branch Name                      | Steps                       |    Diverged / Merged to     | Status  |
 |----------------------------------|-----------------------------|:---------------------------:|---------|
-| `feature/pcp-article-foundation` | Article Creation Foundation | feature/pcp-ui-article-crud | Active  |
-| `feature/pcp-article-metadata`   | Tab Metadata                | feature/pcp-ui-article-crud | Pending |
+| `feature/pcp-article-foundation` | Article Creation Foundation | feature/pcp-ui-article-crud | Merged  |
+| `feature/pcp-article-metadata`   | Tab Metadata                | feature/pcp-ui-article-crud | Active  |
 | `feature/pcp-article-content`    | Tab Content                 | feature/pcp-ui-article-crud | Pending |
 | `feature/pcp-article-relations`  | Tab Related Articles        | feature/pcp-ui-article-crud | Pending |
 
