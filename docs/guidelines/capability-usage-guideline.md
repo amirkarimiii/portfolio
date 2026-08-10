@@ -1,10 +1,35 @@
-# Application Logger - Usage Examples & Guidelines
+# Usage Examples & Guidelines for Capabilities (`docs\capability`)
 
-This document provides practical code snippets for utilizing the centralized application logger (`@/shared/logger`) across different layers of the codebase.
+> This document provides practical usage examples and guidelines for capabilities documented under docs/capability.
+>
+> It focuses on how capabilities should be used within the application and does not define their underlying implementation or API contract.
 
 ---
 
-## 1. Basic Usage & Log Levels
+## 1. Application Logger
+
+### Purpose
+
+Use the centralized application logger (`@/shared/logger`) for operational,
+diagnostic, warning, and error logging across application layers.
+
+### When to Use
+
+Use the application logger for:
+
+- Operational events that are useful for monitoring.
+- Diagnostic information needed during development or troubleshooting.
+- Non-fatal conditions that may require attention.
+- Exceptions and failed operations where the stack trace is useful.
+
+### Logging Guidelines
+
+- Use structured metadata instead of embedding contextual values in the message.
+- Use the appropriate log level for the event.
+- Avoid logging sensitive information.
+- When handling errors, preserve the original error object whenever possible.
+
+### Basic Usage & Log Levels
 
 ```typescript
 import { logger } from '@/shared/logger';
@@ -21,7 +46,7 @@ logger.warn('Rate limit threshold approaching', { ip: '192.168.1.1', attempts: 4
 
 ---
 
-## 2. Logging with Metadata & Automatic Sanitization
+### Logging with Metadata & Automatic Sanitization
 
 Sensitive keys like `password`, `token`, `secret`, and `authorization` are automatically redacted in the structured JSON payload.
 
@@ -39,7 +64,7 @@ logger.info('User authentication attempt', {
 
 ---
 
-## 3. Error Handling & Stack Traces
+### Error Handling & Stack Traces
 
 When catching errors, always pass the error object or include it in the log call to preserve the stack trace.
 
@@ -58,9 +83,9 @@ try {
 
 ---
 
-## 4. Layer Integration Patterns
+### Layer Integration Patterns
 
-### A. Middleware / Request Logging
+#### A. Middleware / Request Logging
 
 ```typescript
 import { logger } from '@/shared/logger';
@@ -73,7 +98,7 @@ export function middleware(req: Request) {
 }
 ```
 
-### B. Service / Repository Layer
+#### Service / Repository Layer
 
 ```typescript
 import { logger } from '@/shared/logger';
