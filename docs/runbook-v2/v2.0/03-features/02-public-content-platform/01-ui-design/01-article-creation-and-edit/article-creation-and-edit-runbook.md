@@ -16,7 +16,7 @@ Tab 3: Related Articles </br>
 ```
 
 ```
-✅ step: Go to TRACKING and complete this step as Completed with mention of completion date and put the next step as In Progress and write its changelog and fix Last Updated
+✅ step: Go to TRACKING and mark this step as Completed with mention of completion date and put the next step as In Progress and write its changelog and fix Last Updated
 ```
 
 ```
@@ -24,34 +24,112 @@ Tab 3: Related Articles </br>
 ```
 
 ```
-step: Go to Observatory and mark the branch feature/pcp-article-foundation as Merged and activate the branch feature/pcp-article-metadata
+✅ step: Go to Observatory and mark the branch feature/pcp-article-foundation as Merged and activate the branch feature/pcp-article-metadata
 ```
 
 ```
-commit changes
+✅ commit changes
+```
+
+```
+✅ commit runbook
 ```
 
 ```todo
 step: go to 02-metadata for tab 1
 ```
 
-```todo
-loop: change tracking and commit
+```
+step: Go to TRACKING and mark this step as Completed with mention of completion date and put the next step as In Progress and write its changelog and fix Last Updated
+```
+
+```
+commit changes
+```
+
+```
+step: Go to Observatory and mark this branch as Merged and activate the next branch
+```
+
+```
+commit changes
+```
+
+```
+commit runbook
 ```
 
 ```todo
 step: go to 03-content for tab 2
 ```
 
-```todo
-loop: change tracking and commit
+```
+step: Go to TRACKING and mark this step as Completed with mention of completion date and put the next step as In Progress and write its changelog and fix Last Updated
+```
+
+```
+commit changes
+```
+
+```
+step: Go to Observatory and mark this branch as Merged and activate the next branch
+```
+
+```
+commit changes
+```
+
+```
+commit runbook
 ```
 
 ```todo
 step: go to 04-related-articles for tab 3
 ```
 
-```todo
-loop: change tracking and commit
+```
+step: Go to TRACKING and mark this step as Completed with mention of completion date and write its changelog and fix Last Updated
 ```
 
+```
+commit changes
+```
+
+```
+step: Go to 01-ui-design\TRACKING.md
+  mark this section as Completed with mention of completion date
+  write its changelog
+  fix Last Updated and status Completed
+```
+
+```
+commit changes
+```
+
+```
+step: Go to Observatory and mark this branch as Merged
+```
+
+```todo:git-observatory
+step: upload git observatory to claude
+```
+
+```todo:git-observatory
+step: request for changes -> this branch table is completed
+```
+
+```todo:git-observatory
+step: change git observatory
+```
+
+```todo:git-observatory
+commit changes
+```
+
+```todo:git-observatory
+step: upload git observatory to claude in firefox and chrome
+```
+
+```
+commit runbook
+```

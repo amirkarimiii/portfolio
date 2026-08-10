@@ -21,7 +21,7 @@ It provides an overview of Article Creation and Edit status, planning milestones
 | Steps                       | Status      | Planned Start      | Target Milestone | Completed  |
 |-----------------------------|-------------|--------------------|------------------|:----------:|
 | Article Creation Foundation | Completed   | 2026-08-09         | 2026-08-09       | 2026-08-09 |
-| Tab Metadata                | In Progress | 2026-08-10         | 2026-08-10       |     —      |
+| Tab Metadata                | In Progress | 2026-08-11         | 2026-08-11       |     —      |
 | Tab Content                 | Planned     | After Tab Metadata | Not Estimated    |     —      |
 | Tab Related Articles        | Planned     | After Tab Content  | Not Estimated    |     —      |
 
