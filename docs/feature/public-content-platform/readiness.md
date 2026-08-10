@@ -35,6 +35,9 @@ Backend, Frontend, Security, Public Listing Infrastructure, Integration, and Arc
 * [ ] Tag search API implemented
 * [ ] Tag creation API implemented
 * [ ] Article search API (references/related content) implemented
+* [ ] Create Series API implemented (`POST /api/series`)
+* [ ] Recent Series (top-20) API implemented (`GET /api/series/recent`)
+* [ ] Reserved-slug list API implemented (`GET /api/reserved-slugs`)
 * [ ] Blog listing API implemented (`/api/blog`, paginated)
 * [ ] Series listing API implemented (`/api/series`, paginated)
 * [ ] Request validation implemented
@@ -51,10 +54,11 @@ Backend, Frontend, Security, Public Listing Infrastructure, Integration, and Arc
 
 * [ ] Article lifecycle state machine implemented (Draft / Published / Archived, Section 5)
 * [ ] Lifecycle and audit timestamps implemented (`created_at`, `updated_at`, `first_published_at`, `published_at`, `archived_at`)
-* [ ] Slug uniqueness and reserved-name validation implemented
+* [ ] Slug uniqueness and reserved-name validation implemented (reserved-name list sourced from database, not hardcoded)
 * [ ] Slug locking (72-hour rule) implemented
 * [ ] Owner emergency slug-lock bypass implemented
-* [ ] Series domain implemented (Title ≤ 36 chars, Slug, Description, media, Alt Text, `created_at`/`updated_at`)
+* [ ] Series domain implemented (Title ≤ 36 chars, Slug, Description, media, Alt Text, SEO Title/Description/Canonical URL, `created_at`/`updated_at`)
+* [ ] Series creation scoped as a narrower content type than Article — Metadata-only tab; no Content/body tab; no Related Series suggestion mechanism
 * [ ] Standalone/Series-Member classification immutability enforced post-publish
 * [ ] Content Reference embedding and resolution implemented
 * [ ] Inbound-reference tracking (`inbound_referencing_slugs`) implemented
@@ -83,6 +87,9 @@ Backend, Frontend, Security, Public Listing Infrastructure, Integration, and Arc
 ## User Interface
 
 * [ ] Add/Edit Article form implemented (Metadata, Content, Related Articles tabs)
+* [ ] Series field implemented within Article Metadata tab (existing-Series picker: top-20 recent by `created_at`, single-select, no search/pagination)
+* [ ] Add Series form implemented (single Metadata tab: Identity, Media, SEO fields)
+* [ ] Cross-tab Series-created sync implemented (`BroadcastChannel` with `localStorage`-event fallback)
 * [ ] TipTap editor integration implemented (H1 excluded from editor options)
 * [ ] Cover Image management UI implemented
 * [ ] Thumbnail management UI implemented (auto-derived Alt Text)
@@ -104,6 +111,7 @@ Backend, Frontend, Security, Public Listing Infrastructure, Integration, and Arc
 * [ ] LocalStorage fallback cache implemented
 * [ ] Draft recovery implemented (refresh, tab loss, network failure, session expiry)
 * [ ] Blog/Series pagination and prefetch cache state implemented
+* [ ] Cross-tab `series-created` event listener state implemented
 
 ## Authorization UX
 
@@ -234,12 +242,14 @@ Backend, Frontend, Security, Public Listing Infrastructure, Integration, and Arc
 * [ ] Application service verification completed
 * [ ] Repository verification completed
 * [ ] Slug-locking and classification-immutability verification completed
+* [ ] Series creation, Series-picker, and reserved-slug endpoint verification completed
 
 ### Frontend Verification
 
 * [ ] Article editor verification completed
 * [ ] Autosave/retry/LocalStorage verification completed
 * [ ] Content Card (incl. Fallback state) verification completed
+* [ ] Series selection & cross-tab creation interface verification completed
 * [ ] Blog/Series listing verification completed
 
 ### Lifecycle & Domain Verification
