@@ -18,6 +18,7 @@ The following feature requirements must be verified:
 * Article lifecycle transitions (Draft, Published, Archived)
 * Slug management and locking
 * Series domain rules and Standalone/Series-Member classification immutability
+* Series creation workflow (fields, tabs, SEO metadata) and the existing-Series selection / cross-tab new-Series creation interaction on the Article form
 * Tags (suggestion, creation, duplicate prevention)
 * Content References and inbound-reference tracking
 * Related Articles management
@@ -59,6 +60,9 @@ Verify:
 
 * Slugs are unique within their applicable public routing namespace.
 * Reserved names (`archive`, `drafts`, `admin`, `api`, `preview`, at minimum) are rejected.
+* The reserved-name list is read from the database rather than hardcoded in application code; the listed names are seed data, not an exhaustive hardcoded set.
+* `GET /api/reserved-slugs` returns the current reserved-name list and is used by the Admin UI for real-time inline validation as the owner types a slug.
+* Server-side slug validation re-checks the database independently at save/publish time and does not trust the client's copy of the reserved-name list, even if the client-side check passed or was bypassed.
 * A slug remains editable until 72 hours have elapsed from `first_published_at`, then becomes immutable.
 * The "Override Slug Lock" bypass allows emergency edits after displaying an SEO/404-risk warning.
 * No automatic redirect is created when a slug changes.
@@ -69,10 +73,25 @@ Verify:
 
 * A Series Title is rejected beyond 36 characters (client and server).
 * A Series requires Title, Slug, Description, Header/Cover Image, Thumbnail, and Alt Text before publication.
+* SEO Title, SEO Description, and Canonical URL fields are present and editable on the Series form, mirroring Article SEO metadata (optional, not required for publication).
+* Series Header/Cover Alt Text is manually editable; Series Thumbnail Alt Text is auto-derived as `<cover-alt>_thmb` and is not independently editable.
+* The Add Series interface exposes only a single Metadata tab — no Content/body tab and no Related Series suggestion tab are present.
+* An authenticated owner can create a Series through the protected Add Series workflow (`/admin/add-series`); unauthenticated access is rejected.
 * A Series persists `created_at` and `updated_at`, and `updated_at` changes when the Series entity itself is modified.
 * An Article may belong to zero or one Series.
 * A Standalone/Series-Member classification cannot be changed once the Article is first published; it can still be changed freely while the Article is in Draft.
 * Attempting to change a Published Article's classification (Standalone ↔ Series Member, or to a different Series) is rejected.
+
+## Series Selection & Creation Interface
+
+Verify:
+
+* The Article Metadata tab's Series field presents a single-select list of the 20 most recently created Series (ordered by `created_at` descending), rendered without lazy loading, without search, and without pagination.
+* Selecting one Series in the list disables the remaining options (single-select / zero-or-one enforcement).
+* Selecting "Create New Series" opens `/admin/add-series` in a new browser tab without navigating away from, or losing state in, the current Article form (including unsaved TipTap content).
+* On successful Series creation in the new tab, a `series-created` event is broadcast via `BroadcastChannel` (with a `localStorage`-event fallback) and received by the originating Article-form tab.
+* Receiving the `series-created` event updates the Article form's Series list in place (new Series prepended), without a full page reload and without requiring manual refresh, and does not disturb the Article form's own unsaved state.
+* The Add Series interface is also reachable directly from the admin dashboard, independent of the Article form.
 
 ## Tags
 
@@ -103,7 +122,9 @@ Verify:
 Verify:
 
 * The owner can add, remove, search for, and reorder Related Articles.
-* Related Article suggestions are influenced by shared Tags.
+* The default suggestion list shows the 20 existing Articles with the highest Tag overlap with the current Article's selected Tags, ordered by similarity (most shared Tags first), rendered without pagination or an in-list search control.
+* The suggestion list is empty when the current Article has no Tags selected.
+* "Search for an Article" operates as a separate, manual lookup distinct from the top-20 suggestion list, for Articles not among the suggestions.
 * Selecting a Related Article does not publish or otherwise modify the referenced Article.
 * Related Article associations remain distinct from `inbound_referencing_slugs`.
 
