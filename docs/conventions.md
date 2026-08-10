@@ -39,51 +39,153 @@ Every commit message must follow this structure:
 
 ### Commit Scope & Examples
 
-Scopes represent stable repository responsibilities, not temporary implementation details or raw directory names.
+Scopes represent stable repository responsibilities, features, or documentation artifacts. They are not required to mirror the physical directory structure.
 
 When a commit primarily affects a known subsystem, feature, or documentation artifact, a scope **should** be provided.
 
 The scope registry must be reviewed whenever a significant repository restructure introduces new long-lived responsibilities or removes existing ones.
 
 #### Product / Code Scopes
-(based on current `src` structure)
 
-| Scope        | Responsibility                                                                                                                                                                        |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `admin`      | Admin authentication, login/logout/session APIs, admin feature components, hooks, services, stores, JWT utils                                                                         |
-| `blog`       | Public blog surface — article listing, previews, banner, navbar actions, search                                                                                                       |
-| `main`       | Main portfolio surface — banner, contact, projects, info sections, main navbar actions                                                                                                |
-| `shared`     | Cross-cutting UI primitives, layout (Navbar, listeners), constants, lib (API helpers, MongoDB), providers, types, utils                                                               |
-| `env`        | Environment configuration (`src/env.ts`, `.env*` files, validation)                                                                                                                   |
-| `ui`         | Shared UI components under `shared/components/ui` (shadcn primitives)                                                                                                                 |
-| `seo`        | Metadata, Open Graph, icons, manifest, robots/sitemap related changes                                                                                                                 |
-| `middleware` | Next.js middleware (`src/middleware.ts`) — route protection, auth guards, etc.                                                                                                        |
-| `deps`       | Dependency management (`package.json`, `bun.lock`, package upgrades/removals)                                                                                                         |
-| `config`     | Framework configuration (`next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `vercel.json`, `postcss.config.mjs`, etc.)                                                           |
-| `repo`       | Repository (`.gitignore`, `README.md`, `.github/*`, `.gitattributes`, etc.)                                                                                                           |
-| `app`        | Next.js App Router structure — root `layout.tsx`, `template.tsx`, `error.tsx`, `global-error.tsx`, `loading.tsx`, `not-found.tsx`, route groups, root pages, global route composition |
+Product code scopes are organized around **feature ownership and stable application responsibilities**, rather than individual source directories.
 
+| Scope        | Responsibility                                                                                                                                                                                    |
+|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `admin`      | Private publishing infrastructure — admin authentication, login/logout/session APIs, admin feature components, hooks, services, stores, JWT utilities, and related private publishing flows       |
+| `blog`       | Public content platform — public blog surface, article listing/previews, content presentation, banner/navbar actions, search, and related public content flows                                    |
+| `main`       | Main portfolio surface — banner, contact, projects, info sections, and main navbar actions                                                                                                        |
+| `shared`     | Cross-cutting application infrastructure — shared layout, constants, libraries, providers, types, utilities, HTTP/API helpers, MongoDB access, logging, and other reusable application concerns   |
+| `env`        | Environment configuration (`src/env.ts`, `.env*` files, validation)                                                                                                                               |
+| `ui`         | Shared UI components under `shared/components/ui` (shadcn primitives)                                                                                                                             |
+| `seo`        | Metadata, Open Graph, icons, manifest, robots/sitemap related changes                                                                                                                             |
+| `middleware` | Next.js middleware (`src/middleware.ts`) — route protection, auth guards, and middleware-specific behavior                                                                                        |
+| `deps`       | Dependency management (`package.json`, `bun.lock`, package upgrades/removals)                                                                                                                     |
+| `config`     | Framework configuration (`next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `vercel.json`, `postcss.config.mjs`, etc.)                                                                       |
+| `repo`       | Repository-level files (`.gitignore`, `README.md`, `.github/*`, `.gitattributes`, etc.)                                                                                                           |
+| `app`        | Next.js App Router application shell — root `layout.tsx`, `template.tsx`, `error.tsx`, `global-error.tsx`, `loading.tsx`, `not-found.tsx`, route groups, root pages, and global route composition |
+
+> `admin` and `blog` are feature-owned scopes. They should be used for changes belonging to their respective product features, even when the implementation spans multiple directories under `src`.
 
 > `ui` should be used only when the change is limited to shared UI primitives. Broader cross-cutting changes should use `shared`.
 
+#### Feature-to-Scope Mapping
+
+Features defined under `docs/feature/` are the canonical product-level units of work. Each feature owns a stable commit scope for its implementation.
+
+The current mapping is:
+
+| Feature                             | Commit Scope | Responsibility                                       |
+|-------------------------------------|--------------|------------------------------------------------------|
+| `private-publishing-infrastructure` | `admin`      | Private publishing and administrative infrastructure |
+| `public-content-platform`           | `blog`       | Public content and blog platform                     |
+
+Every feature follows the same documentation structure:
+
+```text
+docs/feature/<feature-name>/
+├── readiness.md
+├── specification.md
+└── verification.md
+```
+
+The feature's commit scope is used for implementation changes that belong to that feature, regardless of which `src` directories are touched.
+
+As new long-lived features are introduced, they should receive an explicit scope mapping in this registry. A new feature scope should be introduced only when the feature represents a stable product responsibility rather than a temporary implementation detail.
+
+#### How Feature-Scoped Work Is Committed
+
+Feature work should be traceable from the feature documentation to its implementation history.
+
+The expected relationship is:
+
+```text
+Feature
+  ├── readiness.md
+  ├── specification.md
+  ├── verification.md
+  └── implementation commits
+          └── <type>(<feature-scope>): ...
+```
+
+For example:
+
+```text
+docs/feature/private-publishing-infrastructure/
+    ├── readiness.md
+    ├── specification.md
+    └── verification.md
+
+➕ feat(admin): add private publishing authentication flow
+🧪 test(admin): verify admin publishing authorization
+🐞 fix(admin): reject expired publishing sessions
+```
+
+And:
+
+```text
+docs/feature/public-content-platform/
+    ├── readiness.md
+    ├── specification.md
+    └── verification.md
+
+➕ feat(blog): add public article listing
+🎨 style(blog): refine article preview layout
+🐞 fix(blog): resolve public article rendering issue
+```
+
+This makes the feature scope an explicit bridge between **feature documentation and Git history**. The scope identifies the product responsibility; the individual commit type identifies the kind of change.
+
+A commit should still represent one logical change. If a change spans multiple independent features, it must be split into separate commits rather than using multiple scopes in one commit.
+
+---
+
 #### Documentation Scopes
+
 (based on root `docs/` artifacts)
 
-| Scope         | Responsibility                                                                  |
-|---------------|---------------------------------------------------------------------------------|
-| `adr`         | Architecture Decision Records (`docs/adr/`)                                     |
-| `spec`        | Product / technical specifications (`portfolio-v2-spec.md`, feature specs, …)   |
-| `runbook`     | Engineering runbooks (`docs/runbook-v2/`)                                       |
-| `tracking`    | Tracking files (`TRACKING.md` and related progress trackers)                    |
-| `roadmap`     | Roadmap documents (`ROADMAP.md`)                                                |
-| `observatory` | Git / process observatory (`docs/git-observatory.md`)                           |
-| `conventions` | Coding & process conventions (`docs/conventions.md`)                            |
-| `ai-wf`       | AI / engineering workflow docs (`docs/ai-engineering-workflow.md`)              |
-| `environment` | Environment documentation (`docs/environment.md`)                               |
-| `tech-stack`  | Tech stack documentation (`docs/tech-stack.md`)                                 |
-| `guide`       | Developer guides, usage examples, implementation guidance, authoring guidelines |
+| Scope         | Responsibility                                                                                                    |
+|---------------|-------------------------------------------------------------------------------------------------------------------|
+| `adr`         | Architecture Decision Records (`docs/adr/`)                                                                       |
+| `spec`        | Product / technical specifications (`portfolio-v2-spec.md`, feature specifications, capability specifications, …) |
+| `runbook`     | Engineering runbooks (`docs/runbook-v2/`)                                                                         |
+| `tracking`    | Tracking files (`TRACKING.md` and related progress trackers)                                                      |
+| `roadmap`     | Roadmap documents (`ROADMAP.md`)                                                                                  |
+| `observatory` | Git / process observatory (`docs/git-observatory.md`)                                                             |
+| `conventions` | Coding & process conventions (`docs/conventions.md`)                                                              |
+| `ai-wf`       | AI / engineering workflow docs (`docs/ai-engineering-workflow.md`)                                                |
+| `environment` | Environment documentation (`docs/environment.md`)                                                                 |
+| `tech-stack`  | Tech stack documentation (`docs/tech-stack.md`)                                                                   |
+| `guide`       | Developer guides, usage examples, implementation guidance, and authoring guidelines                               |
 
-> spec includes `portfolio-v2-spec.md` and all documents under `docs/feature/` and `docs/capablity/`
+> `spec` includes `portfolio-v2-spec.md` and all documents under `docs/feature/` and `docs/capability/`.
+
+> Feature implementation commits use the feature's product scope (`admin`, `blog`, etc.). Documentation commits concerning the feature specification itself use the appropriate documentation scope, such as `spec`, `runbook`, or `tracking`.
+
+#### Scope Selection Rule
+
+When choosing a scope, prefer the **most specific stable responsibility** that describes the change:
+
+1. **Feature scope** — when the change belongs to a specific product feature.
+2. **Subsystem scope** — when the change belongs to a stable application subsystem but is not owned by a single feature.
+3. **Cross-cutting scope** — when the change affects shared application infrastructure.
+4. **Repository/configuration scope** — when the change concerns repository-wide or framework-level infrastructure.
+5. **Documentation scope** — when the change is documentation-only.
+
+The physical location of a changed file does not, by itself, determine the scope.
+
+For example, a component physically located under `src/shared/` may still use `admin` if it is owned exclusively by the private publishing feature. Conversely, a shared primitive used by multiple features should use `shared` or `ui`, depending on the responsibility of the change.
+
+#### Examples
+
+```text
+➕ feat(admin): add hybrid JWT session endpoint
+🐞 fix(blog): resolve hydration mismatch on article date
+📖 docs(adr): record decision for server/UI state split
+⚡️ perf(shared): dynamic import for heavy dialog components
+🔧 chore(env): complete Zod validation for all required vars
+📖 docs(spec): update public content platform specification
+📖 docs(runbook): document article publishing workflow
+```
 
 #### Historical rebase resolving conflicts
 
@@ -93,15 +195,6 @@ The scope registry must be reviewed whenever a significant repository restructur
 
 > after merging our historical rebases based on what we have on `git-observatory.md`, we have dozens of conflicts to resolve, so we need to define a commit message scope for them.
 
-#### Examples
-
-```
-➕ feat(admin): add hybrid JWT session endpoint
-🐞 fix(blog): resolve hydration mismatch on article date
-📖 docs(adr): record decision for server/UI state split
-⚡️ perf(shared): dynamic import for heavy dialog components
-🔧 chore(env): complete Zod validation for all required vars
-```
 
 ---
 
@@ -287,7 +380,7 @@ Introduced the `app` scope to cover Next.js App Router files that belong to the 
 
 - Added the `app` scope for root App Router files such as `layout.tsx`, `template.tsx`, `loading.tsx`, `error.tsx`, `global-error.tsx`, `not-found.tsx`, and `default.tsx`.
 - Clarified that application shell and route composition files are owned by the `app` scope instead of feature scopes.
-- Distinguished application entrypoints from reusable infrastructure (`shared`) and feature-specific implementations (`main`, `blog`, `admin`).
+- Distinguished application entrypoint from reusable infrastructure (`shared`) and feature-specific implementations (`main`, `blog`, `admin`).
 
 ### 2026-08-08
 
@@ -297,3 +390,18 @@ Introduced the `rebase` scope for commits that resolve conflicts after merging h
 
 - Added the `rebase` scope to track every commit related to resolving conflicts that arise from historical rebases (as referenced in `git-observatory.md`).
 - Established a dedicated scope for the large volume of conflict-resolution work that occurs after historical rebase merges, keeping these commits clearly separated from feature or documentation changes.
+
+### 2026-08-10
+
+#### Feature-Owned Commit Scopes Introduced
+
+Updated commit scope governance to align Git history with the repository's feature-oriented documentation workflow.
+
+* Reframed product scopes around stable feature ownership and application responsibilities rather than physical source directories.
+* Established `admin` as the implementation scope for `private-publishing-infrastructure`.
+* Established `blog` as the implementation scope for `public-content-platform`.
+* Defined `docs/feature/<feature-name>/` as the canonical product-level unit for feature documentation, using the standard `readiness.md`, `specification.md`, and `verification.md` structure.
+* Added a feature-to-scope mapping so implementation commits can be traced directly from feature documentation to Git history.
+* Clarified that future long-lived features should receive an explicit scope mapping when they become stable product responsibilities.
+* Added a scope selection rule that prioritizes feature ownership over physical file location.
+* Clarified that documentation changes for a feature continue to use documentation scopes such as `spec`, `runbook`, or `tracking`, while implementation changes use the feature's product scope.
