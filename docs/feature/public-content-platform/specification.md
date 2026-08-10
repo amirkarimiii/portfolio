@@ -1,8 +1,8 @@
 # Public Content Platform (Core V2)
 
-**Version:** 1.1 </br>
-**Last Updated:** 2026-08-09 </br>
-**Owner:** Amir Karimi </br>
+**Version:** 1.3
+**Last Updated:** 2026-08-09
+**Owner:** Amir Karimi
 
 ---
 
@@ -295,7 +295,9 @@ The Article Title shall be rendered as the Article's only H1. The H1 is managed 
 ## 6.4 Slug Management & Locking
 
 * Each Article shall have a unique slug within the applicable public routing namespace.
-* The system shall reject reserved system names. At minimum: `archive`, `drafts`, `admin`, `api`, `preview`. Reserved-name validation applies wherever these names could conflict with system routes or content namespaces.
+* The system shall reject reserved system names. The reserved-name list is stored in the database (not hardcoded in application code); for this version it has no admin management UI and is populated directly via seed data — an admin UI for managing this list is deferred to a future version. Initial seed values, at minimum: `archive`, `drafts`, `admin`, `api`, `preview`. Reserved-name validation applies wherever these names could conflict with system routes or content namespaces.
+* **Client-side validation:** since the list is no longer bundled in front-end code, the Admin UI shall fetch it via `GET /api/reserved-slugs` (Section 10) to provide real-time inline feedback as the owner types a slug, rather than only surfacing the conflict at save/publish time.
+* **Server-side validation remains authoritative:** regardless of the client-side check above, the server independently re-validates the slug against the database at save/publish time (Section 12) and does not trust the client's copy of the list.
 * **Slug Locking Rule:** an Article slug remains editable until three days (72 hours) have elapsed from `first_published_at`. After that period, `Slug = Immutable`.
 * **Owner Emergency Bypass:** the administrative UI provides an "Override Slug Lock" switch for emergency fixes (e.g., typos). Activating it displays a warning about SEO/404 risk before allowing modification.
 * The current version does not provide automatic redirects when a slug changes; redirect mapping is deferred to a future version.
@@ -710,23 +712,24 @@ The final route structure shall be aligned with the existing Admin and authentic
 
 Exact endpoint naming shall follow existing API conventions. Public read APIs shall expose only Published content; Draft and Archived content shall not be exposed through public APIs.
 
-| Method | Endpoint                         | Description                                                             | Auth Required |
-|--------|----------------------------------|-------------------------------------------------------------------------|---------------|
-| POST   | `/api/articles`                  | Create Article Draft                                                    | Yes           |
-| GET    | `/api/articles/:id`              | Retrieve Article for editing                                            | Yes           |
-| PATCH  | `/api/articles/:id`              | Update / auto-save Article Draft                                        | Yes           |
-| POST   | `/api/articles/:id/publish`      | Publish Article                                                         | Yes           |
-| POST   | `/api/articles/:id/archive`      | Archive Article                                                         | Yes           |
-| DELETE | `/api/articles/:id`              | Permanently delete Article (requires auth verification per Section 5.3) | Yes           |
-| GET    | `/api/articles/:id/preview`      | Retrieve protected preview data                                         | Yes           |
-| GET    | `/api/articles/:id/inbound-refs` | Query Articles referencing this slug                                    | Yes           |
-| GET    | `/api/tags`                      | Search existing Tags                                                    | Yes           |
-| POST   | `/api/tags`                      | Create Tag                                                              | Yes           |
-| GET    | `/api/articles/search`           | Search Articles for references/related content                          | Yes           |
-| POST   | `/api/series`                    | Create Series (Section 6.12.2)                                          | Yes           |
-| GET    | `/api/series/recent`             | Top 20 most recently created Series, for Article-form picker (6.12.1)   | Yes           |
-| GET    | `/api/blog`                      | Paginated list of Published Articles for `/blog` (Section 6.22)         | No            |
-| GET    | `/api/series`                    | Paginated list of Series for `/series` (Section 6.23)                   | No            |
+| Method | Endpoint                         | Description                                                                               | Auth Required |
+|--------|----------------------------------|-------------------------------------------------------------------------------------------|---------------|
+| POST   | `/api/articles`                  | Create Article Draft                                                                      | Yes           |
+| GET    | `/api/articles/:id`              | Retrieve Article for editing                                                              | Yes           |
+| PATCH  | `/api/articles/:id`              | Update / auto-save Article Draft                                                          | Yes           |
+| POST   | `/api/articles/:id/publish`      | Publish Article                                                                           | Yes           |
+| POST   | `/api/articles/:id/archive`      | Archive Article                                                                           | Yes           |
+| DELETE | `/api/articles/:id`              | Permanently delete Article (requires auth verification per Section 5.3)                   | Yes           |
+| GET    | `/api/articles/:id/preview`      | Retrieve protected preview data                                                           | Yes           |
+| GET    | `/api/articles/:id/inbound-refs` | Query Articles referencing this slug                                                      | Yes           |
+| GET    | `/api/tags`                      | Search existing Tags                                                                      | Yes           |
+| POST   | `/api/tags`                      | Create Tag                                                                                | Yes           |
+| GET    | `/api/articles/search`           | Search Articles for references/related content                                            | Yes           |
+| POST   | `/api/series`                    | Create Series (Section 6.12.2)                                                            | Yes           |
+| GET    | `/api/series/recent`             | Top 20 most recently created Series, for Article-form picker (6.12.1)                     | Yes           |
+| GET    | `/api/reserved-slugs`            | Fetch current reserved-name list, for real-time client-side slug validation (Section 6.4) | Yes           |
+| GET    | `/api/blog`                      | Paginated list of Published Articles for `/blog` (Section 6.22)                           | No            |
+| GET    | `/api/series`                    | Paginated list of Series for `/series` (Section 6.23)                                     | No            |
 
 Individual public Article/Series content prefetch (Sections 6.22–6.23) reuses the existing public rendering/data-fetching mechanism for those routes (Section 9) rather than introducing dedicated prefetch endpoints.
 
@@ -887,7 +890,9 @@ This structure is illustrative and shall follow the existing project architectur
 
 # 17. Changelog
 
-| Version | Date       | Changes                                                                                                                                                                                                                                       |
-|---------|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.0     | 2026-08-08 | Initial specification                                                                                                                                                                                                                         |
-| 1.1     | 2026-08-09 | Added Series Selection UI & cross-tab New Series flow (6.12.1–2), `/admin/add-series` + APIs; SEO fields on Series (4.2); full Series Creation & Metadata reqs (6.13); Related Articles as top-20 tag-similarity (6.11); updated Client State ||
+| Version | Date       | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|---------|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1.0     | 2026-08-08 | Initial specification                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 1.1     | 2026-08-09 | Added Series Selection Interface (6.12.1) and event-driven, cross-tab New Series Creation flow (6.12.2); added `/admin/add-series` route and related API endpoints; updated Client State list                                                                                                                                                                                                                                                                                                                                         |
+| 1.2     | 2026-08-09 | Removed the ADR-open-question note from 6.12.2 in favor of folding the decision directly into this spec, per project ADR philosophy (ADRs mark course-corrections, not pre-build decisions); added SEO metadata fields to the Series domain model (4.2); expanded 6.13 into full Series Creation & Metadata requirements (fields, tabs, explicit scope difference from Article creation); clarified the Related Articles suggestion mechanism (6.11) as a top-20 Tag-similarity list, distinct from the separate manual search action |
+| 1.3     | 2026-08-10 | Section 6.4: reserved slug names are now DB-sourced and validated dynamically, rather than hardcoded — no admin management UI this version (deferred); listed names are the initial seed data                                                                                                                                                                                                                                                                                                                                         |
