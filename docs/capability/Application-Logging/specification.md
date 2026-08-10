@@ -1,6 +1,6 @@
 # Application Logging Layer Specifications
 
-**Version:** 2.0 </br>
+**Version:** 2.1 </br>
 **Last Updated:** 2026-08-04 </br>
 **Owner:** Amir Karimi </br>
 
@@ -51,8 +51,8 @@ The logging layer serves as a foundational engineering capability that supports 
 |-------------------------------------------|-------------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | ADR-0012 – Application Logging Layer      | `docs/adr/ADR-0012-Application-Logging-Layer.md`      | Defines the architectural decisions and design rationale for the centralized logging layer.   |
 | Application Logging Checklist             | `docs/capability/Application-Logging/checklist.md`    | Defines implementation and readiness checkpoints for this capability.                         |
-| Application Logging Usage                 | `docs/capability/Application-Logging/usage.md`        | Provides implementation patterns and usage examples across the application layers.            |
 | Application Logging Verification          | `docs/capability/Application-Logging/verification.md` | Defines the verification strategy and acceptance criteria for this capability.                |
+| Application Logging Usage                 | `docs/guidelines/article-rendering-guideline.md`      | Provides implementation patterns and usage examples across the application layers.            |
 | Project Conventions (Application Logging) | `docs/conventions.md`                                 | Defines mandatory logging conventions, log levels, metadata rules, and security requirements. |
 
 ---
@@ -257,5 +257,6 @@ Monitoring, tracing, alerting, telemetry, and external observability tooling wil
 
 | Version | Date       | Changes                                                                                                                                                                                        |
 |---------|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2.1     | 2026-08-10 | Move Application Logging Usage from `docs/capability/Application-Logging/usage.md` to `docs/guidelines/article-rendering-guideline.md`                                                         |
 | 2.0     | 2026-08-04 | Specification restructured. Removed implementation tracking, verification content, decision log, and future enhancements. Introduced dedicated Usage, Verification, and Checkpoints documents. |
 | 1.0     | 2026-07-29 | Initial Application Logging capability specification.                                                                                                                                          |
