@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import {useState, useRef, useEffect} from 'react';
+import {useForm, useWatch} from 'react-hook-form';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {AlertTriangle, CheckCircle2} from 'lucide-react';
 import {
     identitySchema,
     type IdentityFormValues,
@@ -14,7 +15,8 @@ import {
     FormControl,
     FormMessage,
 } from '@/shared/components/ui/form';
-import { Badge } from '@/shared/components/ui/badge';
+import {Badge} from '@/shared/components/ui/badge';
+import {Input} from '@/shared/components/ui/input';
 
 const defaultValues: IdentityFormValues = {
     title: '',
@@ -22,8 +24,18 @@ const defaultValues: IdentityFormValues = {
     summary: '',
 };
 
+function slugify(text: string): string {
+    return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/[\s_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
 export function IdentityCard() {
     const [isEditingTitle, setIsEditingTitle] = useState(false);
+    const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
     const form = useForm<IdentityFormValues>({
@@ -32,7 +44,18 @@ export function IdentityCard() {
         mode: 'onChange',
     });
 
-    const titleValue = form.watch('title');
+    const titleValue = useWatch({control: form.control, name: 'title'});
+    const {errors} = form.formState;
+
+    useEffect(() => {
+        if (!isSlugManuallyEdited && titleValue !== undefined) {
+            const generatedSlug = slugify(titleValue);
+            form.setValue('slug', generatedSlug, {
+                shouldValidate: true,
+                shouldDirty: false,
+            });
+        }
+    }, [titleValue, isSlugManuallyEdited, form]);
 
     const adjustTextareaHeight = (element: HTMLTextAreaElement) => {
         element.style.height = 'auto';
@@ -53,58 +76,107 @@ export function IdentityCard() {
     }
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                {isEditingTitle ? (
-                                    <textarea
-                                        {...field}
-                                        ref={(e) => {
-                                            field.ref(e);
-                                            textareaRef.current = e;
-                                        }}
-                                        rows={1}
-                                        placeholder="Untitled Header"
-                                        className="w-full resize-none overflow-hidden bg-transparent text-[2rem] font-bold leading-[1.2] outline-none border-none focus:outline-none focus:ring-0 p-0"
-                                        onInput={(e) => adjustTextareaHeight(e.currentTarget)}
-                                        onBlur={() => {
-                                            field.onBlur();
-                                            setIsEditingTitle(false);
-                                        }}
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter' && !e.shiftKey) {
-                                                e.preventDefault();
+        <div className="py-3">
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <FormField
+                        control={form.control}
+                        name="title"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormControl>
+                                    {isEditingTitle ? (
+                                        <textarea
+                                            {...field}
+                                            ref={(e) => {
+                                                field.ref(e);
+                                                textareaRef.current = e;
+                                            }}
+                                            rows={1}
+                                            placeholder="Untitled Header"
+                                            className="w-full resize-none overflow-hidden bg-transparent text-[2rem] font-bold leading-[1.2] outline-none border-none focus:outline-none focus:ring-0 p-0"
+                                            onInput={(e) => adjustTextareaHeight(e.currentTarget)}
+                                            onBlur={() => {
+                                                field.onBlur();
                                                 setIsEditingTitle(false);
-                                            }
-                                        }}
-                                    />
-                                ) : (
-                                    <div className="flex flex-col gap-3 group">
-                                        <h1
-                                            onClick={() => setIsEditingTitle(true)}
-                                            className="cursor-pointer text-[2rem] font-bold leading-[1.2] hover:text-muted-foreground/80 transition-colors"
-                                        >
-                                            {titleValue?.trim() ? titleValue : 'Untitled Header'}
-                                        </h1>
+                                            }}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' && !e.shiftKey) {
+                                                    e.preventDefault();
+                                                    setIsEditingTitle(false);
+                                                }
+                                            }}
+                                        />
+                                    ) : (
+                                        <div className="flex flex-col gap-3 group">
+                                            <Badge
+                                                variant="outline"
+                                                className="cursor-pointer select-none opacity-80"
+                                            >
+                                                Header - Click to edit
+                                            </Badge>
+                                            <h1
+                                                onClick={() => setIsEditingTitle(true)}
+                                                className="cursor-pointer text-[2rem] font-bold leading-[1.2] hover:text-muted-foreground/80 transition-colors"
+                                            >
+                                                {titleValue?.trim() ? titleValue : 'Untitled Header'}
+                                            </h1>
+                                        </div>
+                                    )}
+                                </FormControl>
+                                <FormMessage/>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="slug"
+                        render={({field}) => {
+                            const hasSlugError = !!errors.slug;
+                            const slugErrorMessage = errors.slug?.message;
+
+                            return (
+                                <FormItem className="space-y-1">
+                                    <div className="flex flex-col gap-2">
                                         <Badge
                                             variant="outline"
-                                            className="cursor-pointer select-none opacity-80 group-hover:opacity-100 transition-opacity"
+                                            className="cursor-pointer select-none opacity-80"
                                         >
-                                            Click to edit
+                                            Slug
                                         </Badge>
+                                        <FormControl>
+                                            <div className="relative flex-1 max-w-md flex items-center">
+                                                <Input
+                                                    {...field}
+                                                    placeholder="article-slug"
+                                                    className="h-8 text-sm pr-8"
+                                                    onChange={(e) => {
+                                                        setIsSlugManuallyEdited(true);
+                                                        field.onChange(e);
+                                                    }}
+                                                />
+                                                <div className="absolute right-2 flex items-center">
+                                                    {!hasSlugError && (
+                                                        <CheckCircle2 className="h-4 w-4 text-emerald-500"/>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </FormControl>
                                     </div>
-                                )}
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-            </form>
-        </Form>
+                                    {hasSlugError && (
+                                        <p className="text-xs font-medium text-destructive mt-1 flex items-center gap-1">
+                                            <div className="w-4 aspect-square">
+                                                <AlertTriangle className="inline"/>
+                                            </div>
+                                            {slugErrorMessage}
+                                        </p>
+                                    )}
+                                </FormItem>
+                            );
+                        }}
+                    />
+                </form>
+            </Form>
+        </div>
     );
 }
