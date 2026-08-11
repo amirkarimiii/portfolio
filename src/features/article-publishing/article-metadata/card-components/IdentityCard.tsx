@@ -1,9 +1,9 @@
 'use client';
 
-import {useState, useRef, useEffect} from 'react';
-import {useForm, useWatch} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {AlertTriangle, CheckCircle2} from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AlertTriangle, CheckCircle2 } from 'lucide-react';
 import {
     identitySchema,
     type IdentityFormValues,
@@ -15,8 +15,8 @@ import {
     FormControl,
     FormMessage,
 } from '@/shared/components/ui/form';
-import {Badge} from '@/shared/components/ui/badge';
-import {Input} from '@/shared/components/ui/input';
+import { Badge } from '@/shared/components/ui/badge';
+import { Input } from '@/shared/components/ui/input';
 
 const defaultValues: IdentityFormValues = {
     title: '',
@@ -35,8 +35,11 @@ function slugify(text: string): string {
 
 export function IdentityCard() {
     const [isEditingTitle, setIsEditingTitle] = useState(false);
+    const [isEditingSummary, setIsEditingSummary] = useState(false);
     const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
-    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+    const titleTextareaRef = useRef<HTMLTextAreaElement | null>(null);
+    const summaryTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
     const form = useForm<IdentityFormValues>({
         resolver: zodResolver(identitySchema),
@@ -44,8 +47,9 @@ export function IdentityCard() {
         mode: 'onChange',
     });
 
-    const titleValue = useWatch({control: form.control, name: 'title'});
-    const {errors} = form.formState;
+    const titleValue = useWatch({ control: form.control, name: 'title' });
+    const summaryValue = useWatch({ control: form.control, name: 'summary' });
+    const { errors } = form.formState;
 
     useEffect(() => {
         if (!isSlugManuallyEdited && titleValue !== undefined) {
@@ -63,13 +67,22 @@ export function IdentityCard() {
     };
 
     useEffect(() => {
-        if (isEditingTitle && textareaRef.current) {
-            textareaRef.current.focus();
-            textareaRef.current.selectionStart = textareaRef.current.value.length;
-            textareaRef.current.selectionEnd = textareaRef.current.value.length;
-            adjustTextareaHeight(textareaRef.current);
+        if (isEditingTitle && titleTextareaRef.current) {
+            titleTextareaRef.current.focus();
+            titleTextareaRef.current.selectionStart = titleTextareaRef.current.value.length;
+            titleTextareaRef.current.selectionEnd = titleTextareaRef.current.value.length;
+            adjustTextareaHeight(titleTextareaRef.current);
         }
     }, [isEditingTitle]);
+
+    useEffect(() => {
+        if (isEditingSummary && summaryTextareaRef.current) {
+            summaryTextareaRef.current.focus();
+            summaryTextareaRef.current.selectionStart = summaryTextareaRef.current.value.length;
+            summaryTextareaRef.current.selectionEnd = summaryTextareaRef.current.value.length;
+            adjustTextareaHeight(summaryTextareaRef.current);
+        }
+    }, [isEditingSummary]);
 
     function onSubmit(data: IdentityFormValues) {
         console.log('Identity Form Data:', data);
@@ -78,11 +91,11 @@ export function IdentityCard() {
     return (
         <div className="py-3">
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <FormField
                         control={form.control}
                         name="title"
-                        render={({field}) => (
+                        render={({ field }) => (
                             <FormItem>
                                 <FormControl>
                                     {isEditingTitle ? (
@@ -90,7 +103,7 @@ export function IdentityCard() {
                                             {...field}
                                             ref={(e) => {
                                                 field.ref(e);
-                                                textareaRef.current = e;
+                                                titleTextareaRef.current = e;
                                             }}
                                             rows={1}
                                             placeholder="Untitled Header"
@@ -124,14 +137,14 @@ export function IdentityCard() {
                                         </div>
                                     )}
                                 </FormControl>
-                                <FormMessage/>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
                         name="slug"
-                        render={({field}) => {
+                        render={({ field }) => {
                             const hasSlugError = !!errors.slug;
                             const slugErrorMessage = errors.slug?.message;
 
@@ -157,7 +170,7 @@ export function IdentityCard() {
                                                 />
                                                 <div className="absolute right-2 flex items-center">
                                                     {!hasSlugError && (
-                                                        <CheckCircle2 className="h-4 w-4 text-emerald-500"/>
+                                                        <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                                                     )}
                                                 </div>
                                             </div>
@@ -165,15 +178,70 @@ export function IdentityCard() {
                                     </div>
                                     {hasSlugError && (
                                         <p className="text-xs font-medium text-destructive mt-1 flex items-center gap-1">
-                                            <div className="w-4 aspect-square">
-                                                <AlertTriangle className="inline"/>
-                                            </div>
+                                            <span className="w-4 aspect-square flex items-center justify-center">
+                                                <AlertTriangle className="inline h-3.5 w-3.5" />
+                                            </span>
                                             {slugErrorMessage}
                                         </p>
                                     )}
                                 </FormItem>
                             );
                         }}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="summary"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    {isEditingSummary ? (
+                                        <textarea
+                                            {...field}
+                                            ref={(e) => {
+                                                field.ref(e);
+                                                summaryTextareaRef.current = e;
+                                            }}
+                                            rows={1}
+                                            placeholder="Click to add article summary..."
+                                            className="w-full resize-none overflow-hidden bg-transparent text-base text-muted-foreground leading-relaxed outline-none border-none focus:outline-none focus:ring-0 p-0"
+                                            onInput={(e) => adjustTextareaHeight(e.currentTarget)}
+                                            onBlur={() => {
+                                                field.onBlur();
+                                                setIsEditingSummary(false);
+                                            }}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' && !e.shiftKey) {
+                                                    e.preventDefault();
+                                                    setIsEditingSummary(false);
+                                                }
+                                            }}
+                                        />
+                                    ) : (
+                                        <div className="flex flex-col gap-3 group">
+                                            <Badge
+                                                variant="outline"
+                                                className="cursor-pointer select-none opacity-80 w-fit"
+                                            >
+                                                Summary - Click to edit
+                                            </Badge>
+                                            <p
+                                                onClick={() => setIsEditingSummary(true)}
+                                                className={`cursor-pointer text-base leading-relaxed transition-colors ${
+                                                    summaryValue?.trim()
+                                                        ? 'text-muted-foreground hover:text-foreground'
+                                                        : 'text-muted-foreground/50 italic hover:text-muted-foreground'
+                                                }`}
+                                            >
+                                                {summaryValue?.trim()
+                                                    ? summaryValue
+                                                    : 'Click to add article summary...'}
+                                            </p>
+                                        </div>
+                                    )}
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
                     />
                 </form>
             </Form>
