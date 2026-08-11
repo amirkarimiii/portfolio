@@ -202,17 +202,66 @@ Identity card: H1 Title field, slug (with 72-hour lock indicator + Emergency Byp
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 Media card:  Cover image (with mandatory Alt Text), Thumbnail image (shows automatic Alt Text that comes from the formula <cover-alt>_thmb and is non-editable).
 
 ```
-loop: Focus on AssetsCard.tsx
+✅ step: Update Zod Schema and local Types for the Assets section
+  Define Validation rules for fields:
+    coverImage: mandatory for publishing (containing Object or file URL)
+    coverAltText: mandatory for publishing
+    thumbnailImage: mandatory for publishing
+    thumbnailAltText: not directly editable (Read-only), generated from the formula <cover-alt>_thmb        
 ```
 
 ```
-commit changes
+✅ commit changes
+```
+
+```
+✅ step: Build image upload component with Shadcn Base Attachment
+  Use Base Attachment for the two fields Cover Image and Thumbnail Image
+    Implement different UI states in the component:
+      Empty state (Empty / Dropzone): display upload icon + guide (allowed formats JPG, PNG, GIF / not allowed SVG and Lottie)
+      Selected state (Attachment Item View): display preview image (Preview), file name, file size and action buttons (delete / replace)
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: UI logic for automatic generation of suggested Alt from file name
+  When selecting/dropping the file in the Cover Image section:
+    Extract the file name (for example my-cover-photo.png)
+    Apply Format/Slugify function on it (convert to my cover photo)
+    Set this value as the default (Default Value) of the Cover Alt Text field (if the field has been empty so far)
+    
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Implement interactive Alt Text fields (Cover & Thumbnail)
+  Cover Alt Text field:
+    a normal <Input> from Shadcn
+    possibility of manual editing by the user
+    an <Input> in disabled or readOnly state
+    connect to the Cover Alt Text value using useWatch in React Hook Form
+    live display of the _thmb suffix (for example my cover photo_thmb)
+    add a small Badge or Tooltip next to the field with the title: "Auto-generated from Cover Alt Text"
+```
+
+```
+✅ commit changes
+```
+
+```
+commit runbook
 ```
 
 Classification card:
@@ -229,7 +278,6 @@ commit changes
 ```
 
 SEO card: SEO title, SEO description, Canonical link.
-
 
 ```backlog
 ///
