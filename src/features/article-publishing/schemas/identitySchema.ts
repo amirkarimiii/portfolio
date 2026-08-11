@@ -1,3 +1,4 @@
+// src/features/article-publishing/schemas/identitySchema.ts
 import { z } from 'zod';
 
 const RESERVED_SLUGS = ['admin', 'api', 'drafts', 'archive', 'preview'] as const;
@@ -22,21 +23,6 @@ export const identitySchema = z.object({
 
     summary: z
         .string()
-        .optional(),
-
-    seoTitle: z
-        .string()
-        .max(60, 'SEO title should not exceed 60 characters')
-        .optional(),
-
-    seoDescription: z
-        .string()
-        .max(160, 'SEO description should not exceed 160 characters')
-        .optional(),
-
-    canonicalUrl: z
-        .url('Invalid Canonical URL')
-        .or(z.literal(''))
         .optional(),
 });
 
