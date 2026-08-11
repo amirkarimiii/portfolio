@@ -1,13 +1,4 @@
-# Article Guidelines (v1)
-
-<div dir="rtl">
-
-> **‼️ این قسمت باید قبل از کامیت کاملاً دیلیت شه**<br/>
-> باید اطلاعات card component احتمالاً اینجا بیاد<br/>
-> اطلاعات imageها هم احتمالاً باید اینجا بیاد بدون اینکه پامونو توی کفش media کنیم<br/>
-> بعد از تکمیل این فولدر، باید capability-guideline هم اینجا بیاد <br/>
-
-</div>
+# Article Guidelines
 
 ## Purpose
 
@@ -130,7 +121,7 @@ If Alt Text is empty, the article title should be used as the fallback.
 
 Captions are rendered only when provided.
 
-### Out of Scope (v1)
+### Out of Scope
 
 The following image capabilities are intentionally excluded from this
 version:
@@ -140,19 +131,6 @@ version:
 * Float
 * Alignment
 * Crop
-
----
-
-# 7. Embeds — Backlog (Planned for v1.2)
-
-Embeds (YouTube, Twitter/X) are **out of scope for v1** and are planned for
-version 1.2.
-
-* No embed rendering is required in v1.
-* The corresponding editor control must remain visible but **deactivated**,
-  serving as a reminder that this feature is planned rather than omitted.
-* Rendering requirements (responsive layout, Light/Dark Mode compatibility)
-  will be defined when the feature is scheduled for implementation.
 
 ---
 
@@ -316,12 +294,3 @@ Inline text marks modify inline text appearance. Custom overrides apply to Highl
 
 ### Default Marks (Bold, Italic, Underline, Strike-through)
 * Reflect baseline browser and native Tiptap behavior with zero custom style overrides, ensuring total compatibility with standard content structure formats.
-
----
-
-# Revision Policy
-
-This document is a living document.
-
-New content elements may be introduced only after evaluating whether they
-align with the blog's publishing requirements.
