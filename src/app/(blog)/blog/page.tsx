@@ -1,11 +1,9 @@
-import {BlogBanner} from "@/features/blog/components/BlogBanner";
-import {ArticlesSection} from "@/features/blog/components/ArticlesSection";
+import ArticlePublishSection from "@/features/article-publishing/components/ArticlePublishSection";
 
 export default function Blog() {
     return (
         <>
-            <BlogBanner/>
-            <ArticlesSection/>
+            <ArticlePublishSection/>
         </>
     );
 }

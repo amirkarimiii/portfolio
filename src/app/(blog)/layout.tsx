@@ -1,6 +1,6 @@
 import type {Metadata} from "next";
 import {Navbar} from "@/shared/components/layout/Navbar";
-import {BlogNavbarActions} from "@/features/blog/components/BlogNavbarActions";
+import {BlogNavbarActions} from "@/features/article-publishing/components/BlogNavbarActions";
 
 
 export const metadata: Metadata = {
