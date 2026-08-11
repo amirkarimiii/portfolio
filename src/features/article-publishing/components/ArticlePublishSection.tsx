@@ -7,6 +7,7 @@ import {
     DropdownMenuTrigger
 } from "@/shared/components/ui/dropdown-menu";
 import {Button} from "@/shared/components/ui/button";
+import {MetadataTab} from "@/features/article-publishing/article-metadata/MetadataTab";
 
 const ArticlePublishSection = () => {
 
@@ -46,7 +47,9 @@ const ArticlePublishSection = () => {
                     <TabsTrigger value="content">Content</TabsTrigger>
                     <TabsTrigger value="related">Related Articles</TabsTrigger>
                 </TabsList>
-                <TabsContent value="metadata">Metadata</TabsContent>
+                <TabsContent value="metadata">
+                    <MetadataTab/>
+                </TabsContent>
                 <TabsContent value="content">Content</TabsContent>
                 <TabsContent value="related">Related Articles</TabsContent>
             </Tabs>
