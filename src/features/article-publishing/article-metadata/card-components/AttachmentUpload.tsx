@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { Button } from '@/shared/components/ui/button';
 import { validateImageFile } from '@/features/article-publishing/utils/imageValidation';
 
-interface FileAttachment {
+export interface FileAttachment {
     file?: File;
     url: string;
     name: string;

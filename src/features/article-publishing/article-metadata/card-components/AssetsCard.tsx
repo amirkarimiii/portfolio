@@ -7,9 +7,9 @@ import {
     assetsSchema,
     type AssetsFormValues,
 } from '@/features/article-publishing/schemas/assetsSchema';
-import {Form, FormField, FormItem, FormLabel, FormMessage} from '@/shared/components/ui/form';
-import { AttachmentUpload } from './AttachmentUpload';
-import {Badge} from "@/shared/components/ui/badge";
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/shared/components/ui/form';
+import { AttachmentUpload, type FileAttachment } from './AttachmentUpload';
+import { Badge } from '@/shared/components/ui/badge';
 
 const defaultValues: AssetsFormValues = {
     coverImage: '',
@@ -17,6 +17,19 @@ const defaultValues: AssetsFormValues = {
     thumbnailImage: '',
     thumbnailAltText: '',
 };
+
+function extractUrl(val: string | FileAttachment | null): string {
+    if (!val) return '';
+    return typeof val === 'string' ? val : val.url;
+}
+
+function formatFileNameToAlt(fileName: string): string {
+    const nameWithoutExt = fileName.replace(/\.[^/.]+$/, '');
+    return nameWithoutExt
+        .replace(/[-_]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
 
 export function AssetsCard() {
     const form = useForm<AssetsFormValues>({
@@ -64,7 +77,21 @@ export function AssetsCard() {
                                 </Badge>
                                 <AttachmentUpload
                                     value={field.value}
-                                    onChange={(val) => field.onChange(val ? (typeof val === 'string' ? val : val.url) : '')}
+                                    onChange={(val) => {
+                                        if (val && typeof val !== 'string') {
+                                            field.onChange(val.url);
+                                            const currentCoverAlt = form.getValues('coverAltText');
+                                            if (!currentCoverAlt || !currentCoverAlt.trim()) {
+                                                const suggestedAlt = formatFileNameToAlt(val.name);
+                                                form.setValue('coverAltText', suggestedAlt, {
+                                                    shouldValidate: true,
+                                                    shouldDirty: true,
+                                                });
+                                            }
+                                        } else {
+                                            field.onChange(extractUrl(val));
+                                        }
+                                    }}
                                     label=""
                                 />
                                 <FormMessage />
@@ -87,7 +114,7 @@ export function AssetsCard() {
                                         label=""
                                         value={field.value}
                                         onChange={(val) =>
-                                            field.onChange(val ? (typeof val === 'string' ? val : val.url) : '')
+                                            field.onChange(extractUrl(val))
                                         }
                                     />
                                 </div>
