@@ -65,12 +65,36 @@ export function AssetsCard() {
                                 <AttachmentUpload
                                     value={field.value}
                                     onChange={(val) => field.onChange(val ? (typeof val === 'string' ? val : val.url) : '')}
-                                    label={""}                                />
+                                    label=""
+                                />
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-
+                    <FormField
+                        control={form.control}
+                        name="thumbnailImage"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="sr-only">
+                                    Thumbnail Image
+                                </FormLabel>
+                                <Badge variant="outline" className="w-fit cursor-pointer select-none opacity-80">
+                                    Thumbnail Image
+                                </Badge>
+                                <div className="w-60">
+                                    <AttachmentUpload
+                                        label=""
+                                        value={field.value}
+                                        onChange={(val) =>
+                                            field.onChange(val ? (typeof val === 'string' ? val : val.url) : '')
+                                        }
+                                    />
+                                </div>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                 </form>
             </Form>
         </div>
