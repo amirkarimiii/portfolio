@@ -1,4 +1,13 @@
 Here we perform pre-deployment works and cleanups
+
+```todo
+step: Create doc for ui (including flow)
+```
+
+```todo
+step: Create doc for micro versions
+```
+
 ```todo
 step: Review all documents to check for deficiencies or errors
 ```
@@ -21,15 +30,7 @@ working on file next.config.ts (production-ready configuration)
 ```
 
 ```todo
-commit changes
-```
-
-```todo
 cleanup code from every production-unfriendly lines (logs, ets.)
-```
-
-```todo
-commit changes
 ```
 
 ```todo
@@ -37,13 +38,5 @@ research for the proper license on github
 ```
 
 ```todo
-commit changes
-```
-
-```todo
 step: Clean the documents from verbosity
-```
-
-```todo
-commit changes
 ```

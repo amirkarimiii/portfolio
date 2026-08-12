@@ -261,7 +261,7 @@ Media card:  Cover image (with mandatory Alt Text), Thumbnail image (shows autom
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 Classification card:
@@ -270,88 +270,74 @@ Classification card:
 * Tag management (select tags with automatic Suggestion + add new tag).
 
 ```
-loop: Focus on ClassificationCard.tsx
+✅ step: Prepare Data Model, Mock Data and Schema for tags
+  Define data structure and mock array:
+    Create a Constant of initial tags with unique keys: const MOCK_EXISTING_TAGS = [ "React", "React Native", "TypeScript", "Next.js", "Architecture", "Tailwind CSS", "Zustand", "Node.js" ]
+  Set Zod Schema:
+    Add tags field as an array of strings (z.array(z.string()))
+    Implement uniqueness condition (Disallow duplicates) and initial validation for tag lengths
 ```
 
 ```
-commit changes
+✅ commit changes
+```
+
+```
+✅ step: Implement UI for Tags section (top part of the card)
+  Selected Badges section:
+    Create a flexible layout Container (flex flex-wrap gap-2)
+    Render tags existing in the form state as Badge from Shadcn
+    Add a small X icon on each Badge to remove the tag from the list with onClick event
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Implement Autocomplete with Shadcn Combobox / Command
+  Use combination of Popover + Command (CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem)
+  Live filter logic:
+    By typing a phrase (for example rea), the Command component automatically filters the mock array and presents similar items (React and React Native)
+  New tag addition logic:
+    If the typed phrase does not exist in MOCK_EXISTING_TAGS, the CommandEmpty section becomes an interactive option: "Create tag {input}" which by clicking, adds the new tag both to the selected state and to the local mock array
+  Prevent repetition:
+    Hide or disable tags that have already been selected from the suggestions list
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Implement UI for Series Membership section (bottom part of the card)
+  Main action button (Create New Series):
+    Place a <Button> with medium width (w-full max-w-md mx-auto block) in the center of the card
+    Add Plus or ExternalLink icon from Lucide next to the button text
+    Set click action to open the path /admin/add-series in a new browser tab (window.open('/admin/add-series', '_blank'))
+  Separator and guide text:
+    Render guide text under the button with neutral style (Muted text): "or choose from existing series below"
+  Alternative box (Placeholder):
+    Design a box with dashed border (border-2 border-dashed border-muted rounded-lg p-6 text-center)
+    Place explanatory text inside it to specify the next phases: "Series Picker Placeholder (Top 20 Recent Series)"
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ commit runbook
 ```
 
 SEO card: SEO title, SEO description, Canonical link.
-
-```backlog
-///
-step: Build accordion / advanced section related to SEO Fields
-///
-
-///
-step: Design a simple Collapsible or Accordion under the Summary field with the title "SEO Settings (Optional)"
-///
-
-///
-commit changes
-///
-
-///
-step: Place 3 Shadcn text fields: SEO Title: along with display of recommended length Indicator (30 to 60 characters) + display of moving Fallback text: "If empty, Article Title is used"
-///
-
-///
-commit changes
-///
-
-///
-step: SEO Description: along with display of recommended length Indicator (120 to 160 characters) + display of moving Fallback text: "If empty, Summary is used"
-///
-
-///
-commit changes
-///
-
-///
-step: Canonical URL: text field with absolute link Validation (https://...) + display of Fallback text: "If empty, the article URL is used"
-///
-
-///
-commit changes
-///
-
-///
-step: Step 7: Styling, Visually Disabled states and Slug Lock UI
-///
-
-///
-step: Implement Visual State for Slug Lock state (72-hour lock) as Mock (for example a simple Prop isLocked={true})
-///
-
-///
-commit changes
-///
-
-///
-step: Disable the Slug field and display the lock icon
-///
-
-///
-commit changes
-///
-
-///
-step: Design UI for Emergency Override switch and warning modal/box UX (Warn 404/504) in case of activating the override switch
-///
-
-///
-commit changes
-///
-
-```
 
 ```
 loop: Focus on SEOCard.tsx
 ```
 
 ```
-commit changes
+commit runbook
 ```
 
 ```todo:subbranches
