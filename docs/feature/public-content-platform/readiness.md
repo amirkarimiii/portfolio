@@ -160,6 +160,8 @@ Backend, Frontend, Security, Public Listing Infrastructure, Integration, and Arc
 * [ ] Implementation complies with ADR-0001 (EditorJS to Tiptap)
 * [ ] Implementation complies with ADR-0002 (Article Authoring Guidelines)
 * [ ] Implementation complies with ADR-0004 (Cherry-Pick Extraction Policy)
+* [ ] File naming follows taxonomy conventions (specification.md, verification.md, readiness.md, runbook-*.md, etc.)
+* [ ] Files are placed in correct feature-based directory structure (docs/feature/<feature-name>/)
 * [ ] Reference implementation structure aligned with Specification Section 14
 
 ---
