@@ -427,17 +427,17 @@ Final revising style in MetadataTab and Cards
 ```
 
 ```todo:subbranches
-step: Checkout the branch feature/pcp-ui-article-crud
+✅ step: Checkout the branch feature/pcp-ui-article-crud
 ```
 
 ```todo:subbranches
-step: Merge the branch feature/pcp-article-metadata into feature/pcp-ui-article-crud
+✅ step: Merge the branch feature/pcp-article-metadata into feature/pcp-ui-article-crud
 ```
 
 ```todo:subbranches
-step: Delete the branch feature/pcp-article-metadata
+✅ step: Delete the branch feature/pcp-article-metadata
 ```
 
 ```todo:subbranches
-step: go to article-creation-and-edit-runbook line 43
+✅ step: go to article-creation-and-edit-runbook line 43
 ```

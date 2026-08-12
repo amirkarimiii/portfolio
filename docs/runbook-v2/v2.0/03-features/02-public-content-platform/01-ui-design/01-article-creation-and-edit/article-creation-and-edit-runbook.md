@@ -36,27 +36,33 @@ Tab 3: Related Articles </br>
 ```
 
 ```todo
-step: go to 02-metadata for tab 1
+✅ step: go to 02-metadata for tab 1
 ```
 
 ```
-step: Go to TRACKING and mark this step as Completed with mention of completion date and put the next step as In Progress and write its changelog and fix Last Updated
+✅ step: Go to TRACKING
+  mark this step as Completed with mention of completion date
+  put the next step as In Progress
+  write its changelog
+  fix Last Updated
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Go to Observatory and mark this branch as Merged and activate the next branch
+✅ step: Go to Observatory 
+  mark this branch as Merged
+  activate the next branch
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```todo
@@ -64,7 +70,11 @@ step: go to 03-content for tab 2
 ```
 
 ```
-step: Go to TRACKING and mark this step as Completed with mention of completion date and put the next step as In Progress and write its changelog and fix Last Updated
+step: Go to TRACKING
+  mark this step as Completed with mention of completion date
+  put the next step as In Progress
+  write its changelog
+  fix Last Updated
 ```
 
 ```
@@ -72,7 +82,9 @@ commit changes
 ```
 
 ```
-step: Go to Observatory and mark this branch as Merged and activate the next branch
+step: Go to Observatory
+  mark this branch as Merged
+  activate the next branch
 ```
 
 ```
@@ -88,7 +100,10 @@ step: go to 04-related-articles for tab 3
 ```
 
 ```
-step: Go to TRACKING and mark this step as Completed with mention of completion date and write its changelog and fix Last Updated
+step: Go to TRACKING
+  mark this step as Completed with mention of completion date
+  write its changelog
+  fix Last Updated
 ```
 
 ```
