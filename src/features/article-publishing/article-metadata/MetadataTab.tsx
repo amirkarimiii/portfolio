@@ -6,27 +6,38 @@ import {SEOCard} from "@/features/article-publishing/article-metadata/card-compo
 
 export function MetadataTab() {
     return (
-        <>
+        <div className="flex flex-col gap-3 pb-20">
             <div>
-                <h2 className="font-bold text-xl my-5 ml-2 md:ml-0 lg:mt-5 lg:text-3xl">Identity</h2>
+                <div>
+                    <h2 className="font-bold text-xl my-5 ml-2 md:ml-0 lg:mt-5 lg:text-3xl">Identity</h2>
+                </div>
+                <IdentityCard/>
+                <Separator/>
             </div>
-            <IdentityCard/>
-            <Separator/>
+
             <div>
-                <h2 className="font-bold text-xl my-5 ml-2 md:ml-0 lg:mt-5 lg:text-3xl">Assets</h2>
+                <div>
+                    <h2 className="font-bold text-xl my-5 ml-2 md:ml-0 lg:mt-5 lg:text-3xl">Assets</h2>
+                </div>
+                <AssetsCard/>
+                <Separator/>
             </div>
-            <AssetsCard/>
-            <Separator/>
+
             <div>
-                <h2 className="font-bold text-xl my-5 ml-2 md:ml-0 lg:mt-5 lg:text-3xl">Classification</h2>
+                <div>
+                    <h2 className="font-bold text-xl my-5 ml-2 md:ml-0 lg:mt-5 lg:text-3xl">Classification</h2>
+                </div>
+                <ClassificationCard/>
+                <Separator/>
+
             </div>
-            <ClassificationCard/>
-            <Separator/>
+
             <div>
-                <h2 className="font-bold text-xl my-5 ml-2 md:ml-0 lg:mt-5 lg:text-3xl">SEO</h2>
+                <div>
+                    <h2 className="font-bold text-xl my-5 ml-2 md:ml-0 lg:mt-5 lg:text-3xl">SEO</h2>
+                </div>
+                <SEOCard/>
             </div>
-            <SEOCard/>
-            <Separator/>
-        </>
+        </div>
     );
 }
