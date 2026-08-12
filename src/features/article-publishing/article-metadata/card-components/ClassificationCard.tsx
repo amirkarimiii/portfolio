@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {X, ChevronsUpDown, Plus} from 'lucide-react';
+import { X, ChevronsUpDown, Plus, ExternalLink, Layers } from 'lucide-react';
 import {
     classificationSchema,
     type ClassificationFormValues,
@@ -83,6 +83,10 @@ export function ClassificationCard() {
         handleSelectTag(trimmedTag);
     };
 
+    const handleCreateNewSeries = () => {
+        window.open('/admin/add-series', '_blank');
+    };
+
     function onSubmit(data: ClassificationFormValues) {
         console.log('Classification Form Data:', data);
     }
@@ -94,7 +98,8 @@ export function ClassificationCard() {
     return (
         <div className="py-3">
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                    {/* Tags Section */}
                     <FormField
                         control={form.control}
                         name="tags"
@@ -167,7 +172,7 @@ export function ClassificationCard() {
                                                                 className="flex items-center gap-2 w-full text-left px-2 py-1.5 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
                                                             >
                                                                 <div className="w-4 aspect-square">
-                                                                    <Plus/>
+                                                                    <Plus />
                                                                 </div>
                                                                 <span>Create tag <strong>&quot;{inputValue}&quot;</strong></span>
                                                             </button>
@@ -202,6 +207,39 @@ export function ClassificationCard() {
                             </FormItem>
                         )}
                     />
+                    <div className="space-y-4 pt-4 border-t">
+                        <Badge variant="outline" className="w-fit select-none opacity-80">
+                            Series Membership
+                        </Badge>
+                        <div className="space-y-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={handleCreateNewSeries}
+                                className="w-full max-w-md mx-auto flex items-center justify-center gap-2"
+                            >
+                                <div className="w-4 aspect-square">
+                                    <Plus />
+                                </div>
+                                <span>Create New Series</span>
+                                <div className="w-3.5 aspect-square text-muted-foreground ml-1">
+                                    <ExternalLink />
+                                </div>
+                            </Button>
+
+                            <p className="text-xs text-center text-muted-foreground">
+                                or choose from existing series below
+                            </p>
+                        </div>
+                        <div className="border-2 border-dashed border-muted rounded-lg p-6 text-center space-y-2 bg-muted/20">
+                            <div className="w-8 aspect-square mx-auto text-muted-foreground/60">
+                                <Layers />
+                            </div>
+                            <p className="text-xs font-medium text-muted-foreground">
+                                Series Picker Placeholder (Top 20 Recent Series)
+                            </p>
+                        </div>
+                    </div>
                 </form>
             </Form>
         </div>
