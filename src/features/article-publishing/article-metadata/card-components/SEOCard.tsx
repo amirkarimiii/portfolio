@@ -1,19 +1,12 @@
 'use client';
 
-import {useForm, useWatch} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {AlertCircle} from 'lucide-react';
+import { useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AlertCircle } from 'lucide-react';
 import {
     seoSchema,
     type SEOFormValues,
 } from '@/features/article-publishing/schemas/seoSchema';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/shared/components/ui/card';
 import {
     Form,
     FormField,
@@ -22,11 +15,13 @@ import {
     FormControl,
     FormMessage,
 } from '@/shared/components/ui/form';
-import {Input} from '@/shared/components/ui/input';
-import {Badge} from '@/shared/components/ui/badge';
+import { Input } from '@/shared/components/ui/input';
+import { Textarea } from '@/shared/components/ui/textarea';
+import { Badge } from '@/shared/components/ui/badge';
 
 interface SEOCardProps {
     articleTitle?: string;
+    articleSummary?: string;
 }
 
 const defaultValues: SEOFormValues = {
@@ -35,7 +30,7 @@ const defaultValues: SEOFormValues = {
     canonicalUrl: '',
 };
 
-export function SEOCard({articleTitle = ''}: SEOCardProps) {
+export function SEOCard({ articleTitle = '', articleSummary = '' }: SEOCardProps) {
     const form = useForm<SEOFormValues>({
         resolver: zodResolver(seoSchema),
         defaultValues,
@@ -47,8 +42,21 @@ export function SEOCard({articleTitle = ''}: SEOCardProps) {
         name: 'seoTitle',
     }) || '';
 
+    const seoDescriptionValue = useWatch({
+        control: form.control,
+        name: 'seoDescription',
+    }) || '';
+
+    const canonicalUrlValue = useWatch({
+        control: form.control,
+        name: 'canonicalUrl',
+    }) || '';
+
     const titleCharCount = seoTitleValue.length;
     const isTitleLengthOptimal = titleCharCount >= 30 && titleCharCount <= 60;
+
+    const descCharCount = seoDescriptionValue.length;
+    const isDescLengthOptimal = descCharCount >= 120 && descCharCount <= 160;
 
     function onSubmit(data: SEOFormValues) {
         console.log('SEO Form Data:', data);
@@ -61,7 +69,7 @@ export function SEOCard({articleTitle = ''}: SEOCardProps) {
                     <FormField
                         control={form.control}
                         name="seoTitle"
-                        render={({field}) => (
+                        render={({ field }) => (
                             <FormItem className="space-y-2">
                                 <div className="flex items-center justify-between">
                                     <FormLabel className="sr-only">
@@ -91,25 +99,81 @@ export function SEOCard({articleTitle = ''}: SEOCardProps) {
                                 {titleCharCount > 0 && !isTitleLengthOptimal && (
                                     <p className="text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1">
                                         <div className="w-3 mt-px aspect-square">
-                                            <AlertCircle/>
+                                            <AlertCircle />
                                         </div>
                                         Recommended length for search engines is 30–60 characters.
                                     </p>
                                 )}
                                 {!seoTitleValue.trim() && (
-                                    <div
-                                        className="p-2.5 rounded-md bg-muted/40 border border-border/50 flex items-center gap-2 text-xs text-muted-foreground">
-                                        <Badge variant="outline"
-                                               className="text-[10px] py-0 px-1.5 font-normal shrink-0">
+                                    <div className="p-2.5 rounded-md bg-muted/40 border border-border/50 flex items-center gap-2 text-xs text-muted-foreground">
+                                        <Badge
+                                            variant="outline"
+                                            className="text-[10px] py-0 px-1.5 font-normal shrink-0"
+                                        >
                                             Fallback Active
                                         </Badge>
                                         <span className="truncate">
-                        Using Article Title (&quot;{articleTitle.trim() || 'Untitled Article'}&quot;)
-                      </span>
+                                            Using Article Title (&quot;{articleTitle.trim() || 'Untitled Article'}&quot;)
+                                        </span>
                                     </div>
                                 )}
-
-                                <FormMessage/>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="seoDescription"
+                        render={({ field }) => (
+                            <FormItem className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <FormLabel className="sr-only">
+                                        SEO Description
+                                    </FormLabel>
+                                    <Badge variant="outline" className="w-fit select-none opacity-80">
+                                        SEO Description
+                                    </Badge>
+                                    <span
+                                        className={`text-xs font-mono transition-colors ${
+                                            descCharCount === 0
+                                                ? 'text-muted-foreground'
+                                                : isDescLengthOptimal
+                                                    ? 'text-emerald-600 dark:text-emerald-400 font-semibold'
+                                                    : 'text-amber-600 dark:text-amber-400'
+                                        }`}
+                                    >
+                                        {descCharCount} / 160 chars
+                                    </span>
+                                </div>
+                                <FormControl>
+                                    <Textarea
+                                        {...field}
+                                        rows={3}
+                                        placeholder="Enter meta description for search engines..."
+                                    />
+                                </FormControl>
+                                {descCharCount > 0 && !isDescLengthOptimal && (
+                                    <p className="text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                                        <div className="w-3 mt-px aspect-square">
+                                            <AlertCircle />
+                                        </div>
+                                        Recommended length for meta description is 120–160 characters.
+                                    </p>
+                                )}
+                                {!seoDescriptionValue.trim() && (
+                                    <div className="p-2.5 rounded-md bg-muted/40 border border-border/50 flex items-center gap-2 text-xs text-muted-foreground">
+                                        <Badge
+                                            variant="outline"
+                                            className="text-[10px] py-0 px-1.5 font-normal shrink-0"
+                                        >
+                                            Fallback Active
+                                        </Badge>
+                                        <span className="truncate">
+                                            Using Article Summary (&quot;{articleSummary.trim() || 'No summary provided'}&quot;)
+                                        </span>
+                                    </div>
+                                )}
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
