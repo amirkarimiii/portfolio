@@ -2,7 +2,7 @@
 
 **Status:** In Progress
 
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-08-12
 
 **Owner:** Amir Karimi
 
@@ -18,12 +18,12 @@ It provides an overview of Article Creation and Edit status, planning milestones
 
 # 2. Tracking
 
-| Steps                       | Status      | Planned Start      | Target Milestone | Completed  |
-|-----------------------------|-------------|--------------------|------------------|:----------:|
-| Article Creation Foundation | Completed   | 2026-08-09         | 2026-08-09       | 2026-08-09 |
-| Tab Metadata                | In Progress | 2026-08-11         | 2026-08-12       |     —      |
-| Tab Content                 | Planned     | After Tab Metadata | Not Estimated    |     —      |
-| Tab Related Articles        | Planned     | After Tab Content  | Not Estimated    |     —      |
+| Steps                       | Status      | Planned Start     | Target Milestone | Completed  |
+|-----------------------------|-------------|-------------------|------------------|:----------:|
+| Article Creation Foundation | Completed   | 2026-08-09        | 2026-08-09       | 2026-08-09 |
+| Tab Metadata                | Completed   | 2026-08-11        | 2026-08-12       | 2026-08-12 |
+| Tab Content                 | In Progress | 2026-08-13        | Not Estimated    |     —      |
+| Tab Related Articles        | Planned     | After Tab Content | Not Estimated    |     —      |
 
 ---
 
@@ -44,3 +44,4 @@ It provides an overview of Article Creation and Edit status, planning milestones
 |------------|--------------------------------------------------------------------------------------------------------------------------------|
 | 2026-08-09 | Tracking document created.                                                                                                     |
 | 2026-08-09 | Article Creation Foundation marked as Completed (2026-08-09). Tab Metadata moved to In Progress with Planned Start 2026-08-10. |
+| 2026-08-12 | Tab Metadata marked as Completed (2026-08-12). Tab Content moved to In Progress with Planned Start 2026-08-13.                 |
