@@ -205,7 +205,7 @@ Identity card: H1 Title field, slug (with 72-hour lock indicator + Emergency Byp
 ✅ commit runbook
 ```
 
-Media card:  Cover image (with mandatory Alt Text), Thumbnail image (shows automatic Alt Text that comes from the formula <cover-alt>_thmb and is non-editable).
+Media card:  Cover image (with mandatory Alt Text), Thumbnail image (shows automatic Alt Text that comes from the formula <cover-alt>_thumb and is non-editable).
 
 ```
 ✅ step: Update Zod Schema and local Types for the Assets section
@@ -333,11 +333,97 @@ Classification card:
 SEO card: SEO title, SEO description, Canonical link.
 
 ```
-loop: Focus on SEOCard.tsx
+✅ step: Set Zod Schema and local Types for the SEO section
+  Define Schema:
+    seoTitle:
+      optional (Optional), without Hard Limit, with length guide 30 to 60 characters
+    seoDescription:
+      optional (Optional), without Hard Limit, with length guide 120 to 160 characters
+    canonicalUrl:
+      canonicalUrl: optional (Optional), but if text is entered it must have valid Absolute URL format (starting with https://)
+  Define Helper Texts for displaying Fallback status: 
+    Build extension/guide text for displaying live Fallback value to the user
 ```
 
 ```
-commit runbook
+✅ commit changes
+```
+
+```
+✅ step: Build form with Shadcn components (UI structure of the card)
+  Use Card structure:
+    Render Card, CardHeader, CardTitle, CardDescription, CardContent
+  Card title:
+    SEO Metadata
+  Card description:
+    "Configure title, description, and canonical URL for search engines and social sharing."
+```
+
+```
+✅ step: Implement SEO Title field + Counter + Fallback Alert
+  Input field:
+    a standard <Input> from Shadcn
+  Character Counter:
+    Display the number of typed characters (for example 42 / 60 chars)
+    Change the color of characters or guide Badge if outside the range of 30 to 60 characters (only as a guide warning, not blocking)
+  Live display of Fallback State:
+    Use useWatch on the title field (article title in IdentityCard)
+    If the SEO Title field is empty, a box or guide text with style text-muted-foreground is displayed: "Fallback Active: Using Article Title ("{title || 'Untitled Article'}")"
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Implement SEO Description field + Counter + Fallback Alert
+  Input field:
+    a standard <Textarea> from Shadcn (with initial height of 3 or 4 lines)
+  Character Counter:
+    Display the number of typed characters with guide 120 to 160 characters
+  Live display of Fallback State:
+    Use useWatch on the summary field (article summary in IdentityCard)
+    If the SEO Description field is empty, the guide text is displayed: "Fallback Active: Using Article Summary ("{summary || 'No summary provided'}")"
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Implement Canonical URL field + Validation Messaging
+  Input field:
+    an <Input> with type="url" and placeholder like https://example.com/blog/my-article
+  URL validation:
+    Display form error message if relative URL (for example /blog/article) or invalid address is entered
+  Live display of Fallback State:
+    Live display of Fallback State: If the field is empty, the guide text under the field displays: "Fallback Active: Will resolve to the current published article URL at runtime."
+```
+
+```
+✅ commit changes
+```
+
+Final revising style in MetadataTab and Cards
+
+```
+✅ step: revising style in MetadataTab
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: revising style in cards
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ commit runbook
 ```
 
 ```todo:subbranches
