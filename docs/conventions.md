@@ -152,7 +152,7 @@ A commit should still represent one logical change. If a change spans multiple i
 | `roadmap`     | Roadmap documents (`ROADMAP.md`)                                                                                  |
 | `observatory` | Git / process observatory (`docs/git-observatory.md`)                                                             |
 | `conventions` | Coding & process conventions (`docs/conventions.md`)                                                              |
-| `ai-wf`       | AI / engineering workflow docs (`docs/ai-engineering-workflow.md`)                                                |
+| `ai-wf`       | AI / engineering workflow docs (`docs/ai-integration-workflow.md`)                                                |
 | `environment` | Environment documentation (`docs/environment.md`)                                                                 |
 | `tech-stack`  | Tech stack documentation (`docs/tech-stack.md`)                                                                   |
 | `guide`       | Developer guides, usage examples, implementation guidance, and authoring guidelines                               |
