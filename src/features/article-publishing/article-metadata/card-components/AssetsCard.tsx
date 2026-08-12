@@ -71,7 +71,6 @@ export function AssetsCard() {
         <div className="py-3">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    {/* Cover Image & Alt Text Section */}
                     <div className="space-y-3">
                         <FormField
                             control={form.control}
@@ -143,7 +142,7 @@ export function AssetsCard() {
                                     <Badge variant="outline" className="w-fit select-none opacity-80">
                                         Thumbnail Image
                                     </Badge>
-                                    <div className="w-60">
+                                    <div className="w-50 aspect-square">
                                         <AttachmentUpload
                                             label=""
                                             value={field.value}

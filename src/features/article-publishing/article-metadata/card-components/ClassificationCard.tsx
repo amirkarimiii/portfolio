@@ -99,7 +99,6 @@ export function ClassificationCard() {
         <div className="py-3">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    {/* Tags Section */}
                     <FormField
                         control={form.control}
                         name="tags"

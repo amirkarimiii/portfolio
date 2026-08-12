@@ -124,7 +124,7 @@ export function IdentityCard() {
                                         <div className="flex flex-col gap-3 group">
                                             <Badge
                                                 variant="outline"
-                                                className="cursor-pointer select-none opacity-80"
+                                                className="select-none opacity-80"
                                             >
                                                 Header - Click to edit
                                             </Badge>
@@ -153,7 +153,7 @@ export function IdentityCard() {
                                     <div className="flex flex-col gap-2">
                                         <Badge
                                             variant="outline"
-                                            className="cursor-pointer select-none opacity-80"
+                                            className="select-none opacity-80"
                                         >
                                             Slug
                                         </Badge>
@@ -220,7 +220,7 @@ export function IdentityCard() {
                                         <div className="flex flex-col gap-3 group">
                                             <Badge
                                                 variant="outline"
-                                                className="cursor-pointer select-none opacity-80 w-fit"
+                                                className="select-none opacity-80 w-fit"
                                             >
                                                 Summary - Click to edit
                                             </Badge>
