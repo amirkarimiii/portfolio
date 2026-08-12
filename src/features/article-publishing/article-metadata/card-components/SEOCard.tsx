@@ -177,6 +177,43 @@ export function SEOCard({ articleTitle = '', articleSummary = '' }: SEOCardProps
                             </FormItem>
                         )}
                     />
+                    <FormField
+                        control={form.control}
+                        name="canonicalUrl"
+                        render={({ field }) => (
+                            <FormItem className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <FormLabel className="sr-only">
+                                        Canonical URL
+                                    </FormLabel>
+                                    <Badge variant="outline" className="w-fit select-none opacity-80">
+                                        Canonical URL
+                                    </Badge>
+                                </div>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        type="url"
+                                        placeholder="https://example.com/blog/my-article"
+                                    />
+                                </FormControl>
+                                {!canonicalUrlValue.trim() && (
+                                    <div className="p-2.5 rounded-md bg-muted/40 border border-border/50 flex items-center gap-2 text-xs text-muted-foreground">
+                                        <Badge
+                                            variant="outline"
+                                            className="text-[10px] py-0 px-1.5 font-normal shrink-0"
+                                        >
+                                            Fallback Active
+                                        </Badge>
+                                        <span className="truncate">
+                                            Will resolve to the current published article URL at runtime.
+                                        </span>
+                                    </div>
+                                )}
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                 </form>
             </Form>
         </div>
