@@ -7,6 +7,8 @@ import { X, Image as ImageIcon, UploadCloud, Check } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
+import {FormLabel} from "@/shared/components/ui/form";
+import {Badge} from "@/shared/components/ui/badge";
 
 export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewProps) {
     const { src, alt, caption, isEditing } = node.attrs;
@@ -52,7 +54,9 @@ export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewP
                 <div className="mx-auto max-w-xl rounded-xl border border-border bg-card p-5 shadow-sm space-y-4">
                     <div className="flex items-center justify-between border-b pb-3">
                         <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                            <ImageIcon className="h-4 w-4 text-primary" />
+                            <div className="w-4 aspect-square">
+                                <ImageIcon/>
+                            </div>
                             <span>Add / Edit Image</span>
                         </div>
                         <Button
@@ -62,7 +66,9 @@ export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewP
                             className="h-7 w-7 text-muted-foreground hover:text-foreground"
                             onClick={deleteNode}
                         >
-                            <X className="h-4 w-4" />
+                            <div className="w-4 aspect-square">
+                                <X/>
+                            </div>
                         </Button>
                     </div>
 
@@ -81,7 +87,7 @@ export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewP
                         ) : (
                             <label className="flex cursor-pointer flex-col items-center justify-center gap-2 text-center">
                                 <div className="rounded-full bg-background p-3 shadow-sm">
-                                    <UploadCloud className="h-6 w-6 text-primary" />
+                                    <UploadCloud className="h-6 w-6" />
                                 </div>
                                 <span className="text-sm font-medium text-foreground">
                                     Click to select an image
@@ -100,9 +106,12 @@ export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewP
                     </div>
 
                     <div className="space-y-1.5">
-                        <Label htmlFor="alt-text" className="text-xs font-medium">
+                        <Label htmlFor="alt-text" className="sr-only">
                             Alt Text
                         </Label>
+                        <Badge variant="outline" className="w-fit select-none opacity-80">
+                            Alt Text
+                        </Badge>
                         <Input
                             id="alt-text"
                             placeholder="Short description of the image for SEO..."
@@ -113,9 +122,12 @@ export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewP
                     </div>
 
                     <div className="space-y-1.5">
-                        <Label htmlFor="caption-text" className="text-xs font-medium">
+                        <Label htmlFor="caption-text" className="sr-only">
                             Caption (optional)
                         </Label>
+                        <Badge variant="outline" className="w-fit select-none opacity-80">
+                            Caption (optional)
+                        </Badge>
                         <Input
                             id="caption-text"
                             placeholder="Description displayed under the image..."
@@ -141,7 +153,9 @@ export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewP
                             onClick={handleSave}
                             className="gap-1.5"
                         >
-                            <Check className="h-4 w-4" />
+                            <div className="w-4 aspect-square">
+                                <Check/>
+                            </div>
                             Save Image
                         </Button>
                     </div>
