@@ -9,10 +9,11 @@ import { LinkButton } from "@/features/article-publishing/article-editor/toolbar
 import { ListButton } from "@/features/article-publishing/article-editor/toolbar/ListButton/ListButton";
 import { MarkButton } from "./MarkButton/MarkButton";
 import { ButtonGroup, ButtonGroupSeparator } from "@/shared/components/ui/button-group";
+import {ImageButton} from "@/features/article-publishing/article-editor/toolbar/ImageButton/ImageButton";
 
 function Toolbar({ editor }: { editor: Editor | null }) {
     if (!editor) return null;
-    
+
     return (
         <ButtonGroup>
             <ButtonGroup>
@@ -44,11 +45,7 @@ function Toolbar({ editor }: { editor: Editor | null }) {
             <ButtonGroupSeparator />
             <ButtonGroup>
                 <LinkButton editor={editor} />
-                <Button variant="ghost" className="w-max px-1.5">
-                    <div className="w-4 aspect-square">
-                        <ImagePlus />
-                    </div>
-                </Button>
+                <ImageButton editor={editor} />
             </ButtonGroup>
         </ButtonGroup>
     );
