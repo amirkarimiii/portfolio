@@ -9,7 +9,21 @@ export const articleFormSchema = z.object({
     ...assetsSchema.shape,
     ...classificationSchema.shape,
     ...seoSchema.shape,
-    content: z.string(),
+    content: z
+        .string()
+        .refine(
+            (html) => {
+                const strippedContent = html
+                    .replace(/<[^>]*>/g, '')
+                    .replace(/&nbsp;/g, ' ')
+                    .trim();
+
+                return strippedContent.length > 0;
+            },
+            {
+                message: 'Article content cannot be empty',
+            }
+        ),
 });
 
 export type ArticleFormValues = z.infer<typeof articleFormSchema>;
