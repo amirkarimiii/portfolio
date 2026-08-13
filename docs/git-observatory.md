@@ -175,8 +175,8 @@ Article Creation and Edit section contains organized sub-tasks tracked as sequen
 |----------------------------------|-----------------------------|-----------------------------|:-------:|
 | `feature/pcp-article-foundation` | Article Creation Foundation | feature/pcp-ui-article-crud | Merged  |
 | `feature/pcp-article-metadata`   | Tab Metadata                | feature/pcp-ui-article-crud | Merged  |
-| `feature/pcp-article-content`    | Tab Content                 | feature/pcp-ui-article-crud | Active  |
-| `feature/pcp-article-relations`  | Tab Related Articles        | feature/pcp-ui-article-crud | Pending |
+| `feature/pcp-article-content`    | Tab Content                 | feature/pcp-ui-article-crud | Merged  |
+| `feature/pcp-article-relations`  | Tab Related Articles        | feature/pcp-ui-article-crud | Active |
 
 #### Stage 2: Wiring Beneath
 
