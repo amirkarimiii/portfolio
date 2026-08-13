@@ -95,7 +95,7 @@ Tab 2 includes editor works:
 ```
 
 ```
-step: Configure the main editor Container and .ProseMirror class
+✅ step: Configure the main editor Container and .ProseMirror class
   Target file: src/features/article-publishing/article-editor/ContentTab.tsx (or CSS module / related style file)
   Actions:
     Set the standard content width (max-w-[728px] or the value specified in the guideline) and place it in the center of the page (mx-auto)
@@ -104,11 +104,11 @@ step: Configure the main editor Container and .ProseMirror class
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Precise styling of typography (Headings, Paragraphs & Lists)
+✅ step: Precise styling of typography (Headings, Paragraphs & Lists)
   Target file: editor CSS file (for example editor.css or classes targeted on .ProseMirror)
   Actions:
     Headings (H2, H3, H4): Apply sizes (text-2xl, text-xl, text-lg), font-weight (Bold/Semibold), and vertical spacing (Margin Top/Bottom) precisely according to the guideline
@@ -117,11 +117,11 @@ step: Precise styling of typography (Headings, Paragraphs & Lists)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Styling of Inline Marks and Block Quotes / Highlights
+✅ step: Styling of Inline Marks and Block Quotes / Highlights
   Target file: .ProseMirror styles
   Actions:
     Links: Style links (Accent color, having underline or hover effect)
@@ -131,11 +131,11 @@ step: Styling of Inline Marks and Block Quotes / Highlights
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Styling of Code Block
+✅ step: Styling of Code Block
   Target file: .ProseMirror pre and .ProseMirror code styles
   Actions:
     Set dark/special codeblock background, rounded corners (rounded-lg), and appropriate padding
@@ -144,15 +144,15 @@ step: Styling of Code Block
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```
-step: Connect Tiptap to React Hook Form / main form State
+✅ step: Connect Tiptap to React Hook Form / main form State
   Target files: src/features/article-publishing/article-editor/ContentTab.tsx and src/features/article-publishing/components/tabs/ContentTab.tsx
   Actions:
     Create EditorSkeleton.tsx component using Shadcn Skeleton
@@ -163,24 +163,11 @@ step: Connect Tiptap to React Hook Form / main form State
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Integrate with Debounce & Autosave mechanism
-  Target file: src/features/article-publishing/components/tabs/ContentTab.tsx
-  Actions:
-    Connect the onUpdate event of Tiptap to the automatic storage system (Autosave)
-    Apply Debounce mechanism (for example 500 to 1000 milliseconds) on the editor content changes to prevent unnecessary Triggering of Autosave during the user's fast typing
-    Display Autosave status (such as "Draft saved" or "Saving...") in the overall form status
-```
-
-```
-commit changes
-```
-
-```
-step: Implement Validation method for the Content field
+✅ step: Implement Validation method for the Content field
   Target file: Validation schemas related to the article (such as React Hook Form / Zod Schema)
   Actions:
     Validate that the article content is not empty (Empty Document Validation)
@@ -189,18 +176,22 @@ step: Implement Validation method for the Content field
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Final cleanup, Integration test and preparation of ContentTab
+✅ step: Final cleanup, Integration test and preparation of ContentTab
   Target file: src/features/article-publishing/components/tabs/ContentTab.tsx
   Actions:
     Place the editor component in the final layout of ContentTab (according to the designed UI/UX standards and Spacing) along with skeleton
 ```
 
 ```
-commit changes
+✅ commit changes
+```
+
+```
+commit runbook
 ```
 
 ```todo:subbranches
