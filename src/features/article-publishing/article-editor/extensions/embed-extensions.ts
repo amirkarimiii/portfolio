@@ -1,11 +1,5 @@
-import { Image } from "@tiptap/extension-image";
+import { ImageBlockExtension } from './image-block-extension';
 
 export const embedExtensions = [
-    Image.configure({
-        inline: false,
-        allowBase64: false,
-        HTMLAttributes: {
-            class: 'rounded-lg my-4 max-w-full h-auto',
-        },
-    }),
-]
+    ImageBlockExtension,
+];
