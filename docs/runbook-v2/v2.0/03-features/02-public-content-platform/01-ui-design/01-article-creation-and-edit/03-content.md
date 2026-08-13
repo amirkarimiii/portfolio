@@ -191,21 +191,21 @@ Tab 2 includes editor works:
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```todo:subbranches
-step: Checkout the branch feature/pcp-ui-article-crud
+✅ step: Checkout the branch feature/pcp-ui-article-crud
 ```
 
 ```todo:subbranches
-step: Merge the branch feature/pcp-article-content into feature/pcp-ui-article-crud
+✅ step: Merge the branch feature/pcp-article-content into feature/pcp-ui-article-crud
 ```
 
 ```todo:subbranches
-step: Delete the branch feature/pcp-article-content
+✅ step: Delete the branch feature/pcp-article-content
 ```
 
 ```todo:subbranches
-step: go to article-creation-and-edit-runbook line 73
+✅ step: go to article-creation-and-edit-runbook line 73
 ```
