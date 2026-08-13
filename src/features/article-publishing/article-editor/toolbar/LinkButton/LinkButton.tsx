@@ -1,3 +1,5 @@
+"use client"
+
 import { useMemo, useState } from "react";
 import { Editor, useEditorState } from "@tiptap/react";
 import { toast } from "sonner";
