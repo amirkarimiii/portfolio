@@ -27,7 +27,7 @@ export function ImageButton({ editor }: ImageButtonProps) {
                     </div>
                 </Button>
             </TooltipTrigger>
-            <TooltipContent>add image</TooltipContent>
+            <TooltipContent>Add Image</TooltipContent>
         </Tooltip>
     )
 }
