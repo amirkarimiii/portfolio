@@ -1,40 +1,33 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useEditor } from '@tiptap/react';
-import { extensions } from "@/features/article-publishing/article-editor/extensions";
-import Toolbar from "@/features/article-publishing/article-editor/toolbar/Toolbar";
-import Tiptap from "@/features/article-publishing/article-editor/Tiptap";
-import { EditorSkeleton } from "./EditorSkeleton";
+import { useFormContext } from 'react-hook-form';
+import { extensions } from '@/features/article-publishing/article-editor/extensions';
+import Toolbar from '@/features/article-publishing/article-editor/toolbar/Toolbar';
+import Tiptap from '@/features/article-publishing/article-editor/Tiptap';
+import { EditorSkeleton } from './EditorSkeleton';
+import type { ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
 
-interface ContentTabProps {
-    value?: string;
-    onChange?: (content: string) => void;
-}
+export function ContentTab() {
+    const { setValue, getValues } = useFormContext<ArticleFormValues>();
 
-export function ContentTab({ value = '', onChange }: ContentTabProps) {
     const editor = useEditor({
-        extensions: [
-            ...extensions
-        ],
-        content: value,
+        extensions,
+        content: getValues('content'),
         immediatelyRender: false,
         editorProps: {
             attributes: {
-                class: 'mx-auto mt-4 min-h-[500px] w-full max-w-[728px] rounded-lg border bg-background p-6 md:p-8 text-foreground focus:outline-none transition-colors shadow-sm',
+                class:
+                    'mx-auto mt-4 min-h-[500px] w-full max-w-[728px] rounded-lg border bg-background p-6 md:p-8 text-foreground focus:outline-none transition-colors shadow-sm',
             },
         },
         onUpdate: ({ editor }) => {
-            const html = editor.getHTML();
-            onChange?.(html);
+            setValue('content', editor.getHTML(), {
+                shouldDirty: true,
+                shouldValidate: true,
+            });
         },
     });
-
-    useEffect(() => {
-        if (editor && value !== editor.getHTML()) {
-            editor.commands.setContent(value, { emitUpdate: false });
-        }
-    }, [value, editor]);
 
     if (!editor) {
         return <EditorSkeleton />;
