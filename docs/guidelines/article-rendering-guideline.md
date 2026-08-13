@@ -110,8 +110,21 @@ Supported:
 * Image
 * Optional Alt Text
 * Optional Caption
+* Image Removal (via inline close/remove control)
 
-Rendering requirements:
+## Validation Standards
+
+Image dimension, size, and format validation standards are defined centrally in `media.md`.
+
+## Insertion Workflow & Interaction Standard
+
+Image insertion uses an in-place block-level form within the editor canvas (not a modal/popover).
+
+## Document Removal Behavior
+
+Images can be removed from the document using the top-right close (X) icon on the image block. Note that this action removes the element from the document structure within the editor layer and does not trigger instantaneous cleanup or deletion from the CDN.
+
+## Rendering Requirements
 
 * Center aligned
 * Rounded corners
@@ -123,8 +136,7 @@ Captions are rendered only when provided.
 
 ### Out of Scope
 
-The following image capabilities are intentionally excluded from this
-version:
+The following image capabilities are intentionally excluded from this version:
 
 * Resize
 * Drag & Drop
