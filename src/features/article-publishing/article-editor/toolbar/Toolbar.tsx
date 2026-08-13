@@ -1,76 +1,59 @@
-import {Editor} from "@tiptap/react";
-
+import { Editor } from "@tiptap/react";
 import { ImagePlus } from "lucide-react";
 
-import {BlockButton} from "./BlockButton/BlockButton";
-import {Button} from "@/shared/components/ui/button";
-import {HistoryButton} from "@/features/article-publishing/article-editor/toolbar/HistoryButton/HistoryButton";
-import {HeadingsButton} from "@/features/article-publishing/article-editor/toolbar/HeadingsButton/HeadingsButton";
-import {XCorpIcon, YouTubeIcon} from "@/features/article-publishing/article-editor/toolbar/icons";
-import {LinkButton} from "@/features/article-publishing/article-editor/toolbar/LinkButton/LinkButton";
-import {ListButton} from "@/features/article-publishing/article-editor/toolbar/ListButton/ListButton";
+import { BlockButton } from "./BlockButton/BlockButton";
+import { Button } from "@/shared/components/ui/button";
+import { HistoryButton } from "@/features/article-publishing/article-editor/toolbar/HistoryButton/HistoryButton";
+import { HeadingsButton } from "@/features/article-publishing/article-editor/toolbar/HeadingsButton/HeadingsButton";
+import { LinkButton } from "@/features/article-publishing/article-editor/toolbar/LinkButton/LinkButton";
+import { ListButton } from "@/features/article-publishing/article-editor/toolbar/ListButton/ListButton";
 import { MarkButton } from "./MarkButton/MarkButton";
-import {ButtonGroup, ButtonGroupSeparator} from "@/shared/components/ui/button-group";
+import { ButtonGroup, ButtonGroupSeparator } from "@/shared/components/ui/button-group";
 
-function Toolbar({editor}: { editor: Editor | null }) {
-
-    if (!editor) return null
-
+function Toolbar({ editor }: { editor: Editor | null }) {
+    if (!editor) return null;
     return (
         <ButtonGroup>
             <ButtonGroup>
-                <HistoryButton type={"undo"} editor={editor}/>
-                <HistoryButton type={"redo"} editor={editor}/>
+                <HistoryButton type="undo" editor={editor} />
+                <HistoryButton type="redo" editor={editor} />
             </ButtonGroup>
-            <ButtonGroupSeparator/>
+            <ButtonGroupSeparator />
             <ButtonGroup>
-                <ButtonGroup>
-                    <HeadingsButton type={"h2"} editor={editor} />
-                    <HeadingsButton type={"h3"} editor={editor} />
-                    <HeadingsButton type={"h4"} editor={editor} />
-                </ButtonGroup>
-                <ButtonGroupSeparator/>
-                <ButtonGroup>
-                    <BlockButton type={"quote"} editor={editor}/>
-                    <BlockButton type={"code"} editor={editor}/>
-                </ButtonGroup>
+                <HeadingsButton type="h2" editor={editor} />
+                <HeadingsButton type="h3" editor={editor} />
+                <HeadingsButton type="h4" editor={editor} />
             </ButtonGroup>
-            <ButtonGroupSeparator/>
+            <ButtonGroupSeparator />
             <ButtonGroup>
-                <ListButton type={"bullet"} editor={editor}/>
-                <ListButton type={"ordered"} editor={editor}/>
+                <BlockButton type="quote" editor={editor} />
+                <BlockButton type="code" editor={editor} />
             </ButtonGroup>
-            <ButtonGroupSeparator/>
+            <ButtonGroupSeparator />
             <ButtonGroup>
-                <MarkButton type={"bold"} editor={editor}/>
-                <MarkButton type={"italic"} editor={editor}/>
-                <MarkButton type={"underline"} editor={editor}/>
-                <MarkButton type={"strikethrough"} editor={editor}/>
-                <MarkButton type={"inlineCode"} editor={editor}/>
-                <MarkButton type={"highlight"} editor={editor}/>
+                <ListButton type="bullet" editor={editor} />
+                <ListButton type="ordered" editor={editor} />
             </ButtonGroup>
-            <ButtonGroupSeparator/>
-            <LinkButton editor={editor} />
-            <ButtonGroupSeparator/>
+            <ButtonGroupSeparator />
             <ButtonGroup>
+                <MarkButton type="bold" editor={editor} />
+                <MarkButton type="italic" editor={editor} />
+                <MarkButton type="underline" editor={editor} />
+                <MarkButton type="strikethrough" editor={editor} />
+                <MarkButton type="inlineCode" editor={editor} />
+                <MarkButton type="highlight" editor={editor} />
+            </ButtonGroup>
+            <ButtonGroupSeparator />
+            <ButtonGroup>
+                <LinkButton editor={editor} />
                 <Button variant="ghost" className="w-max px-1.5">
                     <div className="w-4 aspect-square">
                         <ImagePlus />
                     </div>
                 </Button>
-                <Button variant="ghost" className="w-max px-1.5" disabled>
-                    <div className="w-4 aspect-square">
-                        <YouTubeIcon />
-                    </div>
-                </Button>
-                <Button variant="ghost" className="w-max px-1.5" disabled>
-                    <div className="w-4 aspect-square">
-                        <XCorpIcon />
-                    </div>
-                </Button>
             </ButtonGroup>
         </ButtonGroup>
-    )
+    );
 }
 
 export default Toolbar;
