@@ -66,7 +66,7 @@ Tab 3: Related Articles </br>
 ```
 
 ```todo
-step: go to 03-content for tab 2
+✅ step: go to 03-content for tab 2
 ```
 
 ```
