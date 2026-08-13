@@ -49,11 +49,11 @@ Tab 2 includes editor works:
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```
-step: Update and fix documents (Documentation Updates)
+✅ step: Update and fix documents (Documentation Updates)
   Target file: docs/guidelines/article-rendering-guideline.md
   Actions:
     Add explicit reference in the Images section: "Image dimension, size, and format validation standards are defined centrally in media.md."
@@ -62,11 +62,11 @@ step: Update and fix documents (Documentation Updates)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Build Custom Tiptap Node / NodeView for the image form
+✅ step: Build Custom Tiptap Node / NodeView for the image form
   Target file: src/features/article-publishing/article-editor/extensions/embed-extensions.ts (or build a separate extension like image-block-extension.ts)
   Actions:
     Develop a Custom Node with ReactNodeView that has two states (State):
@@ -75,11 +75,11 @@ step: Build Custom Tiptap Node / NodeView for the image form
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Create ImageButton component and connect to Toolbar
+✅ step: Create ImageButton component and connect to Toolbar
   Target file: src/features/article-publishing/article-editor/toolbar/ImageButton/ImageButton.tsx (and related initializer file)
   Actions:
     Build the ImageButton component to replace the current simple button in Toolbar.tsx
@@ -87,11 +87,11 @@ step: Create ImageButton component and connect to Toolbar
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```
