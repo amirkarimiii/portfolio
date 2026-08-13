@@ -8,6 +8,7 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 import {Button} from "@/shared/components/ui/button";
 import {MetadataTab} from "@/features/article-publishing/article-metadata/MetadataTab";
+import {ContentTab} from "@/features/article-publishing/article-editor/ContentTab";
 
 const ArticlePublishSection = () => {
 
@@ -50,7 +51,9 @@ const ArticlePublishSection = () => {
                 <TabsContent value="metadata">
                     <MetadataTab/>
                 </TabsContent>
-                <TabsContent value="content">Content</TabsContent>
+                <TabsContent value="content">
+                    <ContentTab/>
+                </TabsContent>
                 <TabsContent value="related">Related Articles</TabsContent>
             </Tabs>
         </section>
