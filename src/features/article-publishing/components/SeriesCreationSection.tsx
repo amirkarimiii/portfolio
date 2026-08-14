@@ -3,14 +3,9 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CircleCheck, CircleX, Clock } from 'lucide-react';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/shared/components/ui/dropdown-menu';
 import { Button } from '@/shared/components/ui/button';
 import { seriesFormSchema, type SeriesFormValues } from '@/features/article-publishing/schemas/seriesFormSchema';
+import {BaseIdentityForm} from "@/features/article-publishing/components/article-form/BaseIdentityForm";
 
 const defaultValues: SeriesFormValues = {
     title: '',
@@ -61,8 +56,15 @@ export function SeriesCreationSection() {
                         </Button>
                     </div>
                 </div>
-
-                {/* Placeholders for Tabs / Forms in next steps */}
+                <div className="px-5">
+                    <BaseIdentityForm
+                        titleFieldName="title"
+                        slugFieldName="slug"
+                        descriptionFieldName="description"
+                        maxTitleLength={36}
+                        descriptionPlaceholder="Enter series description..."
+                    />
+                </div>
                 <div className="w-full p-4">
                     {/* Form content will be placed here */}
                 </div>
