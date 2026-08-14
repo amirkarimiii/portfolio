@@ -51,23 +51,14 @@ export function SeriesCreationSection() {
                         <p>{status.success[1]}</p>
                     </div>
                     <div className="my-auto">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline">Action</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuItem className="justify-center">Archive</DropdownMenuItem>
-                                <DropdownMenuItem className="justify-center">Delete</DropdownMenuItem>
-                                <DropdownMenuItem
-                                    className="justify-center"
-                                    onClick={methods.handleSubmit((data) => {
-                                        console.log('Publish Series payload:', data);
-                                    })}
-                                >
-                                    Publish
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        <Button
+                            variant="outline"
+                            onClick={methods.handleSubmit((data) => {
+                                console.log('Publish Series payload:', data);
+                            })}
+                        >
+                            Add Series
+                        </Button>
                     </div>
                 </div>
 
