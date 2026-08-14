@@ -2,7 +2,7 @@
 
 **Status:** In Progress
 
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-08-14
 
 **Owner:** Amir Karimi
 
@@ -18,12 +18,11 @@ It provides an overview of UI Design status, planning milestones, and execution 
 
 # 2. Tracking
 
-| Sections                  | Status      | Planned Start                   | Target Milestone | Completed |
-|---------------------------|-------------|---------------------------------|------------------|:---------:|
-| Article Creation and Edit | In Progress | 2026-08-09                      | Not Estimated    |     —     |
-| New Series Creation Form  | Planned     | After Article Creation and Edit | Not Estimated    |     —     |
-| Security Modals           | Planned     | After New Series Creation Form  | Not Estimated    |     —     |
-| Public Layers and Cards   | Planned     | After Security Modals           | Not Estimated    |     —     |
+| Sections                                 | Status      | Planned Start                  | Target Milestone | Completed  |
+|------------------------------------------|-------------|--------------------------------|------------------|:----------:|
+| Article Creation and Edit                | Completed   | 2026-08-09                     | 2026-08-14       | 2026-08-14 |
+| New Series Creation Form                 | In Progress | 2026-08-14                     | Not Estimated    |     —      |
+| Public Layers, Security Modals and Cards | Planned     | After New Series Creation Form | Not Estimated    |     —      |
 
 ---
 
@@ -40,6 +39,7 @@ It provides an overview of UI Design status, planning milestones, and execution 
 # Appendix A — Change Log
 
 
-| Date       | Change                                                                                                                                                    |
-|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 2026-08-09 | Tracking document created.                                                                                                                                |
+| Date       | Change                                                                                                                                                                                           |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2026-08-09 | Tracking document created.                                                                                                                                                                       |
+| 2026-08-14 | Article Creation and Edit marked as Completed (2026-08-13). Tab Related Articles moved to In Progress with Planned Start 2026-08-14. <br/> Combined Security Modals with Public Layers and Cards |
