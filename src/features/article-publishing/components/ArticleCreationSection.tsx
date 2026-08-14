@@ -30,7 +30,7 @@ const defaultValues: ArticleFormValues = {
     content: '',
 };
 
-export default function ArticlePublishSection() {
+export default function ArticleCreationSection() {
 
     const methods = useForm<ArticleFormValues>({
         resolver: zodResolver(articleFormSchema),
