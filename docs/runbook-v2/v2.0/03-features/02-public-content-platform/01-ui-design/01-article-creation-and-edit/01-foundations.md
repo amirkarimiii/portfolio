@@ -7,7 +7,7 @@ We have to design Header / Action Bar (fixed form):
 ```
 
 ```todo
-✅ step: rename EditorSection to ArticlePublishSection
+✅ step: rename EditorSection to ArticleCreationSection
 ```
 
 ```todo

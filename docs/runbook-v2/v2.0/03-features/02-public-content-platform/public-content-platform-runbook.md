@@ -147,12 +147,87 @@ Checking with readiness: line </br>
 update Private-Publishing-Infrastructure.md, section 7: Routes, part Protected
 ```
 
-```todo
-change status in TRACKING for this feature
+```
+step: Go to TRACKING
+  mark this step as Completed with mention of completion date
+  put the next step as In Progress
+  write its changelog
+  fix Last Updated
 ```
 
 ```todo
 commit changes
+```
+
+```
+step: Go to Observatory
+  mark this branch as Merged
+  activate the next branch
+```
+
+```
+commit changes
+```
+
+```todo
+step: go to 02-wiring-beneath\wiring-beneath-runbook.md
+```
+
+```
+step: Go to TRACKING
+  mark this step as Completed with mention of completion date
+  put the next step as In Progress
+  write its changelog
+  fix Last Updated
+```
+
+```todo
+commit changes
+```
+
+```
+step: Go to Observatory
+  mark this branch as Merged
+  activate the next branch
+```
+
+```
+commit changes
+```
+
+```todo
+step: go to 03-checking-with-readiness
+```
+
+```
+step: Go to TRACKING
+  mark this step as Completed with mention of completion date
+  write its changelog
+  fix Last Updated
+```
+
+```todo
+commit changes
+```
+
+```todo:git-observatory
+step: upload git observatory to claude
+```
+
+```todo:git-observatory
+step: request for changes -> this branch is completed
+```
+
+```todo:git-observatory
+step: change git observatory
+```
+
+```todo:git-observatory
+commit changes
+```
+
+```todo:git-observatory
+step: upload git observatory to claude in firefox and chrome
 ```
 
 ```todo
@@ -165,18 +240,6 @@ merge feature/public-content-platform into staging
 
 ```todo
 delete feature/public-content-platform
-```
-
-```todo
-upload git observatory to claude
-```
-
-```todo
-change observatory based on new refactors
-```
-
-```todo
-commit changes
 ```
 
 ```todo

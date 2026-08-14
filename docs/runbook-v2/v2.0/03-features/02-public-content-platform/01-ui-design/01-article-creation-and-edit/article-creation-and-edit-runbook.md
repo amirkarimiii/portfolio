@@ -138,9 +138,25 @@ Tab 3: Related Articles </br>
 ```
 
 ```todo:git-observatory
-step: upload git observatory to claude in firefox and chrome
+✅ step: upload git observatory to claude in firefox and chrome
 ```
 
 ```
-commit runbook
+✅ commit runbook
+```
+
+```todo:subbranches
+✅ step: Checkout the branch feature/pcp-ui-design
+```
+
+```todo:subbranches
+✅ step: Merge the branch feature/pcp-ui-article-crud into feature/pcp-ui-design
+```
+
+```todo:subbranches
+✅ step: Delete the branch feature/pcp-ui-article-crud
+```
+
+```todo:subbranches
+step: go to ui-design-runbook.md line 17
 ```
