@@ -9,6 +9,7 @@ import {BaseIdentityForm} from "@/features/article-publishing/components/article
 import {BaseAssetsForm} from "@/features/article-publishing/components/article-form/BaseAssetsForm";
 import {Separator} from "@/shared/components/ui/separator";
 import {TagPicker} from "@/features/article-publishing/components/article-form/TagPicker";
+import {BaseSEOForm} from "@/features/article-publishing/components/article-form/BaseSEOForm";
 
 const defaultValues: SeriesFormValues = {
     title: '',
@@ -39,7 +40,7 @@ export function SeriesCreationSection() {
 
     return (
         <FormProvider {...methods}>
-            <section className="max-w-4xl mx-auto max-h-max mt-8">
+            <section className="max-w-4xl mx-auto max-h-max mt-8 pb-20">
                 <div className="w-full flex flex-row justify-between px-5 py-2">
                     <div className="w-full h-max flex flex-row gap-2 my-auto">
                         <div className="w-5 aspect-square">
@@ -78,6 +79,10 @@ export function SeriesCreationSection() {
                         label="Series Default Tags"
                         placeholder="Search or add default tags for this series..."
                     />
+                </div>
+                <Separator />
+                <div className="px-5 py-3">
+                    <BaseSEOForm entityType="series" />
                 </div>
             </section>
         </FormProvider>
