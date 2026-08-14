@@ -2,7 +2,6 @@
 
 import { useFormContext, useWatch } from 'react-hook-form';
 import { AlertCircle } from 'lucide-react';
-import type { ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
 import {
     FormField,
     FormItem,
@@ -14,12 +13,22 @@ import { Input } from '@/shared/components/ui/input';
 import { Textarea } from '@/shared/components/ui/textarea';
 import { Badge } from '@/shared/components/ui/badge';
 
-export function SEOCard() {
-    const form = useFormContext<ArticleFormValues>();
+interface BaseSEOFormProps {
+    entityType: 'article' | 'series';
+    titleFieldName?: string;
+    descriptionFieldName?: string;
+}
+
+export function BaseSEOForm({
+                                entityType,
+                                titleFieldName = 'title',
+                                descriptionFieldName = entityType === 'article' ? 'summary' : 'description',
+                            }: BaseSEOFormProps) {
+    const form = useFormContext();
     const { control } = form;
 
-    const articleTitle = useWatch({ control, name: 'title' }) || '';
-    const articleSummary = useWatch({ control, name: 'summary' }) || '';
+    const mainTitle = useWatch({ control, name: titleFieldName }) || '';
+    const mainDescription = useWatch({ control, name: descriptionFieldName }) || '';
 
     const seoTitleValue = useWatch({ control, name: 'seoTitle' }) || '';
     const seoDescriptionValue = useWatch({ control, name: 'seoDescription' }) || '';
@@ -31,9 +40,13 @@ export function SEOCard() {
     const descCharCount = seoDescriptionValue.length;
     const isDescLengthOptimal = descCharCount >= 120 && descCharCount <= 160;
 
+    const isArticle = entityType === 'article';
+    const entityLabel = isArticle ? 'Article' : 'Series';
+
     return (
         <div className="space-y-2">
             <div className="space-y-6">
+                {/* SEO Title */}
                 <FormField
                     control={control}
                     name="seoTitle"
@@ -61,9 +74,9 @@ export function SEOCard() {
                             </FormControl>
                             {titleCharCount > 0 && !isTitleLengthOptimal && (
                                 <p className="text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                                    <div className="w-3 mt-px aspect-square">
-                                        <AlertCircle />
-                                    </div>
+                                    <span className="w-3 mt-px aspect-square flex items-center justify-center">
+                                        <AlertCircle className="h-3 w-3" />
+                                    </span>
                                     Recommended length for search engines is 30–60 characters.
                                 </p>
                             )}
@@ -73,7 +86,7 @@ export function SEOCard() {
                                         Fallback Active
                                     </Badge>
                                     <span className="truncate">
-                                        Using Article Title (&quot;{articleTitle.trim() || 'Untitled Article'}&quot;)
+                                        Using {entityLabel} Title (&quot;{mainTitle.trim() || `Untitled ${entityLabel}`}&quot;)
                                     </span>
                                 </div>
                             )}
@@ -81,6 +94,8 @@ export function SEOCard() {
                         </FormItem>
                     )}
                 />
+
+                {/* SEO Description */}
                 <FormField
                     control={control}
                     name="seoDescription"
@@ -108,9 +123,9 @@ export function SEOCard() {
                             </FormControl>
                             {descCharCount > 0 && !isDescLengthOptimal && (
                                 <p className="text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                                    <div className="w-3 mt-px aspect-square">
-                                        <AlertCircle />
-                                    </div>
+                                    <span className="w-3 mt-px aspect-square flex items-center justify-center">
+                                        <AlertCircle className="h-3 w-3" />
+                                    </span>
                                     Recommended length for meta description is 120–160 characters.
                                 </p>
                             )}
@@ -120,7 +135,7 @@ export function SEOCard() {
                                         Fallback Active
                                     </Badge>
                                     <span className="truncate">
-                                        Using Article Summary (&quot;{articleSummary.trim() || 'No summary provided'}&quot;)
+                                        Using {entityLabel} {isArticle ? 'Summary' : 'Description'} (&quot;{mainDescription.trim() || 'No description provided'}&quot;)
                                     </span>
                                 </div>
                             )}
@@ -128,6 +143,8 @@ export function SEOCard() {
                         </FormItem>
                     )}
                 />
+
+                {/* Canonical URL */}
                 <FormField
                     control={control}
                     name="canonicalUrl"
@@ -148,7 +165,7 @@ export function SEOCard() {
                                         Fallback Active
                                     </Badge>
                                     <span className="truncate">
-                                        Will resolve to the current published article URL at runtime.
+                                        Will resolve to the current published {entityType} URL at runtime.
                                     </span>
                                 </div>
                             )}

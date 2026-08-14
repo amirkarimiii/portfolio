@@ -1,8 +1,8 @@
 import {Separator} from "@/shared/components/ui/separator";
 import {IdentityCard} from "@/features/article-publishing/article-metadata/card-components/IdentityCard";
 import {ClassificationCard} from "@/features/article-publishing/article-metadata/card-components/ClassificationCard";
-import {SEOCard} from "@/features/article-publishing/article-metadata/card-components/SEOCard";
 import {BaseAssetsForm} from "@/features/article-publishing/components/article-form/BaseAssetsForm";
+import {BaseSEOForm} from "@/features/article-publishing/components/article-form/BaseSEOForm";
 
 export function MetadataTab() {
     return (
@@ -36,7 +36,7 @@ export function MetadataTab() {
                 <div>
                     <h2 className="font-bold text-xl my-5 ml-2 md:ml-0 lg:mt-5 lg:text-3xl">SEO</h2>
                 </div>
-                <SEOCard/>
+                <BaseSEOForm entityType="article" />
             </div>
         </div>
     );
