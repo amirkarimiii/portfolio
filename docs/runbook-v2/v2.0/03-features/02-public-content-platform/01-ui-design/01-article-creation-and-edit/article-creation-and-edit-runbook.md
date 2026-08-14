@@ -95,50 +95,46 @@ Tab 3: Related Articles </br>
 ✅ commit runbook
 ```
 
-```todo
-step: go to 04-related-articles for tab 3
 ```
-
-```
-step: Go to TRACKING
+✅ step: Go to TRACKING
   mark this step as Completed with mention of completion date
   write its changelog
   fix Last Updated
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Go to 01-ui-design\TRACKING.md
+✅ step: Go to 01-ui-design\TRACKING.md
   mark this section as Completed with mention of completion date
   write its changelog
   fix Last Updated and status Completed
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Go to Observatory and mark this branch as Merged
-```
-
-```todo:git-observatory
-step: upload git observatory to claude
+✅ step: Go to Observatory and mark this branch as Merged
 ```
 
 ```todo:git-observatory
-step: request for changes -> this branch table is completed
+✅ step: upload git observatory to claude
 ```
 
 ```todo:git-observatory
-step: change git observatory
+✅ step: request for changes -> this branch table is completed
 ```
 
 ```todo:git-observatory
-commit changes
+✅ step: change git observatory
+```
+
+```todo:git-observatory
+✅ commit changes
 ```
 
 ```todo:git-observatory

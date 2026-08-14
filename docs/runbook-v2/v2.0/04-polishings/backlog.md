@@ -1,4 +1,4 @@
-```
+```backlog
 04-polishings/
 ├── backlog.md
 │
@@ -26,6 +26,10 @@
 
 ```todo
 step: Extensive logging in all UI
+```
+
+```todo
+step: change middleware to proxy approach
 ```
 
 ```todo

@@ -50,3 +50,20 @@ step: Integrate with Debounce & Autosave mechanism
     Apply Debounce mechanism (for example 500 to 1000 milliseconds) on the editor content changes to prevent unnecessary Triggering of Autosave during the user's fast typing
     Display Autosave status (such as "Draft saved" or "Saving...") in the overall form status
 ```
+
+```backlog
+ما تب related articles رو به اینجا منتقل کردیم چون بیش از اینکه کار ui داشته باشه، کار wiring beneath داشت:
+
+
+Tab 3 includes Related Articles works:
+* Display list of 20 suggested articles based on highest Tag overlap (Top 20 Tag-Similarity).
+* Ability to search separately for articles outside the suggested 20.
+* Ability to add, remove and Drag/Reorder selected articles.
+
+`` `todo
+loop: design Related Articles tab
+`` `
+
+```
+
+
