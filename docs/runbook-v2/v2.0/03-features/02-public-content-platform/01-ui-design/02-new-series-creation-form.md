@@ -85,11 +85,62 @@ This form is lighter than the article form and is designed as single-tab (Metada
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```
-step: Build the main file and chassis of the series section
+✅ step: Create the schema file in the specified path
+Goal: Create an independent schema file for the series form
+File path: src/features/article-publishing/schemas/seriesFormSchema.ts
+```
+
+```
+✅ step: Define seriesIdentitySchema (series identity rules)
+Goal: Validate Title, Slug and Description with dedicated Series limitations
+Actions:
+1. Title:
+   min(1, 'Series title is required')
+   max(36, 'Series title cannot exceed 36 characters') (apply the key condition of the spec)
+2. Slug:
+   min(3), max(75), standard Regex pattern ^[a-z0-9]+(?:-[a-z0-9]+)*$ and check absence in RESERVED_SLUGS
+3. Description:
+   min(1, 'Series description is required') (or optional depending on form strictness, but at least 1 character is recommended)
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Define seriesClassificationSchema (default tags)
+Goal: Validate the array of series default tags
+Actions:
+1. Define the defaultTags field:
+   Validate array of strings (length of each tag between 2 to 30 characters)
+   Absence of duplicate tags with the condition .refine((items) => new Set(items).size === items.length)
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Combine schemas in seriesFormSchema
+Goal: Build a comprehensive z.object that covers all sections of the series form
+Actions:
+1. Combine the following schemas:
+   seriesIdentitySchema (including title, slug, description)
+   assetsSchema (cover, thumbnail and alts - completely identical to article)
+   seriesClassificationSchema (including defaultTags)
+   seoSchema (including seoTitle, seoDescription, canonicalUrl)
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Build the main file and chassis of the series section
   Goal: Create the main chassis of the series registration page
   File path: src/features/article-publishing/components/SeriesCreationSection.tsx
   Actions:
@@ -100,11 +151,29 @@ step: Build the main file and chassis of the series section
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Build the top bar of the form (Header & Action Bar)
+✅ step: Extract TypeScript type and initial values (defaultValues)
+Goal: Provide complete Type-safety for React Hook Form
+Actions:
+1. Extract type: export type SeriesFormValues = z.infer<typeof seriesFormSchema>;
+2. Define the defaultSeriesValues object for use in SeriesCreationSection:
+   title: ''
+   slug: ''
+   description: ''
+   coverImage: '', coverAltText: '', thumbnailImage: '', thumbnailAltText: ''
+   defaultTags: []
+   seoTitle: '', seoDescription: '', canonicalUrl: ''
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Build the top bar of the form (Header & Action Bar)
   Goal: Display the local storage status and dedicated series action buttons
   Actions:
     1. Status Indicator: Display the current form status (Pending / Draft Saved / Failed)
@@ -115,11 +184,11 @@ step: Build the top bar of the form (Header & Action Bar)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Place the series Identity card (BaseIdentityForm)
+✅ step: Place the series Identity card (BaseIdentityForm)
   Goal: Get the title, slug and description of the series
   Actions:
     1. Call the BaseIdentityForm component inside the series chassis
@@ -132,11 +201,11 @@ step: Place the series Identity card (BaseIdentityForm)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Place the series Assets card (BaseAssetsForm)
+✅ step: Place the series Assets card (BaseAssetsForm)
   Goal: Receive cover, thumbnail and Alt texts
   Actions:
     1. Call the BaseAssetsForm component
@@ -145,11 +214,11 @@ step: Place the series Assets card (BaseAssetsForm)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Place the series default tags card (TagPicker)
+✅ step: Place the series default tags card (TagPicker)
   Goal: Determine the default tags (Default Tags) that the member articles of this series inherit from them
   Actions:
     1. Use the extracted Reusable TagPicker component
@@ -160,11 +229,11 @@ step: Place the series default tags card (TagPicker)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Place the series SEO card (BaseSEOForm)
+✅ step: Place the series SEO card (BaseSEOForm)
   Goal: Receive SEO metadata for the series landing page (/series/:seriesSlug)
   Actions:
     1. Call the BaseSEOForm component
@@ -173,172 +242,11 @@ step: Place the series SEO card (BaseSEOForm)
 ```
 
 ```
-commit changes
-```
-
-```
-step: Build the main file and chassis of the series section
-  Goal: Create the main chassis of the series registration page
-  File path: src/features/article-publishing/components/SeriesCreationSection.tsx
-  Actions:
-    1. Define the SeriesCreationSection component as Client Component ('use client')
-    2. Initialize the form using useForm and connect it to seriesFormSchema (with zodResolver)
-    3. Wrap the component in FormProvider so that all sub-components have access to the form state
-    4. Set the main layout: container with standard maximum width (max-w-4xl mx-auto) proportional to the article layout
-```
-
-```
-commit changes
-```
-
-```
-step: Build the top bar of the form (Header & Action Bar)
-  Goal: Display the local storage status and dedicated series action buttons
-  Actions:
-    1. Status Indicator: Display the current form status (Pending / Draft Saved / Failed)
-    2. Action Dropdown / Buttons:
-      Button Publish (final registration of the series)
-      Button Draft (save as draft)
-      (Note: Delete/Archive actions remain simple/stub in this stage)
-```
-
-```
-commit changes
-```
-
-```
-step: Place the series Identity card (BaseIdentityForm)
-  Goal: Get the title, slug and description of the series
-  Actions:
-    1. Call the BaseIdentityForm component inside the series chassis
-    2. Pass the dedicated series configs:
-      titleFieldName="title"
-      slugFieldName="slug"
-      descriptionFieldName="description"
-      maxTitleLength={36} (apply strict character count UI limitation on the title Header)
-      descriptionPlaceholder="Enter series description..."
-```
-
-```
-commit changes
-```
-
-```
-step: Place the series Assets card (BaseAssetsForm)
-  Goal: Receive cover, thumbnail and Alt texts
-  Actions:
-    1. Call the BaseAssetsForm component
-    2. No need for special settings (the fields coverImage, coverAltText, thumbnailImage, thumbnailAltText are automatically Bound with the form)
-    3. Ensure the correct performance of auto-derive of the thumbnail alt text from the cover
-```
-
-```
-commit changes
+✅ commit changes
 ```
 
 ```
 commit runbook
-```
-
-```
-step: Place the series default tags card (TagPicker)
-  Goal: Determine the default tags (Default Tags) that the member articles of this series inherit from them
-  Actions:
-    1. Use the extracted Reusable TagPicker component
-    2. Pass the dedicated configs:
-      fieldName="defaultTags"
-      label="Series Default Tags"
-      placeholder="Search or add default tags for this series..."
-```
-
-```
-commit changes
-```
-
-```
-step: Place the series SEO card (BaseSEOForm)
-  Goal: Receive SEO metadata for the series landing page (/series/:seriesSlug)
-  Actions:
-    1. Call the BaseSEOForm component
-    2. Pass the dedicated Prop: entityType="series"
-    3. Ensure that the Fallback guide texts under the inputs display Series Title and Series Description instead of Article Title/Summary
-```
-
-```
-commit changes
-```
-
-```
-step: Create the schema file in the specified path
-  Goal: Create an independent schema file for the series form
-  File path: src/features/article-publishing/schemas/seriesFormSchema.ts
-```
-
-```
-commit changes
-```
-
-```
-step: Define seriesIdentitySchema (series identity rules)
-  Goal: Validate Title, Slug and Description with dedicated Series limitations
-  Actions:
-    1. Title:
-      min(1, 'Series title is required')
-      max(36, 'Series title cannot exceed 36 characters') (apply the key condition of the spec)
-    2. Slug:
-      min(3), max(75), standard Regex pattern ^[a-z0-9]+(?:-[a-z0-9]+)*$ and check absence in RESERVED_SLUGS
-    3. Description:
-      min(1, 'Series description is required') (or optional depending on form strictness, but at least 1 character is recommended)
-```
-
-```
-commit changes
-```
-
-```
-step: Define seriesClassificationSchema (default tags)
-  Goal: Validate the array of series default tags
-  Actions:
-    1. Define the defaultTags field:
-      Validate array of strings (length of each tag between 2 to 30 characters)
-      Absence of duplicate tags with the condition .refine((items) => new Set(items).size === items.length)
-```
-
-```
-commit changes
-```
-
-```
-step: Combine schemas in seriesFormSchema
-  Goal: Build a comprehensive z.object that covers all sections of the series form
-  Actions:
-    1. Combine the following schemas:
-      seriesIdentitySchema (including title, slug, description)
-      assetsSchema (cover, thumbnail and alts - completely identical to article)
-      seriesClassificationSchema (including defaultTags)
-      seoSchema (including seoTitle, seoDescription, canonicalUrl)
-```
-
-```
-commit changes
-```
-
-```
-step: Extract TypeScript type and initial values (defaultValues)
-  Goal: Provide complete Type-safety for React Hook Form
-  Actions:
-    1. Extract type: export type SeriesFormValues = z.infer<typeof seriesFormSchema>;
-    2. Define the defaultSeriesValues object for use in SeriesCreationSection:
-      title: ''
-      slug: ''
-      description: ''
-      coverImage: '', coverAltText: '', thumbnailImage: '', thumbnailAltText: ''
-      defaultTags: []
-      seoTitle: '', seoDescription: '', canonicalUrl: ''
-```
-
-```
-commit changes
 ```
 
 ```todo:subbranches
