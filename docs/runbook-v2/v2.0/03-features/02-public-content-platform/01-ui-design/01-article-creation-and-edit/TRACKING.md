@@ -1,8 +1,8 @@
 # Article Creation and Edit
 
-**Status:** In Progress
+**Status:** Completed
 
-**Last Updated:** 2026-08-13
+**Last Updated:** 2026-08-14
 
 **Owner:** Amir Karimi
 
@@ -23,7 +23,6 @@ It provides an overview of Article Creation and Edit status, planning milestones
 | Article Creation Foundation | Completed   | 2026-08-09    | 2026-08-09       | 2026-08-09  |
 | Tab Metadata                | Completed   | 2026-08-11    | 2026-08-12       | 2026-08-12  |
 | Tab Content                 | Completed   | 2026-08-13    | 2026-08-13       | 2026-08-13  |
-| Tab Related Articles        | In Progress | 2026-08-14    | Not Estimated    |      —      |
 
 ---
 
@@ -46,3 +45,4 @@ It provides an overview of Article Creation and Edit status, planning milestones
 | 2026-08-09 | Article Creation Foundation marked as Completed (2026-08-09). Tab Metadata moved to In Progress with Planned Start 2026-08-10. |
 | 2026-08-12 | Tab Metadata marked as Completed (2026-08-12). Tab Content moved to In Progress with Planned Start 2026-08-13.                 |
 | 2026-08-13 | Tab Content marked as Completed (2026-08-13). Tab Related Articles moved to In Progress with Planned Start 2026-08-14.         |
+| 2026-08-14 | Tab Related Articles was removed from this TRACKING, and this TRACKING was considered Completed.                               |
