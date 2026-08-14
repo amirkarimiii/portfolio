@@ -2,12 +2,11 @@
 
 import { useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-import type { ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
 import { FormField, FormItem, FormLabel, FormMessage, FormControl } from '@/shared/components/ui/form';
 import { Input } from '@/shared/components/ui/input';
-import { AttachmentUpload, type FileAttachment } from './AttachmentUpload';
+import { AttachmentUpload, type FileAttachment } from '@/features/article-publishing/article-metadata/card-components/AttachmentUpload';
 import { Badge } from '@/shared/components/ui/badge';
-import { Info } from "lucide-react";
+import { Info } from 'lucide-react';
 
 function extractUrl(val: string | FileAttachment | null): string {
     if (!val) return '';
@@ -22,13 +21,14 @@ function formatFileNameToAlt(fileName: string): string {
         .trim();
 }
 
-export function AssetsCard() {
-    const form = useFormContext<ArticleFormValues>();
+export function BaseAssetsForm() {
+    const form = useFormContext();
     const { control, setValue, getValues } = form;
 
     const coverAltText = useWatch({ control, name: 'coverAltText' });
     const thumbnailAltText = useWatch({ control, name: 'thumbnailAltText' });
 
+    // Auto-derive thumbnail alt text from cover alt text
     useEffect(() => {
         if (coverAltText !== undefined) {
             const derivedThumbnailAlt = coverAltText.trim()
@@ -84,7 +84,7 @@ export function AssetsCard() {
                         <FormItem>
                             <FormLabel className="sr-only">Cover Alt Text</FormLabel>
                             <Badge variant="outline" className="w-fit select-none opacity-80">
-                                Thumbnail Alt Text
+                                Cover Alt Text
                             </Badge>
                             <FormControl>
                                 <Input {...field} placeholder="Enter alt text for cover image..." />
