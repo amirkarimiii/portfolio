@@ -6,6 +6,8 @@ import { CircleCheck, CircleX, Clock } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { seriesFormSchema, type SeriesFormValues } from '@/features/article-publishing/schemas/seriesFormSchema';
 import {BaseIdentityForm} from "@/features/article-publishing/components/article-form/BaseIdentityForm";
+import {BaseAssetsForm} from "@/features/article-publishing/components/article-form/BaseAssetsForm";
+import {Separator} from "@/shared/components/ui/separator";
 
 const defaultValues: SeriesFormValues = {
     title: '',
@@ -37,7 +39,6 @@ export function SeriesCreationSection() {
     return (
         <FormProvider {...methods}>
             <section className="max-w-4xl mx-auto max-h-max mt-8">
-                {/* Header Actions & Status Bar */}
                 <div className="w-full flex flex-row justify-between px-5 py-2">
                     <div className="w-full h-max flex flex-row gap-2 my-auto">
                         <div className="w-5 aspect-square">
@@ -65,8 +66,9 @@ export function SeriesCreationSection() {
                         descriptionPlaceholder="Enter series description..."
                     />
                 </div>
-                <div className="w-full p-4">
-                    {/* Form content will be placed here */}
+                <Separator />
+                <div className="px-5">
+                    <BaseAssetsForm />
                 </div>
             </section>
         </FormProvider>
