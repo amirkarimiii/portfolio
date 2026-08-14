@@ -160,12 +160,11 @@ UI Design and Wiring Beneath stages contain organized sub-tasks tracked as seque
 This stage is organized into sequential sections.
 Sub-branches are fast-forward merged back into `feature/pcp-ui-design` upon completion.
 
-| Branch Name                    | Sections                  |      Diverged / Merged to      | Status  |
-|--------------------------------|---------------------------|:------------------------------:|---------|
-| `feature/pcp-ui-article-crud`  | Article Creation and Edit |     feature/pcp-ui-design      | Active  |
-| `feature/pcp-ui-series-form`   | New Series Creation Form  |     feature/pcp-ui-design      | Pending |
-| `feature/pcp-ui-security`      | Security Modals           |     feature/pcp-ui-design      | Pending |
-| `feature/pcp-ui-cards`         | Public Layers and Cards   |     feature/pcp-ui-design      | Pending |
+| Branch Name                   | Sections                                 | Diverged / Merged to  | Status  |
+|-------------------------------|------------------------------------------|:---------------------:|---------|
+| `feature/pcp-ui-article-crud` | Article Creation and Edit                | feature/pcp-ui-design | Merged  |
+| `feature/pcp-ui-series-form`  | New Series Creation Form                 | feature/pcp-ui-design | Active  |
+| `feature/pcp-ui-cards`        | Public Layers, Security Modals and Cards | feature/pcp-ui-design | Pending |
 
 Article Creation and Edit section contains organized sub-tasks tracked as sequential sub-branches. Other sections are single-phase with no sub-branches.
 
@@ -176,7 +175,6 @@ Article Creation and Edit section contains organized sub-tasks tracked as sequen
 | `feature/pcp-article-foundation` | Article Creation Foundation | feature/pcp-ui-article-crud | Merged  |
 | `feature/pcp-article-metadata`   | Tab Metadata                | feature/pcp-ui-article-crud | Merged  |
 | `feature/pcp-article-content`    | Tab Content                 | feature/pcp-ui-article-crud | Merged  |
-| `feature/pcp-article-relations`  | Tab Related Articles        | feature/pcp-ui-article-crud | Active |
 
 #### Stage 2: Wiring Beneath
 
