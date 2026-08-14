@@ -8,6 +8,7 @@ import { seriesFormSchema, type SeriesFormValues } from '@/features/article-publ
 import {BaseIdentityForm} from "@/features/article-publishing/components/article-form/BaseIdentityForm";
 import {BaseAssetsForm} from "@/features/article-publishing/components/article-form/BaseAssetsForm";
 import {Separator} from "@/shared/components/ui/separator";
+import {TagPicker} from "@/features/article-publishing/components/article-form/TagPicker";
 
 const defaultValues: SeriesFormValues = {
     title: '',
@@ -69,6 +70,14 @@ export function SeriesCreationSection() {
                 <Separator />
                 <div className="px-5">
                     <BaseAssetsForm />
+                </div>
+                <Separator />
+                <div className="px-5 py-3">
+                    <TagPicker
+                        fieldName="defaultTags"
+                        label="Series Default Tags"
+                        placeholder="Search or add default tags for this series..."
+                    />
                 </div>
             </section>
         </FormProvider>
