@@ -1,11 +1,16 @@
 'use client';
 
-import { Plus, ExternalLink, Layers } from 'lucide-react';
+import React from 'react';
+import { useFormContext, Controller } from 'react-hook-form';
+import { Plus, ExternalLink } from 'lucide-react';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
-import {TagPicker} from "@/features/article-publishing/components/article/article-form/TagPicker";
+import { TagPicker } from "@/features/article-publishing/components/article/article-form/TagPicker";
+import { SeriesPickerPopover } from "@/features/article-publishing/components/article/article-metadata/card-components/SeriesPickerPopover";
 
 export function ClassificationCard() {
+    const { control } = useFormContext();
+
     const handleCreateNewSeries = () => {
         window.open('/admin/add-series', '_blank');
     };
@@ -22,6 +27,7 @@ export function ClassificationCard() {
                 <Badge variant="outline" className="w-fit select-none opacity-80">
                     Series Membership
                 </Badge>
+
                 <div className="space-y-2">
                     <Button
                         type="button"
@@ -41,13 +47,19 @@ export function ClassificationCard() {
                         or choose from existing series below
                     </p>
                 </div>
-                <div className="border-2 border-dashed border-muted rounded-lg p-6 text-center space-y-2 bg-muted/20">
-                    <div className="w-8 aspect-square mx-auto text-muted-foreground/60">
-                        <Layers />
-                    </div>
-                    <p className="text-xs font-medium text-muted-foreground">
-                        Series Picker Placeholder (Top 20 Recent Series)
-                    </p>
+
+                <div className="flex justify-center">
+                    <Controller
+                        name="seriesId"
+                        control={control}
+                        defaultValue={null}
+                        render={({ field }) => (
+                            <SeriesPickerPopover
+                                value={field.value ?? null}
+                                onChange={field.onChange}
+                            />
+                        )}
+                    />
                 </div>
             </div>
         </div>
