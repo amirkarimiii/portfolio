@@ -5,11 +5,11 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { Info } from 'lucide-react';
 import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/shared/components/ui/form";
 import { Badge } from "@/shared/components/ui/badge";
-import {
-    AttachmentUpload,
-    FileAttachment
-} from "@/features/article-publishing/article-metadata/card-components/AttachmentUpload";
+
 import {Input} from "@/shared/components/ui/input";
+import {
+    AttachmentUpload, FileAttachment
+} from "@/features/article-publishing/components/article/article-metadata/card-components/AttachmentUpload";
 
 function extractUrl(val: string | FileAttachment | null): string {
     if (!val) return '';
