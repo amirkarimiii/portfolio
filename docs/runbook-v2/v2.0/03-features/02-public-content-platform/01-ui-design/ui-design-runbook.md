@@ -14,11 +14,11 @@ Section 4: Public layer and cards (Public UI & Components) </br>
 ```
 
 ```todo
-step: go to 02-new-series-creation-form.md
+✅ step: go to 02-new-series-creation-form.md
 ```
 
 ```
-step: Go to TRACKING
+✅ step: Go to TRACKING
   mark this step as Completed with mention of completion date
   put the next step as In Progress
   write its changelog
@@ -26,25 +26,25 @@ step: Go to TRACKING
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Go to Observatory
+✅ step: Go to Observatory
   mark this branch as Merged
   activate the next branch
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-change public-content-platform\specification based on discussions on claude in chrom
+✅ change public-content-platform\specification based on discussions on claude in chrom
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```

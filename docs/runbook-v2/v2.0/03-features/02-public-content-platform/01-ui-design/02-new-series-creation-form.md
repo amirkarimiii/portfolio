@@ -246,21 +246,21 @@ Actions:
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```todo:subbranches
-step: Checkout the branch feature/pcp-ui-design
+✅ step: Checkout the branch feature/pcp-ui-design
 ```
 
 ```todo:subbranches
-step: Merge the branch feature/pcp-ui-series-form into feature/pcp-ui-design
+✅ step: Merge the branch feature/pcp-ui-series-form into feature/pcp-ui-design
 ```
 
 ```todo:subbranches
-step: Delete the branch feature/pcp-ui-series-form
+✅ step: Delete the branch feature/pcp-ui-series-form
 ```
 
 ```todo:subbranches
-step: go to ui-design-runbook.md line 21
+✅ step: go to ui-design-runbook.md line 21
 `````
