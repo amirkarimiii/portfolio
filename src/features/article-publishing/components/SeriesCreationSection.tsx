@@ -5,11 +5,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CircleCheck, CircleX, Clock } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { seriesFormSchema, type SeriesFormValues } from '@/features/article-publishing/schemas/seriesFormSchema';
-import {BaseIdentityForm} from "@/features/article-publishing/components/article-form/BaseIdentityForm";
-import {BaseAssetsForm} from "@/features/article-publishing/components/article-form/BaseAssetsForm";
+import {BaseIdentityForm} from "./article/article-form/BaseIdentityForm";
+import {BaseAssetsForm} from "./article/article-form/BaseAssetsForm";
 import {Separator} from "@/shared/components/ui/separator";
-import {TagPicker} from "@/features/article-publishing/components/article-form/TagPicker";
-import {BaseSEOForm} from "@/features/article-publishing/components/article-form/BaseSEOForm";
+import {TagPicker} from "./article/article-form/TagPicker";
+import {BaseSEOForm} from "./article/article-form/BaseSEOForm";
 
 const defaultValues: SeriesFormValues = {
     title: '',

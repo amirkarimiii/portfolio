@@ -1,6 +1,6 @@
 'use client';
 
-import { BaseIdentityForm } from '@/features/article-publishing/components/article-form/BaseIdentityForm';
+import {BaseIdentityForm} from "@/features/article-publishing/components/article/article-form/BaseIdentityForm";
 
 export function IdentityCard() {
     return (

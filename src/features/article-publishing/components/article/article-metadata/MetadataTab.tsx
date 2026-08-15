@@ -1,8 +1,13 @@
 import {Separator} from "@/shared/components/ui/separator";
-import {IdentityCard} from "@/features/article-publishing/article-metadata/card-components/IdentityCard";
-import {ClassificationCard} from "@/features/article-publishing/article-metadata/card-components/ClassificationCard";
-import {BaseAssetsForm} from "@/features/article-publishing/components/article-form/BaseAssetsForm";
-import {BaseSEOForm} from "@/features/article-publishing/components/article-form/BaseSEOForm";
+import {
+    IdentityCard
+} from "@/features/article-publishing/components/article/article-metadata/card-components/IdentityCard";
+import {BaseAssetsForm} from "@/features/article-publishing/components/article/article-form/BaseAssetsForm";
+import {
+    ClassificationCard
+} from "@/features/article-publishing/components/article/article-metadata/card-components/ClassificationCard";
+import {BaseSEOForm} from "@/features/article-publishing/components/article/article-form/BaseSEOForm";
+
 
 export function MetadataTab() {
     return (

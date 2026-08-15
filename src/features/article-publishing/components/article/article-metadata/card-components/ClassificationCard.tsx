@@ -3,7 +3,7 @@
 import { Plus, ExternalLink, Layers } from 'lucide-react';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
-import { TagPicker } from '@/features/article-publishing/components/article-form/TagPicker';
+import {TagPicker} from "@/features/article-publishing/components/article/article-form/TagPicker";
 
 export function ClassificationCard() {
     const handleCreateNewSeries = () => {
