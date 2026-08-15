@@ -11,9 +11,9 @@ import {
     DropdownMenuTrigger
 } from "@/shared/components/ui/dropdown-menu";
 import { Button } from "@/shared/components/ui/button";
-import { MetadataTab } from "@/features/article-publishing/article-metadata/MetadataTab";
-import { ContentTab } from "@/features/article-publishing/article-editor/ContentTab";
 import { articleFormSchema, type ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
+import ContentTab from "@/features/article-publishing/components/article/article-editor/ContentTab";
+import {MetadataTab} from "@/features/article-publishing/components/article/article-metadata/MetadataTab";
 
 const defaultValues: ArticleFormValues = {
     title: '',
