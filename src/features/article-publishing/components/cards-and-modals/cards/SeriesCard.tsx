@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Layers } from 'lucide-react';
-import { cn } from '@/shared/utils/shadcnUtils';
-import { Badge } from '@/shared/components/ui/badge';
+import {Layers} from 'lucide-react';
+import {cn} from '@/shared/utils/shadcnUtils';
+import {Badge} from '@/shared/components/ui/badge';
 import {
     Card,
     CardContent,
@@ -17,22 +17,36 @@ import {SeriesCardData} from "@/features/article-publishing/types/reference-card
 interface SeriesCardProps {
     data: SeriesCardData;
     className?: string;
+    selective?: boolean;
 }
 
 export const SeriesCard: React.FC<SeriesCardProps> = ({
                                                           data,
                                                           className,
+                                                          selective = true
                                                       }) => {
     const formattedTitle =
         data.title.length > 36
             ? `${data.title.slice(0, 36)}...`
             : data.title;
 
+    const style = `overflow-hidden transition-all duration-200 ${selective && "hover:shadow-md hover:border-primary/50"} flex flex-row p-0 w-xl`
+
     return (
-        <Link href={`/series/${data.slug}`} className="block group">
+        <Link
+            href={`/series/${data.slug}`}
+            className="block group"
+            aria-disabled={!selective}
+            tabIndex={selective ? 0 : -1}
+            onClick={(e) => {
+                if (!selective) {
+                    e.preventDefault();
+                }
+            }}
+        >
             <Card
                 className={cn(
-                    'overflow-hidden transition-all duration-200 hover:shadow-md hover:border-primary/50 flex flex-row p-0 max-w-2xl',
+                    style,
                     className
                 )}
             >
@@ -41,18 +55,19 @@ export const SeriesCard: React.FC<SeriesCardProps> = ({
                         src={data.thumbnailImage}
                         alt={data.thumbnailAltText || data.title}
                         fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        className={`object-cover transition-transform duration-300 ${selective && "group-hover:scale-105"} `}
                     />
 
-                    <div className="absolute top-2 right-2 bg-background/90 backdrop-blur-sm p-1.5 rounded-md shadow-sm border">
-                        <Layers className="w-3.5 h-3.5 text-primary" />
+                    <div
+                        className="absolute top-2 right-2 bg-background/90 backdrop-blur-sm p-1.5 rounded-md shadow-sm border">
+                        <Layers className="w-3.5 h-3.5 text-primary"/>
                     </div>
                 </div>
 
                 <div className="flex flex-col justify-between p-4 flex-1 min-w-0">
                     <div>
                         <CardHeader className="p-0 mb-1.5">
-                            <CardTitle className="text-base group-hover:text-primary transition-colors truncate">
+                            <CardTitle className={`text-base ${selective && "group-hover:text-primary"} transition-colors truncate`}>
                                 {formattedTitle}
                             </CardTitle>
                         </CardHeader>

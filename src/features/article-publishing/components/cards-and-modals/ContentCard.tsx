@@ -19,6 +19,7 @@ export type ContentCardProps =
     data: SeriesCardData;
     isUnavailable?: boolean;
     className?: string;
+    selective?: boolean
 }
     | {
     type?: 'article' | 'series';
@@ -37,6 +38,7 @@ export const ContentCard: React.FC<ContentCardProps> = (props) => {
             <SeriesCard
                 data={props.data}
                 className={props.className}
+                selective={props.selective}
             />
         );
     }
