@@ -1,7 +1,7 @@
 # Public Content Platform (Core V2)
 
-**Version:** 1.3
-**Last Updated:** 2026-08-09
+**Version:** 1.4
+**Last Updated:** 2026-08-15
 **Owner:** Amir Karimi
 
 ---
@@ -108,7 +108,7 @@ Attempting to access a Series Member Article via `/blog/:articleSlug` shall resu
 
 An Article entity contains:
 
-* Identity & Slug
+* Identity & Slug — includes a stable, slug-independent **Unique ID** assigned at creation, existing solely as forward groundwork for future redirect support (Section 16); no route or lookup behavior is built on it in this version.
 * Metadata & SEO
 * Content Body (TipTap/ProseMirror structure)
 * Media references (Cover Image, Thumbnail)
@@ -130,7 +130,9 @@ A Series has its own:
 
 * Title — limited to a maximum of **36 characters**, enforced client- and server-side.
 * Slug
+* Unique ID — a stable, slug-independent identifier assigned at creation (Section 16 — forward groundwork only, no redirect behavior this version)
 * Description
+* Default Tags — a set of Tags defined at Series creation, automatically applied to every Article assigned to this Series (Section 6.12.3). Fixed at creation, since Series editing is out of scope for this version (Section 6.13.1).
 * Header/Cover Image
 * Thumbnail
 * Alt Text metadata
@@ -168,6 +170,7 @@ Tags may be used for:
 * Related Article suggestions
 * Content discovery
 * SEO-oriented semantic relationships
+* *(Future Consideration: grouping Tags into categories is planned for a later version and is not part of this version's scope.)*
 
 ---
 
@@ -366,14 +369,17 @@ The system shall not require a separate Previous Article / Next Article navigati
 
 The Related Articles tab shall allow the owner to associate related Articles with the current Article.
 
-**Suggestion list:** the tab shall present, by default, the **20 existing Articles with the highest Tag overlap** with the current Article's currently selected Tags (Section 6.8), ordered by similarity (most shared Tags first). This suggestion list is rendered eagerly, without pagination or an in-list search control — mirroring the Series picker's scope constraints (Section 6.12.1) for this version. If the current Article has no Tags selected yet, the suggestion list is empty until Tags are chosen.
+**Suggestion list:** the tab shall present **all existing Articles** (no fixed cap), ordered by Tag overlap with the current Article's currently selected Tags (Section 6.8) — highest similarity first. The list is rendered eagerly, without pagination. Given the expected Article volume through the next planned upgrade cycle, an uncapped eager list is considered sufficient for this version; this should be revisited if that assumption changes. If the current Article has no Tags selected yet, the suggestion list is empty until Tags are chosen. Articles that belong to the same Series as the current Article are excluded from this list — Series co-membership already establishes that relationship (Section 6.12), and the Series landing page (Section 6.13.2) already surfaces it, so repeating it here would be redundant.
+
+The owner shall be able to:
 
 The owner shall be able to:
 
 * Add a suggested Article from the list above
 * Remove a previously added Article
-* Search for an Article outside the suggestion list — a separate, deliberate manual lookup, for cases where the desired Article isn't among the top-20 suggestions
 * Reorder selected Articles
+
+*(Deferred: a separate, manual out-of-list search action for Related Articles — for cases where the desired Article isn't surfaced by Tag overlap — is deferred to a future version, mirroring the same deferral already applied to Series search, Section 6.12.1.)*
 
 Related Article selection is editorial metadata and shall not automatically publish or modify the referenced Articles. This is distinct from the automatic `inbound_referencing_slugs` tracking in Section 4.4, which tracks in-body Content References rather than curated editorial relationships. The system shall not implement an autonomous recommendation engine as part of this feature.
 
@@ -409,11 +415,59 @@ Upon successful creation of the Series in the new tab, the system shall broadcas
 
 This introduces event-driven, cross-tab client communication to the project for the first time. It is a browser-native mechanism — it does not require WebSocket support or additional backend/server infrastructure, and the server remains unaware of the cross-tab sync. As this is a pre-implementation design decision rather than a course-correction away from an already-underway approach, it is captured directly in this specification rather than as an ADR (Section 8's ADR requirement applies to decisions that change course after a direction was already substantially pursued); should this pattern later be revised after implementation, that revision would be the trigger for an ADR.
 
+### 6.12.3 Series Default Tags & Inheritance
+
+A Series may define a set of **Default Tags** (Section 4.2). When an Article is assigned to a Series (Section 6.12.1), those Default Tags become **inherited Tags** for that Article.
+
+The Article's manually selected Tags and its inherited Tags are maintained as **logically independent sets**:
+
+* **A — Manual Tags:** Tags explicitly selected by the owner for the Article.
+* **B — Inherited Tags:** Default Tags provided by the Article's currently assigned Series.
+
+The effective Tag set displayed in the UI (`out`) is derived from these two sets and must not be treated as the source of truth for either set.
+
+The effective Tag set is:
+
+```text
+out = B + (A - B)
+```
+
+In other words, all inherited Tags are included, followed by those manually selected Tags that are not already present in the inherited set. A Tag that exists in both sets appears only once in `out`.
+
+For example:
+
+```text
+A = [react, frontend, next.js, vercel]
+B = [frontend, ux, fetch]
+
+out = [frontend, ux, fetch, react, next.js, vercel]
+```
+
+The presence of an inherited Tag in `B` must **never mutate or remove the corresponding manually selected Tag in `A`**. The two sources remain independent even when they contain the same Tag.
+
+Consequently, changes to the inherited set must not modify the manually selected set. If the Article's Series is unassigned, `B` becomes empty while `A` remains unchanged:
+
+```text
+B = []
+
+out = [react, frontend, next.js, vercel]
+```
+
+In particular, a Tag such as `frontend` that was present in both `A` and `B` remains in `out` after the Series is unassigned because it continues to exist in `A`.
+
+Similarly, when an Article is assigned to a different Series, the inherited set `B` is replaced by the Default Tags of the newly assigned Series. Inherited Tags from the previously assigned Series must not accumulate, and this replacement must not modify `A`.
+
+Manually selected Tags remain independently removable by the owner at any time. Inherited Tags are not independently removable, editable, or exempt on a per-Article basis while the Article remains assigned to the Series that provides them. There is no mechanism to override or opt an individual Article out of one of its Series' Default Tags.
+
+This is a deliberate editorial constraint, not a technical limitation: a Series' Default Tags are intended to describe every Article in that Series equally. If a specific Article does not fit one of its Series' Default Tags, this is treated as a signal that the Article's membership in that Series should be reconsidered at the editorial level, rather than as a case requiring a per-Article Tag exception.
+
+Because Series editing is out of scope for this version (Section 6.13.1), a Series' Default Tags are fixed at Series creation for the duration of this version. No mechanism is provided to modify a Series' Default Tags or to propagate such a modification to Articles already assigned to the Series.
+
 ---
 
 ## 6.13 Series Creation & Metadata
 
-The system shall allow the authenticated owner to create a Series through the protected Add Series workflow (`/admin/add-series`, Section 9), reachable either directly from the admin dashboard or from the Article form's Series field (Section 6.12.2), and shall reject unauthenticated access.
+The system shall allow the authenticated owner to create a Series through the protected Add Series workflow (`/admin/add-series`, Section 9), reachable either directly from the Article form's Series field (Section 6.12.2), and shall reject unauthenticated access.
 
 **Relationship to Article Creation:** a Series is a lighter-weight content entity than an Article. Its creation form is deliberately narrower in scope than the Article form (Section 6.1):
 
@@ -426,13 +480,13 @@ Aside from those two omissions, a Series requires the same category of care as a
 
 The Add Series form shall provide a single **Metadata** tab (no additional tabs), with the following fields:
 
-**Identity:** Title (max 36 characters, Section 4.2) · Slug · Description
-**Media:** Header/Cover Image · Thumbnail
-**SEO:** SEO Title · SEO Description · Canonical URL, when applicable
+* **Identity:** Title (max 36 characters, Section 4.2) · Slug · Description · Default Tags (Section 6.12.3)
+* **Media:** Header/Cover Image · Thumbnail
+* **SEO:** SEO Title · SEO Description · Canonical URL, when applicable
 
 A Series intended for publication shall contain, at minimum: Title, Slug, Description, Header/Cover Image, Thumbnail, and appropriate Alt Text metadata for both images. Header/Cover Alt Text shall be manually editable, consistent with the Article Cover Image treatment (Section 6.6); Thumbnail Alt Text follows the same auto-derivation pattern as Articles (`<cover-alt>_thmb`, Section 6.7) rather than being independently editable. *(Assumption carried over from the existing Alt Text field in Section 4.2, which did not previously distinguish Header vs. Thumbnail Alt Text — flag for confirmation if a different treatment was intended.)*
 
-Series slugs follow the same reserved-name and uniqueness rules as Article slugs within their own namespace (Section 6.4); slug locking behavior for a published Series is not addressed by this version and is assumed unlocked/always-editable unless specified otherwise.
+Series slugs follow the same reserved-name and uniqueness rules as Article slugs within their own namespace (Section 6.4). Editing or deleting a Series after creation is out of scope for this version — a Series' fields, including its Default Tags (Section 6.12.3), are fixed once created. A dedicated Series edit/delete workflow, along with Series slug-editability, is deferred to a future version, alongside automatic Article slug/route redirect support (Section 16).
 
 ### 6.13.2 Series Landing Page & Article Ordering
 
@@ -884,15 +938,16 @@ This structure is illustrative and shall follow the existing project architectur
 
 **Content Card Reuse:** the Content Card is a shared content presentation primitive, reusable across Blog listings, Series listings, and Article body references — including its Fallback Card State for unavailable references.
 
-**Future Redirect Support:** automatic redirect handling for changed Article slugs is intentionally deferred. The current implementation relies on slug locking (three days from `first_published_at`, with an owner emergency bypass) as the primary mechanism for preserving stable public URLs.
+**Future Redirect Support:** automatic redirect handling for changed Article slugs is intentionally deferred. The current implementation relies on slug locking (three days from `first_published_at`, with an owner emergency bypass) as the primary mechanism for preserving stable public URLs. As forward groundwork only, both Article and Series entities now carry a stable, slug-independent Unique ID (Sections 4.1, 4.2); this version does not expose any route, lookup, or redirect behavior based on that ID — it exists solely to simplify a future redirect implementation.
 
 ---
 
 # 17. Changelog
 
-| Version | Date       | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|---------|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.0     | 2026-08-08 | Initial specification                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| 1.1     | 2026-08-09 | Added Series Selection Interface (6.12.1) and event-driven, cross-tab New Series Creation flow (6.12.2); added `/admin/add-series` route and related API endpoints; updated Client State list                                                                                                                                                                                                                                                                                                                                         |
-| 1.2     | 2026-08-09 | Removed the ADR-open-question note from 6.12.2 in favor of folding the decision directly into this spec, per project ADR philosophy (ADRs mark course-corrections, not pre-build decisions); added SEO metadata fields to the Series domain model (4.2); expanded 6.13 into full Series Creation & Metadata requirements (fields, tabs, explicit scope difference from Article creation); clarified the Related Articles suggestion mechanism (6.11) as a top-20 Tag-similarity list, distinct from the separate manual search action |
-| 1.3     | 2026-08-10 | Section 6.4: reserved slug names are now DB-sourced and validated dynamically, rather than hardcoded — no admin management UI this version (deferred); listed names are the initial seed data                                                                                                                                                                                                                                                                                                                                         |
+| Version | Date       | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|---------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1.0     | 2026-08-08 | Initial specification                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 1.1     | 2026-08-09 | Added Series Selection Interface (6.12.1) and event-driven, cross-tab New Series Creation flow (6.12.2); added `/admin/add-series` route and related API endpoints; updated Client State list                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 1.2     | 2026-08-09 | Removed the ADR-open-question note from 6.12.2 in favor of folding the decision directly into this spec, per project ADR philosophy (ADRs mark course-corrections, not pre-build decisions); added SEO metadata fields to the Series domain model (4.2); expanded 6.13 into full Series Creation & Metadata requirements (fields, tabs, explicit scope difference from Article creation); clarified the Related Articles suggestion mechanism (6.11) as a top-20 Tag-similarity list, distinct from the separate manual search action                                                                                                                                                                                                                             |
+| 1.3     | 2026-08-10 | Section 6.4: reserved slug names are now DB-sourced and validated dynamically, rather than hardcoded — no admin management UI this version (deferred); listed names are the initial seed data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 1.4     | 2026-08-15 | Related Articles suggestion list (6.11) changed from a capped top-20 to an uncapped, eagerly-rendered full list; manual out-of-list search action removed/deferred to a future version; same-Series Articles now excluded from the suggestion list. Added Series Default Tags & Inheritance (6.12.3) and a corresponding Default Tags field (4.2, 6.13.1). Clarified Series is not editable or deletable in this version (6.13.1), superseding the prior "assumed unlocked/always-editable" slug note. Added a stable, slug-independent Unique ID to Article (4.1) and Series (4.2) as forward groundwork for future redirect support (Section 16); no redirect behavior implemented this version. Added a Future Consideration note on Tag categorization (4.3). |
