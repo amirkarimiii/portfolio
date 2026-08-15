@@ -3,18 +3,19 @@
 import { useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { X, ChevronsUpDown, Plus } from 'lucide-react';
-import { FormField, FormItem, FormLabel, FormMessage } from '@/shared/components/ui/form';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover';
+import {FormField, FormItem, FormLabel} from "@/shared/components/ui/form";
+import {Badge} from "@/shared/components/ui/badge";
+import {Popover, PopoverContent, PopoverTrigger} from "@/shared/components/ui/popover";
+import {Button} from "@/shared/components/ui/button";
 import {
     Command,
     CommandEmpty,
     CommandGroup,
     CommandInput,
     CommandItem,
-    CommandList,
-} from '@/shared/components/ui/command';
+    CommandList
+} from "@/shared/components/ui/command";
+
 
 export const INITIAL_MOCK_TAGS = [
     'React',
@@ -31,6 +32,10 @@ interface TagPickerProps {
     fieldName: string;
     label: string;
     placeholder?: string;
+}
+
+function FormMessage() {
+    return null;
 }
 
 export function TagPicker({ fieldName, label, placeholder = 'Select or type a tag...' }: TagPickerProps) {

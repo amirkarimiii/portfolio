@@ -2,11 +2,14 @@
 
 import { useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { FormField, FormItem, FormLabel, FormMessage, FormControl } from '@/shared/components/ui/form';
-import { Input } from '@/shared/components/ui/input';
-import { AttachmentUpload, type FileAttachment } from '@/features/article-publishing/article-metadata/card-components/AttachmentUpload';
-import { Badge } from '@/shared/components/ui/badge';
 import { Info } from 'lucide-react';
+import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/shared/components/ui/form";
+import { Badge } from "@/shared/components/ui/badge";
+import {
+    AttachmentUpload,
+    FileAttachment
+} from "@/features/article-publishing/article-metadata/card-components/AttachmentUpload";
+import {Input} from "@/shared/components/ui/input";
 
 function extractUrl(val: string | FileAttachment | null): string {
     if (!val) return '';
@@ -27,8 +30,6 @@ export function BaseAssetsForm() {
 
     const coverAltText = useWatch({ control, name: 'coverAltText' });
     const thumbnailAltText = useWatch({ control, name: 'thumbnailAltText' });
-
-    // Auto-derive thumbnail alt text from cover alt text
     useEffect(() => {
         if (coverAltText !== undefined) {
             const derivedThumbnailAlt = coverAltText.trim()

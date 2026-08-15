@@ -3,14 +3,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { AlertTriangle, CheckCircle2 } from 'lucide-react';
-import {
-    FormField,
-    FormItem,
-    FormControl,
-    FormMessage,
-} from '@/shared/components/ui/form';
-import { Badge } from '@/shared/components/ui/badge';
-import { Input } from '@/shared/components/ui/input';
+import {FormControl, FormField, FormItem, FormMessage} from "@/shared/components/ui/form";
+import {Badge} from "@/shared/components/ui/badge";
+import {Input} from "@/shared/components/ui/input";
+
 
 function slugify(text: string): string {
     return text
@@ -84,7 +80,6 @@ export function BaseIdentityForm({
 
     return (
         <div className="py-3 space-y-8">
-            {/* Title Field */}
             <FormField
                 control={control}
                 name={titleFieldName}
@@ -132,8 +127,6 @@ export function BaseIdentityForm({
                     </FormItem>
                 )}
             />
-
-            {/* Slug Field */}
             <FormField
                 control={control}
                 name={slugFieldName}
@@ -179,8 +172,6 @@ export function BaseIdentityForm({
                     );
                 }}
             />
-
-            {/* Description / Summary Field */}
             <FormField
                 control={control}
                 name={descriptionFieldName}

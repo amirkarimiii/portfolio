@@ -2,16 +2,11 @@
 
 import { useFormContext, useWatch } from 'react-hook-form';
 import { AlertCircle } from 'lucide-react';
-import {
-    FormField,
-    FormItem,
-    FormLabel,
-    FormControl,
-    FormMessage,
-} from '@/shared/components/ui/form';
-import { Input } from '@/shared/components/ui/input';
-import { Textarea } from '@/shared/components/ui/textarea';
-import { Badge } from '@/shared/components/ui/badge';
+import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/shared/components/ui/form";
+import { Badge } from "@/shared/components/ui/badge";
+import {Textarea} from "@/shared/components/ui/textarea";
+import {Input} from "@/shared/components/ui/input";
+
 
 interface BaseSEOFormProps {
     entityType: 'article' | 'series';
@@ -46,7 +41,6 @@ export function BaseSEOForm({
     return (
         <div className="space-y-2">
             <div className="space-y-6">
-                {/* SEO Title */}
                 <FormField
                     control={control}
                     name="seoTitle"
@@ -94,8 +88,6 @@ export function BaseSEOForm({
                         </FormItem>
                     )}
                 />
-
-                {/* SEO Description */}
                 <FormField
                     control={control}
                     name="seoDescription"
@@ -143,8 +135,6 @@ export function BaseSEOForm({
                         </FormItem>
                     )}
                 />
-
-                {/* Canonical URL */}
                 <FormField
                     control={control}
                     name="canonicalUrl"
