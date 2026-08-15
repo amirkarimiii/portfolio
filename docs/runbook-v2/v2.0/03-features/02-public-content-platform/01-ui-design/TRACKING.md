@@ -18,11 +18,11 @@ It provides an overview of UI Design status, planning milestones, and execution 
 
 # 2. Tracking
 
-| Sections                                 | Status      | Planned Start                  | Target Milestone | Completed  |
-|------------------------------------------|-------------|--------------------------------|------------------|:----------:|
-| Article Creation and Edit                | Completed   | 2026-08-09                     | 2026-08-14       | 2026-08-14 |
-| New Series Creation Form                 | In Progress | 2026-08-14                     | Not Estimated    |     —      |
-| Public Layers, Security Modals and Cards | Planned     | After New Series Creation Form | Not Estimated    |     —      |
+| Sections                                 | Status      | Planned Start | Target Milestone | Completed  |
+|------------------------------------------|-------------|---------------|------------------|:----------:|
+| Article Creation and Edit                | Completed   | 2026-08-09    | 2026-08-14       | 2026-08-14 |
+| New Series Creation Form                 | Completed   | 2026-08-14    | 2026-08-14       | 2026-08-14 |
+| Public Layers, Security Modals and Cards | In Progress | 2026-08-15    | 2026-08-15       |     —      |
 
 ---
 
@@ -39,7 +39,8 @@ It provides an overview of UI Design status, planning milestones, and execution 
 # Appendix A — Change Log
 
 
-| Date       | Change                                                                                                                                                                                           |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 2026-08-09 | Tracking document created.                                                                                                                                                                       |
-| 2026-08-14 | Article Creation and Edit marked as Completed (2026-08-13). Tab Related Articles moved to In Progress with Planned Start 2026-08-14. <br/> Combined Security Modals with Public Layers and Cards |
+| Date       | Change                                                                                                                                                                                               |
+|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2026-08-09 | Tracking document created.                                                                                                                                                                           |
+| 2026-08-14 | Article Creation and Edit marked as Completed (2026-08-13). New Series Creation Form moved to In Progress with Planned Start 2026-08-14. <br/> Combined Security Modals with Public Layers and Cards |
+| 2026-08-14 | New Series Creation Form marked as Completed (2026-08-14). Public Layers, Security Modals and Cards moved to In Progress with Planned Start 2026-08-14                                               |
