@@ -3,12 +3,12 @@
 import { useEditor } from '@tiptap/react';
 import { useFormContext } from 'react-hook-form';
 import { AlertCircle } from 'lucide-react';
-import { extensions } from '@/features/article-publishing/article-editor/extensions';
-import Toolbar from '@/features/article-publishing/article-editor/toolbar/Toolbar';
-import Tiptap from '@/features/article-publishing/article-editor/Tiptap';
-import { EditorSkeleton } from '@/features/article-publishing/article-editor/EditorSkeleton';
 import type { ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
 import { cn } from "@/shared/utils/shadcnUtils";
+import { EditorSkeleton } from "./EditorSkeleton";
+import Toolbar from "@/features/article-publishing/components/article/article-editor/toolbar/Toolbar";
+import Tiptap from "@/features/article-publishing/components/article/article-editor/Tiptap";
+import {extensions} from "@/features/article-publishing/components/article/article-editor/extensions";
 
 export function ContentTab() {
     const {
