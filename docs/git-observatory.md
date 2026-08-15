@@ -140,7 +140,6 @@ Branches are created only when the preceding feature is complete.
 | `feature/stack-map`               | Interactive Stack Mapping         |       staging        | Pending |
 | `feature/bookshelf`               | Analytical Bookshelf              |       staging        | Pending |
 | `feature/ai-optimization`         | AI Optimization Suite (AIO/GEO)   |       staging        | Pending |
-| `feature/production-readiness`    | Production Readiness              |       staging        | Pending |
 
 ### `feature/public-content-platform`
 
@@ -160,11 +159,11 @@ UI Design and Wiring Beneath stages contain organized sub-tasks tracked as seque
 This stage is organized into sequential sections.
 Sub-branches are fast-forward merged back into `feature/pcp-ui-design` upon completion.
 
-| Branch Name                   | Sections                                 | Diverged / Merged to  | Status  |
-|-------------------------------|------------------------------------------|:---------------------:|---------|
-| `feature/pcp-ui-article-crud` | Article Creation and Edit                | feature/pcp-ui-design | Merged  |
-| `feature/pcp-ui-series-form`  | New Series Creation Form                 | feature/pcp-ui-design | Active  |
-| `feature/pcp-ui-cards`        | Public Layers, Security Modals and Cards | feature/pcp-ui-design | Pending |
+| Branch Name                   | Sections                                 | Diverged / Merged to  | Status |
+|-------------------------------|------------------------------------------|:---------------------:|--------|
+| `feature/pcp-ui-article-crud` | Article Creation and Edit                | feature/pcp-ui-design | Merged |
+| `feature/pcp-ui-series-form`  | New Series Creation Form                 | feature/pcp-ui-design | Merged |
+| `feature/pcp-ui-cards`        | Public Layers, Security Modals and Cards | feature/pcp-ui-design | Active |
 
 Article Creation and Edit section contains organized sub-tasks tracked as sequential sub-branches. Other sections are single-phase with no sub-branches.
 
