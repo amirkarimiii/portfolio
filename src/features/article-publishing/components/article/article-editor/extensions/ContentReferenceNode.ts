@@ -1,4 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core';
+import { ReactNodeViewRenderer } from '@tiptap/react';
+import { ContentReferenceNodeView } from './ContentReferenceNodeView';
 
 export interface ContentReferenceAttributes {
     id: string | null;
@@ -63,6 +65,10 @@ export const ContentReferenceNode = Node.create({
             'div',
             mergeAttributes(HTMLAttributes, { 'data-type': 'content-reference' }),
         ];
+    },
+
+    addNodeView() {
+        return ReactNodeViewRenderer(ContentReferenceNodeView);
     },
 
     addCommands() {
