@@ -8,8 +8,9 @@ import { seriesFormSchema, type SeriesFormValues } from '@/features/article-publ
 import {BaseIdentityForm} from "./article/article-form/BaseIdentityForm";
 import {BaseAssetsForm} from "./article/article-form/BaseAssetsForm";
 import {Separator} from "@/shared/components/ui/separator";
-import {TagPicker} from "./article/article-form/TagPicker";
 import {BaseSEOForm} from "./article/article-form/BaseSEOForm";
+import {TagSelector} from "./tags/TagSelector";
+import {SeriesCreationTagsDisplay} from "./tags/SeriesCreationTagsDisplay";
 
 const defaultValues: SeriesFormValues = {
     title: '',
@@ -37,6 +38,17 @@ export function SeriesCreationSection() {
         failed: [<CircleX key="failed" color="red" />, 'failed to save!'],
         pending: [<Clock key="pending" color="gray" />, 'pending'],
     } as const;
+
+    const { watch, setValue } = methods;
+
+    const defaultTags: string[] = watch('defaultTags');
+
+    const handleRemoveTag = (tagName: string) => {
+        const updated = defaultTags.filter(
+            (tag) => tag.trim().toLowerCase() !== tagName.trim().toLowerCase()
+        );
+        setValue('defaultTags', updated, { shouldValidate: true, shouldDirty: true });
+    };
 
     return (
         <FormProvider {...methods}>
@@ -74,7 +86,14 @@ export function SeriesCreationSection() {
                 </div>
                 <Separator />
                 <div className="px-5 py-3">
-                    <TagPicker
+                    <div className="space-y-2 w-md mb-8">
+                        <span className="text-xs text-muted-foreground">Selected</span>
+                        <SeriesCreationTagsDisplay
+                            tags={defaultTags}
+                            onRemoveTag={handleRemoveTag}
+                        />
+                    </div>
+                    <TagSelector
                         fieldName="defaultTags"
                         label="Series Default Tags"
                         placeholder="Search or add default tags for this series..."
