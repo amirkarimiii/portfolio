@@ -6,6 +6,8 @@ import {listExtensions} from "./list-extention";
 import {markExtensions} from "./mark-extensions";
 import {linkExtensions} from "./link-extensions";
 import {embedExtensions} from "./embed-extensions";
+import ContentReferenceNode
+    from "@/features/article-publishing/components/article/article-editor/extensions/ContentReferenceNode";
 
 export const extensions = [
     ...coreExtensions,
@@ -15,5 +17,6 @@ export const extensions = [
     ...listExtensions,
     ...markExtensions,
     ...linkExtensions,
-    ...embedExtensions
+    ...embedExtensions,
+    ContentReferenceNode
 ]
