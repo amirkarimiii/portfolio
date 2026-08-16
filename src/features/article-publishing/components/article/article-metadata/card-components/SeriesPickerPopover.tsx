@@ -65,7 +65,7 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
         return (
             <div
                 className={cn(
-                    'w-max rounded-xl overflow-hidden flex flex-col md:flex-row',
+                    'w-max h-max rounded-xl overflow-hidden flex flex-col md:flex-row',
                     className
                 )}
             >
@@ -74,13 +74,13 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
                 </div>
 
                 {!disabled && (
-                    <div className="flex flex-row md:flex-col items-center justify-center min-w-13 transition-colors">
+                    <div className="flex flex-row w-full h-10 md:h-38 md:-mt-2 md:w-10 md:flex-col items-center justify-center transition-colors">
                         <Button
                             type="button"
                             variant="ghost"
                             size="icon"
                             onClick={handleUnselect}
-                            className="h-full mt-2 w-full sm:w-10"
+                            className="h-full mt-2 w-full"
                             title="Remove series assignment"
                         >
                             <div className="w-4 aspect-square">
