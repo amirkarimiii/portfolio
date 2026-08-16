@@ -1,15 +1,38 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import { Plus, ExternalLink } from 'lucide-react';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
-import { TagPicker } from "@/features/article-publishing/components/article/article-form/TagPicker";
+import { TagSelector } from "../../../tags/TagSelector";
 import { SeriesPickerPopover } from "@/features/article-publishing/components/article/article-metadata/card-components/SeriesPickerPopover";
+import { ArticleCreationTagsDisplay } from "../../../tags/ArticleCreationTagsDisplay";
+import { getEffectiveTags } from "@/features/article-publishing/utils/tagUtils";
+import dummyData from '@/dummy-content.json';
 
 export function ClassificationCard() {
-    const { control } = useFormContext();
+    const { control, watch, setValue } = useFormContext();
+
+    const selectedSeriesId = watch('seriesId');
+    const manualTags: string[] = watch('tags');
+
+    const seriesDefaultTags = useMemo<string[]>(() => {
+        if (!selectedSeriesId) return [];
+        const series = dummyData.series.find((item) => item._id === selectedSeriesId);
+        return series?.defaultTags || [];
+    }, [selectedSeriesId]);
+
+    const effectiveTags = useMemo(() => {
+        return getEffectiveTags(manualTags, seriesDefaultTags);
+    }, [manualTags, seriesDefaultTags]);
+
+    const handleRemoveManualTag = (tagName: string) => {
+        const updatedTags = manualTags.filter(
+            (tag) => tag.trim().toLowerCase() !== tagName.trim().toLowerCase()
+        );
+        setValue('tags', updatedTags, { shouldValidate: true, shouldDirty: true });
+    };
 
     const handleCreateNewSeries = () => {
         window.open('/admin/add-series', '_blank');
@@ -17,12 +40,18 @@ export function ClassificationCard() {
 
     return (
         <div className="py-3 space-y-8">
-            <TagPicker
+            <div className="space-y-2 w-md">
+                <span className="text-xs text-muted-foreground">Selected</span>
+                <ArticleCreationTagsDisplay
+                    effectiveTags={effectiveTags}
+                    onRemoveManualTag={handleRemoveManualTag}
+                />
+            </div>
+            <TagSelector
                 fieldName="tags"
-                label="Selected Tags"
-                placeholder="Select or type a tag..."
+                label="Article Specific Tags"
+                placeholder="Search or add default tags for this series..."
             />
-
             <div className="space-y-4 pt-4 border-t">
                 <Badge variant="outline" className="w-fit select-none opacity-80">
                     Series Membership
