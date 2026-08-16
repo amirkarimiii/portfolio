@@ -1,7 +1,7 @@
 # Public Content Platform (Core V2)
 
-**Version:** 1.4
-**Last Updated:** 2026-08-15
+**Version:** 1.5
+**Last Updated:** 2026-08-16
 **Owner:** Amir Karimi
 
 ---
@@ -108,7 +108,7 @@ Attempting to access a Series Member Article via `/blog/:articleSlug` shall resu
 
 An Article entity contains:
 
-* Identity & Slug — includes a stable, slug-independent **Unique ID** assigned at creation, existing solely as forward groundwork for future redirect support (Section 16); no route or lookup behavior is built on it in this version.
+* Identity & Slug — includes a stable, slug-independent **Unique ID** (ULID format, e.g. `01J8V8W7T8H3F9K2M5Q6Z1ABCD`) assigned at creation, existing solely as forward groundwork for future redirect support (Section 16); no route or lookup behavior is built on it in this version.
 * Metadata & SEO
 * Content Body (TipTap/ProseMirror structure)
 * Media references (Cover Image, Thumbnail)
@@ -130,7 +130,7 @@ A Series has its own:
 
 * Title — limited to a maximum of **36 characters**, enforced client- and server-side.
 * Slug
-* Unique ID — a stable, slug-independent identifier assigned at creation (Section 16 — forward groundwork only, no redirect behavior this version)
+* Unique ID — a stable, slug-independent identifier assigned at creation, in ULID format (Section 16 — forward groundwork only, no redirect behavior this version)
 * Description
 * Default Tags — a set of Tags defined at Series creation, automatically applied to every Article assigned to this Series (Section 6.12.3). Fixed at creation, since Series editing is out of scope for this version (Section 6.13.1).
 * Header/Cover Image
@@ -938,7 +938,7 @@ This structure is illustrative and shall follow the existing project architectur
 
 **Content Card Reuse:** the Content Card is a shared content presentation primitive, reusable across Blog listings, Series listings, and Article body references — including its Fallback Card State for unavailable references.
 
-**Future Redirect Support:** automatic redirect handling for changed Article slugs is intentionally deferred. The current implementation relies on slug locking (three days from `first_published_at`, with an owner emergency bypass) as the primary mechanism for preserving stable public URLs. As forward groundwork only, both Article and Series entities now carry a stable, slug-independent Unique ID (Sections 4.1, 4.2); this version does not expose any route, lookup, or redirect behavior based on that ID — it exists solely to simplify a future redirect implementation.
+**Future Redirect Support:** automatic redirect handling for changed Article slugs is intentionally deferred. The current implementation relies on slug locking (three days from `first_published_at`, with an owner emergency bypass) as the primary mechanism for preserving stable public URLs. As forward groundwork only, both Article and Series entities now carry a stable, slug-independent Unique ID (Sections 4.1, 4.2), generated as a **ULID** (Universally Unique Lexicographically Sortable Identifier) rather than a UUIDv4 — chosen for its timestamp-ordered sortability (useful for ordering by document creation time) and its URL/API-safe, Base32 encoding (no special characters, unlike UUID's hyphenated format). This version does not expose any route, lookup, or redirect behavior based on that ID — it exists solely to simplify a future redirect implementation.
 
 ---
 
@@ -951,3 +951,4 @@ This structure is illustrative and shall follow the existing project architectur
 | 1.2     | 2026-08-09 | Removed the ADR-open-question note from 6.12.2 in favor of folding the decision directly into this spec, per project ADR philosophy (ADRs mark course-corrections, not pre-build decisions); added SEO metadata fields to the Series domain model (4.2); expanded 6.13 into full Series Creation & Metadata requirements (fields, tabs, explicit scope difference from Article creation); clarified the Related Articles suggestion mechanism (6.11) as a top-20 Tag-similarity list, distinct from the separate manual search action                                                                                                                                                                                                                             |
 | 1.3     | 2026-08-10 | Section 6.4: reserved slug names are now DB-sourced and validated dynamically, rather than hardcoded — no admin management UI this version (deferred); listed names are the initial seed data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | 1.4     | 2026-08-15 | Related Articles suggestion list (6.11) changed from a capped top-20 to an uncapped, eagerly-rendered full list; manual out-of-list search action removed/deferred to a future version; same-Series Articles now excluded from the suggestion list. Added Series Default Tags & Inheritance (6.12.3) and a corresponding Default Tags field (4.2, 6.13.1). Clarified Series is not editable or deletable in this version (6.13.1), superseding the prior "assumed unlocked/always-editable" slug note. Added a stable, slug-independent Unique ID to Article (4.1) and Series (4.2) as forward groundwork for future redirect support (Section 16); no redirect behavior implemented this version. Added a Future Consideration note on Tag categorization (4.3). |
+| 1.5     | 2026-08-16 | Specified the Article/Series Unique ID (4.1, 4.2, Section 16) explicitly as ULID format, rather than an unspecified identifier scheme.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
