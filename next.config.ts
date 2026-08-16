@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
         "127.0.0.1",
         "10.*.*.*"
     ],
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'cdn.example.com',
+            },
+        ],
+    },
 };
 
 export default nextConfig;
