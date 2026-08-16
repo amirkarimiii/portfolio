@@ -6,6 +6,7 @@ import { RefreshCw, Trash2 } from 'lucide-react';
 import { cn } from '@/shared/utils/shadcnUtils';
 import { Button } from '@/shared/components/ui/button';
 import { ContentCard } from '@/features/article-publishing/components/cards-and-modals/ContentCard';
+import { ContentReferencePickerPopover } from './ContentReferencePickerPopover';
 import dummyData from '@/dummy-content.json';
 import {
     ArticleCardData,
@@ -23,6 +24,10 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
         type: 'article' | 'series';
     };
 
+    const handleSelectContent = (selectedId: string) => {
+        updateAttributes({ id: selectedId });
+    };
+
     const handleResetSelection = () => {
         updateAttributes({ id: null });
     };
@@ -36,13 +41,14 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
             <NodeViewWrapper className="my-4">
                 <div
                     className={cn(
-                        'flex min-h-[140px] max-w-2xl items-center justify-center rounded-xl border border-dashed border-muted-foreground/30 bg-muted/20 p-6 transition-all',
+                        'rounded-xl transition-all',
                         selected && 'ring-2 ring-primary ring-offset-2'
                     )}
                 >
-          <span className="text-sm text-muted-foreground">
-            No {type} selected yet. Select a reference content to display here.
-          </span>
+                    <ContentReferencePickerPopover
+                        type={type}
+                        onSelect={handleSelectContent}
+                    />
                 </div>
             </NodeViewWrapper>
         );
@@ -96,29 +102,32 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
                     )}
                 </div>
 
-                <div className="flex h-10 w-full flex-row items-center justify-center border-t border-border bg-muted/40 transition-colors md:h-auto md:w-12 md:flex-col md:border-t-0 md:border-l">
+                <div className="flex h-10 w-full flex-row items-center justify-center md:h-auto md:w-12 md:flex-col">
                     <Button
                         type="button"
                         variant="ghost"
                         size="icon"
                         onClick={handleResetSelection}
-                        className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                        title="Reset selection"
+                        className="flex-1 w-full"
+                        title="Remove series assignment"
                     >
-                        <RefreshCw className="h-4 w-4" />
-                        <span className="sr-only">Reset selection</span>
+                        <div className="w-4 aspect-square">
+                            <RefreshCw />
+                        </div>
+                        <span className="sr-only">Remove series</span>
                     </Button>
-
                     <Button
                         type="button"
                         variant="ghost"
                         size="icon"
                         onClick={handleDeleteNode}
-                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                        title="Remove block"
+                        className="flex-1 w-full"
+                        title="Remove series assignment"
                     >
-                        <Trash2 className="h-4 w-4" />
-                        <span className="sr-only">Remove block</span>
+                        <div className="w-4 aspect-square my-auto">
+                            <Trash2 />
+                        </div>
+                        <span className="sr-only">Remove series</span>
                     </Button>
                 </div>
             </div>
