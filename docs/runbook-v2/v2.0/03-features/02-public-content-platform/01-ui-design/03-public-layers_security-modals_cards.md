@@ -78,7 +78,7 @@ Content Card component:
 ```
 
 ```
-step: Implement the computational function getEffectiveTags
+✅ step: Implement the computational function getEffectiveTags
   Goal: Calculate the output array $out$ for display in the tags management section (TagsCard)
   Actions:
     1. Receive the array of inherited series tags (array $B = \text{series.defaultTags}$ or [] if no series is selected)
@@ -110,7 +110,7 @@ step: Implement the computational function getEffectiveTags
 ```
 
 ```
-step: Define the dedicated Node structure (ContentReferenceNode)
+✅ step: Define the dedicated Node structure (ContentReferenceNode)
   Goal: Create a Custom Block Node in the TipTap structure with support for identifier and type Attributes
   Actions:
     1. Build the extension file in the path src/features/article-publishing/components/editor/extensions/ContentReferenceNode.ts
@@ -119,17 +119,14 @@ step: Define the dedicated Node structure (ContentReferenceNode)
       group: 'block' (placement as a separate block between paragraphs)
       atom: true (unified behavior; impossibility of typing inside it)
       selectable: true and draggable: true
-    3. Define Attributes for storage in the Schema JSON:
-      referenceType: 'article' | 'series' | null
-      referenceId: string | null
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Add Insert options to the editor Toolbar
+✅ step: Add Insert options to the editor Toolbar
   Goal: Add the Content Reference insertion menu in the main editor toolbar
   Actions:
     1. Add a button/Dropdown with the title "Insert Reference" in the editor Toolbar
@@ -140,11 +137,11 @@ step: Add Insert options to the editor Toolbar
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Implement interactive NodeView (selection / Command state)
+✅ step: Implement interactive NodeView (selection / Command state)
   Goal: Render the Command component in the editor environment when referenceId is empty
   Actions:
     1. Implement ReactNodeViewRenderer for the custom Node
@@ -156,11 +153,11 @@ step: Implement interactive NodeView (selection / Command state)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Render dedicated Wrapper and manage Fallback state
+✅ step: Render dedicated Wrapper and manage Fallback state
   Goal: Display the content card after selection and possibility of managing it in the editor environment
   Actions:
     1. Second state (referenceId !== null):
@@ -174,7 +171,7 @@ step: Render dedicated Wrapper and manage Fallback state
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 Section 4 includes 3 parts:
