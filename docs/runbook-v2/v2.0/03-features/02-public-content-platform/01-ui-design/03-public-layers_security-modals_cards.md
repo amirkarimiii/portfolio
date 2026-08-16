@@ -182,7 +182,7 @@ Public pages (Blog & Series Index):
 * /series/:seriesSlug page (landing page for a series including its article list).
 
 ```
-step: Implement the main blog page (/blog)
+✅ step: Implement the main blog page (/blog)
   Goal: Render the list of published articles archive with the possibility of sorting and 20-item pagination
   Actions:
     1. Build the path: create the file src/app/(blog)/blog/page.tsx
@@ -200,11 +200,11 @@ step: Implement the main blog page (/blog)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Implement the series archive page (/series)
+✅ step: Implement the series archive page (/series)
   Goal: Display all active series of the system with their subset articles
   Actions:
     1. Build the path: create the file src/app/(blog)/series/page.tsx
@@ -218,7 +218,7 @@ step: Implement the series archive page (/series)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
