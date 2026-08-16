@@ -71,3 +71,18 @@ loop: design Related Articles tab
 و همچنین /blog/:articleSlug
 ```
 
+```backlog
+`` `
+step: Apply security conditions and publish lock (Finalizing Checks)
+Goal: Stabilize the legal behaviors of the form according to the Specification document
+Actions:
+1. Immutability condition: if the article has been published at least once (firstPublishedAt !== null), the X button (Unselect) and the possibility of changing the series become Disabled so that the slug and structural tags of the article are not subjected to change
+2. Ensure that in the database only and only the array $A$ (manual tags) and $seriesId$ are stored and the output $out$ is merely a computed value (Computed Value) in the Client layer
+`` `
+
+`` `
+commit changes
+`` `
+
+```
+

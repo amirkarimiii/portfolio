@@ -4,8 +4,12 @@ Content Card component </br>
 Public pages (Blog & Series Index) </br>
 Preview flows and security modals (Preview & Modals)
 
+```todo:subbranches
+✅ step: make branch feature/pcp-ui-cards
 ```
-step: Create DUMMY / Mock Data (outside of git)
+
+```
+✅ step: Create DUMMY / Mock Data (outside of git)
   Goal: Build a comprehensive data source including 40 articles and 10 series for testing UI, pagination, Lazy-loading and Fallbacks
   Creation path: src/features/article-publishing/constants/mockContentData.ts
   Actions:
@@ -19,7 +23,7 @@ Content Card component:
 * Fallback state (missing/archived content): displays badge "This article is currently unavailable", standard replacement text and neutral Placeholder for the image.
 
 ```
-step: Design the base ContentCard component
+✅ step: Design the base ContentCard component
   The ContentCard component is a pure presentation component that based on the passed data renders one of the following 3 states:
   state article: Article Normal Card (article card)
     Input: an article object (with status lifecycle: 'Published')
@@ -52,11 +56,11 @@ step: Design the base ContentCard component
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Implement the series selection component (SeriesPickerPopover / Command)
+✅ step: Implement the series selection component (SeriesPickerPopover / Command)
   Goal: Provide UI for searching and selecting the first 20 series with the capability of hiding after selection
   Actions:
     1. Unselected state (seriesId === null):
@@ -70,7 +74,7 @@ step: Implement the series selection component (SeriesPickerPopover / Command)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
@@ -86,11 +90,11 @@ step: Implement the computational function getEffectiveTags
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Render the output $out$ in TagsCard and react to changes
+✅ step: Render the output $out$ in TagsCard and react to changes
   Goal: Interactive render of tags using out.map()
   Actions:
     1. Render the output tags in the tags component (TagsCard):
@@ -102,19 +106,7 @@ step: Render the output $out$ in TagsCard and react to changes
 ```
 
 ```
-commit changes
-```
-
-```
-step: Apply security conditions and publish lock (Finalizing Checks)
-  Goal: Stabilize the legal behaviors of the form according to the Specification document
-  Actions:
-    1. Immutability condition: if the article has been published at least once (firstPublishedAt !== null), the X button (Unselect) and the possibility of changing the series become Disabled so that the slug and structural tags of the article are not subjected to change
-    2. Ensure that in the database only and only the array $A$ (manual tags) and $seriesId$ are stored and the output $out$ is merely a computed value (Computed Value) in the Client layer
-```
-
-```
-commit changes
+✅ commit changes
 ```
 
 ```
@@ -320,4 +312,20 @@ step: Implement UnsavedChangesModal (protection of form changes)
 
 ```
 commit changes
+```
+
+```todo:subbranches
+step: Checkout the branch feature/pcp-ui-design
+```
+
+```todo:subbranches
+step: Merge the branch feature/pcp-ui-cards into feature/pcp-ui-design
+```
+
+```todo:subbranches
+step: Delete the branch feature/pcp-ui-cards
+```
+
+```todo:subbranches
+step: go to article-creation-and-edit-runbook line 59
 ```

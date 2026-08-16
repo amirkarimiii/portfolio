@@ -52,7 +52,7 @@ Section 4: Public layer and cards (Public UI & Components) </br>
 ```
 
 ```todo
-step: go to 03-public-layers_security-modals_cards.md
+✅ step: go to 03-public-layers_security-modals_cards.md
 ```
 
 ```

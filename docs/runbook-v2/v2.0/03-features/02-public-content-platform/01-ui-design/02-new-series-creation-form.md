@@ -9,11 +9,11 @@ This form is lighter than the article form and is designed as single-tab (Metada
 ```
 
 ```
-✅ step: Extract and separate the TagPicker component
+✅ step: Extract and separate the TagSelector component
   Reason: The tags management section in ClassificationCard was a combination of tag management and Series selection button/card. The tag selection section must become independent so that it can be used both in Article and in Series (under the title Default Tags)
   Actions:
-    Build the file src/features/article-publishing/components/article-form/TagPicker.tsx
-    Transfer the logic of Popover, Command, Search, Create Tag, and Remove Tag from ClassificationCard.tsx to TagPicker.tsx
+    Build the file src/features/article-publishing/components/article-form/TagSelector.tsx
+    Transfer the logic of Popover, Command, Search, Create Tag, and Remove Tag from ClassificationCard.tsx to TagSelector.tsx
     Accept clear Props:
       fieldName: field name in the form (for example "tags" for article and "defaultTags" for series)
       label: card title (for example "Selected Tags" or "Default Series Tags")
@@ -77,7 +77,7 @@ This form is lighter than the article form and is designed as single-tab (Metada
     Rewrite IdentityCard.tsx to call BaseIdentityForm (without maxTitleLength limitation)
     Rewrite AssetsCard.tsx to call BaseAssetsForm
     Rewrite SEOCard.tsx to call BaseSEOForm with entityType="article"
-    Update ClassificationCard.tsx to use the new TagPicker component next to the Create Series/Series Picker button
+    Update ClassificationCard.tsx to use the new TagSelector component next to the Create Series/Series Picker button
 ```
 
 ```
@@ -218,10 +218,10 @@ Actions:
 ```
 
 ```
-✅ step: Place the series default tags card (TagPicker)
+✅ step: Place the series default tags card (TagSelector)
   Goal: Determine the default tags (Default Tags) that the member articles of this series inherit from them
   Actions:
-    1. Use the extracted Reusable TagPicker component
+    1. Use the extracted Reusable TagSelector component
     2. Pass the dedicated configs:
       fieldName="defaultTags"
       label="Series Default Tags"
