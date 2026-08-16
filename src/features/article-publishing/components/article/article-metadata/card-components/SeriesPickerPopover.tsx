@@ -70,7 +70,7 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
                 )}
             >
                 <div className="flex-1 min-w-0">
-                    <ContentCard type="series" data={selectedSeries} selective={false} />
+                    <ContentCard type="series" data={selectedSeries} target={"_blank"} />
                 </div>
 
                 {!disabled && (
@@ -129,7 +129,7 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
                                         key={series._id}
                                         value={series.title}
                                         onSelect={() => handleSelect(series._id)}
-                                        className="flex flex-col gap-2 items-center cursor-pointer"
+                                        className="flex flex-col gap-2 items-center cursor-pointer "
                                     >
                                         <ContentCard type="series" data={series} selective={false} />
                                     </CommandItem>
