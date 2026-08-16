@@ -18,6 +18,8 @@ import {
 import {
     ImageButton
 } from "@/features/article-publishing/components/article/article-editor/toolbar/ImageButton/ImageButton";
+import ReferenceButton
+    from "@/features/article-publishing/components/article/article-editor/toolbar/ReferenceButton/ReferenceButton";
 
 function Toolbar({editor}: { editor: Editor | null }) {
     if (!editor) return null;
@@ -54,6 +56,7 @@ function Toolbar({editor}: { editor: Editor | null }) {
             <ButtonGroup>
                 <LinkButton editor={editor}/>
                 <ImageButton editor={editor}/>
+                <ReferenceButton editor={editor} />
             </ButtonGroup>
         </ButtonGroup>
     );
