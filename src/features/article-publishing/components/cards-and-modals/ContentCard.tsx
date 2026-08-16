@@ -13,6 +13,7 @@ export type ContentCardProps =
     data: ArticleCardData;
     isUnavailable?: boolean;
     className?: string;
+    target?: "_self" | "_blank"
 }
     | {
     type: 'series';
@@ -20,6 +21,7 @@ export type ContentCardProps =
     isUnavailable?: boolean;
     className?: string;
     selective?: boolean
+    target?: "_self" | "_blank"
 }
     | {
     type?: 'article' | 'series';
@@ -39,6 +41,7 @@ export const ContentCard: React.FC<ContentCardProps> = (props) => {
                 data={props.data}
                 className={props.className}
                 selective={props.selective}
+                target={props.target}
             />
         );
     }
@@ -47,6 +50,7 @@ export const ContentCard: React.FC<ContentCardProps> = (props) => {
         <ArticleCard
             data={props.data}
             className={props.className}
+            target={props.target}
         />
     );
 };

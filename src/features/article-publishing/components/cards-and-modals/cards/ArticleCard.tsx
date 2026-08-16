@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { cn } from '@/shared/utils/shadcnUtils';
+import {cn} from '@/shared/utils/shadcnUtils';
 import {
     Card,
     CardContent,
@@ -10,17 +10,19 @@ import {
     CardHeader,
     CardTitle,
 } from '@/shared/components/ui/card';
-import { Badge } from '@/shared/components/ui/badge';
+import {Badge} from '@/shared/components/ui/badge';
 import {ArticleCardData} from "../../../types/reference-card.type";
 
 interface ArticleCardProps {
     data: ArticleCardData;
     className?: string;
+    target?: "_self" | "_blank"
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
                                                             data,
                                                             className,
+                                                            target
                                                         }) => {
     const destinationRoute =
         data.seriesId && data.seriesSlug
@@ -38,7 +40,11 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         : null;
 
     return (
-        <Link href={destinationRoute} className="block group">
+        <Link
+            href={destinationRoute}
+            className="block group"
+            target={target}
+        >
             <Card
                 className={cn(
                     'overflow-hidden transition-all duration-200 hover:shadow-md hover:border-primary/50 flex flex-row p-0 max-w-2xl',

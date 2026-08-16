@@ -18,12 +18,14 @@ interface SeriesCardProps {
     data: SeriesCardData;
     className?: string;
     selective?: boolean;
+    target?: "_self" | "_blank"
 }
 
 export const SeriesCard: React.FC<SeriesCardProps> = ({
                                                           data,
                                                           className,
-                                                          selective = true
+                                                          selective = true,
+                                                          target
                                                       }) => {
     const formattedTitle =
         data.title.length > 36
@@ -36,6 +38,7 @@ export const SeriesCard: React.FC<SeriesCardProps> = ({
         <Link
             href={`/series/${data.slug}`}
             className="block group"
+            target={target}
             aria-disabled={!selective}
             tabIndex={selective ? 0 : -1}
             onClick={(e) => {
@@ -67,7 +70,8 @@ export const SeriesCard: React.FC<SeriesCardProps> = ({
                 <div className="flex flex-col justify-between p-4 flex-1 min-w-0">
                     <div>
                         <CardHeader className="p-0 mb-1.5">
-                            <CardTitle className={`text-base ${selective && "group-hover:text-primary"} transition-colors truncate`}>
+                            <CardTitle
+                                className={`text-base ${selective && "group-hover:text-primary"} transition-colors truncate`}>
                                 {formattedTitle}
                             </CardTitle>
                         </CardHeader>
