@@ -90,6 +90,7 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
                         <ContentCard
                             type="article"
                             data={cardData as ArticleCardData}
+                            selective={false}
                             target="_blank"
                         />
                     ) : (

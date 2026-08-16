@@ -13,6 +13,7 @@ export type ContentCardProps =
     data: ArticleCardData;
     isUnavailable?: boolean;
     className?: string;
+    selective?: boolean
     target?: "_self" | "_blank"
 }
     | {
@@ -51,6 +52,7 @@ export const ContentCard: React.FC<ContentCardProps> = (props) => {
             data={props.data}
             className={props.className}
             target={props.target}
+            selective={props.selective}
         />
     );
 };

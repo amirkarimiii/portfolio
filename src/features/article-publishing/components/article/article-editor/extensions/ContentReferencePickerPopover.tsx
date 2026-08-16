@@ -135,6 +135,7 @@ export const ContentReferencePickerPopover: React.FC<
                                             <ContentCard
                                                 type="article"
                                                 data={item as ArticleCardData}
+                                                selective={false}
                                             />
                                         )}
                                     </CommandItem>

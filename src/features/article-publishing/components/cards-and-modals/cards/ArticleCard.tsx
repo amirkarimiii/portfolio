@@ -16,12 +16,14 @@ import {ArticleCardData} from "../../../types/reference-card.type";
 interface ArticleCardProps {
     data: ArticleCardData;
     className?: string;
+    selective?: boolean;
     target?: "_self" | "_blank"
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
                                                             data,
                                                             className,
+                                                            selective = true,
                                                             target
                                                         }) => {
     const destinationRoute =
@@ -30,6 +32,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             : `/blog/${data.slug}`;
 
     const rawDate = data.firstPublishedAt || data.publishedAt;
+
+    const style = `overflow-hidden transition-all duration-200 ${selective && "hover:shadow-md hover:border-primary/50"} flex flex-row p-0 w-xl`
 
     const formattedDate = rawDate
         ? new Date(rawDate).toLocaleDateString('en-US', {
@@ -43,11 +47,18 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         <Link
             href={destinationRoute}
             className="block group"
+            aria-disabled={!selective}
+            tabIndex={selective ? 0 : -1}
+            onClick={(e) => {
+                if (!selective) {
+                    e.preventDefault();
+                }
+            }}
             target={target}
         >
             <Card
                 className={cn(
-                    'overflow-hidden transition-all duration-200 hover:shadow-md hover:border-primary/50 flex flex-row p-0 max-w-2xl',
+                    style,
                     className
                 )}
             >
@@ -56,7 +67,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                         src={data.thumbnailImage}
                         alt={data.thumbnailAltText || data.title}
                         fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        className={`object-cover transition-transform duration-300 ${selective && "group-hover:scale-105"} `}
                     />
                 </div>
 
@@ -72,7 +83,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                                 </Badge>
                             )}
 
-                            <CardTitle className="text-base group-hover:text-primary transition-colors line-clamp-1">
+                            <CardTitle className={`text-base ${selective && "group-hover:text-primary"} transition-colors line-clamp-1`}>
                                 {data.title}
                             </CardTitle>
                         </CardHeader>
