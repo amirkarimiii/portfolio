@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import dummyData from '@/dummy-content.json';
-import { ContentCard } from '@/features/article-publishing/components/cards-and-modals/ContentCard';
+import { ContentCard } from '../../../../features/article-publishing/components/cards/ContentCard';
 import { ArticleCardData } from '@/features/article-publishing/types/reference-card.type';
 import { Button } from '@/shared/components/ui/button';
 

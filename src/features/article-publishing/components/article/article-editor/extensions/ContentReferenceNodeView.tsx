@@ -5,7 +5,7 @@ import { NodeViewWrapper, NodeViewProps } from '@tiptap/react';
 import { RefreshCw, Trash2 } from 'lucide-react';
 import { cn } from '@/shared/utils/shadcnUtils';
 import { Button } from '@/shared/components/ui/button';
-import { ContentCard } from '@/features/article-publishing/components/cards-and-modals/ContentCard';
+import { ContentCard } from '../../../cards/ContentCard';
 import { ContentReferencePickerPopover } from './ContentReferencePickerPopover';
 import dummyData from '@/dummy-content.json';
 import {

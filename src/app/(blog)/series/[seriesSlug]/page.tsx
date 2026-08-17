@@ -2,7 +2,7 @@ import {notFound} from 'next/navigation';
 import Image from 'next/image';
 import {Layers} from 'lucide-react';
 import dummyData from '@/dummy-content.json';
-import {ContentCard} from '@/features/article-publishing/components/cards-and-modals/ContentCard';
+import {ContentCard} from '../../../../features/article-publishing/components/cards/ContentCard';
 import {Badge} from '@/shared/components/ui/badge';
 import {
     ArticleCardData,

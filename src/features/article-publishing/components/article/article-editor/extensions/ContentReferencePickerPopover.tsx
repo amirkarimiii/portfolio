@@ -17,7 +17,7 @@ import {
     CommandList,
     CommandInput,
 } from '@/shared/components/ui/command';
-import { ContentCard } from '@/features/article-publishing/components/cards-and-modals/ContentCard';
+import { ContentCard } from '../../../cards/ContentCard';
 import {
     ArticleCardData,
     SeriesCardData,

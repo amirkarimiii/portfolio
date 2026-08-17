@@ -4,8 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {Layers} from 'lucide-react';
-import {cn} from '@/shared/utils/shadcnUtils';
-import {Badge} from '@/shared/components/ui/badge';
+import {cn} from 'src/shared/utils/shadcnUtils';
+import {Badge} from 'src/shared/components/ui/badge';
 import {
     Card,
     CardContent,
@@ -13,8 +13,8 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from '@/shared/components/ui/card';
-import {SeriesCardData} from "@/features/article-publishing/types/reference-card.type";
+} from 'src/shared/components/ui/card';
+import {SeriesCardData} from "src/features/article-publishing/types/reference-card.type";
 
 interface SeriesCardProps {
     data: SeriesCardData;

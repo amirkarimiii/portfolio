@@ -15,7 +15,7 @@ import {
     CommandItem,
     CommandList,
 } from '@/shared/components/ui/command';
-import { ContentCard } from '@/features/article-publishing/components/cards-and-modals/ContentCard';
+import { ContentCard } from '../../../cards/ContentCard';
 import { SeriesCardData } from '@/features/article-publishing/types/reference-card.type';
 
 interface SeriesPickerPopoverProps {

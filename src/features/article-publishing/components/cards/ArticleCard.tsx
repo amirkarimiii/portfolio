@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import {cn} from '@/shared/utils/shadcnUtils';
+import {cn} from 'src/shared/utils/shadcnUtils';
 import {
     Card,
     CardContent,
@@ -11,9 +11,9 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from '@/shared/components/ui/card';
-import {Badge} from '@/shared/components/ui/badge';
-import {ArticleCardData} from "../../../types/reference-card.type";
+} from 'src/shared/components/ui/card';
+import {Badge} from 'src/shared/components/ui/badge';
+import {ArticleCardData} from "../../types/reference-card.type";
 
 interface ArticleCardProps {
     data: ArticleCardData;

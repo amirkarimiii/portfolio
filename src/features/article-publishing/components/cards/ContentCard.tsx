@@ -1,10 +1,10 @@
 import React from 'react';
-import {ArticleCardData, SeriesCardData} from "@/features/article-publishing/types/reference-card.type";
+import {ArticleCardData, SeriesCardData} from "src/features/article-publishing/types/reference-card.type";
 import {
     UnavailableContentCard
-} from "@/features/article-publishing/components/cards-and-modals/cards/UnavailableContentCard";
-import {ArticleCard} from "@/features/article-publishing/components/cards-and-modals/cards/ArticleCard";
-import {SeriesCard} from "@/features/article-publishing/components/cards-and-modals/cards/SeriesCard";
+} from "src/features/article-publishing/components/cards-and-modals/cards/UnavailableContentCard";
+import {ArticleCard} from "src/features/article-publishing/components/cards-and-modals/cards/ArticleCard";
+import {SeriesCard} from "src/features/article-publishing/components/cards-and-modals/cards/SeriesCard";
 
 
 export type ContentCardProps =
