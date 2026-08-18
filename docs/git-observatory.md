@@ -163,7 +163,8 @@ Sub-branches are fast-forward merged back into `feature/pcp-ui-design` upon comp
 |-------------------------------|------------------------------------------|:---------------------:|--------|
 | `feature/pcp-ui-article-crud` | Article Creation and Edit                | feature/pcp-ui-design | Merged |
 | `feature/pcp-ui-series-form`  | New Series Creation Form                 | feature/pcp-ui-design | Merged |
-| `feature/pcp-ui-cards`        | Public Layers, Security Modals and Cards | feature/pcp-ui-design | Active |
+| `feature/pcp-ui-cards`        | Public Layers, Security Modals and Cards | feature/pcp-ui-design | Merged |
+| `feature/pcp-lifecycle`       | Lifecycle                                | feature/pcp-ui-design | Active |
 
 Article Creation and Edit section contains organized sub-tasks tracked as sequential sub-branches. Other sections are single-phase with no sub-branches.
 
