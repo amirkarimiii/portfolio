@@ -5,9 +5,10 @@ import { NodeViewWrapper, NodeViewProps } from '@tiptap/react';
 import { RefreshCw, Trash2 } from 'lucide-react';
 import { cn } from '@/shared/utils/shadcnUtils';
 import { Button } from '@/shared/components/ui/button';
-import { ContentCard } from '../../../cards/ContentCard';
+import { ContentCard } from '../../../reference-card/ContentCard';
 import { ContentReferencePickerPopover } from './ContentReferencePickerPopover';
-import dummyData from '@/dummy-content.json';
+import dummySeries from '@/mock-files/series.json';
+import dummyArticles from '@/mock-files/published-articles.json';
 import {
     ArticleCardData,
     SeriesCardData,
@@ -58,16 +59,16 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
     let isUnavailable = false;
 
     if (type === 'article') {
-        const articles = (dummyData as { articles?: ArticleCardData[] }).articles || [];
-        const found = articles.find((art) => art._id === id);
+        const articles = (dummyArticles as { articles?: ArticleCardData[] }).articles || [];
+        const found = articles.find((art) => art.uniqueId === id);
         if (found && found.lifecycle !== 'archived') {
             cardData = found;
         } else {
             isUnavailable = true;
         }
     } else if (type === 'series') {
-        const seriesList = (dummyData as { series?: SeriesCardData[] }).series || [];
-        const found = seriesList.find((s) => s._id === id);
+        const seriesList = (dummySeries as { series?: SeriesCardData[] }).series || [];
+        const found = seriesList.find((s) => s.uniqueId === id);
         if (found) {
             cardData = found;
         } else {
