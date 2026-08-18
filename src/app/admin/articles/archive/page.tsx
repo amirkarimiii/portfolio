@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
-import dummyData from '@/dummy-content.json';
-import { ContentCard } from '../../../../features/article-publishing/components/cards/ContentCard';
+import dummyData from '@/mock-files/archived-articles.json';
+import { ContentCard } from '@/features/article-publishing/components/reference-card/ContentCard';
 import { ArticleCardData } from '@/features/article-publishing/types/reference-card.type';
 import { Button } from '@/shared/components/ui/button';
 
@@ -97,7 +97,7 @@ async function ArchivedArticlesContent({ searchParams }: ArchivePageProps) {
             ) : (
                 <section className="flex flex-col gap-4 items-center">
                     {paginatedArticles.map((article) => (
-                        <ContentCard key={article._id} type="article" data={article} />
+                        <ContentCard key={article.uniqueId} type="article" data={article} />
                     ))}
                 </section>
             )}
