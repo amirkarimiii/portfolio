@@ -1,14 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
-import { cn } from 'src/shared/utils/shadcnUtils';
-import { Badge } from 'src/shared/components/ui/badge';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from 'src/shared/components/ui/card';
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/shared/components/ui/card";
+import {cn} from "@/shared/utils/shadcnUtils";
+import {Badge} from "@/shared/components/ui/badge";
 
 interface UnavailableContentCardProps {
     className?: string;
