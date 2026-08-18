@@ -1,11 +1,8 @@
 import {Suspense} from 'react';
 import Link from 'next/link';
-import dummyData from '@/dummy-content.json';
-import {ContentCard} from '../../../features/article-publishing/components/cards/ContentCard';
-import {
-    ArticleCardData,
-    SeriesCardData,
-} from '@/features/article-publishing/types/reference-card.type';
+import dummyData from '@/mock-files/series.json';
+import {ContentCard} from '@/features/article-publishing/components/reference-card/ContentCard';
+import { SeriesCardData } from '@/features/article-publishing/types/reference-card.type';
 import {Button} from '@/shared/components/ui/button';
 
 interface SeriesPageProps {
@@ -23,8 +20,6 @@ async function SeriesArchiveContent({searchParams}: SeriesPageProps) {
 
     const rawSeries =
         (dummyData as { series?: (SeriesCardData & { updatedAt?: string })[] }).series || [];
-    const rawArticles =
-        (dummyData as { articles?: ArticleCardData[] }).articles || [];
 
     const sortedSeries = [...rawSeries].sort((a, b) => {
         const dateA = new Date(a.updatedAt || 0).getTime();
@@ -61,7 +56,7 @@ async function SeriesArchiveContent({searchParams}: SeriesPageProps) {
                     {paginatedSeries.map((series) => {
 
                         return (
-                            <div key={series._id} className="space-y-4">
+                            <div key={series.uniqueId} className="space-y-4">
                                 <ContentCard
                                     type="series"
                                     data={series}
