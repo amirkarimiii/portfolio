@@ -1,5 +1,5 @@
 export interface ArticleCardData {
-    _id: string;
+    uniqueId: string;
     slug: string;
     title: string;
     summary?: string;
@@ -13,14 +13,16 @@ export interface ArticleCardData {
     firstPublishedAt?: string | null;
     publishedAt?: string | null;
     archivedAt?: string | null;
+    inboundReferencingIds?: string[];
 }
 
 export interface SeriesCardData {
-    _id: string;
+    uniqueId: string;
     slug: string;
     title: string;
     description: string;
     defaultTags: string[];
     thumbnailImage: string;
     thumbnailAltText?: string;
+    inboundReferencingIds?: string[];
 }
