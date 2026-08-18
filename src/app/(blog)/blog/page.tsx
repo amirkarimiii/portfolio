@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
-import dummyData from '@/dummy-content.json';
-import { ContentCard } from '../../../features/article-publishing/components/cards/ContentCard';
+import dummyData from '@/mock-files/published-articles.json';
+import { ContentCard } from '@/features/article-publishing/components/reference-card/ContentCard';
 import { ArticleCardData } from '@/features/article-publishing/types/reference-card.type';
 import { Button } from '@/shared/components/ui/button';
 
@@ -17,7 +17,7 @@ async function BlogArchiveContent({ searchParams }: BlogPageProps) {
     const currentPage = Math.max(1, parseInt(resolvedSearchParams.page || '1', 10));
     const sortOrder = resolvedSearchParams.sort === 'oldest' ? 'oldest' : 'newest';
 
-    const rawArticles = (dummyData as { articles?: ArticleCardData[] }).articles || [];
+    const rawArticles = (dummyData as { articles: ArticleCardData[] }).articles || [];
 
     const publishedArticles = rawArticles.filter(
         (article) => article.lifecycle?.toLowerCase() === 'published'
@@ -97,7 +97,7 @@ async function BlogArchiveContent({ searchParams }: BlogPageProps) {
             ) : (
                 <section className="flex flex-col gap-4 items-center">
                     {paginatedArticles.map((article) => (
-                        <ContentCard key={article._id} type="article" data={article} />
+                        <ContentCard key={article.uniqueId} type="article" data={article} />
                     ))}
                 </section>
             )}
