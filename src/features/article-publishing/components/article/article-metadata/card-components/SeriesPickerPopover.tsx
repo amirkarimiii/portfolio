@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { Layers, Trash2, ChevronsUpDown, Check } from 'lucide-react';
-import dummyData from '@/dummy-content.json';
+import { Layers, Trash2 } from 'lucide-react';
+import dummySeries from '@/mock-files/series.json';
 import { cn } from '@/shared/utils/shadcnUtils';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -15,7 +15,7 @@ import {
     CommandItem,
     CommandList,
 } from '@/shared/components/ui/command';
-import { ContentCard } from '../../../cards/ContentCard';
+import { ContentCard } from '../../../reference-card/ContentCard';
 import { SeriesCardData } from '@/features/article-publishing/types/reference-card.type';
 
 interface SeriesPickerPopoverProps {
@@ -34,9 +34,9 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
     const [open, setOpen] = useState(false);
 
     const seriesList = useMemo<SeriesCardData[]>(() => {
-        const rawSeries = dummyData.series.slice(0, 20);
+        const rawSeries = dummySeries.series.slice(0, 20);
         return rawSeries.map((item) => ({
-            _id: item._id,
+            uniqueId: item.uniqueId,
             slug: item.slug,
             title: item.title,
             description: item.description,
@@ -48,7 +48,7 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
 
     const selectedSeries = useMemo(() => {
         if (!value) return null;
-        return seriesList.find((item) => item._id === value) || null;
+        return seriesList.find((item) => item.uniqueId === value) || null;
     }, [value, seriesList]);
 
     const handleSelect = (seriesId: string) => {
@@ -126,9 +126,9 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
                             <CommandGroup>
                                 {seriesList.map((series) => (
                                     <CommandItem
-                                        key={series._id}
+                                        key={series.uniqueId}
                                         value={series.title}
-                                        onSelect={() => handleSelect(series._id)}
+                                        onSelect={() => handleSelect(series.uniqueId)}
                                         className="flex flex-col gap-2 items-center cursor-pointer "
                                     >
                                         <ContentCard type="series" data={series} selective={false} />
