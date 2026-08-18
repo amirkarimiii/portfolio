@@ -1,8 +1,8 @@
 import {notFound} from 'next/navigation';
 import Image from 'next/image';
 import {Layers} from 'lucide-react';
-import dummyData from '@/dummy-content.json';
-import {ContentCard} from '../../../../features/article-publishing/components/cards/ContentCard';
+import dummyData from '@/mock-files/series.json';
+import {ContentCard} from '@/features/article-publishing/components/reference-card/ContentCard';
 import {Badge} from '@/shared/components/ui/badge';
 import {
     ArticleCardData,
@@ -34,7 +34,7 @@ export default async function SeriesLandingPage({
     const memberArticles = rawArticles
         .filter(
             (art) =>
-                art.seriesId === currentSeries._id &&
+                art.seriesId === currentSeries.uniqueId &&
                 art.lifecycle?.toLowerCase() === 'published'
         )
         .sort((a, b) => {
@@ -104,7 +104,7 @@ export default async function SeriesLandingPage({
                 ) : (
                     <div className="flex flex-col gap-4 items-center">
                         {memberArticles.map((article) => (
-                            <ContentCard key={article._id} type="article" data={article}/>
+                            <ContentCard key={article.uniqueId} type="article" data={article}/>
                         ))}
                     </div>
                 )}
