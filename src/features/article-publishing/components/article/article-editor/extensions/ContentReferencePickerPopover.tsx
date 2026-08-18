@@ -2,7 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { Layers, FileText } from 'lucide-react';
-import dummyData from '@/dummy-content.json';
+import dummySeries from '@/mock-files/series.json';
+import dummyArticles from '@/mock-files/published-articles.json';
 import { cn } from '@/shared/utils/shadcnUtils';
 import {
     Popover,
@@ -17,7 +18,7 @@ import {
     CommandList,
     CommandInput,
 } from '@/shared/components/ui/command';
-import { ContentCard } from '../../../cards/ContentCard';
+import { ContentCard } from '../../../reference-card/ContentCard';
 import {
     ArticleCardData,
     SeriesCardData,
@@ -37,9 +38,9 @@ export const ContentReferencePickerPopover: React.FC<
 
     const items = useMemo<(ArticleCardData | SeriesCardData)[]>(() => {
         if (type === 'series') {
-            const rawSeries = (dummyData as { series?: SeriesCardData[] }).series || [];
+            const rawSeries = (dummySeries as { series?: SeriesCardData[] }).series || [];
             return rawSeries.slice(0, 20).map((item) => ({
-                _id: item._id,
+                uniqueId: item.uniqueId,
                 slug: item.slug,
                 title: item.title,
                 description: item.description,
@@ -49,12 +50,12 @@ export const ContentReferencePickerPopover: React.FC<
             }));
         }
 
-        const rawArticles = (dummyData as { articles?: ArticleCardData[] }).articles || [];
+        const rawArticles = (dummyArticles as { articles?: ArticleCardData[] }).articles || [];
         return rawArticles
             .filter((item) => item.lifecycle !== 'archived')
             .slice(0, 20)
             .map((item) => ({
-                _id: item._id,
+                uniqueId: item.uniqueId,
                 slug: item.slug,
                 title: item.title,
                 summary: item.summary,
@@ -120,9 +121,9 @@ export const ContentReferencePickerPopover: React.FC<
                             <CommandGroup>
                                 {items.map((item) => (
                                     <CommandItem
-                                        key={item._id}
+                                        key={item.uniqueId}
                                         value={item.title}
-                                        onSelect={() => handleItemSelect(item._id)}
+                                        onSelect={() => handleItemSelect(item.uniqueId)}
                                         className="flex flex-col gap-2 items-center cursor-pointer p-1 rounded-lg"
                                     >
                                         {type === 'series' ? (
