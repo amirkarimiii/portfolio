@@ -1,8 +1,8 @@
 import React from 'react';
 import {ArticleCardData, SeriesCardData} from "@/features/article-publishing/types/reference-card.type";
-import {UnavailableContentCard} from "@/features/article-publishing/components/content-card/UnavailableContentCard";
-import {SeriesCard} from "@/features/article-publishing/components/content-card/SeriesCard";
-import {ArticleCard} from "@/features/article-publishing/components/content-card/ArticleCard";
+import {UnavailableContentCard} from "./UnavailableContentCard";
+import {SeriesCard} from "./SeriesCard";
+import {ArticleCard} from "./ArticleCard";
 
 
 export type ContentCardProps =
