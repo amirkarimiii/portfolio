@@ -1,7 +1,8 @@
 import {notFound} from 'next/navigation';
 import Image from 'next/image';
 import {Layers} from 'lucide-react';
-import dummyData from '@/mock-files/series.json';
+import dummySeries from '@/mock-files/series.json';
+import dummyArticles from '@/mock-files/published-articles.json';
 import {ContentCard} from '@/features/article-publishing/components/reference-card/ContentCard';
 import {Badge} from '@/shared/components/ui/badge';
 import {
@@ -21,9 +22,9 @@ export default async function SeriesLandingPage({
     const {seriesSlug} = await params;
 
     const rawSeries =
-        (dummyData as { series?: SeriesCardData[] }).series || [];
+        (dummySeries as { series?: SeriesCardData[] }).series || [];
     const rawArticles =
-        (dummyData as { articles?: ArticleCardData[] }).articles || [];
+        (dummyArticles as { articles?: ArticleCardData[] }).articles || [];
 
     const currentSeries = rawSeries.find((s) => s.slug === seriesSlug);
 
