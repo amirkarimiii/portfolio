@@ -72,6 +72,7 @@ loop: design Related Articles tab
 ```
 
 ```backlog
+
 `` `
 step: Apply security conditions and publish lock (Finalizing Checks)
 Goal: Stabilize the legal behaviors of the form according to the Specification document
@@ -83,6 +84,28 @@ Actions:
 `` `
 commit changes
 `` `
+
+```
+
+```backlog
+
+`` `
+step: Implement UnsavedChangesModal (protection of form changes)
+Goal: Warning when exiting the editor or forms in case of existence of unsaved changes (isDirty)
+Actions:
+1. Check the isDirty status of the article/series forms
+2. Display the modal with two buttons: "Discard Changes" and "Continue Editing"
+`` `
+
+`` `
+commit changes
+`` `
+
+```
+
+```backlog
+
+بخشی از lifecycle میاد اینجا و بخش دیگه اون توی همون Uidesign میمونه
 
 ```
 

@@ -222,7 +222,7 @@ Public pages (Blog & Series Index):
 ```
 
 ```
-step: Implement the dedicated landing of a series (/series/:seriesSlug)
+✅ step: Implement the dedicated landing of a series (/series/:seriesSlug)
   Goal: Display the full header of the metadata of a series and all articles connected to it
   Actions:
     1. Build the path: create the Dynamic Route file in src/app/(blog)/series/[seriesSlug]/page.tsx
@@ -236,79 +236,47 @@ step: Implement the dedicated landing of a series (/series/:seriesSlug)
 ```
 
 ```
-commit changes
-```
-
-Preview flows and security modals (Preview & Modals)
-
-Preview page (/preview/:articleSlug and /preview/:seriesSlug/:articleSlug):
-
-Renders the article exactly like the public site appearance, but with a floating Header/Banner that shows "Draft / Preview Mode" status.
-
-Deletion confirmation modals:
-* Delete Draft: a simple Confirmation modal.
-* Delete Published / Archived (high security): a modal that includes:
-    * Display of warning and list of later articles that have linked to this article (inbound_referencing_slugs).
-    * Re-entry of the user's Password.
-    * Exact typing of the article Title to confirm permanent deletion.
-
-```
-step: Implement DestructiveConfirmModal (two-step deletion)
-  Goal: Safe deletion of article/series with title confirmation and password authentication
-  Actions:
-    1. Build the component: create src/features/admin/components/modals/DestructiveConfirmModal.tsx
-    2. Manage two-step State (step: 1 | 2):
-      Step 1: Display initial warning + Continue button
-      Step 2: Render two Input fields:
-        Title typing field (to Match with entity.title)
-        Password field (with the pattern reused from LoginDialog including InputGroupAddon and eye Toggle)
-    3. Validation:
-      Check the password with LoginInputSchema and match with the hardcoded value ("abcd")
-      In case of error, render the Alert component (matching the style of LoginDialog)
-    4. Execute the final action: after confirmation, call the delete action and close the modal
+✅ commit changes
 ```
 
 ```
-commit changes
+✅ step: Implement the dedicated page for adding article (/admin/add-article)
 ```
 
 ```
-step: Implement LifecycleChangeModal (change status to Published / Archived)
-  Goal: Warning of stabilizing the slug and structure before changing the article status
-  Actions:
-    1. Build the component LifecycleChangeModal.tsx
-    2. If the status change is to Published (for the first time): display the warning "permanent stabilization of the slug and series connection"
-    3. If the status change is to Archived: display the warning of the referring cards becoming Fallback Card on public pages
+✅ commit changes
 ```
 
 ```
-commit changes
+✅ step: Implement the dedicated page for adding series (/admin/add-series)
 ```
 
 ```
-step: Implement InboundReferencesModal (dependent references warning)
-  Goal: Display the list of articles that have linked to this item before archiving or deletion
-  Actions:
-    1. Build the component InboundReferencesModal.tsx
-    2. Receive the array inboundReferencingSlugs from the current item
-    3. Render the list of referring articles inside a Scroll Area
-    4. Provide the warning that by continuing this work, the existing links in these articles will become inactive/Fallback
+✅ commit changes
 ```
 
 ```
-commit changes
+✅ step:  Implement the dedicated landing of a drafted articles (/admin/articles/drafts)
 ```
 
 ```
-step: Implement UnsavedChangesModal (protection of form changes)
-  Goal: Warning when exiting the editor or forms in case of existence of unsaved changes (isDirty)
-  Actions:
-    1. Check the isDirty status of the article/series forms
-    2. Display the modal with two buttons: "Discard Changes" and "Continue Editing"
+✅ commit changes
 ```
 
 ```
-commit changes
+✅ step:  Implement the dedicated landing of a drafted archive (/admin/articles/archive)
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ loop:  fix all bugs and stuff based on new changes
+```
+
+```
+✅ commit changes
 ```
 
 ```todo:subbranches

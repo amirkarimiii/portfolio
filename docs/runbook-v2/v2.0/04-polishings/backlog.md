@@ -43,3 +43,11 @@ step: Skeleton, suspend and loaders
 ```todo
 commit changes
 ```
+
+```todo
+step: all metadata in pages
+```
+
+```todo
+commit changes
+```
