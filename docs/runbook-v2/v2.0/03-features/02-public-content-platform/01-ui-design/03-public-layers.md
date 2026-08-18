@@ -280,17 +280,17 @@ Public pages (Blog & Series Index):
 ```
 
 ```todo:subbranches
-step: Checkout the branch feature/pcp-ui-design
+✅ step: Checkout the branch feature/pcp-ui-design
 ```
 
 ```todo:subbranches
-step: Merge the branch feature/pcp-ui-cards into feature/pcp-ui-design
+✅ step: Merge the branch feature/pcp-ui-cards into feature/pcp-ui-design
 ```
 
 ```todo:subbranches
-step: Delete the branch feature/pcp-ui-cards
+✅ step: Delete the branch feature/pcp-ui-cards
 ```
 
 ```todo:subbranches
-step: go to article-creation-and-edit-runbook line 59
+✅ step: go to article-creation-and-edit-runbook line 59
 ```
