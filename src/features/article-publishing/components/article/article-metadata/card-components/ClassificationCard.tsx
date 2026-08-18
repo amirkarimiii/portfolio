@@ -9,7 +9,7 @@ import { TagSelector } from "../../../tags/TagSelector";
 import { SeriesPickerPopover } from "@/features/article-publishing/components/article/article-metadata/card-components/SeriesPickerPopover";
 import { ArticleCreationTagsDisplay } from "../../../tags/ArticleCreationTagsDisplay";
 import { getEffectiveTags } from "@/features/article-publishing/utils/tagUtils";
-import dummyData from '@/dummy-content.json';
+import dummySeries from '@/mock-files/series.json';
 
 export function ClassificationCard() {
     const { control, watch, setValue } = useFormContext();
@@ -19,7 +19,7 @@ export function ClassificationCard() {
 
     const seriesDefaultTags = useMemo<string[]>(() => {
         if (!selectedSeriesId) return [];
-        const series = dummyData.series.find((item) => item._id === selectedSeriesId);
+        const series = dummySeries.series.find((item) => item.uniqueId === selectedSeriesId);
         return series?.defaultTags || [];
     }, [selectedSeriesId]);
 
