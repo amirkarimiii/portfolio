@@ -1,7 +1,7 @@
 # Public Content Platform (Core V2)
 
-**Version:** 1.5
-**Last Updated:** 2026-08-16
+**Version:** 1.6
+**Last Updated:** 2026-08-18
 **Owner:** Amir Karimi
 
 ---
@@ -43,6 +43,8 @@ The feature is designed for a single site owner and does not introduce public us
 * Article preview, for both standalone and Series-context Articles
 * Article publishing
 * Article archiving and restoration (republish from Archived)
+* Draft Copy working-copy model for editing Published/Archived Articles (Section 5.5)
+* Inbound References Review Modal before archiving or deleting a referenced Article (Section 6.20.1)
 * Concurrency control (optimistic locking) for editing sessions
 * Article slug management, slug locking, and an owner emergency bypass for the lock
 * Article Tags (creation and suggestion, duplicate-prevention)
@@ -108,17 +110,18 @@ Attempting to access a Series Member Article via `/blog/:articleSlug` shall resu
 
 An Article entity contains:
 
-* Identity & Slug — includes a stable, slug-independent **Unique ID** (ULID format, e.g. `01J8V8W7T8H3F9K2M5Q6Z1ABCD`) assigned at creation, existing solely as forward groundwork for future redirect support (Section 16); no route or lookup behavior is built on it in this version.
+* Identity & Slug — includes a stable, slug-independent **Unique ID** (ULID format, e.g. `01J8V8W7T8H3F9K2M5Q6Z1ABCD`) assigned at creation. Beyond its original purpose as forward groundwork for future redirect support (Section 16), this Unique ID is also used within this version as the linking key between a Published/Archived Article and its in-progress **Draft Copy** (Section 5.5), and as the stable identifier stored in inbound-reference tracking (below).
 * Metadata & SEO
 * Content Body (TipTap/ProseMirror structure)
 * Media references (Cover Image, Thumbnail)
 * Tags
 * Lifecycle State (`Draft`, `Published`, `Archived`)
 * Lifecycle Timestamps: `created_at`, `updated_at`, `first_published_at`, `published_at`, `archived_at`
-* Inbound References Tracking (`inbound_referencing_slugs: string[]`)
+* Inbound References Tracking (`inbound_referencing_ids: string[]`) — stores the Unique ID (not the slug) of each Article referencing this one, so the index remains valid across slug changes (Section 4.4).
 * Optional Series membership
 * Optional Related Articles references
 * Content References embedded in the body
+* Optional Draft Copy — a working-copy snapshot created when editing a Published or Archived Article (Section 5.5); shares the source Article's Unique ID but exists as a separate document in the Draft collection until it replaces the source or is discarded.
 
 ---
 
@@ -180,7 +183,7 @@ A Content Reference is a structured, inline reference from an Article body to an
 
 A Content Reference is not stored as a snapshot of the target's presentation metadata — it references the target entity so that its current title, description, thumbnail, and destination can be resolved by the renderer at read time.
 
-To optimize deletion and archiving workflows, each Article document maintains an index of incoming references, `inbound_referencing_slugs`. When an Article is targeted for archiving or deletion, the system queries this array so the owner can be notified of impacted Articles.
+To optimize deletion and archiving workflows, each Article document maintains an index of incoming references, `inbound_referencing_ids` (Section 4.1) — storing the Unique ID, rather than the slug, of each referencing Article, so the index survives slug changes. When an Article is targeted for archiving or deletion, the system queries this array so the owner can be notified of impacted Articles, via the Inbound References Review Modal (Section 6.20.1).
 
 ### Fallback Behavior for Missing/Archived References
 
@@ -215,39 +218,50 @@ The card may represent either an Article or a Series, and may contain a Thumbnai
 
 ```text
        ┌────────────────────────┐
-       │         Draft          │◄────────────────┐
-       └──────┬──────────┬──────┘                 │
-              │          │                        │
-      Publish │          │ Archive                │ Edit
-              ▼          ▼                        │
-       ┌──────────┐   ┌──────────┐                │
-       │Published │──►│ Archived │────────────────┘
+       │         Draft          │◄──── Edit (creates/overwrites a Draft
+       └──────┬──────────┬──────┘       Copy, Section 5.5 — source untouched)
+              │          │
+      Publish │          │ Archive (requires passing publish
+      (only   │          │  validation, regardless of
+      from    │          │  publish history — Section 5.4)
+    /preview) ▼          ▼
+       ┌──────────┐   ┌──────────┐
+       │Published │◄─►│ Archived │
        └──────────┘   └──────────┘
-              ▲______________│
-                Republish (direct)
+         Direct Published ↔ Archived transitions —
+         no Draft Copy involved, content unchanged.
+         Archived → Published may show a Review/
+         Publish-Anyway modal (Section 6.19.1).
 ```
 
-1. **Draft** — the initial state for all newly created Articles. A Draft may satisfy all metadata and content validation rules and still remain a Draft; passing validation does not automatically change Article state. Drafts are auto-saved continuously and are private, accessible only through protected administrative routes.
+1. **Draft** — the initial state for all newly created Articles, and the state of any in-progress **Draft Copy** created when editing a Published or Archived Article (Section 5.5). A Draft may satisfy all metadata and content validation rules and still remain a Draft; passing validation does not automatically change Article state. Drafts (including Draft Copies) are auto-saved continuously and are private, accessible only through protected administrative routes. A Draft Copy is linked to its source Article via the shared Unique ID (Section 4.1) but exists as a separate document until it replaces the source or is discarded.
 2. **Published** — publicly accessible. May appear in `/blog` (Standalone) or `/series/:seriesSlug` (Series Member), in recent Article listings, and in public Content Cards / References.
-3. **Archived** — removed from the public publishing flow and public listings/APIs, but retained in the database for administrative review, editing, or restoration. Archiving does not delete the Article or its content.
+3. **Archived** — removed from the public publishing flow and public listings/APIs, but retained in the database for administrative review, editing, or restoration. Archiving does not delete the Article or its content. An Article may reach `Archived` either from `Published` (direct transition) or directly from `Draft` — in both cases the Article must pass the same publication-validation rules required for `Published` (Section 6.19); reaching `Archived` does not depend on the Article's publish history (`first_published_at` may remain `null`, Section 5.4).
 
 ## 5.2 Transition Rules
 
-* **Draft → Published:** triggered manually via the "Publish" action after all required publication validation rules pass.
-* **Draft → Archived:** optional direct administrative transition.
-* **Published → Archived:** removes the Article from public access and public APIs; preserves content and metadata.
-* **Published / Archived → Draft (editing):** clicking "Edit" moves the Article into working Draft state without deleting it from its current public/archived record until changes are explicitly saved or republished.
-* **Archived → Published:** an Archived Article can be republished directly, without requiring an intermediate manual Draft step.
+* **Draft → Published:** triggered manually via the "Publish" action, available only from the `/preview` route (Section 6.18), after all required publication validation rules pass. The Publish button does not appear anywhere else in the admin UI, with the single exception described under **Archived → Published** below.
+* **Draft → Archived:** an optional direct administrative transition, available from a Draft's action controls (Section 6.25). Requires passing the same publication-validation rules as Publish (Section 6.19); does not require the Article to have ever been Published (`first_published_at` may remain `null`).
+* **Published → Archived:** a direct, content-preserving transition (no Draft Copy is created); removes the Article from public access and public APIs while preserving content and metadata. Before proceeding, the owner is shown the Inbound References Review Modal (Section 6.20.1) if the Article has any inbound references.
+* **Published / Archived → Edit (Draft Copy creation):** clicking "Edit" creates or overwrites a **Draft Copy** (Section 5.5) of the Article in the Draft collection, sharing the source's Unique ID. The source Article in Published/Archived remains completely untouched — including its own `updated_at` — until the Draft Copy is explicitly saved back. If a Draft Copy for that Article already exists, opening Edit again overwrites it (only one Draft Copy per Article is allowed at a time).
+* **Draft Copy → source update ("Save"):** completing a Draft Copy replaces the corresponding fields of its source and updates the source's `updated_at`. The flow depends on the Draft Copy's origin:
+  * If the source was **Published**, "Save" routes the owner to `/preview` (Section 6.18) to review before the change is applied.
+  * If the source was **Archived**, "Save" directly rewrites the Archived Article after passing validation — no preview step, no confirmation modal.
+  * If validation fails at Save time, the client shows an error (toast) and the source remains unchanged; the Draft Copy is preserved for further editing.
+* **Archived → Published (direct republish):** an Archived Article can be republished directly from its action controls, without an intermediate Draft step. If `updated_at > archived_at` (i.e. the Article was edited since it was archived), the system shows a **Review / Publish Anyway** modal before proceeding (Section 6.19.1); otherwise republishing proceeds immediately without a modal. This is the only "Publish" action in the product that does not go through `/preview`.
 
 ## 5.3 Deletion Policy
 
 Article deletion is permanent and destructive. The system enforces two security levels depending on lifecycle state:
 
-* **From Draft state:** a simple confirmation modal ("Are you sure you want to delete this draft?").
-* **From Published or Archived state:** a high-security confirmation flow:
-  1. The system prompts for Owner password re-authentication.
-  2. The owner must manually type the exact Article Title into a confirmation field.
-  3. Upon verification, the Article and its associated draft records are permanently purged.
+* **From Draft state (including Draft Copies of Published/Archived Articles):** a simple, single-step confirmation modal ("Are you sure you want to delete this draft?"). Deleting a Draft Copy never affects its source Article in Published or Archived — the source remains completely unchanged.
+* **From Published or Archived state:** a high-security confirmation flow, applied uniformly regardless of the Article's publish history (including an Article that was archived directly from Draft and never actually published, `first_published_at = null`):
+  1. If the Article has any inbound references, the system first shows the Inbound References Review Modal (Section 6.20.1).
+  2. The system prompts for Owner password re-authentication.
+  3. The owner must manually type the exact Article Title into a confirmation field.
+  4. Upon verification, the Article and its associated Draft Copy (if any) are permanently purged.
+
+*(Future consideration, out of scope for this version: bulk/group deletion, planned for the Archive and Draft listings only, in a future version.)*
 
 ## 5.4 Lifecycle & Audit Timestamps
 
@@ -258,6 +272,27 @@ Every Article record persists:
 * `first_published_at` — null until first publication; set once, immutable thereafter
 * `published_at` — updated on each publish event (including republish from Archived)
 * `archived_at` — set when the Article moves to Archived
+
+**Note on `first_published_at` and Archiving:** since `Draft → Archived` is a valid direct transition (Section 5.2), an Archived Article does not necessarily have a non-null `first_published_at`. `first_published_at` reflects only whether the Article has ever been made publicly accessible via `Published`, independent of its current or past `Archived` status.
+
+---
+
+## 5.5 Draft Copies (Edit Working-Copy Model)
+
+Editing a `Published` or `Archived` Article does not move or mutate the source record directly. Instead:
+
+* Clicking **Edit** creates a **Draft Copy** — a snapshot of the Article's current state, stored as a document in the Draft collection.
+* The Draft Copy shares its source Article's **Unique ID** (Section 4.1); this ID is the link between the two records while both exist.
+* The source Article (in `Published` or `Archived`) remains fully unchanged — including its own `updated_at` — for as long as the Draft Copy exists and is being edited.
+* Only **one Draft Copy per Article** is allowed at a time. Clicking Edit again while a Draft Copy already exists overwrites that existing Draft Copy with a fresh snapshot; it does not create a second, parallel copy.
+* All autosave, retry, and recovery behavior (Sections 6.15–6.16) applies identically to Draft Copies as to brand-new Drafts.
+* A Draft Copy does not reserve its slug (Section 6.4); slug uniqueness is enforced only among `Published`/`Archived` Articles, and is re-validated when the Draft Copy is saved.
+* **Completing a Draft Copy ("Save"):**
+  * If the source was `Published`: Save routes the owner to `/preview` (Section 6.18) before the change replaces the Published Article.
+  * If the source was `Archived`: Save directly rewrites the Archived Article (after passing validation), with no preview step and no confirmation modal.
+  * If validation fails, the client shows an error and the source is left unchanged; the Draft Copy remains editable.
+* **Deleting a Draft Copy** uses the simple, single-step Draft deletion modal (Section 5.3) and never affects the source Article.
+* A brand-new Draft (never previously Published or Archived, `first_published_at = null`) has no source to protect, and so does not follow this copy model — it is promoted directly to `Published` (via `/preview`) or to `Archived` once it passes validation.
 
 ---
 
@@ -304,6 +339,7 @@ The Article Title shall be rendered as the Article's only H1. The H1 is managed 
 * **Slug Locking Rule:** an Article slug remains editable until three days (72 hours) have elapsed from `first_published_at`. After that period, `Slug = Immutable`.
 * **Owner Emergency Bypass:** the administrative UI provides an "Override Slug Lock" switch for emergency fixes (e.g., typos). Activating it displays a warning about SEO/404 risk before allowing modification.
 * The current version does not provide automatic redirects when a slug changes; redirect mapping is deferred to a future version.
+* **Slug handling for Draft Copies:** a Draft Copy does not reserve or lock its slug. Slug uniqueness (per this section) is enforced only among `Published` and `Archived` Articles. If a Draft Copy's slug is claimed by another Article while the Draft Copy sits idle, this is only surfaced when the owner next attempts to save that Draft Copy — validation fails and the specific reason (e.g. slug conflict, missing required field) is shown via a toast notification. Where the source Article's slug is locked (the 72-hour rule above), the Draft Copy's slug field is subject to the same lock/override rules as its source.
 
 ---
 
@@ -359,7 +395,7 @@ The Article body shall not contain an H1.
 
 The Article body shall support structured references to Articles and Series. The owner shall be able to search for an existing public content entity and insert it into the body; the reference is represented as a Content Card, insertable at any valid block position supported by the editor.
 
-Each referenced Article/Series records the referencing Article in its `inbound_referencing_slugs` index (Section 4.4). If the referenced entity later becomes unavailable (Archived, reverted to Draft, or deleted), the Content Card renders the Fallback Card State rather than breaking (Section 4.4).
+Each referenced Article/Series records the referencing Article in its `inbound_referencing_ids` index (Section 4.4). If the referenced entity later becomes unavailable (Archived, reverted to Draft, or deleted), the Content Card renders the Fallback Card State rather than breaking (Section 4.4).
 
 The system shall not require a separate Previous Article / Next Article navigation model.
 
@@ -381,7 +417,7 @@ The owner shall be able to:
 
 *(Deferred: a separate, manual out-of-list search action for Related Articles — for cases where the desired Article isn't surfaced by Tag overlap — is deferred to a future version, mirroring the same deferral already applied to Series search, Section 6.12.1.)*
 
-Related Article selection is editorial metadata and shall not automatically publish or modify the referenced Articles. This is distinct from the automatic `inbound_referencing_slugs` tracking in Section 4.4, which tracks in-body Content References rather than curated editorial relationships. The system shall not implement an autonomous recommendation engine as part of this feature.
+Related Article selection is editorial metadata and shall not automatically publish or modify the referenced Articles. This is distinct from the automatic `inbound_referencing_ids` tracking in Section 4.4, which tracks in-body Content References rather than curated editorial relationships. The system shall not implement an autonomous recommendation engine as part of this feature.
 
 ---
 
@@ -551,7 +587,9 @@ To prevent lost updates when the owner edits the same Article in multiple browse
 
 ## 6.18 Preview
 
-The owner shall be able to preview an Article without publishing it. Preview renders the Article using the same public presentation rules as the Published Article wherever technically applicable, and supports Articles belonging to a Series.
+The owner shall be able to preview an Article before it is published. Preview renders the Article using the same public presentation rules as the Published Article wherever technically applicable, and supports Articles belonging to a Series.
+
+**Preview as the mandatory Publish gateway:** with one exception (the direct Archived → Published republish action, Section 6.19.1), the **Publish action is only available from `/preview`**. Any Draft — whether a brand-new Draft or a Draft Copy of a Published Article (Section 5.5) — that is ready to become (or return to) `Published` must pass through `/preview` first; there is no "Publish" button elsewhere in the admin UI for that path.
 
 Route patterns:
 
@@ -567,6 +605,8 @@ Preview content shall remain inaccessible to unauthenticated public users.
 ---
 
 ## 6.19 Publishing
+
+Publishing is only performed from `/preview` (Section 6.18), except for the direct Archived → Published republish action described in Section 6.19.1.
 
 The owner shall be able to publish a Draft after all required publication validation rules pass. Publishing shall verify at minimum:
 
@@ -589,16 +629,45 @@ A successful publish operation shall:
 
 ---
 
+## 6.19.1 Review / Publish Anyway Modal (Archived → Published)
+
+When the owner republishes an Archived Article directly (Section 5.2), the system shall check whether the Article has been modified since it was archived:
+
+* If `updated_at > archived_at`, the system shall present a confirmation modal recommending review, with two actions:
+  * **Review** — takes the owner to `/preview/...` to inspect the current content before publishing.
+  * **Publish Anyway** — proceeds with republishing immediately, without review.
+* If `updated_at <= archived_at` (no changes since archiving), the Article is republished immediately, with no modal shown.
+
+This is the only "Publish" action in the product that can occur without passing through `/preview` (Section 6.18).
+
+---
+
 ## 6.20 Archiving & Restoration
 
-The owner shall be able to archive a Published Article through protected administrative functionality. Archiving shall:
+The owner shall be able to archive an Article — from either `Published` or `Draft` — through protected administrative functionality (Section 5.2). Archiving from `Draft` requires passing the same publication-validation rules as Publish (Section 6.19); archiving from `Published` does not, since a Published Article has already passed those rules. Archiving directly from `Published` shows the Inbound References Review Modal first, when applicable (Section 6.20.1).
+
+Archiving shall:
 
 * Preserve Article content and metadata.
 * Set `archived_at`.
-* Remove the Article from public Published listings and public APIs.
+* Remove the Article from public Published listings and public APIs (if it was Published).
 * Keep the Article available through protected administrative functionality.
 
-Archiving shall not delete the Article. An Archived Article may be restored — republished directly without an intermediate Draft step (Section 5.2) — or edited (which moves it to Draft, per Section 5.2) before republishing.
+Archiving shall not delete the Article. An Archived Article may be:
+
+* **Restored** — republished directly (Sections 5.2, 6.19.1), without requiring an intermediate manual Draft step; or
+* **Edited** — which creates a Draft Copy (Section 5.5) without altering the Archived record until the Draft Copy is saved back to Archive.
+
+---
+
+## 6.20.1 Inbound References Review Modal
+
+Before either of the following two actions, if the target Article has one or more entries in `inbound_referencing_ids` (Section 4.4), the system shall present a confirmation modal listing the referencing Articles and asking the owner whether they want to review those Articles first:
+
+* **Published → Archived** (Section 5.2, 6.20)
+* **Deletion of a Published or Archived Article** (Section 5.3, 6.21)
+
+The modal body is shared/reused identically across both flows; it does not block the action — the owner may proceed directly, or navigate to review the listed referencing Articles first (any of which will render the Fallback Card State, Section 4.4, wherever they reference the now-archived/deleted Article). If the Article has no inbound references, this modal is skipped entirely and the underlying flow (Archive or the Section 5.3 deletion sequence) proceeds as normal.
 
 ---
 
@@ -606,10 +675,12 @@ Archiving shall not delete the Article. An Archived Article may be restored — 
 
 The owner shall be able to permanently delete an Article through protected administrative functionality, subject to the security levels defined in Section 5.3:
 
-* Draft: simple confirmation modal.
-* Published or Archived: password re-authentication plus typed title confirmation, per Section 5.3.
+* **Draft (including Draft Copies):** simple, single-step confirmation modal. Deleting a Draft Copy never affects its source Article in Published or Archived.
+* **Published or Archived:** Inbound References Review Modal when applicable (Section 6.20.1), followed by password re-authentication plus typed title confirmation, per Section 5.3 — applied uniformly regardless of whether the Article was ever actually Published (`first_published_at` may be `null`).
 
-Deletion is permanent; the Article and its associated draft records are purged. Before deleting a Published or Archived Article, the owner should be able to consult its `inbound_referencing_slugs` (Section 4.4) to understand which other Articles reference it and will fall back to the unavailable-content Card state.
+Deletion is permanent; the Article (and its Draft Copy, if any) and its associated draft records are purged. Before deleting a Published or Archived Article, the owner should be able to consult its `inbound_referencing_ids` (Section 4.4) to understand which other Articles reference it and will fall back to the unavailable-content Card state.
+
+*(Future consideration, out of scope for this version: bulk/group deletion for the Archive and Draft listings.)*
 
 ---
 
@@ -647,6 +718,19 @@ All API routes introduced by this feature (Section 10) — both the protected/ad
 
 ---
 
+## 6.25 Lifecycle Action Controls Placement
+
+The lifecycle action controls (Edit, Delete, Publish, Archive, Preview, and their associated modals — Sections 5.2, 5.3, 6.19–6.21) are not exclusive to the Content Card's dropdown (Section 4.5). The same controls, in whichever subset is valid for the Article's current lifecycle state, are also available from a dropdown in the **top-right corner** of the following full-page views, when accessed by the authenticated owner:
+
+* `/blog/:articleSlug` and `/series/:seriesSlug/:articleSlug` — the public Article page, viewed while authenticated
+* `/preview/:articleSlug` and `/preview/:seriesSlug/:articleSlug` (Section 6.18)
+* `/edit/:articleSlug` and `/edit/:seriesSlug/:articleSlug` (Section 9)
+* `/admin/add-article` — while the Article is still a brand-new, unpublished Draft (Section 6.1)
+
+**Owner-only visibility:** these action controls and their modals are administrative functionality and are never rendered for an unauthenticated visitor, on any route — including the public routes `/blog/:articleSlug` and `/series/:seriesSlug/:articleSlug`, where the underlying page content is otherwise public. An unauthenticated visitor sees only the ordinary public page; the action dropdown is not present in the response/markup for that visitor at all.
+
+---
+
 # 7. User Flows
 
 ## 7.1 Article Creation & Lifecycle
@@ -666,6 +750,8 @@ Admin Dashboard ──► Add / Edit Article
        │
        ├── Autosave ────────► Draft
        │
+       ├──────────────► Archive (direct, if validation passes) ──► Archived
+       │
        ▼
      Preview
        │
@@ -674,8 +760,14 @@ Admin Dashboard ──► Add / Edit Article
        │
        ▼
     Publish ──► Published ──► Archive ──► Archived
-                                             │
-                                    Republish (direct) or Edit → Draft
+                    ▲                        │  │
+                    │                        │  └── Republish (direct,
+                    │                        │        Review/Publish-Anyway
+                    │                        │        modal if edited since
+                    │                        │        archiving — 6.19.1)
+                    │                        │
+                    └── Edit → Draft Copy ───┘── Edit → Draft Copy
+                        (Save → Preview)          (Save → rewrites Archive)
 ```
 
 ## 7.2 Draft Auto-Save, Retry & Recovery
@@ -752,11 +844,15 @@ Architectural decisions that affect the broader platform shall be documented thr
 /admin/add-series
 /admin/articles/drafts
 /admin/articles/archive
-/admin/articles/:id/edit
+
+/edit/:articleSlug
+/edit/:seriesSlug/:articleSlug
 
 /preview/:articleSlug
 /preview/:seriesSlug/:articleSlug
 ```
+
+`/edit/:articleSlug` and `/edit/:seriesSlug/:articleSlug` mirror the Preview route pattern (slug-based rather than ID-based). Resolving the slug to the underlying Article's Unique ID, and creating/opening its Draft Copy (Section 5.5), is handled server-side; the owner never needs to know or reference the Article's ID directly through routing.
 
 The final route structure shall be aligned with the existing Admin and authentication conventions.
 
@@ -766,24 +862,27 @@ The final route structure shall be aligned with the existing Admin and authentic
 
 Exact endpoint naming shall follow existing API conventions. Public read APIs shall expose only Published content; Draft and Archived content shall not be exposed through public APIs.
 
-| Method | Endpoint                         | Description                                                                               | Auth Required |
-|--------|----------------------------------|-------------------------------------------------------------------------------------------|---------------|
-| POST   | `/api/articles`                  | Create Article Draft                                                                      | Yes           |
-| GET    | `/api/articles/:id`              | Retrieve Article for editing                                                              | Yes           |
-| PATCH  | `/api/articles/:id`              | Update / auto-save Article Draft                                                          | Yes           |
-| POST   | `/api/articles/:id/publish`      | Publish Article                                                                           | Yes           |
-| POST   | `/api/articles/:id/archive`      | Archive Article                                                                           | Yes           |
-| DELETE | `/api/articles/:id`              | Permanently delete Article (requires auth verification per Section 5.3)                   | Yes           |
-| GET    | `/api/articles/:id/preview`      | Retrieve protected preview data                                                           | Yes           |
-| GET    | `/api/articles/:id/inbound-refs` | Query Articles referencing this slug                                                      | Yes           |
-| GET    | `/api/tags`                      | Search existing Tags                                                                      | Yes           |
-| POST   | `/api/tags`                      | Create Tag                                                                                | Yes           |
-| GET    | `/api/articles/search`           | Search Articles for references/related content                                            | Yes           |
-| POST   | `/api/series`                    | Create Series (Section 6.12.2)                                                            | Yes           |
-| GET    | `/api/series/recent`             | Top 20 most recently created Series, for Article-form picker (6.12.1)                     | Yes           |
-| GET    | `/api/reserved-slugs`            | Fetch current reserved-name list, for real-time client-side slug validation (Section 6.4) | Yes           |
-| GET    | `/api/blog`                      | Paginated list of Published Articles for `/blog` (Section 6.22)                           | No            |
-| GET    | `/api/series`                    | Paginated list of Series for `/series` (Section 6.23)                                     | No            |
+| Method | Endpoint                            | Description                                                                                                                 | Auth Required |
+|--------|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|---------------|
+| POST   | `/api/articles`                     | Create Article Draft                                                                                                        | Yes           |
+| GET    | `/api/articles/:id`                 | Retrieve Article for editing                                                                                                | Yes           |
+| PATCH  | `/api/articles/:id`                 | Update / auto-save an Article Draft or Draft Copy                                                                           | Yes           |
+| POST   | `/api/articles/:id/edit`            | Create or overwrite the Draft Copy of a Published/Archived Article (Section 5.5); resolves `/edit/:slug` (Sec. 9)           | Yes           |
+| POST   | `/api/articles/:id/save-to-archive` | Validate and save a Draft Copy back to its Archived source, no preview step (Section 5.5)                                   | Yes           |
+| POST   | `/api/articles/:id/publish`         | Publish an Article from `/preview` — a new Draft, or a Draft Copy whose source was Published (Section 6.19)                 | Yes           |
+| POST   | `/api/articles/:id/archive`         | Archive an Article — from Draft (validated) or directly from Published (Section 5.2)                                        | Yes           |
+| POST   | `/api/articles/:id/republish`       | Direct Archived → Published republish; returns a `reviewRecommended` flag when `updated_at > archived_at` (6.19.1)          | Yes           |
+| DELETE | `/api/articles/:id`                 | Delete a Draft/Draft Copy (simple) or a Published/Archived Article (secure, Section 5.3)                                    | Yes           |
+| GET    | `/api/articles/:id/preview`         | Retrieve protected preview data                                                                                             | Yes           |
+| GET    | `/api/articles/:id/inbound-refs`    | Query Articles referencing this Article's Unique ID (`inbound_referencing_ids`, Section 4.4), for the Review Modal (6.20.1) | Yes           |
+| GET    | `/api/tags`                         | Search existing Tags                                                                                                        | Yes           |
+| POST   | `/api/tags`                         | Create Tag                                                                                                                  | Yes           |
+| GET    | `/api/articles/search`              | Search Articles for references/related content                                                                              | Yes           |
+| POST   | `/api/series`                       | Create Series (Section 6.12.2)                                                                                              | Yes           |
+| GET    | `/api/series/recent`                | Top 20 most recently created Series, for Article-form picker (6.12.1)                                                       | Yes           |
+| GET    | `/api/reserved-slugs`               | Fetch current reserved-name list, for real-time client-side slug validation (Section 6.4)                                   | Yes           |
+| GET    | `/api/blog`                         | Paginated list of Published Articles for `/blog` (Section 6.22)                                                             | No            |
+| GET    | `/api/series`                       | Paginated list of Series for `/series` (Section 6.23)                                                                       | No            |
 
 Individual public Article/Series content prefetch (Sections 6.22–6.23) reuses the existing public rendering/data-fetching mechanism for those routes (Section 9) rather than introducing dedicated prefetch endpoints.
 
@@ -799,8 +898,9 @@ Individual public Article/Series content prefetch (Sections 6.22–6.23) reuses 
 * Related Articles
 * Media references
 * Lifecycle timestamps (`created_at`, `updated_at`, `first_published_at`, `published_at`, `archived_at`)
-* `inbound_referencing_slugs`
+* `inbound_referencing_ids`
 * Slug locking state
+* Draft Copy origin state (`published` / `archived` / none), when a Draft is a Draft Copy of a Published or Archived Article (Section 5.5) — determines whether "Save" routes to `/preview` or rewrites the Archived source directly
 
 The server is the source of truth for persisted Article state.
 
@@ -818,6 +918,7 @@ The server is the source of truth for persisted Article state.
 * Content Reference selection UI
 * Series selection list (top 20 recent) and its cross-tab `series-created` event listener state (Section 6.12.2)
 * Blog/Series pagination state and prefetch cache (next pages, prefetched Article content, prefetched Series Article Cards — Sections 6.22–6.23)
+* Lifecycle action dropdown visibility/state on Card and full-page views (Section 6.25), and Inbound References Review Modal state (Section 6.20.1)
 
 The client shall not treat unsaved editor state as successfully persisted until the server confirms the save.
 
@@ -839,9 +940,11 @@ The client shall not treat unsaved editor state as successfully persisted until 
 
 **Authentication:** all write operations require successful owner authentication.
 
-**Authorization:** only the site owner may create, edit, publish, archive, restore, or delete Articles; manage Drafts; manage protected previews; or create Tags through the administrative interface. No public user has write access.
+**Authorization:** only the site owner may create, edit, publish, archive, restore, or delete Articles; manage Drafts and Draft Copies; manage protected previews; or create Tags through the administrative interface. No public user has write access.
 
-**Sensitive Deletion Security:** deleting a Published or Archived Article requires password re-authentication and typed title confirmation (Section 5.3); Draft deletion requires only a simple confirmation.
+**Lifecycle Action Controls Are Owner-Only, Even on Public Routes:** the lifecycle action dropdown and its modals (Section 6.25) are never rendered for an unauthenticated visitor, including on public routes such as `/blog/:articleSlug` and `/series/:seriesSlug/:articleSlug`. Authorization is checked server-side before these controls (or the data they operate on, such as `inbound_referencing_ids`) are included in any response to the client.
+
+**Sensitive Deletion Security:** deleting a Published or Archived Article requires the Inbound References Review Modal when applicable (Section 6.20.1), followed by password re-authentication and typed title confirmation (Section 5.3) — applied uniformly regardless of publish history. Draft deletion (including Draft Copies) requires only a simple confirmation and never affects a source Article in Published or Archived.
 
 **Validation:** validation occurs server-side regardless of client-side validation. The server shall not trust client lifecycle state, client authorization state, client slug validation, client content validation, or client media metadata.
 
@@ -875,12 +978,14 @@ src/
 │       │   ├── related-articles/
 │       │   ├── content-reference/
 │       │   ├── preview/
-│       │   └── content-card/
+│       │   ├── content-card/
+│       │   └── lifecycle-action-dropdown/    (Card + full-page placements, Section 6.25)
 │       │
 │       ├── hooks/
 │       │   ├── use-article-autosave
 │       │   ├── use-article-preview
-│       │   └── use-article-validation
+│       │   ├── use-article-validation
+│       │   └── use-draft-copy                (Section 5.5)
 │       │
 │       ├── services/
 │       ├── schemas/
@@ -894,7 +999,8 @@ src/
 │   │
 │   ├── blog/
 │   ├── series/
-│   └── preview/
+│   ├── preview/
+│   └── edit/
 │
 └── ...
 ```
@@ -944,11 +1050,12 @@ This structure is illustrative and shall follow the existing project architectur
 
 # 17. Changelog
 
-| Version | Date       | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|---------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.0     | 2026-08-08 | Initial specification                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 1.1     | 2026-08-09 | Added Series Selection Interface (6.12.1) and event-driven, cross-tab New Series Creation flow (6.12.2); added `/admin/add-series` route and related API endpoints; updated Client State list                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 1.2     | 2026-08-09 | Removed the ADR-open-question note from 6.12.2 in favor of folding the decision directly into this spec, per project ADR philosophy (ADRs mark course-corrections, not pre-build decisions); added SEO metadata fields to the Series domain model (4.2); expanded 6.13 into full Series Creation & Metadata requirements (fields, tabs, explicit scope difference from Article creation); clarified the Related Articles suggestion mechanism (6.11) as a top-20 Tag-similarity list, distinct from the separate manual search action                                                                                                                                                                                                                             |
-| 1.3     | 2026-08-10 | Section 6.4: reserved slug names are now DB-sourced and validated dynamically, rather than hardcoded — no admin management UI this version (deferred); listed names are the initial seed data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 1.4     | 2026-08-15 | Related Articles suggestion list (6.11) changed from a capped top-20 to an uncapped, eagerly-rendered full list; manual out-of-list search action removed/deferred to a future version; same-Series Articles now excluded from the suggestion list. Added Series Default Tags & Inheritance (6.12.3) and a corresponding Default Tags field (4.2, 6.13.1). Clarified Series is not editable or deletable in this version (6.13.1), superseding the prior "assumed unlocked/always-editable" slug note. Added a stable, slug-independent Unique ID to Article (4.1) and Series (4.2) as forward groundwork for future redirect support (Section 16); no redirect behavior implemented this version. Added a Future Consideration note on Tag categorization (4.3). |
-| 1.5     | 2026-08-16 | Specified the Article/Series Unique ID (4.1, 4.2, Section 16) explicitly as ULID format, rather than an unspecified identifier scheme.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| Version | Date       | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|---------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1.0     | 2026-08-08 | Initial specification                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 1.1     | 2026-08-09 | Added Series Selection Interface (6.12.1) and event-driven, cross-tab New Series Creation flow (6.12.2); added `/admin/add-series` route and related API endpoints; updated Client State list                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 1.2     | 2026-08-09 | Removed the ADR-open-question note from 6.12.2 in favor of folding the decision directly into this spec, per project ADR philosophy (ADRs mark course-corrections, not pre-build decisions); added SEO metadata fields to the Series domain model (4.2); expanded 6.13 into full Series Creation & Metadata requirements (fields, tabs, explicit scope difference from Article creation); clarified the Related Articles suggestion mechanism (6.11) as a top-20 Tag-similarity list, distinct from the separate manual search action                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 1.3     | 2026-08-10 | Section 6.4: reserved slug names are now DB-sourced and validated dynamically, rather than hardcoded — no admin management UI this version (deferred); listed names are the initial seed data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 1.4     | 2026-08-15 | Related Articles suggestion list (6.11) changed from a capped top-20 to an uncapped, eagerly-rendered full list; manual out-of-list search action removed/deferred to a future version; same-Series Articles now excluded from the suggestion list. Added Series Default Tags & Inheritance (6.12.3) and a corresponding Default Tags field (4.2, 6.13.1). Clarified Series is not editable or deletable in this version (6.13.1), superseding the prior "assumed unlocked/always-editable" slug note. Added a stable, slug-independent Unique ID to Article (4.1) and Series (4.2) as forward groundwork for future redirect support (Section 16); no redirect behavior implemented this version. Added a Future Consideration note on Tag categorization (4.3).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 1.5     | 2026-08-16 | Specified the Article/Series Unique ID (4.1, 4.2, Section 16) explicitly as ULID format, rather than an unspecified identifier scheme.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| 1.6     | 2026-08-18 | Replaced the direct Published/Archived → Draft mutation model with the **Draft Copy** working-copy model (new Section 5.5): editing creates a snapshot linked by the shared Unique ID, while the source stays untouched until an explicit Save. Clarified that `Draft → Archived` is a valid direct transition requiring the same publish-validation as `Published`, independent of publish history (5.1, 5.2, 5.4). Restricted the Publish action to `/preview` only, with a single exception for direct Archived → Published republishing, which gained a Review/Publish-Anyway modal (new Section 6.19.1) triggered by `updated_at > archived_at`. Unified deletion security to always require the high-security flow for Published/Archived regardless of publish history, and always the simple modal for Draft/Draft Copies (5.3, 6.21); added a future-consideration note for bulk deletion in Archive/Draft listings. Clarified slug-uniqueness scope excludes Draft Copies (6.4). Renamed `inbound_referencing_slugs` to `inbound_referencing_ids` (4.1, 4.4) to survive slug changes, and added the Inbound References Review Modal (new Section 6.20.1) before archiving-from-Published or deleting a Published/Archived Article. Added slug-based Edit routes `/edit/:articleSlug` and `/edit/:seriesSlug/:articleSlug` (Section 9), replacing the ID-based admin edit route. Added Section 6.25 specifying that lifecycle action controls appear both on the Content Card and in a top-right dropdown on full-page views (`/blog`, `/series`, `/preview`, `/edit`, `/admin/add-article`), and are strictly owner-only even on otherwise-public routes. Updated the API table (Section 10), Client/Server State (Section 11), and Security Considerations (Section 13) accordingly. |
