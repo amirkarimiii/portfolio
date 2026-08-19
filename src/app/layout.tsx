@@ -8,6 +8,7 @@ import {DialogCloseListener} from "@/shared/components/layout/listeners/DialogCl
 import {LoginDialog} from "@/features/admin/components/LoginDialog";
 import {Toaster} from "@/shared/components/ui/sonner";
 import {TooltipProvider} from "@/shared/components/ui/tooltip";
+import {UnsecureDeleteModal} from "@/features/article-publishing/components/modals/UnsecureDeleteModal";
 
 
 const geistSans = Geist({
@@ -35,6 +36,7 @@ export default function RootLayout({
             <TooltipProvider>
             <QueryProvider>
                 {children}
+                <UnsecureDeleteModal/>
                 <AdminLoginListener/>
                 <DialogCloseListener/>
                 <LoginDialog />
