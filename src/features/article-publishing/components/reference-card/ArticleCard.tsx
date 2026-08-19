@@ -9,6 +9,7 @@ import {cn} from "@/shared/utils/shadcnUtils";
 import {Badge} from "@/shared/components/ui/badge";
 import seriesData from "@/mock-files/series.json";
 import {PublishedDropdown} from "@/features/article-publishing/components/dropdowns/PublishedDropdown";
+import {ArchivedDropdown} from "@/features/article-publishing/components/dropdowns/ArchivedDropdown";
 
 
 interface ArticleCardProps {
@@ -80,6 +81,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
     const renderDropdown = (uniqueId: string) => {
         const dropdownMap: Record<string, React.ReactNode> = {
             publish: <PublishedDropdown uniqueId={uniqueId} />,
+            archive: <ArchivedDropdown uniqueId={uniqueId} />,
         };
         return dropdownMap[origin] || null;
     };
