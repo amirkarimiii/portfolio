@@ -26,17 +26,20 @@ export function ArchivedDropdown({ uniqueId }: Props) {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex flex-col gap-0.5">
-                <DropdownMenuItem onClick={() => {
+                <DropdownMenuItem onClick={(e) => {
+                    e.stopPropagation();
                     console.log("edit action")
                 }} className="justify-center">
                     Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => {
+                <DropdownMenuItem onClick={(e) => {
+                    e.stopPropagation();
                     console.log("archive action")
                 }} className="justify-center">
                     Publish
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => {
+                <DropdownMenuItem onClick={(e) => {
+                    e.stopPropagation();
                     console.log("safe delete action")
                 }} variant="destructive" className="justify-center">
                     Delete
