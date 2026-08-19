@@ -93,7 +93,7 @@ async function ArchivedArticlesContent({ searchParams }: ArchivePageProps) {
             ) : (
                 <section className="flex flex-col gap-4 items-center">
                     {paginatedArticles.map((article) => (
-                        <ContentCard key={article.uniqueId} type="article" data={article} />
+                        <ContentCard origin="archive" key={article.uniqueId} type="article" data={article} />
                     ))}
                 </section>
             )}
