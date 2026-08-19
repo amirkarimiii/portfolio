@@ -5,8 +5,6 @@ export interface ArticleCardData {
     summary?: string;
     lifecycle: string;
     seriesId?: string | null;
-    seriesSlug?: string | null;
-    seriesTitle?: string | null;
     tags: string[];
     thumbnailImage: string;
     thumbnailAltText?: string;
