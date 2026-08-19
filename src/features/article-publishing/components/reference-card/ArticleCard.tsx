@@ -3,10 +3,11 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import {ArticleCardData} from "../../types/reference-card.type";
+import {ArticleCardData, SeriesCardData} from "../../types/reference-card.type";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/shared/components/ui/card";
 import {cn} from "@/shared/utils/shadcnUtils";
 import {Badge} from "@/shared/components/ui/badge";
+import seriesData from "@/mock-files/series.json";
 
 interface ArticleCardProps {
     data: ArticleCardData;
@@ -21,22 +22,28 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                                                             selective = true,
                                                             target
                                                         }) => {
+
+    const seriesObjects = (seriesData as { series: SeriesCardData[] })?.series || [];
+
+    const parentSeries = seriesObjects.find((series) => series.uniqueId === data.seriesId);
+
     const destinationRoute =
-        data.seriesId && data.seriesSlug
-            ? `/series/${data.seriesSlug}/${data.slug}`
+        data.seriesId && parentSeries?.slug
+            ? `/series/${parentSeries.slug}/${data.slug}`
             : `/blog/${data.slug}`;
 
     const rawDate = data.firstPublishedAt || data.publishedAt;
+    const parsedDate = rawDate ? new Date(rawDate) : null;
 
-    const style = `overflow-hidden transition-all duration-200 ${selective && "hover:shadow-md hover:border-primary/50"} flex flex-row p-0 w-xl`
-
-    const formattedDate = rawDate
-        ? new Date(rawDate).toLocaleDateString('en-US', {
+    const formattedDate = parsedDate && !isNaN(parsedDate.getTime())
+        ? parsedDate.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'short',
             day: 'numeric',
         })
         : null;
+
+    const style = `overflow-hidden transition-all duration-200 ${selective ? "hover:shadow-md hover:border-primary/50" : ""} flex flex-row p-0 w-xl`;
 
     return (
         <Link
@@ -69,12 +76,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                 <div className="flex flex-col justify-between p-4 flex-1 min-w-0">
                     <div>
                         <CardHeader className="p-0 mb-1.5 space-y-1">
-                            {data.seriesId && data.seriesTitle && (
+                            {data.seriesId && parentSeries?.title && (
                                 <Badge
                                     variant="outline"
                                     className="text-[10px] px-1.5 py-0 font-medium border-primary/30 text-primary"
                                 >
-                                    {data.seriesTitle}
+                                    {parentSeries.title}
                                 </Badge>
                             )}
 
