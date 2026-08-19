@@ -17,11 +17,7 @@ async function DraftsArchiveContent({ searchParams }: DraftsPageProps) {
     const currentPage = Math.max(1, parseInt(resolvedSearchParams.page || '1', 10));
     const sortOrder = resolvedSearchParams.sort === 'oldest' ? 'oldest' : 'newest';
 
-    const rawArticles = (dummyData as { articles?: ArticleCardData[] }).articles || [];
-
-    const draftArticles = rawArticles.filter(
-        (article) => article.lifecycle?.toLowerCase() === 'draft'
-    );
+    const draftArticles = (dummyData as { articles?: ArticleCardData[] }).articles || [];
 
     const sortedArticles = [...draftArticles].sort((a, b) => {
         const dateA = new Date(a.firstPublishedAt || a.publishedAt || 0).getTime();
