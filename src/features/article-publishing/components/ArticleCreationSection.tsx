@@ -14,9 +14,7 @@ import {Button} from "@/shared/components/ui/button";
 import {articleFormSchema, type ArticleFormValues} from '@/features/article-publishing/schemas/articleFormSchema';
 import ContentTab from "@/features/article-publishing/components/article/article-editor/ContentTab";
 import {MetadataTab} from "@/features/article-publishing/components/article/article-metadata/MetadataTab";
-import {archiveAction} from "@/features/article-publishing/actions/archiveAction";
-import {previewAction} from "@/features/article-publishing/actions/previewAction";
-import {unsafeDeleteAction} from "@/features/article-publishing/actions/unsafeDeleteAction";
+import {useUnsecureDeleteModal} from "@/features/article-publishing/stores/useUnsecureDelete";
 
 const defaultValues: ArticleFormValues = {
     title: '',
@@ -66,17 +64,17 @@ export default function ArticleCreationSection() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="flex flex-col gap-0.5">
                                 <DropdownMenuItem onClick={() => {
-                                    archiveAction("creation")
+                                    console.log("unique id")
                                 }} className="justify-center">
                                     Archive
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => {
-                                    previewAction("creation")
+                                    console.log("unique id")
                                 }} className="justify-center">
                                     Preview
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => {
-                                    unsafeDeleteAction("creation")
+                                    useUnsecureDeleteModal.getState().openModal("uniqueId");
                                 }} variant="destructive" className="justify-center">
                                     Delete
                                 </DropdownMenuItem>
