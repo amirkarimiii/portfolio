@@ -1,13 +1,14 @@
 "use client"
 
 import React from 'react';
-import Link from 'next/link';
+import {useRouter} from 'next/navigation';
 import Image from 'next/image';
 import {ArticleCardData, SeriesCardData} from "../../types/reference-card.type";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/shared/components/ui/card";
 import {cn} from "@/shared/utils/shadcnUtils";
 import {Badge} from "@/shared/components/ui/badge";
 import seriesData from "@/mock-files/series.json";
+import {Settings} from "lucide-react";
 
 interface ArticleCardProps {
     data: ArticleCardData;
@@ -22,6 +23,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                                                             selective = true,
                                                             target
                                                         }) => {
+
+    const router = useRouter();
 
     const seriesObjects = (seriesData as { series: SeriesCardData[] })?.series || [];
 
@@ -43,28 +46,51 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         })
         : null;
 
-    const style = `overflow-hidden transition-all duration-200 ${selective ? "hover:shadow-md hover:border-primary/50" : ""} flex flex-row p-0 w-xl`;
+    const style = `overflow-hidden h-42 transition-all duration-200 ${selective ? "hover:shadow-md hover:border-primary/50" : ""} flex flex-row p-0 w-2xl`;
+
+    const navigate = () => {
+        if (!selective) return;
+        if (target === "_blank") {
+            window.open(destinationRoute, "_blank");
+        } else {
+            router.push(destinationRoute);
+        }
+    };
+
+    const handleCardClick = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('[data-no-card-navigate]')) {
+            return;
+        }
+        navigate();
+    };
+
+    const handleCardKeyDown = (e: React.KeyboardEvent) => {
+        if ((e.target as HTMLElement).closest('[data-no-card-navigate]')) {
+            return;
+        }
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            navigate();
+        }
+    };
 
     return (
-        <Link
-            href={destinationRoute}
+        <div
             className="block group"
+            role={selective ? "link" : undefined}
             aria-disabled={!selective}
             tabIndex={selective ? 0 : -1}
-            onClick={(e) => {
-                if (!selective) {
-                    e.preventDefault();
-                }
-            }}
-            target={target}
+            onClick={handleCardClick}
+            onKeyDown={handleCardKeyDown}
         >
             <Card
                 className={cn(
                     style,
+                    selective && "cursor-pointer",
                     className
                 )}
             >
-                <div className="relative h-36 w-36 shrink-0 bg-muted aspect-square overflow-hidden">
+                <div className="relative h-full shrink-0 bg-muted aspect-square overflow-hidden">
                     <Image
                         src={data.thumbnailImage}
                         alt={data.thumbnailAltText || data.title}
@@ -76,16 +102,27 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                 <div className="flex flex-col justify-between p-4 flex-1 min-w-0">
                     <div>
                         <CardHeader className="p-0 mb-1.5 space-y-1">
-                            {data.seriesId && parentSeries?.title && (
-                                <Badge
-                                    variant="outline"
-                                    className="text-[10px] px-1.5 py-0 font-medium border-primary/30 text-primary"
-                                >
-                                    {parentSeries.title}
-                                </Badge>
-                            )}
-
-                            <CardTitle className={`text-base ${selective && "group-hover:text-primary"} transition-colors line-clamp-1`}>
+                            <div className="flex flex-row  justify-between">
+                                {(data.seriesId && parentSeries?.title) ? (
+                                    <>
+                                        <Badge
+                                            variant="outline"
+                                            className="text-[10px] px-1.5 py-0 font-medium border-primary/30 text-primary my-auto block"
+                                        >
+                                            {parentSeries.title}
+                                        </Badge>
+                                    </>
+                                ) : (
+                                    <div></div>
+                                )}
+                                <div className="w-max h-max rounded-md p-1 cursor-pointer self-end">
+                                    <div className="w-4 aspect-square">
+                                        <Settings/>
+                                    </div>
+                                </div>
+                            </div>
+                            <CardTitle
+                                className={`text-base ${selective && "group-hover:text-primary"} transition-colors line-clamp-1`}>
                                 {data.title}
                             </CardTitle>
                         </CardHeader>
@@ -120,6 +157,6 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                     </CardFooter>
                 </div>
             </Card>
-        </Link>
+        </div>
     );
 };
