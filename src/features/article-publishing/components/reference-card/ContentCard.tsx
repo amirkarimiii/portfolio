@@ -12,6 +12,7 @@ export type ContentCardProps =
     isUnavailable?: boolean;
     className?: string;
     selective?: boolean
+    origin: "publish" | "archive" | "draft" | "paper"
     target?: "_self" | "_blank"
 }
     | {
@@ -51,6 +52,7 @@ export const ContentCard: React.FC<ContentCardProps> = (props) => {
             className={props.className}
             target={props.target}
             selective={props.selective}
+            origin={props.origin}
         />
     );
 };
