@@ -10,6 +10,8 @@ import {Badge} from "@/shared/components/ui/badge";
 import seriesData from "@/mock-files/series.json";
 import {PublishedDropdown} from "@/features/article-publishing/components/dropdowns/PublishedDropdown";
 import {ArchivedDropdown} from "@/features/article-publishing/components/dropdowns/ArchivedDropdown";
+import {Button} from "@/shared/components/ui/button";
+import {useUnsecureDeleteModal} from "@/features/article-publishing/stores/useUnsecureDelete";
 
 
 interface ArticleCardProps {
@@ -80,8 +82,19 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
 
     const renderDropdown = (uniqueId: string) => {
         const dropdownMap: Record<string, React.ReactNode> = {
-            publish: <PublishedDropdown uniqueId={uniqueId} />,
-            archive: <ArchivedDropdown uniqueId={uniqueId} />,
+            publish: <PublishedDropdown uniqueId={uniqueId}/>,
+            archive: <ArchivedDropdown uniqueId={uniqueId}/>,
+            draft: <Button
+                variant="outline"
+                className="w-max h-6 rounded-md p-1 cursor-pointer text-xs"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    useUnsecureDeleteModal.getState().openModal(uniqueId)
+                }}
+                data-no-card-navigate
+            >
+                    delete
+                </Button>,
         };
         return dropdownMap[origin] || null;
     };
@@ -113,7 +126,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                 <div className="flex flex-col justify-between p-4 flex-1 min-w-0">
                     <div>
                         <CardHeader className="p-0 mb-1.5 space-y-1">
-                            <div className={`flex ${origin === "paper" ? "flex-row" : "flex-row-reverse"} justify-between`}>
+                            <div
+                                className={`flex ${origin === "paper" ? "flex-row" : "flex-row-reverse"} justify-between`}>
                                 {renderDropdown(data.uniqueId)}
                                 {data.seriesId && parentSeries?.title && (
                                     <Badge
