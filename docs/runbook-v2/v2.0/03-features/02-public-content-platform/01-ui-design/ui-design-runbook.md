@@ -56,6 +56,38 @@ Section 4: Public layer and cards (Public UI & Components) </br>
 ```
 
 ```
+✅ step: Go to TRACKING
+  mark this step as Completed with mention of completion date
+  add next step
+  put the next step as In Progress
+  write its changelog for both changes
+  fix Last Updated
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Go to Observatory
+  add next new branch
+  mark this branch as Merged
+  activate the next branch
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ commit runbook
+```
+
+```todo
+✅ step: go to 04-lifecycle.md
+```
+
+```
 step: Go to TRACKING
   mark this step as Completed with mention of completion date
   write its changelog
