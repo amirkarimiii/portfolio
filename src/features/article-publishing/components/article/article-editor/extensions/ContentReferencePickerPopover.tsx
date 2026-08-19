@@ -37,40 +37,28 @@ export const ContentReferencePickerPopover: React.FC<
     const [open, setOpen] = useState(false);
 
     const items = useMemo<(ArticleCardData | SeriesCardData)[]>(() => {
+        const rawSeries = (dummySeries as { series?: SeriesCardData[] })?.series || [];
+
         if (type === 'series') {
-            const rawSeries = (dummySeries as { series?: SeriesCardData[] }).series || [];
-            return rawSeries.slice(0, 20).map((item) => ({
-                uniqueId: item.uniqueId,
-                slug: item.slug,
-                title: item.title,
-                description: item.description,
-                defaultTags: item.defaultTags,
-                thumbnailImage: item.thumbnailImage,
-                thumbnailAltText: item.thumbnailAltText,
-            }));
+            return rawSeries.slice(0, 20);
         }
 
-        const rawArticles = (dummyArticles as { articles?: ArticleCardData[] }).articles || [];
+        const rawArticles = (dummyArticles as { articles?: ArticleCardData[] })?.articles || [];
+        const seriesMap = new Map(rawSeries.map((series) => [series.uniqueId, series]));
+
         return rawArticles
             .filter((item) => item.lifecycle !== 'archived')
             .slice(0, 20)
-            .map((item) => ({
-                uniqueId: item.uniqueId,
-                slug: item.slug,
-                title: item.title,
-                summary: item.summary,
-                lifecycle: item.lifecycle,
-                seriesId: item.seriesId,
-                seriesSlug: item.seriesSlug,
-                seriesTitle: item.seriesTitle,
-                tags: item.tags,
-                thumbnailImage: item.thumbnailImage,
-                thumbnailAltText: item.thumbnailAltText,
-                firstPublishedAt: item.firstPublishedAt,
-                publishedAt: item.publishedAt,
-            }));
+            .map((item) => {
+                const parentSeries = item.seriesId ? seriesMap.get(item.seriesId) : undefined;
+                return {
+                    ...item,
+                    seriesSlug: parentSeries?.slug,
+                    seriesTitle: parentSeries?.title,
+                };
+            });
     }, [type]);
-
+    
     const handleItemSelect = (id: string) => {
         onSelect(id);
         setOpen(false);
