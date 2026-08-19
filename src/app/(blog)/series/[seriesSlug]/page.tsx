@@ -105,7 +105,7 @@ export default async function SeriesLandingPage({
                 ) : (
                     <div className="flex flex-col gap-4 items-center">
                         {memberArticles.map((article) => (
-                            <ContentCard key={article.uniqueId} type="article" data={article}/>
+                            <ContentCard origin="publish" key={article.uniqueId} type="article" data={article}/>
                         ))}
                     </div>
                 )}
