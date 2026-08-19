@@ -8,14 +8,8 @@ import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} f
 import {cn} from "@/shared/utils/shadcnUtils";
 import {Badge} from "@/shared/components/ui/badge";
 import seriesData from "@/mock-files/series.json";
-import {Settings} from "lucide-react";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/shared/components/ui/dropdown-menu";
-import {Button} from "@/shared/components/ui/button";
+import {PublishedDropdown} from "@/features/article-publishing/components/dropdowns/PublishedDropdown";
+
 
 interface ArticleCardProps {
     data: ArticleCardData;
@@ -83,6 +77,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         }
     };
 
+    const renderDropdown = (uniqueId: string) => {
+        const dropdownMap: Record<string, React.ReactNode> = {
+            publish: <PublishedDropdown uniqueId={uniqueId} />,
+        };
+        return dropdownMap[origin] || null;
+    };
     return (
         <div
             className="block group"
@@ -111,49 +111,16 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                 <div className="flex flex-col justify-between p-4 flex-1 min-w-0">
                     <div>
                         <CardHeader className="p-0 mb-1.5 space-y-1">
-                            <div className="flex flex-row  justify-between">
-                                {(data.seriesId && parentSeries?.title) ? (
-                                    <>
-                                        <Badge
-                                            variant="outline"
-                                            className="text-[10px] px-1.5 py-0 font-medium border-primary/30 text-primary my-auto block"
-                                        >
-                                            {parentSeries.title}
-                                        </Badge>
-                                    </>
-                                ) : (
-                                    <div></div>
+                            <div className={`flex ${origin === "paper" ? "flex-row" : "flex-row-reverse"} justify-between`}>
+                                {renderDropdown(data.uniqueId)}
+                                {data.seriesId && parentSeries?.title && (
+                                    <Badge
+                                        variant="outline"
+                                        className="text-[10px] px-1.5 py-0 font-medium border-primary/30 text-primary my-auto block"
+                                    >
+                                        {parentSeries.title}
+                                    </Badge>
                                 )}
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button
-                                            variant="outline"
-                                            className="w-max h-max rounded-md p-1 cursor-pointer self-end"
-                                            data-no-card-navigate
-                                        >
-                                            <div className="w-4 aspect-square">
-                                                <Settings/>
-                                            </div>
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent className="flex flex-col gap-0.5">
-                                        <DropdownMenuItem onClick={() => {
-                                            console.log("edit action")
-                                        }} className="justify-center">
-                                            Edit
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => {
-                                            console.log("archive action")
-                                        }} className="justify-center">
-                                            Archive
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => {
-                                            console.log("safe delete action")
-                                        }} variant="destructive" className="justify-center">
-                                            Delete
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
                             </div>
                             <CardTitle
                                 className={`text-base ${selective && "group-hover:text-primary"} transition-colors line-clamp-1`}>
