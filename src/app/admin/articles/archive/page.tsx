@@ -17,11 +17,7 @@ async function ArchivedArticlesContent({ searchParams }: ArchivePageProps) {
     const currentPage = Math.max(1, parseInt(resolvedSearchParams.page || '1', 10));
     const sortOrder = resolvedSearchParams.sort === 'oldest' ? 'oldest' : 'newest';
 
-    const rawArticles = (dummyData as { articles?: ArticleCardData[] }).articles || [];
-
-    const archivedArticles = rawArticles.filter(
-        (article) => article.lifecycle?.toLowerCase() === 'archived'
-    );
+    const archivedArticles = (dummyData as { articles?: ArticleCardData[] }).articles || [];
 
     const sortedArticles = [...archivedArticles].sort((a, b) => {
         const dateA = new Date(a.firstPublishedAt || a.publishedAt || 0).getTime();
