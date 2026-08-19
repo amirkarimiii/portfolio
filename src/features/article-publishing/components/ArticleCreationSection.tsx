@@ -1,19 +1,22 @@
 'use client';
 
-import { useForm, FormProvider } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
-import { CircleCheck, CircleX, Clock } from "lucide-react";
+import {useForm, FormProvider} from 'react-hook-form';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/shared/components/ui/tabs";
+import {CircleCheck, CircleX, Clock} from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/shared/components/ui/dropdown-menu";
-import { Button } from "@/shared/components/ui/button";
-import { articleFormSchema, type ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
+import {Button} from "@/shared/components/ui/button";
+import {articleFormSchema, type ArticleFormValues} from '@/features/article-publishing/schemas/articleFormSchema';
 import ContentTab from "@/features/article-publishing/components/article/article-editor/ContentTab";
 import {MetadataTab} from "@/features/article-publishing/components/article/article-metadata/MetadataTab";
+import {archiveAction} from "@/features/article-publishing/actions/archiveAction";
+import {previewAction} from "@/features/article-publishing/actions/previewAction";
+import {unsafeDeleteAction} from "@/features/article-publishing/actions/unsafeDeleteAction";
 
 const defaultValues: ArticleFormValues = {
     title: '',
@@ -61,16 +64,21 @@ export default function ArticleCreationSection() {
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline">Action</Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuItem className="justify-center">Archive</DropdownMenuItem>
-                                <DropdownMenuItem className="justify-center">Delete</DropdownMenuItem>
-                                <DropdownMenuItem
-                                    className="justify-center"
-                                    onClick={methods.handleSubmit((data) => {
-                                        console.log('Publish payload:', data);
-                                    })}
-                                >
-                                    Publish
+                            <DropdownMenuContent className="flex flex-col gap-0.5">
+                                <DropdownMenuItem onClick={() => {
+                                    archiveAction("creation")
+                                }} className="justify-center">
+                                    Archive
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => {
+                                    previewAction("creation")
+                                }} className="justify-center">
+                                    Preview
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => {
+                                    unsafeDeleteAction("creation")
+                                }} variant="destructive" className="justify-center">
+                                    Delete
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
@@ -83,10 +91,10 @@ export default function ArticleCreationSection() {
                         <TabsTrigger value="related">Related Articles</TabsTrigger>
                     </TabsList>
                     <TabsContent value="metadata">
-                        <MetadataTab />
+                        <MetadataTab/>
                     </TabsContent>
                     <TabsContent value="content">
-                        <ContentTab />
+                        <ContentTab/>
                     </TabsContent>
                     <TabsContent value="related">Related Articles</TabsContent>
                 </Tabs>
