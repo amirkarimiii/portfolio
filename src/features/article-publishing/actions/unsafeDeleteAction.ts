@@ -1,4 +1,5 @@
+import {useUnsecureDeleteModal} from "@/features/article-publishing/stores/useUnsecureDelete";
 
 export const unsafeDeleteAction = (uniqueId: string)=> {
-    console.log(uniqueId, " in unsafe delete action");
+    useUnsecureDeleteModal.getState().openModal(uniqueId);
 }
