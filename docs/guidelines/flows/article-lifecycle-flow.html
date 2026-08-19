@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article lifecycle explorer</title>
+    <style>
+        :root {
+            --surface-2: #ffffff;
+            --surface-1: #f7f6f3;
+            --surface-0: #efeee8;
+            --text-primary: #1c1c1a;
+            --text-secondary: #5f5e5a;
+            --text-muted: #888780;
+            --border: #d8d6cd;
+            --border-strong: #b4b2a9;
+            --accent: #185fa5;
+            --accent-bg: #e6f1fb;
+            --accent-border: #85b7eb;
+            --danger: #a32d2d;
+            --danger-bg: #fcebeb;
+            --danger-border: #f09595;
+            --amber: #8a5a12;
+            --amber-bg: #faf0dc;
+            --amber-border: #e3b568;
+            --purple: #534ab7;
+            --purple-bg: #eeedfe;
+            --purple-border: #afa9ec;
+            --purple-text: #26215c;
+            --teal: #0f6e56;
+            --teal-bg: #e1f5ee;
+            --teal-border: #5dcaa5;
+            --teal-text: #04342c;
+            --blue: #185fa5;
+            --blue-bg: #e6f1fb;
+            --blue-border: #85b7eb;
+            --blue-text: #042c53;
+            --coral: #993c1d;
+            --coral-bg: #faece7;
+            --coral-border: #f0997b;
+            --coral-text: #4a1b0c;
+            --gray: #5f5e5a;
+            --gray-bg: #f1efe8;
+            --gray-border: #b4b2a9;
+            --gray-text: #2c2c2a;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --surface-2: #1c1c1a;
+                --surface-1: #242422;
+                --surface-0: #171715;
+                --text-primary: #f1efe8;
+                --text-secondary: #b4b2a9;
+                --text-muted: #888780;
+                --border: #3a3a37;
+                --border-strong: #5f5e5a;
+                --accent: #85b7eb;
+                --accent-bg: #0c447c;
+                --accent-border: #378add;
+                --danger: #f09595;
+                --danger-bg: #791f1f;
+                --danger-border: #e24b4a;
+                --amber: #e3b568;
+                --amber-bg: #5c4413;
+                --amber-border: #b3821f;
+                --purple: #afa9ec;
+                --purple-bg: #3c3489;
+                --purple-border: #7f77dd;
+                --purple-text: #eeedfe;
+                --teal: #5dcaa5;
+                --teal-bg: #085041;
+                --teal-border: #1d9e75;
+                --teal-text: #e1f5ee;
+                --blue: #85b7eb;
+                --blue-bg: #0c447c;
+                --blue-border: #378add;
+                --blue-text: #e6f1fb;
+                --coral: #f0997b;
+                --coral-bg: #712b13;
+                --coral-border: #d85a30;
+                --coral-text: #faece7;
+                --gray: #b4b2a9;
+                --gray-bg: #444441;
+                --gray-border: #888780;
+                --gray-text: #f1efe8;
+            }
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 24px 16px 60px;
+            background: var(--surface-0);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+        }
+
+        .wrap { width: 100%; max-width: 760px; }
+
+        h1 { font-size: 18px; font-weight: 500; margin: 0 0 4px; }
+
+        .sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 18px; }
+
+        .card {
+            background: var(--surface-2);
+            border: 0.5px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        svg { width: 100%; height: auto; display: block; }
+
+        .node-rect { stroke-width: 0.5; transition: opacity .15s, stroke-width .15s; cursor: pointer; }
+
+        .node-group { opacity: 0.55; transition: opacity .15s; }
+
+        .node-group text { pointer-events: none; }
+
+        .t-title { font-size: 14px; font-weight: 500; }
+
+        .t-sub { font-size: 11.5px; }
+
+        .edge {
+            stroke: var(--border);
+            stroke-width: 0.5;
+            fill: none;
+            transition: stroke .15s, stroke-width .15s, opacity .15s;
+            opacity: 0.45;
+        }
+
+        .edge.secure { stroke-dasharray: none; }
+        .edge.unsecure { stroke-dasharray: 3 3; }
+
+        .n-purple .node-rect { fill: var(--purple-bg); stroke: var(--purple-border); }
+        .n-purple .t-title { fill: var(--purple-text); }
+        .n-purple .t-sub { fill: var(--purple); }
+
+        .n-teal .node-rect { fill: var(--teal-bg); stroke: var(--teal-border); }
+        .n-teal .t-title { fill: var(--teal-text); }
+        .n-teal .t-sub { fill: var(--teal); }
+
+        .n-blue .node-rect { fill: var(--blue-bg); stroke: var(--blue-border); }
+        .n-blue .t-title { fill: var(--blue-text); }
+        .n-blue .t-sub { fill: var(--blue); }
+
+        .n-coral .node-rect { fill: var(--coral-bg); stroke: var(--coral-border); }
+        .n-coral .t-title { fill: var(--coral-text); }
+        .n-coral .t-sub { fill: var(--coral); }
+
+        .n-gray .node-rect { fill: var(--gray-bg); stroke: var(--gray-border); }
+        .n-gray .t-title { fill: var(--gray-text); }
+        .n-gray .t-sub { fill: var(--gray); }
+
+        .trail { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 4px; }
+
+        .pill {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 4px 10px; border-radius: 999px;
+            border: 0.5px solid var(--border); background: var(--surface-1);
+            font-size: 12px; color: var(--text-secondary); cursor: pointer;
+        }
+
+        .pill.active { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); }
+
+        .arrow-sep { color: var(--text-muted); font-size: 12px; }
+
+        .actions { margin-top: 12px; }
+
+        .actbtn {
+            display: block; width: 100%; text-align: left;
+            padding: 10px 14px; border-radius: 8px;
+            border: 0.5px solid var(--border); background: var(--surface-1);
+            color: var(--text-primary); font-size: 13px; cursor: pointer;
+            margin-bottom: 8px; font-family: inherit;
+        }
+
+        .actbtn:hover { border-color: var(--border-strong); }
+
+        .actbtn .label-row { display: flex; align-items: center; gap: 8px; }
+
+        .actbtn .note { display: block; font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+        .actbtn.terminal { color: var(--danger); border-color: var(--danger-border); }
+
+        .actbtn.self-loop { color: var(--text-secondary); }
+
+        .tag {
+            display: inline-block; font-size: 10px; font-weight: 600;
+            letter-spacing: .02em; padding: 1px 7px; border-radius: 999px;
+            border: 0.5px solid; flex-shrink: 0;
+        }
+
+        .tag.secure { background: var(--danger-bg); border-color: var(--danger-border); color: var(--danger); }
+
+        .tag.unsecure { background: var(--amber-bg); border-color: var(--amber-border); color: var(--amber); }
+
+        .terminal-msg { font-size: 13px; color: var(--text-muted); }
+
+        .reset-btn {
+            margin-top: 14px; padding: 8px 14px; border-radius: 999px;
+            border: 0.5px solid var(--border); background: var(--surface-1);
+            color: var(--text-secondary); font-size: 12px; cursor: pointer; font-family: inherit;
+        }
+
+        .reset-btn:hover { border-color: var(--border-strong); }
+
+        .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; font-size: 11px; color: var(--text-secondary); }
+        .legend span { display: inline-flex; align-items: center; gap: 5px; }
+        .legend i { width: 14px; height: 0; border-top: 2px solid var(--danger); display: inline-block; }
+        .legend i.unsecure { border-top: 2px dashed var(--amber); }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <h1>Article lifecycle explorer</h1>
+    <p class="sub">Click a node to jump straight to it, or use the action buttons to walk a real transition. Use the
+        trail to rewind and try another branch.</p>
+
+    <div class="card">
+        <svg viewBox="-20 -10 800 680" role="img" aria-label="Article lifecycle state diagram">
+            <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+                        orient="auto-start-reverse">
+                    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </marker>
+            </defs>
+
+            <g id="edges" stroke="context-stroke">
+                <path id="e-newDraft-preview" class="edge" stroke="var(--border)" d="M380,76 L380,150" marker-end="url(#arrow)"/>
+                <path id="e-newDraft-archive" class="edge" stroke="var(--border)" d="M460,40 L690,40 L690,280" marker-end="url(#arrow)"/>
+                <path id="e-newDraft-self" class="edge" stroke="var(--border)" d="M300,30 C250,10 250,66 300,66" marker-end="url(#arrow)"/>
+                <path id="e-newDraft-deleted" class="edge unsecure" stroke="var(--border)" d="M300,55 L20,55 L20,588 L300,588" marker-end="url(#arrow)"/>
+
+                <path id="e-preview-published" class="edge" stroke="var(--border)" d="M340,220 L340,245 L130,245 L130,280" marker-end="url(#arrow)"/>
+                <path id="e-preview-newDraft" class="edge" stroke="var(--border)" d="M420,150 L420,76" marker-end="url(#arrow)"/>
+                <path id="e-preview-draftPub" class="edge" stroke="var(--border)" d="M320,220 L320,350 L130,350 L130,420" marker-end="url(#arrow)"/>
+                <path id="e-preview-draftArc" class="edge" stroke="var(--border)" d="M440,220 L440,350 L630,350 L630,420" marker-end="url(#arrow)"/>
+
+                <path id="e-published-draftPub" class="edge" stroke="var(--border)" d="M130,336 L130,420" marker-end="url(#arrow)"/>
+                <path id="e-published-archive" class="edge" stroke="var(--border)" d="M220,296 L540,296" marker-end="url(#arrow)"/>
+                <path id="e-published-deleted" class="edge secure" stroke="var(--border)" d="M40,320 L6,320 L6,610 L300,610" marker-end="url(#arrow)"/>
+
+                <path id="e-archive-draftArc" class="edge" stroke="var(--border)" d="M610,336 L610,420" marker-end="url(#arrow)"/>
+                <path id="e-archive-published" class="edge" stroke="var(--border)" d="M540,316 L220,316" marker-end="url(#arrow)"/>
+                <path id="e-archive-preview" class="edge" stroke="var(--border)" d="M560,280 L560,185 L460,185" marker-end="url(#arrow)"/>
+                <path id="e-archive-deleted" class="edge secure" stroke="var(--border)" d="M720,300 L750,300 L750,616 L460,616" marker-end="url(#arrow)"/>
+
+                <path id="e-draftPub-preview" class="edge" stroke="var(--border)" d="M220,450 L260,450 L260,200 L300,200" marker-end="url(#arrow)"/>
+                <path id="e-draftPub-self" class="edge" stroke="var(--border)" d="M40,435 C5,415 5,475 40,455" marker-end="url(#arrow)"/>
+                <path id="e-draftPub-deleted" class="edge unsecure" stroke="var(--border)" d="M150,490 L150,570 L300,570" marker-end="url(#arrow)"/>
+
+                <path id="e-draftArc-archive" class="edge" stroke="var(--border)" d="M650,420 L650,336" marker-end="url(#arrow)"/>
+                <path id="e-draftArc-self" class="edge" stroke="var(--border)" d="M720,435 C755,415 755,475 720,455" marker-end="url(#arrow)"/>
+                <path id="e-draftArc-deleted" class="edge unsecure" stroke="var(--border)" d="M610,490 L610,580 L460,580" marker-end="url(#arrow)"/>
+            </g>
+
+            <g id="n-newDraft" class="node-group n-purple">
+                <rect class="node-rect" x="300" y="20" width="160" height="56" rx="8"/>
+                <text class="t-title" x="380" y="40" text-anchor="middle" dominant-baseline="central">New draft</text>
+                <text class="t-sub" x="380" y="58" text-anchor="middle" dominant-baseline="central">lifecycle = null</text>
+            </g>
+
+            <g id="n-preview" class="node-group n-teal">
+                <rect class="node-rect" x="300" y="150" width="160" height="70" rx="8"/>
+                <text class="t-title" x="380" y="172" text-anchor="middle" dominant-baseline="central">Preview</text>
+                <text class="t-sub" x="380" y="188" text-anchor="middle" dominant-baseline="central">publish gateway</text>
+                <text class="t-sub" id="n-preview-ctx" x="380" y="203" text-anchor="middle" dominant-baseline="central" font-style="italic">entered from —</text>
+            </g>
+
+            <g id="n-published" class="node-group n-blue">
+                <rect class="node-rect" x="40" y="280" width="180" height="56" rx="8"/>
+                <text class="t-title" x="130" y="300" text-anchor="middle" dominant-baseline="central">Published</text>
+                <text class="t-sub" x="130" y="318" text-anchor="middle" dominant-baseline="central">lifecycle = published</text>
+            </g>
+
+            <g id="n-archive" class="node-group n-coral">
+                <rect class="node-rect" x="540" y="280" width="180" height="56" rx="8"/>
+                <text class="t-title" x="630" y="300" text-anchor="middle" dominant-baseline="central">Archive</text>
+                <text class="t-sub" x="630" y="318" text-anchor="middle" dominant-baseline="central">lifecycle = Archived</text>
+            </g>
+
+            <g id="n-draftPub" class="node-group n-purple">
+                <rect class="node-rect" x="40" y="420" width="180" height="70" rx="8"/>
+                <text class="t-title" x="130" y="442" text-anchor="middle" dominant-baseline="central">Copy draft</text>
+                <text class="t-sub" x="130" y="460" text-anchor="middle" dominant-baseline="central">lifecycle = published</text>
+                <text class="t-sub" x="130" y="475" text-anchor="middle" dominant-baseline="central" font-style="italic">snapshot, source untouched</text>
+            </g>
+
+            <g id="n-draftArc" class="node-group n-purple">
+                <rect class="node-rect" x="540" y="420" width="180" height="70" rx="8"/>
+                <text class="t-title" x="630" y="442" text-anchor="middle" dominant-baseline="central">Copy draft</text>
+                <text class="t-sub" x="630" y="460" text-anchor="middle" dominant-baseline="central">lifecycle = Archived</text>
+                <text class="t-sub" x="630" y="475" text-anchor="middle" dominant-baseline="central" font-style="italic">snapshot, source untouched</text>
+            </g>
+
+            <g id="n-deleted" class="node-group n-gray">
+                <rect class="node-rect" x="300" y="560" width="160" height="56" rx="8"/>
+                <text class="t-title" x="380" y="580" text-anchor="middle" dominant-baseline="central">Deleted</text>
+                <text class="t-sub" x="380" y="598" text-anchor="middle" dominant-baseline="central">permanent, terminal</text>
+            </g>
+        </svg>
+
+        <div class="legend">
+            <span><i></i> secure delete — password + typed title confirmation</span>
+            <span><i class="unsecure"></i> unsecure delete — simple confirm modal</span>
+        </div>
+
+        <div class="trail" id="trail"></div>
+        <div class="actions" id="actions"></div>
+        <button class="reset-btn" id="resetBtn">↺ reset to new draft</button>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var DELETE_TAG = {
+            secure: '<span class="tag secure">secure delete</span>',
+            unsecure: '<span class="tag unsecure">unsecure delete</span>'
+        };
+
+        var previewOrigin = {
+            'null': { target: 'newDraft', edge: 'e-preview-newDraft', note: 'Back to New draft — lifecycle stays null.', ctxLabel: 'New draft' },
+            'archive': { target: 'draftArc', edge: 'e-preview-draftArc', note: 'Back to Copy draft (lifecycle = Archived).', ctxLabel: 'Archive' },
+            'published': { target: 'draftPub', edge: 'e-preview-draftPub', note: 'Back to Copy draft (lifecycle = published).', ctxLabel: 'Published' }
+        };
+
+        function previewActions(ctx) {
+            var origin = previewOrigin[ctx] || previewOrigin['null'];
+            return [
+                {
+                    label: 'Publish', target: 'published',
+                    note: 'Sets published_at (and first_published_at on first publish).',
+                    edge: 'e-preview-published'
+                },
+                {
+                    label: 'Keep editing', target: origin.target,
+                    note: origin.note, edge: origin.edge, ctxOnEntry: null
+                }
+            ];
+        }
+
+        var transitions = {
+            newDraft: {
+                label: 'New draft', actions: [
+                    {
+                        label: 'Preview', target: 'preview', ctxOnEntry: 'null',
+                        note: 'Passes validation (header, banner, banner size…), then opens as Preview.',
+                        edge: 'e-newDraft-preview'
+                    },
+                    {
+                        label: 'Archive', target: 'archive',
+                        note: 'Passes the same validation, then archives directly — no preview needed.',
+                        edge: 'e-newDraft-archive'
+                    },
+                    {
+                        label: 'Validation failed', target: 'newDraft', selfLoop: true,
+                        note: 'Stays on this auto-saved draft until it passes.',
+                        edge: 'e-newDraft-self'
+                    },
+                    {
+                        label: 'Delete', target: 'deleted', terminal: true, deleteType: 'unsecure',
+                        note: 'Deletes this auto-saved draft.',
+                        edge: 'e-newDraft-deleted'
+                    }
+                ]
+            },
+            preview: { label: 'Preview', dynamic: true },
+            published: {
+                label: 'Published', actions: [
+                    {
+                        label: 'Edit', target: 'draftPub',
+                        note: 'Creates (or overwrites) a snapshot in the Draft collection — the Published record is untouched.',
+                        edge: 'e-published-draftPub'
+                    },
+                    {
+                        label: 'Archive', target: 'archive',
+                        note: 'Confirm "archive this article?" → Yes. (No leaves it published, nothing changes.)',
+                        edge: 'e-published-archive'
+                    },
+                    {
+                        label: 'Delete', target: 'deleted', terminal: true, deleteType: 'secure',
+                        note: 'Permanently deletes the live article.',
+                        edge: 'e-published-deleted'
+                    }
+                ]
+            },
+            archive: {
+                label: 'Archive', actions: [
+                    {
+                        label: 'Edit', target: 'draftArc',
+                        note: 'Creates (or overwrites) a snapshot in the Draft collection — the Archive record is untouched.',
+                        edge: 'e-archive-draftArc'
+                    },
+                    {
+                        label: 'Unarchive — not edited since archiving', target: 'published',
+                        note: 'updatedAt < archivedAt → publishes directly, no preview asked.',
+                        edge: 'e-archive-published'
+                    },
+                    {
+                        label: 'Unarchive — edited since archiving, preview: Yes', target: 'preview', ctxOnEntry: 'archive',
+                        note: 'updatedAt ≥ archivedAt → user chooses to preview first.',
+                        edge: 'e-archive-preview'
+                    },
+                    {
+                        label: 'Unarchive — edited since archiving, preview: No', target: 'published',
+                        note: 'updatedAt ≥ archivedAt → user skips preview, publishes directly.',
+                        edge: 'e-archive-published'
+                    },
+                    {
+                        label: 'Delete', target: 'deleted', terminal: true, deleteType: 'secure',
+                        note: 'Permanently deletes the archived article.',
+                        edge: 'e-archive-deleted'
+                    }
+                ]
+            },
+            draftPub: {
+                label: 'Copy draft (of published)', actions: [
+                    {
+                        label: 'Validation passed — Save', target: 'preview', ctxOnEntry: 'published',
+                        note: "Routes to Preview — a copy can't overwrite Published without going through preview.",
+                        edge: 'e-draftPub-preview'
+                    },
+                    {
+                        label: 'Validation failed', target: 'draftPub', selfLoop: true,
+                        note: 'Stays on this draft copy.',
+                        edge: 'e-draftPub-self'
+                    },
+                    {
+                        label: 'Delete draft copy', target: 'deleted', terminal: true, deleteType: 'unsecure',
+                        note: 'Only removes this draft copy — the live Published record is untouched.',
+                        edge: 'e-draftPub-deleted'
+                    }
+                ]
+            },
+            draftArc: {
+                label: 'Copy draft (of archived)', actions: [
+                    {
+                        label: 'Validation passed — Save', target: 'archive',
+                        note: 'Overwrites the Archive record directly — no preview step.',
+                        edge: 'e-draftArc-archive'
+                    },
+                    {
+                        label: 'Validation failed', target: 'draftArc', selfLoop: true,
+                        note: 'Stays on this draft copy.',
+                        edge: 'e-draftArc-self'
+                    },
+                    {
+                        label: 'Delete draft copy', target: 'deleted', terminal: true, deleteType: 'unsecure',
+                        note: 'Only removes this draft copy — the Archive record is untouched.',
+                        edge: 'e-draftArc-deleted'
+                    }
+                ]
+            },
+            deleted: { label: 'Deleted', actions: [] }
+        };
+
+        var nodeIdMap = {
+            newDraft: 'n-newDraft', preview: 'n-preview', published: 'n-published',
+            archive: 'n-archive', draftPub: 'n-draftPub', draftArc: 'n-draftArc', deleted: 'n-deleted'
+        };
+
+        // history entries: { state, ctx }  (ctx only meaningful for 'preview')
+        var history = [{ state: 'newDraft', ctx: null }];
+
+        function currentActions(entry) {
+            var t = transitions[entry.state];
+            if (t.dynamic) return previewActions(entry.ctx || 'null');
+            return t.actions;
+        }
+
+        function goTo(action) {
+            history.push({ state: action.target, ctx: action.ctxOnEntry || null });
+            render();
+        }
+
+        function jumpToNode(state) {
+            // free jump via clicking a node directly; default ctx for preview
+            history.push({ state: state, ctx: state === 'preview' ? 'null' : null });
+            render();
+        }
+
+        function jumpToTrail(index) {
+            history = history.slice(0, index + 1);
+            render();
+        }
+
+        function resetAll() {
+            history = [{ state: 'newDraft', ctx: null }];
+            render();
+        }
+
+        function render() {
+            var entry = history[history.length - 1];
+            var current = entry.state;
+
+            document.querySelectorAll('#edges .edge').forEach(function (p) {
+                p.setAttribute('stroke', 'var(--border)');
+                p.style.strokeWidth = '0.5';
+                p.style.opacity = '0.45';
+            });
+            Object.keys(nodeIdMap).forEach(function (s) {
+                var g = document.getElementById(nodeIdMap[s]);
+                g.style.opacity = '0.55';
+                g.querySelector('.node-rect').style.strokeWidth = '0.5';
+            });
+
+            var curEl = document.getElementById(nodeIdMap[current]);
+            curEl.style.opacity = '1';
+            curEl.querySelector('.node-rect').style.strokeWidth = '2';
+
+            // update preview's dynamic "entered from" line
+            var ctxLine = document.getElementById('n-preview-ctx');
+            if (current === 'preview') {
+                var origin = previewOrigin[entry.ctx || 'null'];
+                ctxLine.textContent = 'entered from ' + origin.ctxLabel;
+            } else {
+                ctxLine.textContent = 'entered from —';
+            }
+
+            var acts = currentActions(entry);
+
+            acts.forEach(function (a) {
+                var edge = document.getElementById(a.edge);
+                if (edge) {
+                    edge.setAttribute('stroke', a.terminal ? 'var(--danger)' : (a.selfLoop ? 'var(--text-muted)' : 'var(--accent)'));
+                    edge.style.strokeWidth = '1.5';
+                    edge.style.opacity = '1';
+                }
+                var targetNode = document.getElementById(nodeIdMap[a.target]);
+                if (targetNode && a.target !== current) targetNode.style.opacity = '0.85';
+            });
+
+            var trail = document.getElementById('trail');
+            trail.innerHTML = '';
+            history.forEach(function (h, i) {
+                var pill = document.createElement('span');
+                pill.className = 'pill' + (i === history.length - 1 ? ' active' : '');
+                var lbl = transitions[h.state].label;
+                if (h.state === 'preview' && h.ctx) {
+                    lbl += ' (from ' + previewOrigin[h.ctx].ctxLabel + ')';
+                }
+                pill.textContent = lbl;
+                pill.addEventListener('click', function () { jumpToTrail(i); });
+                trail.appendChild(pill);
+                if (i < history.length - 1) {
+                    var sep = document.createElement('span');
+                    sep.className = 'arrow-sep';
+                    sep.textContent = '→';
+                    trail.appendChild(sep);
+                }
+            });
+
+            var actionsDiv = document.getElementById('actions');
+            actionsDiv.innerHTML = '';
+            if (acts.length === 0) {
+                var p = document.createElement('div');
+                p.className = 'terminal-msg';
+                p.textContent = 'Terminal state — no further transitions. Reset to test another path.';
+                actionsDiv.appendChild(p);
+            } else {
+                acts.forEach(function (a) {
+                    var btn = document.createElement('button');
+                    btn.className = 'actbtn' + (a.terminal ? ' terminal' : '') + (a.selfLoop ? ' self-loop' : '');
+                    var tag = a.deleteType ? DELETE_TAG[a.deleteType] : '';
+                    var loopIcon = a.selfLoop ? '↺ ' : '';
+                    btn.innerHTML =
+                        '<span class="label-row">' + loopIcon + a.label + tag + '</span>' +
+                        '<span class="note">' + a.note + '</span>';
+                    btn.addEventListener('click', function () { goTo(a); });
+                    actionsDiv.appendChild(btn);
+                });
+            }
+        }
+
+        Object.keys(nodeIdMap).forEach(function (state) {
+            document.getElementById(nodeIdMap[state]).addEventListener('click', function () {
+                jumpToNode(state);
+            });
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+        render();
+    })();
+</script>
+</body>
+</html>
