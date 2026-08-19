@@ -93,7 +93,7 @@ async function DraftsArchiveContent({ searchParams }: DraftsPageProps) {
             ) : (
                 <section className="flex flex-col gap-4 items-center">
                     {paginatedArticles.map((article) => (
-                        <ContentCard key={article.uniqueId} type="article" data={article} />
+                        <ContentCard origin="draft" key={article.uniqueId} type="article" data={article} />
                     ))}
                 </section>
             )}
