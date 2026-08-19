@@ -9,17 +9,26 @@ import {cn} from "@/shared/utils/shadcnUtils";
 import {Badge} from "@/shared/components/ui/badge";
 import seriesData from "@/mock-files/series.json";
 import {Settings} from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/shared/components/ui/dropdown-menu";
+import {Button} from "@/shared/components/ui/button";
 
 interface ArticleCardProps {
     data: ArticleCardData;
     className?: string;
     selective?: boolean;
+    origin: "publish" | "archive" | "draft" | "paper"
     target?: "_self" | "_blank"
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
                                                             data,
                                                             className,
+                                                            origin,
                                                             selective = true,
                                                             target
                                                         }) => {
@@ -115,11 +124,36 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                                 ) : (
                                     <div></div>
                                 )}
-                                <div className="w-max h-max rounded-md p-1 cursor-pointer self-end">
-                                    <div className="w-4 aspect-square">
-                                        <Settings/>
-                                    </div>
-                                </div>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            className="w-max h-max rounded-md p-1 cursor-pointer self-end"
+                                            data-no-card-navigate
+                                        >
+                                            <div className="w-4 aspect-square">
+                                                <Settings/>
+                                            </div>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="flex flex-col gap-0.5">
+                                        <DropdownMenuItem onClick={() => {
+                                            console.log("edit action")
+                                        }} className="justify-center">
+                                            Edit
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => {
+                                            console.log("archive action")
+                                        }} className="justify-center">
+                                            Archive
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => {
+                                            console.log("safe delete action")
+                                        }} variant="destructive" className="justify-center">
+                                            Delete
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             </div>
                             <CardTitle
                                 className={`text-base ${selective && "group-hover:text-primary"} transition-colors line-clamp-1`}>
