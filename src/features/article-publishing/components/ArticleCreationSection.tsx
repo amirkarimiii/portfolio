@@ -5,7 +5,9 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/shared/components/ui/tabs";
 import {CircleCheck, CircleX, Clock} from "lucide-react";
 import {articleFormSchema, type ArticleFormValues} from '@/features/article-publishing/schemas/articleFormSchema';
-import ContentTab from "@/features/article-publishing/components/article/article-editor/ContentTab";
+import ContentTab, {
+    emptyTiptapDocument
+} from "@/features/article-publishing/components/article/article-editor/ContentTab";
 import {MetadataTab} from "@/features/article-publishing/components/article/article-metadata/MetadataTab";
 import {AddArticleDropdown} from "@/features/article-publishing/components/dropdowns/AddArticleDropdown";
 
@@ -21,7 +23,7 @@ const defaultValues: ArticleFormValues = {
     seoTitle: '',
     seoDescription: '',
     canonicalUrl: '',
-    content: '',
+    content: emptyTiptapDocument,
 };
 
 export default function ArticleCreationSection() {
