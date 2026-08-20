@@ -143,12 +143,8 @@ Checking with readiness: line </br>
 ✅ step: go to 01-ui-design\ui-design-runbook.md
 ```
 
-```todo
-update Private-Publishing-Infrastructure.md, section 7: Routes, part Protected
 ```
-
-```
-step: Go to TRACKING
+✅ step: Go to TRACKING
   mark this step as Completed with mention of completion date
   put the next step as In Progress
   write its changelog
@@ -156,21 +152,21 @@ step: Go to TRACKING
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Go to Observatory
+✅ step: Go to Observatory
   mark this branch as Merged
   activate the next branch
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```todo
-step: go to 02-wiring-beneath\wiring-beneath-runbook.md
+✅ step: go to 02-wiring-beneath\wiring-beneath-runbook.md
 ```
 
 ```
@@ -204,6 +200,10 @@ step: Go to TRACKING
   mark this step as Completed with mention of completion date
   write its changelog
   fix Last Updated
+```
+
+```todo
+update Private-Publishing-Infrastructure.md, section 7: Routes, part Protected
 ```
 
 ```todo

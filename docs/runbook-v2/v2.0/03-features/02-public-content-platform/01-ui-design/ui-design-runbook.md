@@ -112,17 +112,17 @@ Section 4: Public layer and cards (Public UI & Components) </br>
 ```
 
 ```todo:subbranches
-step: Checkout the branch feature/public-content-platform
+✅ step: Checkout the branch feature/public-content-platform
 ```
 
 ```todo:subbranches
-step: Merge the branch feature/pcp-ui-design into feature/public-content-platform
+✅ step: Merge the branch feature/pcp-ui-design into feature/public-content-platform
 ```
 
 ```todo:subbranches
-step: Delete the branch feature/pcp-ui-design
+✅ step: Delete the branch feature/pcp-ui-design
 ```
 
 ```todo:subbranches
-step: go to public-content-platform-runbook line 73
+✅ step: go to public-content-platform-runbook line 147
 ```

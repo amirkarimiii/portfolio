@@ -1,6 +1,6 @@
 # Public Content Platform
 
-**Status:** Completed
+**Status:** In Progress
 
 **Last Updated:** 2026-08-09
 
@@ -18,11 +18,11 @@ It provides an overview of Public Content Platform status, planning milestones, 
 
 # 2. Tracking
 
-| Stages                  | Status      | Planned Start        | Target Milestone | Completed |
-|-------------------------|-------------|----------------------|------------------|:---------:|
-| UI Design               | Completed   | 2026-08-09           | Not Estimated    |     —     |
-| Wiring Beneath          | In Progress | After UI Design      | Not Estimated    |     —     |
-| Checking with Readiness | Planned     | After Wiring Beneath | Not Estimated    |     —     |
+| Stages                  | Status      | Planned Start        | Target Milestone | Completed  |
+|-------------------------|-------------|----------------------|------------------|:----------:|
+| UI Design               | Completed   | 2026-08-09           | 2026-08-19       | 2026-08-09 |
+| Wiring Beneath          | In Progress | 2026-08-20           | Not Estimated    |     —      |
+| Checking with Readiness | Planned     | After Wiring Beneath | Not Estimated    |     —      |
 
 ---
 
