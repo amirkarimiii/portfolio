@@ -38,10 +38,34 @@ interface ArticlesJsonStructure {
     articles: PublishedArticle[];
 }
 
+const PUBLISHED_ARTICLES_PATH = path.join(process.cwd(), 'src/mock-files/published-articles.json');
+const ARCHIVED_ARTICLES_PATH = path.join(process.cwd(), 'src/mock-files/archived-articles.json');
+
 export class ArticleRepository {
-    /**
-     * خواندن تمام مقالات موجود از فایل JSON
-     */
+
+    public static async isSlugExists(slug: string): Promise<boolean> {
+        const paths = [JSON_FILE_PATH, PUBLISHED_ARTICLES_PATH, ARCHIVED_ARTICLES_PATH];
+        const normalizedTargetSlug = slug.trim().toLowerCase();
+
+        for (const filePath of paths) {
+            try {
+                const content = await fs.readFile(filePath, 'utf-8');
+                const parsed = JSON.parse(content);
+                const articles: Array<{ slug: string }> = parsed.articles || [];
+
+                const exists = articles.some(
+                    (article) => article.slug.trim().toLowerCase() === normalizedTargetSlug
+                );
+
+                if (exists) return true;
+            } catch {
+
+            }
+        }
+
+        return false;
+    }
+
     private static async readArticlesFile(): Promise<ArticlesJsonStructure> {
         try {
             const data = await fs.readFile(JSON_FILE_PATH, 'utf-8');
@@ -51,9 +75,7 @@ export class ArticleRepository {
         }
     }
 
-    /**
-     * ذخیره مقاله جدید در فایل JSON
-     */
+
     public static async savePublishedArticle(
         formData: ArticleFormValues
     ): Promise<PublishedArticle> {
