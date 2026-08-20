@@ -146,11 +146,11 @@ Branches are created only when the preceding feature is complete.
 This feature is organized into sequential stages.
 Sub-branches are fast-forward merged back into `feature/public-content-platform` upon completion.
 
-| Branch Name                    | Stages                  |      Diverged / Merged to       | Status  |
-|--------------------------------|-------------------------|:-------------------------------:|---------|
-| `feature/pcp-ui-design`        | UI Design               | feature/public-content-platform | Active  |
-| `feature/pcp-wiring-beneath`   | Wiring Beneath          | feature/public-content-platform | Pending |
-| `feature/pcp-readiness-check`  | Checking with Readiness | feature/public-content-platform | Pending |
+| Branch Name                   | Stages                  |      Diverged / Merged to       | Status  |
+|-------------------------------|-------------------------|:-------------------------------:|---------|
+| `feature/pcp-ui-design`       | UI Design               | feature/public-content-platform | Merged  |
+| `feature/pcp-wiring-beneath`  | Wiring Beneath          | feature/public-content-platform | Active  |
+| `feature/pcp-readiness-check` | Checking with Readiness | feature/public-content-platform | Pending |
 
 UI Design and Wiring Beneath stages contain organized sub-tasks tracked as sequential sub-branches. Checking with Readiness is a single-phase stage with no sub-branches.
 
@@ -164,7 +164,7 @@ Sub-branches are fast-forward merged back into `feature/pcp-ui-design` upon comp
 | `feature/pcp-ui-article-crud` | Article Creation and Edit                | feature/pcp-ui-design | Merged |
 | `feature/pcp-ui-series-form`  | New Series Creation Form                 | feature/pcp-ui-design | Merged |
 | `feature/pcp-ui-cards`        | Public Layers, Security Modals and Cards | feature/pcp-ui-design | Merged |
-| `feature/pcp-lifecycle`       | Lifecycle                                | feature/pcp-ui-design | Active |
+| `feature/pcp-lifecycle`       | Lifecycle                                | feature/pcp-ui-design | Merged |
 
 Article Creation and Edit section contains organized sub-tasks tracked as sequential sub-branches. Other sections are single-phase with no sub-branches.
 
