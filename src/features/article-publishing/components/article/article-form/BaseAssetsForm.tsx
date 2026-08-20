@@ -105,13 +105,11 @@ export function BaseAssetsForm() {
                             <Badge variant="outline" className="w-fit select-none opacity-80">
                                 Thumbnail Image
                             </Badge>
-                            <div className="w-50 aspect-square">
                                 <AttachmentUpload
                                     label=""
                                     value={field.value}
                                     onChange={(val) => field.onChange(extractUrl(val))}
                                 />
-                            </div>
                             <FormMessage />
                         </FormItem>
                     )}
