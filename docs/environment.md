@@ -90,10 +90,37 @@ vercel link
 vercel env pull
 ```
 
+---
+
+## Vercel Blob
+
+The following variables are used when integrating with **Vercel Blob**:
+
+| Variable                   | Description                                                                 | Required |
+|----------------------------|-----------------------------------------------------------------------------|----------|
+| `BLOB_STORE_ID`            | Unique identifier of the Vercel Blob store                                  | Optional |
+| `BLOB_WEBHOOK_PUBLIC_KEY`  | Public key used to verify the signature of incoming Blob webhook requests   | Optional |
+
+### Notes
+- Both variables are typically injected by Vercel when Blob is configured for the project.
+- They are declared as **optional** in `env.ts` so the application can still run in environments where Blob is not used.
+- Never commit real values. Keep the placeholders empty in `.env.example`.
+- In local development you can obtain them with:
+
+```bash
+vercel link
+vercel env pull
+```
+
+### Related Documentation
+- [Vercel Blob Documentation](https://vercel.com/docs/storage/vercel-blob)
+- [Blob Webhooks](https://vercel.com/docs/storage/vercel-blob/using-blob-sdk#webhooks)
+
 ## Related Files
 
 - [Vercel OIDC Documentation](https://vercel.com/docs/oidc)
 - `@vercel/oidc` package
-* `env.ts`
-* `.env.example`
-* `src/shared/logger/`
+- `env.ts`
+- `.env.example`
+- `src/shared/logger/`
+
