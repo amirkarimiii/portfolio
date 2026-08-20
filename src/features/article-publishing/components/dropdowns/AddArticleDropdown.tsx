@@ -15,7 +15,7 @@ import { publishArticleAction } from '@/features/article-publishing/actions/publ
 import type { ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
 
 export function AddArticleDropdown() {
-    const { handleSubmit } = useFormContext<ArticleFormValues>();
+    const { handleSubmit, setError } = useFormContext<ArticleFormValues>();
     const [isPublishing, setIsPublishing] = React.useState(false);
 
     const onPublish = async (data: ArticleFormValues) => {
@@ -23,12 +23,15 @@ export function AddArticleDropdown() {
         try {
             const result = await publishArticleAction(data);
             if (result.success) {
-                toast.success('article has been successfully published!');
+                toast.success('article has been published successfully!');
             } else {
-                toast.error(`error in publish: ${result.error}`);
+                if (result.field === 'slug') {
+                    setError('slug', { type: 'manual', message: result.error });
+                }
+                toast.error(result.error);
             }
         } catch {
-            toast.error('something went wrong');
+            toast.error('something unexpectedly went wrong!');
         } finally {
             setIsPublishing(false);
         }
