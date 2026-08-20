@@ -178,7 +178,14 @@ Article Creation and Edit section contains organized sub-tasks tracked as sequen
 
 #### Stage 2: Wiring Beneath
 
-Sub-branches and milestones for this stage will be defined upon completion of Stage 1.
+This stage is organized into three sequential sub-branches.
+Sub-branches are fast-forward merged back into `feature/pcp-wiring-beneath` upon completion.
+
+| Branch Name                    | Sub-branches               |     Diverged / Merged to     | Status  |
+|--------------------------------|----------------------------|:----------------------------:|---------|
+| `feature/pcp-first-article`    | First Article              |  feature/pcp-wiring-beneath  | Pending |
+| `feature/pcp-lifecycle`        | Article Lifecycle          |  feature/pcp-wiring-beneath  | Pending |
+| `feature/pcp-api-integration`  | API Integration            |  feature/pcp-wiring-beneath  | Pending |
 
 ---
 
