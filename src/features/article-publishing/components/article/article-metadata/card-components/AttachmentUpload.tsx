@@ -126,7 +126,9 @@ export function AttachmentUpload({
                                     className="h-full w-full object-cover"
                                 />
                             ) : (
-                                <ImageIcon className="h-6 w-6 text-muted-foreground" />
+                                <div className="h-6 w-6 text-muted-foreground">
+                                    <ImageIcon/>
+                                </div>
                             )}
                         </div>
 
@@ -139,7 +141,6 @@ export function AttachmentUpload({
                             )}
                         </div>
                     </div>
-
                     <div className="flex items-center gap-2 shrink-0">
                         <Button
                             type="button"
@@ -149,7 +150,9 @@ export function AttachmentUpload({
                             onClick={() => fileInputRef.current?.click()}
                             className="h-8 text-xs gap-1"
                         >
-                            <RefreshCw className="h-3.5 w-3.5" />
+                            <div className="w-3.5 aspect-square">
+                                <RefreshCw/>
+                            </div>
                             Replace
                         </Button>
                         <Button
@@ -160,7 +163,9 @@ export function AttachmentUpload({
                             onClick={handleRemove}
                             className="h-8 text-xs gap-1"
                         >
-                            <Trash2 className="h-3.5 w-3.5" />
+                            <div className="w-3.5 aspect-square">
+                                <Trash2/>
+                            </div>
                             Delete
                         </Button>
                     </div>
@@ -178,7 +183,9 @@ export function AttachmentUpload({
                     } ${isValidating ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     <div className="p-3 bg-muted rounded-full mb-3">
-                        <Upload className="h-6 w-6 text-muted-foreground" />
+                        <div className="h-6 w-6 text-muted-foreground" >
+                            <Upload/>
+                        </div>
                     </div>
                     <p className="text-sm font-medium text-foreground">
                         {isValidating ? 'Validating image...' : 'Click to upload or drag and drop'}
@@ -202,7 +209,9 @@ export function AttachmentUpload({
 
             {errorMessage && (
                 <p className="text-xs font-medium text-destructive flex items-center gap-1 mt-1">
-                    <AlertCircle className="h-3.5 w-3.5" />
+                    <div className="h-3.5 w-3.5" >
+                        <AlertCircle/>
+                    </div>
                     {errorMessage}
                 </p>
             )}
