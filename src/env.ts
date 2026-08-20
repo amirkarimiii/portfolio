@@ -15,6 +15,7 @@ export const env = createEnv({
             .enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal'])
             .optional()
             .default('debug'),
+        VERCEL_OIDC_TOKEN: z.string().optional(),
     },
     client: {},
     runtimeEnv: {
@@ -27,6 +28,7 @@ export const env = createEnv({
         MAX_LOGIN_ATTEMPTS: process.env.MAX_LOGIN_ATTEMPTS,
         LOGIN_RATE_LIMIT_WINDOW_MS: process.env.LOGIN_RATE_LIMIT_WINDOW_MS,
         LOG_LEVEL: process.env.LOG_LEVEL,
+        VERCEL_OIDC_TOKEN: process.env.VERCEL_OIDC_TOKEN,
     },
     onValidationError: (error) => {
         console.error("Invalid environment variables:", error);
