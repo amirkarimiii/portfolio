@@ -9,6 +9,16 @@ import { EditorSkeleton } from "./EditorSkeleton";
 import Toolbar from "@/features/article-publishing/components/article/article-editor/toolbar/Toolbar";
 import Tiptap from "@/features/article-publishing/components/article/article-editor/Tiptap";
 import {extensions} from "@/features/article-publishing/components/article/article-editor/extensions";
+import {TiptapDocumentSchema} from "@/features/article-publishing/schemas/tiptapDocumentSchema";
+
+export const emptyTiptapDocument = {
+    type: 'doc' as const,
+    content: [
+        {
+            type: 'paragraph' as const,
+        },
+    ],
+};
 
 export function ContentTab() {
     const {
@@ -21,7 +31,7 @@ export function ContentTab() {
 
     const editor = useEditor({
         extensions,
-        content: getValues('content') || '',
+        content: getValues('content') || emptyTiptapDocument,
         immediatelyRender: false,
         editorProps: {
             attributes: {
@@ -32,7 +42,11 @@ export function ContentTab() {
             },
         },
         onUpdate: ({ editor }) => {
-            setValue('content', editor.getHTML(), {
+            const result = TiptapDocumentSchema.safeParse(editor.getJSON());
+            if (!result.success) {
+                return;
+            }
+            setValue('content', result.data, {
                 shouldDirty: true,
                 shouldValidate: true,
             });
