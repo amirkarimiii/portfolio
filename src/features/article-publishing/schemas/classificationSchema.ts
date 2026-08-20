@@ -11,6 +11,7 @@ export const classificationSchema = z.object({
         .refine((items) => new Set(items).size === items.length, {
             message: 'Duplicate tags are not allowed.',
         }),
+    seriesId: z.string().nullable().optional(),
 });
 
 export type ClassificationFormValues = z.infer<typeof classificationSchema>;
