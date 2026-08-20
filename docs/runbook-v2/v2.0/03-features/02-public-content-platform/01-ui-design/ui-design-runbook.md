@@ -88,27 +88,27 @@ Section 4: Public layer and cards (Public UI & Components) </br>
 ```
 
 ```
-step: Go to TRACKING
+✅ step: Go to TRACKING
   mark this step as Completed with mention of completion date
   write its changelog
   fix Last Updated
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Go to Observatory
+✅ step: Go to Observatory
   mark this branch as Merged
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```todo:subbranches
