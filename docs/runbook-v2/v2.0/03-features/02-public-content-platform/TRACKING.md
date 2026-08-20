@@ -1,6 +1,6 @@
 # Public Content Platform
 
-**Status:** In Progress
+**Status:** Completed
 
 **Last Updated:** 2026-08-09
 
@@ -20,8 +20,8 @@ It provides an overview of Public Content Platform status, planning milestones, 
 
 | Stages                  | Status      | Planned Start        | Target Milestone | Completed |
 |-------------------------|-------------|----------------------|------------------|:---------:|
-| UI Design               | In Progress | 2026-08-09           | Not Estimated    |     —     |
-| Wiring Beneath          | Planned     | After UI Design      | Not Estimated    |     —     |
+| UI Design               | Completed   | 2026-08-09           | Not Estimated    |     —     |
+| Wiring Beneath          | In Progress | After UI Design      | Not Estimated    |     —     |
 | Checking with Readiness | Planned     | After Wiring Beneath | Not Estimated    |     —     |
 
 ---
@@ -39,6 +39,7 @@ It provides an overview of Public Content Platform status, planning milestones, 
 # Appendix A — Change Log
 
 
-| Date       | Change                                                                                                                                                    |
-|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 2026-08-09 | Tracking document created.                                                                                                                                |
+| Date       | Change                                                                                                        |
+|------------|---------------------------------------------------------------------------------------------------------------|
+| 2026-08-09 | Tracking document created.                                                                                    |
+| 2026-08-20 | UI Design marked as Completed (2026-08-20). Wiring Beneath moved to In Progress with Planned Start 2026-08-20 |
