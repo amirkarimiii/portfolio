@@ -72,6 +72,9 @@ export function SeriesCreationSection() {
                     </div>
                 </div>
                 <div className="px-5">
+                    <div className="text-center">
+                        <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">Identity</h2>
+                    </div>
                     <BaseIdentityForm
                         titleFieldName="title"
                         slugFieldName="slug"
@@ -82,10 +85,16 @@ export function SeriesCreationSection() {
                 </div>
                 <Separator />
                 <div className="px-5">
+                    <div className="text-center">
+                        <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">Assets</h2>
+                    </div>
                     <BaseAssetsForm />
                 </div>
                 <Separator />
                 <div className="px-5 py-3">
+                    <div className="text-center">
+                        <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">Classification</h2>
+                    </div>
                     <div className="space-y-2 w-md mb-8">
                         <span className="text-xs text-muted-foreground">Selected</span>
                         <SeriesCreationTagsDisplay
@@ -101,6 +110,9 @@ export function SeriesCreationSection() {
                 </div>
                 <Separator />
                 <div className="px-5 py-3">
+                    <div className="text-center">
+                        <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">SEO</h2>
+                    </div>
                     <BaseSEOForm entityType="series" />
                 </div>
             </section>
