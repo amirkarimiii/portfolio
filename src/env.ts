@@ -16,6 +16,8 @@ export const env = createEnv({
             .optional()
             .default('debug'),
         VERCEL_OIDC_TOKEN: z.string().optional(),
+        BLOB_STORE_ID: z.string().optional(),
+        BLOB_WEBHOOK_PUBLIC_KEY: z.string().optional(),
     },
     client: {},
     runtimeEnv: {
@@ -29,6 +31,8 @@ export const env = createEnv({
         LOGIN_RATE_LIMIT_WINDOW_MS: process.env.LOGIN_RATE_LIMIT_WINDOW_MS,
         LOG_LEVEL: process.env.LOG_LEVEL,
         VERCEL_OIDC_TOKEN: process.env.VERCEL_OIDC_TOKEN,
+        BLOB_STORE_ID: process.env.BLOB_STORE_ID,
+        BLOB_WEBHOOK_PUBLIC_KEY: process.env.BLOB_WEBHOOK_PUBLIC_KEY,
     },
     onValidationError: (error) => {
         console.error("Invalid environment variables:", error);
