@@ -4,11 +4,11 @@ stage 2: Complete the lifecycle
 stage 3: Replace file system with real API  
 
 ```todo
-step: create branch feature/pcp-wiring-beneath
+✅step: create branch feature/pcp-wiring-beneath
 ```
 
 ```todo
-step: go to 01-first-article.md
+✅step: go to 01-first-article.md
 ```
 
 ```
