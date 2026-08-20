@@ -61,8 +61,39 @@ If omitted, it defaults to `debug` in development and `info` in production.
 
 ---
 
+## Vercel OIDC Token
+
+`VERCEL_OIDC_TOKEN` is a system environment variable automatically provided by Vercel when **OIDC Federation** is enabled for the project.
+
+### Purpose
+- Enables secure, short-lived authentication with cloud providers (AWS, Azure, etc.) without storing long-lived credentials.
+- Used by official Vercel packages such as `@vercel/oidc`, Vercel Blob, AI Gateway, and others.
+
+### Availability
+
+| Environment                | How it is provided                                       |
+|----------------------------|----------------------------------------------------------|
+| Build time                 | Injected as the `VERCEL_OIDC_TOKEN` environment variable |
+| Runtime (Vercel Functions) | Available via the `x-vercel-oidc-token` request header   |
+| Local development          | Downloaded with `vercel env pull` into `.env.local`      |
+
+### Important notes
+- The token is short-lived (typically 1–2 hours in production, ~12 hours in development).
+- It is **not** present in pure local environments or non-Vercel runtimes unless you run `vercel env pull`.
+- Therefore, it is declared as **optional** in `env.ts`.
+- Never commit a real token value. Keep the placeholder empty in `.env.example`.
+
+To obtain the token locally:
+
+```bash
+vercel link
+vercel env pull
+```
+
 ## Related Files
 
+- [Vercel OIDC Documentation](https://vercel.com/docs/oidc)
+- `@vercel/oidc` package
 * `env.ts`
 * `.env.example`
 * `src/shared/logger/`
