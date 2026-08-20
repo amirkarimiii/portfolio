@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { ulid } from 'ulid';
 import type { ArticleFormValues } from '../schemas/articleFormSchema';
+import {TiptapDocument} from "@/features/article-publishing/schemas/tiptapDocumentSchema";
 
 const JSON_FILE_PATH = path.join(
     process.cwd(),
@@ -30,6 +31,7 @@ export interface PublishedArticle {
     firstPublishedAt: string;
     publishedAt: string;
     archivedAt: string | null;
+    content: TiptapDocument
 }
 
 interface ArticlesJsonStructure {
@@ -81,6 +83,7 @@ export class ArticleRepository {
             firstPublishedAt: now,
             publishedAt: now,
             archivedAt: null,
+            content: formData.content
         };
 
         const fileContent = await this.readArticlesFile();
