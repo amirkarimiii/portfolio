@@ -1,12 +1,12 @@
 # Public Content Platform (Core V2)
 
-**Version:** 1.6
-**Last Updated:** 2026-08-18
-**Owner:** Amir Karimi
+**Version:** 1.6  
+**Last Updated:** 2026-08-18  
+**Owner:** Amir Karimi  
 
 ---
 
-# 1. Purpose
+## 1. Purpose
 
 The Public Content Platform (Core V2) feature provides the owner-only workflow for creating, editing, previewing, publishing, archiving, restoring, and deleting technical articles within Portfolio V2.
 
@@ -30,9 +30,9 @@ The feature is designed for a single site owner and does not introduce public us
 
 ---
 
-# 2. Scope
+## 2. Scope
 
-## Included
+### Included
 
 * Owner-only article creation, editing, archiving, restoration, and deletion
 * Article metadata management
@@ -57,7 +57,7 @@ The feature is designed for a single site owner and does not introduce public us
 * Reuse of Content Cards for article and series references
 * Integration with the existing owner authentication system
 
-## Excluded
+### Excluded
 
 * Public article creation and editing
 * Public article authentication
@@ -78,7 +78,7 @@ Future capabilities may be introduced by later Portfolio versions without changi
 
 ---
 
-# 3. Related Documents
+## 3. Related Documents
 | Document                                | Project Path                                                      | Purpose                                                            |
 |-----------------------------------------|-------------------------------------------------------------------|--------------------------------------------------------------------|
 | Portfolio V2 Specification              | `docs/portfolio-v2-spec.md`                                       | Defines project-level scope and architectural intent               |
@@ -95,9 +95,9 @@ Future capabilities may be introduced by later Portfolio versions without changi
 
 ---
 
-# 4. Domain Model
+## 4. Domain Model
 
-## 4.1 Article
+### 4.1 Article
 
 An Article is an independently identifiable piece of technical content, published or unpublished.
 
@@ -125,7 +125,7 @@ An Article entity contains:
 
 ---
 
-## 4.2 Series
+### 4.2 Series
 
 A Series is a first-class content entity representing a structured collection of semantically related Articles.
 
@@ -161,7 +161,7 @@ Series
 
 ---
 
-## 4.3 Tag
+### 4.3 Tag
 
 Tags are reusable content classification entities stored in the database.
 
@@ -177,7 +177,7 @@ Tags may be used for:
 
 ---
 
-## 4.4 Content Reference & Inbound Tracking
+### 4.4 Content Reference & Inbound Tracking
 
 A Content Reference is a structured, inline reference from an Article body to another public content entity (Article or Series), rendered as a **Content Card**.
 
@@ -185,7 +185,7 @@ A Content Reference is not stored as a snapshot of the target's presentation met
 
 To optimize deletion and archiving workflows, each Article document maintains an index of incoming references, `inbound_referencing_ids` (Section 4.1) — storing the Unique ID, rather than the slug, of each referencing Article, so the index survives slug changes. When an Article is targeted for archiving or deletion, the system queries this array so the owner can be notified of impacted Articles, via the Inbound References Review Modal (Section 6.20.1).
 
-### Fallback Behavior for Missing/Archived References
+#### Fallback Behavior for Missing/Archived References
 
 If an Article references Entity B, and Entity B subsequently becomes `Archived`, reverts to `Draft`, or is deleted:
 
@@ -197,7 +197,7 @@ If an Article references Entity B, and Entity B subsequently becomes `Archived`,
 
 ---
 
-## 4.5 Content Card
+### 4.5 Content Card
 
 The Content Card is a reusable presentation component for public content entities.
 
@@ -212,9 +212,9 @@ The card may represent either an Article or a Series, and may contain a Thumbnai
 
 ---
 
-# 5. Article Lifecycle
+## 5. Article Lifecycle
 
-## 5.1 Lifecycle States
+### 5.1 Lifecycle States
 
 ```text
        ┌────────────────────────┐
@@ -238,7 +238,7 @@ The card may represent either an Article or a Series, and may contain a Thumbnai
 2. **Published** — publicly accessible. May appear in `/blog` (Standalone) or `/series/:seriesSlug` (Series Member), in recent Article listings, and in public Content Cards / References.
 3. **Archived** — removed from the public publishing flow and public listings/APIs, but retained in the database for administrative review, editing, or restoration. Archiving does not delete the Article or its content. An Article may reach `Archived` either from `Published` (direct transition) or directly from `Draft` — in both cases the Article must pass the same publication-validation rules required for `Published` (Section 6.19); reaching `Archived` does not depend on the Article's publish history (`first_published_at` may remain `null`, Section 5.4).
 
-## 5.2 Transition Rules
+### 5.2 Transition Rules
 
 * **Draft → Published:** triggered manually via the "Publish" action, available only from the `/preview` route (Section 6.18), after all required publication validation rules pass. The Publish button does not appear anywhere else in the admin UI, with the single exception described under **Archived → Published** below.
 * **Draft → Archived:** an optional direct administrative transition, available from a Draft's action controls (Section 6.25). Requires passing the same publication-validation rules as Publish (Section 6.19); does not require the Article to have ever been Published (`first_published_at` may remain `null`).
@@ -250,7 +250,7 @@ The card may represent either an Article or a Series, and may contain a Thumbnai
   * If validation fails at Save time, the client shows an error (toast) and the source remains unchanged; the Draft Copy is preserved for further editing.
 * **Archived → Published (direct republish):** an Archived Article can be republished directly from its action controls, without an intermediate Draft step. If `updated_at > archived_at` (i.e. the Article was edited since it was archived), the system shows a **Review / Publish Anyway** modal before proceeding (Section 6.19.1); otherwise republishing proceeds immediately without a modal. This is the only "Publish" action in the product that does not go through `/preview`.
 
-## 5.3 Deletion Policy
+### 5.3 Deletion Policy
 
 Article deletion is permanent and destructive. The system enforces two security levels depending on lifecycle state:
 
@@ -263,7 +263,7 @@ Article deletion is permanent and destructive. The system enforces two security 
 
 *(Future consideration, out of scope for this version: bulk/group deletion, planned for the Archive and Draft listings only, in a future version.)*
 
-## 5.4 Lifecycle & Audit Timestamps
+### 5.4 Lifecycle & Audit Timestamps
 
 Every Article record persists:
 
@@ -277,7 +277,7 @@ Every Article record persists:
 
 ---
 
-## 5.5 Draft Copies (Edit Working-Copy Model)
+### 5.5 Draft Copies (Edit Working-Copy Model)
 
 Editing a `Published` or `Archived` Article does not move or mutate the source record directly. Instead:
 
@@ -296,9 +296,9 @@ Editing a `Published` or `Archived` Article does not move or mutate the source r
 
 ---
 
-# 6. Functional Requirements
+## 6. Functional Requirements
 
-## 6.1 Article Creation
+### 6.1 Article Creation
 
 The system shall allow the authenticated owner to create a new Article through the protected Add Article workflow, and shall reject unauthenticated access to Article creation.
 
@@ -312,7 +312,7 @@ Related Articles
 
 ---
 
-## 6.2 Article Metadata
+### 6.2 Article Metadata
 
 The Metadata tab shall provide the following fields.
 
@@ -324,13 +324,13 @@ The Metadata tab shall provide the following fields.
 
 ---
 
-## 6.3 Article Title
+### 6.3 Article Title
 
 The Article Title shall be rendered as the Article's only H1. The H1 is managed outside the TipTap editor, and the editor shall not offer an H1 heading option. Body headings are limited to H2, H3, and H4. Detailed body rendering behavior is defined by the Article Rendering Guidelines.
 
 ---
 
-## 6.4 Slug Management & Locking
+### 6.4 Slug Management & Locking
 
 * Each Article shall have a unique slug within the applicable public routing namespace.
 * The system shall reject reserved system names. The reserved-name list is stored in the database (not hardcoded in application code); for this version it has no admin management UI and is populated directly via seed data — an admin UI for managing this list is deferred to a future version. Initial seed values, at minimum: `archive`, `drafts`, `admin`, `api`, `preview`. Reserved-name validation applies wherever these names could conflict with system routes or content namespaces.
@@ -343,13 +343,13 @@ The Article Title shall be rendered as the Article's only H1. The H1 is managed 
 
 ---
 
-## 6.5 Summary / Excerpt
+### 6.5 Summary / Excerpt
 
 Each Article shall provide a Summary / Excerpt, suitable for Article listings, Content Cards, search/discovery interfaces, and SEO metadata where applicable. Exact character-length constraints shall be defined by the shared SEO/content guidelines before implementation.
 
 ---
 
-## 6.6 Cover Image
+### 6.6 Cover Image
 
 Every Article shall have a Cover Image before it can be published. Cover Images shall:
 
@@ -360,7 +360,7 @@ Every Article shall have a Cover Image before it can be published. Cover Images 
 
 ---
 
-## 6.7 Thumbnail
+### 6.7 Thumbnail
 
 Every Article shall have a Thumbnail before it can be published, used for Article listings, Content Cards, and SEO/social metadata where applicable.
 
@@ -368,13 +368,13 @@ Thumbnail Alt Text shall be auto-generated from the Cover Image Alt Text using t
 
 ---
 
-## 6.8 Tags
+### 6.8 Tags
 
 The system shall suggest Tags while the owner types, allow selecting existing Tags, and allow creating a new Tag when no appropriate one exists. The Tag creation flow shall prevent duplicates per the project's Tag identity rules.
 
 ---
 
-## 6.9 Article Body
+### 6.9 Article Body
 
 The Article body shall be edited using the existing TipTap editor, and the editor/renderer shall conform to the Article Rendering Guidelines. The body shall support the currently defined content elements, including:
 
@@ -391,7 +391,7 @@ The Article body shall not contain an H1.
 
 ---
 
-## 6.10 Content References
+### 6.10 Content References
 
 The Article body shall support structured references to Articles and Series. The owner shall be able to search for an existing public content entity and insert it into the body; the reference is represented as a Content Card, insertable at any valid block position supported by the editor.
 
@@ -401,7 +401,7 @@ The system shall not require a separate Previous Article / Next Article navigati
 
 ---
 
-## 6.11 Related Articles
+### 6.11 Related Articles
 
 The Related Articles tab shall allow the owner to associate related Articles with the current Article.
 
@@ -421,7 +421,7 @@ Related Article selection is editorial metadata and shall not automatically publ
 
 ---
 
-## 6.12 Series Membership
+### 6.12 Series Membership
 
 The owner may assign an Article to a Series; an Article may belong to zero or one Series.
 
@@ -429,7 +429,7 @@ Series membership does not exclude an Article from appearing as a card in the `/
 
 **Classification Immutability:** because this version has no automatic slug/route redirect mechanism (Section 2, Excluded; Section 6.4), an Article's classification as Standalone or Series Member is locked as soon as the Article is first published (`first_published_at` is set). Once locked, the owner cannot convert a Standalone Article into a Series Member, remove a Published Article from its Series to make it Standalone, or move it to a different Series — any of these would silently change the Article's public route with no redirect in place. This is a stricter, immediate lock than the 72-hour slug-editing grace window in Section 6.4, since it changes the route pattern itself rather than a slug value within the same pattern. While the Article remains in Draft (never published), Series assignment may be changed freely.
 
-### 6.12.1 Series Selection Interface (Existing Series)
+#### 6.12.1 Series Selection Interface (Existing Series)
 
 The Metadata tab's Series field shall present the owner with two options: **select an existing Series** or **create a new Series** (Section 6.12.2).
 
@@ -439,7 +439,7 @@ The existing-Series option shall present a flat, single-select list of the **20 
 * Selection behaves as a single-select control (radio-style): selecting one Series visually indicates the choice and disables the remaining options, enforcing the zero-or-one Series constraint (Section 6.12).
 * Search and pagination over the Series list are explicitly **out of scope for this version**. The 20-item cap is considered sufficient given the expected Series volume during this phase of the project; search/pagination for this picker is deferred to a future version, by which point later Portfolio versions are expected to have already introduced search/pagination for Series more broadly (Section 6.23 groundwork).
 
-### 6.12.2 New Series Creation (Cross-Tab, Event-Driven)
+#### 6.12.2 New Series Creation (Cross-Tab, Event-Driven)
 
 Selecting "Create New Series" opens the Add Series interface (`/admin/add-series`, Section 9; field-level requirements in Section 6.13) in a **new browser tab**, rather than navigating away from the current Article form. The Add Series interface is also reachable directly from the admin dashboard, independent of the Article form. This preserves the in-progress Article Draft — including unsaved TipTap content and metadata state (Sections 6.15–6.16) — without risk of loss through navigation or refresh.
 
@@ -451,7 +451,7 @@ Upon successful creation of the Series in the new tab, the system shall broadcas
 
 This introduces event-driven, cross-tab client communication to the project for the first time. It is a browser-native mechanism — it does not require WebSocket support or additional backend/server infrastructure, and the server remains unaware of the cross-tab sync. As this is a pre-implementation design decision rather than a course-correction away from an already-underway approach, it is captured directly in this specification rather than as an ADR (Section 8's ADR requirement applies to decisions that change course after a direction was already substantially pursued); should this pattern later be revised after implementation, that revision would be the trigger for an ADR.
 
-### 6.12.3 Series Default Tags & Inheritance
+#### 6.12.3 Series Default Tags & Inheritance
 
 A Series may define a set of **Default Tags** (Section 4.2). When an Article is assigned to a Series (Section 6.12.1), those Default Tags become **inherited Tags** for that Article.
 
@@ -501,7 +501,7 @@ Because Series editing is out of scope for this version (Section 6.13.1), a Seri
 
 ---
 
-## 6.13 Series Creation & Metadata
+### 6.13 Series Creation & Metadata
 
 The system shall allow the authenticated owner to create a Series through the protected Add Series workflow (`/admin/add-series`, Section 9), reachable either directly from the Article form's Series field (Section 6.12.2), and shall reject unauthenticated access.
 
@@ -512,7 +512,7 @@ The system shall allow the authenticated owner to create a Series through the pr
 
 Aside from those two omissions, a Series requires the same category of care as an Article regarding identity, media, and SEO metadata, since it has its own indexable, publicly linked landing page (`/series/:seriesSlug`).
 
-### 6.13.1 Series Fields
+#### 6.13.1 Series Fields
 
 The Add Series form shall provide a single **Metadata** tab (no additional tabs), with the following fields:
 
@@ -524,7 +524,7 @@ A Series intended for publication shall contain, at minimum: Title, Slug, Descri
 
 Series slugs follow the same reserved-name and uniqueness rules as Article slugs within their own namespace (Section 6.4). Editing or deleting a Series after creation is out of scope for this version — a Series' fields, including its Default Tags (Section 6.12.3), are fixed once created. A dedicated Series edit/delete workflow, along with Series slug-editability, is deferred to a future version, alongside automatic Article slug/route redirect support (Section 16).
 
-### 6.13.2 Series Landing Page & Article Ordering
+#### 6.13.2 Series Landing Page & Article Ordering
 
 A Series shall have a public landing route `/series/:seriesSlug`, displaying its associated Articles. Articles within the Series shall be sortable according to the visitor's selected ordering preference:
 
@@ -535,7 +535,7 @@ An Article belonging to a Series uses `/series/:seriesSlug/:articleSlug` as its 
 
 ---
 
-## 6.14 Blog Listing
+### 6.14 Blog Listing
 
 Published Standalone Articles are available at `/blog/:articleSlug`; the `/blog` index displays recent Published Articles and may include Series Member Articles as cards (linking to their Series route) per Section 6.12. Article cards may display a Series badge when applicable; the badge label is the Series Title, subject to the 36-character limit in Section 4.2.
 
@@ -547,7 +547,7 @@ The Blog and Series listing interfaces may reuse the same Content Card presentat
 
 ---
 
-## 6.15 Draft Auto-Save, Retry, & LocalStorage Fallback
+### 6.15 Draft Auto-Save, Retry, & LocalStorage Fallback
 
 Auto-save triggers automatically after approximately **5 seconds of inactivity** following any relevant change, restarting the inactivity timer on each new change. Relevant changes include metadata, content, tag, Series, Related Article, media, and SEO metadata changes.
 
@@ -567,7 +567,7 @@ If all retries fail, a persistent toast notification appears: "Network connectio
 
 ---
 
-## 6.16 Draft Recovery
+### 6.16 Draft Recovery
 
 The system shall preserve the latest successfully saved Draft state and shall not silently discard successfully autosaved Article content.
 
@@ -575,7 +575,7 @@ If the owner refreshes the page, closes and reopens the editor, loses the browse
 
 ---
 
-## 6.17 Concurrency Control (Optimistic Locking)
+### 6.17 Concurrency Control (Optimistic Locking)
 
 To prevent lost updates when the owner edits the same Article in multiple browser tabs or sessions:
 
@@ -585,7 +585,7 @@ To prevent lost updates when the owner edits the same Article in multiple browse
 
 ---
 
-## 6.18 Preview
+### 6.18 Preview
 
 The owner shall be able to preview an Article before it is published. Preview renders the Article using the same public presentation rules as the Published Article wherever technically applicable, and supports Articles belonging to a Series.
 
@@ -604,7 +604,7 @@ Preview content shall remain inaccessible to unauthenticated public users.
 
 ---
 
-## 6.19 Publishing
+### 6.19 Publishing
 
 Publishing is only performed from `/preview` (Section 6.18), except for the direct Archived → Published republish action described in Section 6.19.1.
 
@@ -629,7 +629,7 @@ A successful publish operation shall:
 
 ---
 
-## 6.19.1 Review / Publish Anyway Modal (Archived → Published)
+### 6.19.1 Review / Publish Anyway Modal (Archived → Published)
 
 When the owner republishes an Archived Article directly (Section 5.2), the system shall check whether the Article has been modified since it was archived:
 
@@ -642,7 +642,7 @@ This is the only "Publish" action in the product that can occur without passing 
 
 ---
 
-## 6.20 Archiving & Restoration
+### 6.20 Archiving & Restoration
 
 The owner shall be able to archive an Article — from either `Published` or `Draft` — through protected administrative functionality (Section 5.2). Archiving from `Draft` requires passing the same publication-validation rules as Publish (Section 6.19); archiving from `Published` does not, since a Published Article has already passed those rules. Archiving directly from `Published` shows the Inbound References Review Modal first, when applicable (Section 6.20.1).
 
@@ -660,7 +660,7 @@ Archiving shall not delete the Article. An Archived Article may be:
 
 ---
 
-## 6.20.1 Inbound References Review Modal
+### 6.20.1 Inbound References Review Modal
 
 Before either of the following two actions, if the target Article has one or more entries in `inbound_referencing_ids` (Section 4.4), the system shall present a confirmation modal listing the referencing Articles and asking the owner whether they want to review those Articles first:
 
@@ -671,7 +671,7 @@ The modal body is shared/reused identically across both flows; it does not block
 
 ---
 
-## 6.21 Deletion
+### 6.21 Deletion
 
 The owner shall be able to permanently delete an Article through protected administrative functionality, subject to the security levels defined in Section 5.3:
 
@@ -684,7 +684,7 @@ Deletion is permanent; the Article (and its Draft Copy, if any) and its associat
 
 ---
 
-## 6.22 Blog Listing Pagination & Lazy Loading
+### 6.22 Blog Listing Pagination & Lazy Loading
 
 **Page size:** the `/blog` index returns Articles **20 per page**, fixed. The system shall not offer the visitor a choice of page size (no "show more/fewer per page" control).
 
@@ -698,7 +698,7 @@ Deletion is permanent; the Article (and its Draft Copy, if any) and its associat
 
 ---
 
-## 6.23 Series Listing Pagination & Lazy Loading
+### 6.23 Series Listing Pagination & Lazy Loading
 
 **Page size:** the `/series` index returns Series **20 per page**, fixed, mirroring Section 6.22. The system shall not offer the visitor a choice of page size.
 
@@ -712,13 +712,13 @@ Deletion is permanent; the Article (and its Draft Copy, if any) and its associat
 
 ---
 
-## 6.24 Rate Limiting
+### 6.24 Rate Limiting
 
 All API routes introduced by this feature (Section 10) — both the protected/administrative Article-management routes and the public Blog/Series listing and pagination routes — are governed by the same rate limiter introduced for the Private Publishing Infrastructure feature (`docs/feature/private-publishing-infrastructure/specification.md`). This feature does not introduce a separate or modified rate-limiting policy; the existing rules are reused as-is.
 
 ---
 
-## 6.25 Lifecycle Action Controls Placement
+### 6.25 Lifecycle Action Controls Placement
 
 The lifecycle action controls (Edit, Delete, Publish, Archive, Preview, and their associated modals — Sections 5.2, 5.3, 6.19–6.21) are not exclusive to the Content Card's dropdown (Section 4.5). The same controls, in whichever subset is valid for the Article's current lifecycle state, are also available from a dropdown in the **top-right corner** of the following full-page views, when accessed by the authenticated owner:
 
@@ -731,9 +731,9 @@ The lifecycle action controls (Edit, Delete, Publish, Archive, Preview, and thei
 
 ---
 
-# 7. User Flows
+## 7. User Flows
 
-## 7.1 Article Creation & Lifecycle
+### 7.1 Article Creation & Lifecycle
 
 ```text
 Authenticated Owner
@@ -770,7 +770,7 @@ Admin Dashboard ──► Add / Edit Article
                         (Save → Preview)          (Save → rewrites Archive)
 ```
 
-## 7.2 Draft Auto-Save, Retry & Recovery
+### 7.2 Draft Auto-Save, Retry & Recovery
 
 ```text
 Editor
@@ -803,7 +803,7 @@ Status: "Saved"                (0.5s → 8s)
 
 ---
 
-# 8. Technical Design
+## 8. Technical Design
 
 The feature shall integrate with the existing owner authentication infrastructure.
 
@@ -824,9 +824,9 @@ Architectural decisions that affect the broader platform shall be documented thr
 
 ---
 
-# 9. Routes
+## 9. Routes
 
-## Public
+### Public
 
 ```text
 /blog
@@ -837,7 +837,7 @@ Architectural decisions that affect the broader platform shall be documented thr
 /series/:seriesSlug/:articleSlug
 ```
 
-## Protected
+### Protected
 
 ```text
 /admin/add-article
@@ -858,7 +858,7 @@ The final route structure shall be aligned with the existing Admin and authentic
 
 ---
 
-# 10. API
+## 10. API
 
 Exact endpoint naming shall follow existing API conventions. Public read APIs shall expose only Published content; Draft and Archived content shall not be exposed through public APIs.
 
@@ -888,9 +888,9 @@ Individual public Article/Series content prefetch (Sections 6.22–6.23) reuses 
 
 ---
 
-# 11. State Management
+## 11. State Management
 
-## Server State
+### Server State
 
 * Article metadata, body, and lifecycle state
 * Tags
@@ -904,7 +904,7 @@ Individual public Article/Series content prefetch (Sections 6.22–6.23) reuses 
 
 The server is the source of truth for persisted Article state.
 
-## Client State
+### Client State
 
 * Active editor tab
 * Current TipTap document state
@@ -924,7 +924,7 @@ The client shall not treat unsaved editor state as successfully persisted until 
 
 ---
 
-# 12. Content and Media Rules
+## 12. Content and Media Rules
 
 **Article Body:** shall comply with the Article Rendering Guidelines and shall contain no H1.
 
@@ -936,7 +936,7 @@ The client shall not treat unsaved editor state as successfully persisted until 
 
 ---
 
-# 13. Security Considerations
+## 13. Security Considerations
 
 **Authentication:** all write operations require successful owner authentication.
 
@@ -965,7 +965,7 @@ Rich content shall be sanitized and validated according to the application's sec
 
 ---
 
-# 14. Reference Implementation Structure
+## 14. Reference Implementation Structure
 
 ```text
 src/
@@ -1009,9 +1009,9 @@ This structure is illustrative and shall follow the existing project architectur
 
 ---
 
-# 15. Dependencies
+## 15. Dependencies
 
-## Requires
+### Requires
 
 * Owner authentication
 * Protected route infrastructure
@@ -1022,7 +1022,7 @@ This structure is illustrative and shall follow the existing project architectur
 * Existing API infrastructure
 * Rate limiter from the Private Publishing Infrastructure feature (Section 6.24)
 
-## Enables
+### Enables
 
 * Public Blog
 * Public Series
@@ -1036,7 +1036,7 @@ This structure is illustrative and shall follow the existing project architectur
 
 ---
 
-# 16. Notes
+## 16. Notes
 
 **Public Article Discovery:** a Published Article remains discoverable through `/blog` regardless of Series membership; Series membership is an additional semantic relationship and does not replace Blog discovery, though direct-route access differs by type (Section 4.1).
 
@@ -1048,7 +1048,7 @@ This structure is illustrative and shall follow the existing project architectur
 
 ---
 
-# 17. Changelog
+## 17. Changelog
 
 | Version | Date       | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

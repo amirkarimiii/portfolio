@@ -1,12 +1,12 @@
 # Application Logging Layer Specifications
 
-**Version:** 2.1 </br>
-**Last Updated:** 2026-08-04 </br>
-**Owner:** Amir Karimi </br>
+**Version:** 2.1  
+**Last Updated:** 2026-08-04  
+**Owner:** Amir Karimi  
 
 ---
 
-# 1. Purpose
+## 1. Purpose
 
 Provide a centralized, structured, and vendor-agnostic logging capability for server-side application code.
 
@@ -16,9 +16,9 @@ The logging layer serves as a foundational engineering capability that supports 
 
 ---
 
-# 2. Scope
+## 2. Scope
 
-## Included
+### Included
 
 * Server-side application logging
 * Structured log output
@@ -31,7 +31,7 @@ The logging layer serves as a foundational engineering capability that supports 
 * Environment-aware logging behavior
 * Metadata support
 
-## Excluded
+### Excluded
 
 * Metrics collection
 * Distributed tracing
@@ -45,7 +45,7 @@ The logging layer serves as a foundational engineering capability that supports 
 
 ---
 
-# 3. Related Documents
+## 3. Related Documents
 
 | Document                                  | Project Path                                          | Purpose                                                                                       |
 |-------------------------------------------|-------------------------------------------------------|-----------------------------------------------------------------------------------------------|
@@ -57,7 +57,7 @@ The logging layer serves as a foundational engineering capability that supports 
 
 ---
 
-# 4. Capability Requirements
+## 4. Capability Requirements
 
 The logging capability must provide:
 
@@ -82,7 +82,7 @@ Supported log levels:
 
 ---
 
-# 5. Success Criteria
+## 5. Success Criteria
 
 * No direct `console.*` usage remains in server-side application code.
 * All server-side application logs are emitted through the logging layer.
@@ -92,9 +92,9 @@ Supported log levels:
 
 ---
 
-# 6. Architecture Integration
+## 6. Architecture Integration
 
-## Producers
+### Producers
 
 * Middleware
 * Route Handlers
@@ -102,18 +102,18 @@ Supported log levels:
 * Repositories
 * Shared Infrastructure Libraries
 
-## Consumers
+### Consumers
 
 * Deployment Runtime Log System
 
-## Shared Components
+### Shared Components
 
 * Logging Layer
 * Application Configuration
 
 ---
 
-# 7. Technical Design
+## 7. Technical Design
 
 The logging layer acts as a facade between application code and log destinations.
 
@@ -137,7 +137,7 @@ without requiring changes to consuming application code.
 
 ---
 
-# 8. Public Interfaces
+## 8. Public Interfaces
 
 ### Logger
 
@@ -154,9 +154,9 @@ Application code must consume the logging capability exclusively through these p
 
 ---
 
-# 9. Failure Modes
+## 9. Failure Modes
 
-## Logging Transport Failure
+### Logging Transport Failure
 
 Logging failures must not interrupt request processing or business operations.
 
@@ -164,19 +164,19 @@ The application must continue operating even if log delivery fails.
 
 ---
 
-## Invalid Log Payload
+### Invalid Log Payload
 
 The logging layer should safely handle unexpected payload structures without affecting application execution.
 
 ---
 
-## Excessive Log Volume
+### Excessive Log Volume
 
 Logging configuration should allow future control of verbosity by environment.
 
 ---
 
-# 10. Security Considerations
+## 10. Security Considerations
 
 The logging capability must prevent accidental exposure of sensitive information.
 
@@ -193,27 +193,27 @@ Personally identifiable information (PII) should be minimized whenever possible.
 
 ---
 
-# 11. Observability
+## 11. Observability
 
-## Logs
+### Logs
 
 * Structured runtime logs are available through the deployment platform.
 
-## Metrics
+### Metrics
 
 * Not implemented.
 
-## Traces
+### Traces
 
 * Not implemented.
 
-## Alerts
+### Alerts
 
 * Not implemented.
 
 ---
 
-# 12. Reference Implementation Structure
+## 12. Reference Implementation Structure
 
 ```text
 src/
@@ -228,13 +228,13 @@ src/
 
 ---
 
-# 13. Dependencies
+## 13. Dependencies
 
-## Requires
+### Requires
 
 * ADR-0012 — Application Logging Layer
 
-## Enables
+### Enables
 
 * Error Reporting
 * Monitoring
@@ -247,13 +247,13 @@ src/
 
 ---
 
-# 14. Notes
+## 14. Notes
 
 This capability intentionally focuses on logging only.
 
 Monitoring, tracing, alerting, telemetry, and external observability tooling will be introduced through future capabilities and ADRs.
 
-# 15. Changelog
+## 15. Changelog
 
 | Version | Date       | Changes                                                                                                                                                                                        |
 |---------|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

@@ -1,13 +1,13 @@
 # Portfolio V2 Specification (`portfolio-v2-spec.md`)
 
-**Version:** 3.0 </br>
-**Status:** Approved </br>
-**Last Updated:** 2026-08-08 </br>
-**Owner:** Amir Karimi </br>
+**Version:** 3.0  
+**Status:** Approved  
+**Last Updated:** 2026-08-08  
+**Owner:** Amir Karimi  
 
 ---
 
-# 1. Purpose & Vision
+## 1. Purpose & Vision
 
 Portfolio V2 transforms the personal portfolio from a static project showcase into a dynamic, transparent engineering platform and personal brand hub (**Amir Karimi**).
 
@@ -21,7 +21,7 @@ Portfolio V2 is built for both **human evaluators** (Engineering Managers, Recru
 
 ---
 
-# 2. System Model
+## 2. System Model
 
 Portfolio V2 consists of three distinct conceptual surfaces:
 
@@ -31,17 +31,17 @@ Portfolio V2 consists of three distinct conceptual surfaces:
 
 ---
 
-# 3. System Boundaries
+## 3. System Boundaries
 
-## 3.1 Public Access
+### 3.1 Public Access
 
 Portfolio V2 is fundamentally a public read-only platform. Visitors can access published content without logging in.
 
-## 3.2 Administrative Access
+### 3.2 Administrative Access
 
 Administrative capabilities are restricted strictly to the site owner (Amir Karimi). There are no secondary administrators, contributors, or editors.
 
-## 3.3 Core Invariants
+### 3.3 Core Invariants
 
 The system explicitly maintains the following boundary constraints:
 
@@ -52,7 +52,7 @@ The system explicitly maintains the following boundary constraints:
 
 ---
 
-# 4. Core Capabilities
+## 4. Core Capabilities
 
 Portfolio V2 is composed of major capabilities delivered across planned versions. Detailed behavior, domain models, APIs, and functional requirements live within each capability's dedicated specification document.
 
@@ -65,7 +65,7 @@ Portfolio V2 is composed of major capabilities delivered across planned versions
 
 ---
 
-# 5. Architecture Principles
+## 5. Architecture Principles
 
 1. **Explicit Boundaries:** Clear separation between public presentation, owner administration, domain features, and shared infrastructure.
 2. **Specification-First Development:** Features and capabilities must have explicit specifications defining required behavior prior to production release.
@@ -80,7 +80,7 @@ Portfolio V2 is composed of major capabilities delivered across planned versions
 
 ---
 
-# 6. Delivery & Version Plan
+## 6. Delivery & Version Plan
 
 Portfolio V2 is delivered incrementally across clear version milestones:
 
@@ -92,7 +92,7 @@ Portfolio V2 is delivered incrementally across clear version milestones:
 
 ---
 
-# 7. Non-Goals & Deferred Work
+## 7. Non-Goals & Deferred Work
 
 The following capabilities are **permanently excluded** from Portfolio V2:
 
@@ -109,22 +109,22 @@ The following items are **deferred for future research** (tentatively V2.2) and 
 
 ---
 
-# 8. Project-Level Acceptance Criteria
+## 8. Project-Level Acceptance Criteria
 
 Portfolio V2.0 is considered complete when the following project-level conditions are verified:
 
-## Goal 1 — AI & Search Discoverability
+### Goal 1 — AI & Search Discoverability
 
 * [ ] `llms.txt` and `llm.json` successfully tested and validated with external LLMs via blind prompting.
 * [ ] Structured JSON-LD schemas (Person, BlogPosting, TechArticle) validate without errors.
 * [ ] SEO and metadata audit passes agreed quality thresholds.
 
-## Goal 2 — Proof of Engineering & Brand Alignment
+### Goal 2 — Proof of Engineering & Brand Alignment
 
 * [ ] Interactive Stack Mapping and Analytical Bookshelf contain fully populated, verified entries.
 * [ ] Amir Karimi is consistently represented across branding, metadata, public content, and documentation.
 
-## Goal 3 — Production-Grade Standards
+### Goal 3 — Production-Grade Standards
 
 * [ ] All public pages and APIs are accessible read-only without authentication.
 * [ ] Protected administrative routes and write APIs reject unauthenticated or unauthorized requests.

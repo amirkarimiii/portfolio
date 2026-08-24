@@ -1,8 +1,8 @@
 # Private Publishing Infrastructure
 
-**Version:** 2.0 </br>
-**Last Updated:** 2026-08-05 </br>
-**Owner:** Amir Karimi </br>
+**Version:** 2.0  
+**Last Updated:** 2026-08-05  
+**Owner:** Amir Karimi  
 
 ---
 
