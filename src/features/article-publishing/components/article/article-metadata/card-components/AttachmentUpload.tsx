@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, ChangeEvent, DragEvent } from 'react';
-import { Upload, Image as ImageIcon, Trash2, RefreshCw, AlertCircle } from 'lucide-react';
+import { Upload, Image as ImageIcon, Trash2, RefreshCw, AlertCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/shared/components/ui/button';
 import { validateImageFile } from '@/features/article-publishing/utils/imageValidation';
@@ -27,7 +27,7 @@ function formatFileSize(bytes?: number): string {
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export function AttachmentUpload({
+function AttachmentUpload({
                                      value,
                                      onChange,
                                      label,
@@ -35,7 +35,7 @@ export function AttachmentUpload({
                                  }: AttachmentUploadProps) {
     const [isDragging, setIsDragging] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [isValidating, setIsValidating] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const currentAttachment: FileAttachment | null = value
@@ -46,35 +46,43 @@ export function AttachmentUpload({
 
     const validateAndProcessFile = async (file: File) => {
         setErrorMessage(null);
-        setIsValidating(true);
+        setIsProcessing(true);
 
         try {
             const validation = await validateImageFile(file);
-
             if (!validation.valid) {
                 const errorMsg = validation.error || 'Invalid image file';
                 setErrorMessage(errorMsg);
-                toast.error('Image Validation Failed', {
-                    description: errorMsg,
-                });
+                toast.error('Image Validation Failed', { description: errorMsg });
+                setIsProcessing(false);
                 return;
             }
 
-            const previewUrl = URL.createObjectURL(file);
+            const response = await fetch(`/api/blog/upload?filename=${encodeURIComponent(file.name)}`, {
+                method: 'POST',
+                body: file,
+            });
+
+            if (!response.ok) {
+                throw new Error('Upload failed');
+            }
+
+            const blob = await response.json();
+
             onChange({
                 file,
-                url: previewUrl,
+                url: blob.url,
                 name: file.name,
                 size: file.size,
             });
 
-            toast.success('Image attached successfully');
+            toast.success('Image uploaded successfully');
         } catch {
-            const fallbackError = 'Failed to process image file';
+            const fallbackError = 'Failed to upload image file';
             setErrorMessage(fallbackError);
             toast.error('Error', { description: fallbackError });
         } finally {
-            setIsValidating(false);
+            setIsProcessing(false);
         }
     };
 
@@ -104,11 +112,31 @@ export function AttachmentUpload({
         }
     };
 
-    const handleRemove = () => {
+    const handleRemove = async () => {
+        if (!currentAttachment?.url) return;
+
         setErrorMessage(null);
-        if (fileInputRef.current) fileInputRef.current.value = '';
-        onChange(null);
-        toast.info('Image removed');
+        setIsProcessing(true);
+
+        try {
+            if (currentAttachment.url.includes('vercel-storage.com')) {
+                const res = await fetch(`/api/blog/upload/delete?url=${encodeURIComponent(currentAttachment.url)}`, {
+                    method: 'DELETE',
+                });
+
+                if (!res.ok) {
+                    throw new Error('Failed to delete from storage');
+                }
+            }
+
+            if (fileInputRef.current) fileInputRef.current.value = '';
+            onChange(null);
+            toast.info('Image removed');
+        } catch {
+            toast.error('Error', { description: 'Could not delete the file from storage' });
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     return (
@@ -126,9 +154,9 @@ export function AttachmentUpload({
                                     className="h-full w-full object-cover"
                                 />
                             ) : (
-                                <div className="h-6 w-6 text-muted-foreground">
-                                    <ImageIcon/>
-                                </div>
+                                <span className="h-6 w-6 text-muted-foreground">
+                                    <ImageIcon />
+                                </span>
                             )}
                         </div>
 
@@ -146,12 +174,19 @@ export function AttachmentUpload({
                             type="button"
                             variant="outline"
                             size="sm"
-                            disabled={isValidating}
+                            disabled={isProcessing}
                             onClick={() => fileInputRef.current?.click()}
                             className="h-8 text-xs gap-1"
                         >
-                            <div className="w-3.5 aspect-square">
-                                <RefreshCw/>
+                            <div className="w-3.5 aspect-square flex items-center justify-center">
+                                {isProcessing ?
+                                    <span className="animate-spin h-3.5 w-3.5">
+                                        <Loader2/>
+                                    </span> :
+                                    <span className="h-3.5 w-3.5">
+                                        <RefreshCw/>
+                                    </span>
+                                }
                             </div>
                             Replace
                         </Button>
@@ -159,12 +194,19 @@ export function AttachmentUpload({
                             type="button"
                             variant="destructive"
                             size="sm"
-                            disabled={isValidating}
+                            disabled={isProcessing}
                             onClick={handleRemove}
                             className="h-8 text-xs gap-1"
                         >
-                            <div className="w-3.5 aspect-square">
-                                <Trash2/>
+                            <div className="w-3.5 aspect-square flex items-center justify-center">
+                                {isProcessing ?
+                                    <span className="animate-spin h-3.5 w-3.5">
+                                        <Loader2/>
+                                    </span> :
+                                    <span className="h-3.5 w-3.5" >
+                                        <Trash2/>
+                                    </span>
+                                }
                             </div>
                             Delete
                         </Button>
@@ -172,7 +214,7 @@ export function AttachmentUpload({
                 </div>
             ) : (
                 <div
-                    onClick={() => !isValidating && fileInputRef.current?.click()}
+                    onClick={() => !isProcessing && fileInputRef.current?.click()}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
@@ -180,15 +222,22 @@ export function AttachmentUpload({
                         isDragging
                             ? 'border-primary bg-primary/5'
                             : 'border-muted-foreground/25 hover:border-muted-foreground/50'
-                    } ${isValidating ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    } ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     <div className="p-3 bg-muted rounded-full mb-3">
-                        <div className="h-6 w-6 text-muted-foreground" >
-                            <Upload/>
+                        <div className="h-6 w-6 text-muted-foreground flex items-center justify-center">
+                            {isProcessing ?
+                                <span  className="animate-spin h-6 w-6" >
+                                    <Loader2/>
+                                </span> :
+                                <span className="h-6 w-6" >
+                                    <Upload/>
+                                </span>
+                            }
                         </div>
                     </div>
                     <p className="text-sm font-medium text-foreground">
-                        {isValidating ? 'Validating image...' : 'Click to upload or drag and drop'}
+                        {isProcessing ? 'Processing image...' : 'Click to upload or drag and drop'}
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
                         Allowed formats: JPG, PNG, WEBP, GIF (Max 5MB)
@@ -209,12 +258,14 @@ export function AttachmentUpload({
 
             {errorMessage && (
                 <p className="text-xs font-medium text-destructive flex items-center gap-1 mt-1">
-                    <div className="h-3.5 w-3.5" >
+                    <span className="h-3.5 w-3.5" >
                         <AlertCircle/>
-                    </div>
+                    </span>
                     {errorMessage}
                 </p>
             )}
         </div>
     );
 }
+
+export default AttachmentUpload
