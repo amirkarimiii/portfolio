@@ -1,10 +1,8 @@
 # Public Content Platform
 
-**Status:** In Progress
-
-**Last Updated:** 2026-08-09
-
-**Owner:** Amir Karimi
+**Status:** In Progress  
+**Last Updated:** 2026-08-09  
+**Owner:** Amir Karimi  
 
 ---
 

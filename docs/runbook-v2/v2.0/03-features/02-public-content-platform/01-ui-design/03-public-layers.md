@@ -1,8 +1,8 @@
 Section 4: Public layer and cards (Public UI & Components)
 
-Content Card component </br>
-Public pages (Blog & Series Index) </br>
-Preview flows and security modals (Preview & Modals)
+Content Card component  
+Public pages (Blog & Series Index)  
+Preview flows and security modals (Preview & Modals)  
 
 ```todo:subbranches
 ✅ step: make branch feature/pcp-ui-cards

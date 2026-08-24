@@ -1,3 +1,6 @@
+یه اینجا رسیدیم مجدد باید چک کنیم چه چیزی برای pre-deploy هست و چه چیزی برای polishing
+برای ISR هم باید اینجاها اقدام کنیم
+
 ```backlog
 04-polishings/
 ├── backlog.md
@@ -8,7 +11,7 @@
 │
 ├── semantic
 │   ├── html-semantics
-│   ├── accessibility
+│   ├── accessibility and metadata (including useful files like robot.txt)
 │   └── interaction-semantics
 │
 ├── ux
@@ -23,21 +26,8 @@
     └── content-consistency
 ```
 
-
-```todo
-step: Extensive logging in all UI
-```
-
 ```todo
 step: change middleware to proxy approach
-```
-
-```todo
-commit changes
-```
-
-```todo
-step: Skeleton, suspend and loaders
 ```
 
 ```todo

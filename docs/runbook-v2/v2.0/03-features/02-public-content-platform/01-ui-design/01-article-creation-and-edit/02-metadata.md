@@ -1,9 +1,9 @@
 Tab 1 includes 4 parts:
 
-part 1: Identity card </br>
-part 2: Media card </br>
-part 3: Classification card </br>
-part 4: SEO card </br>
+part 1: Identity card  
+part 2: Media card  
+part 3: Classification card  
+part 4: SEO card  
 
 ```todo:subbranches
 ✅ step: make branch feature/pcp-article-metadata

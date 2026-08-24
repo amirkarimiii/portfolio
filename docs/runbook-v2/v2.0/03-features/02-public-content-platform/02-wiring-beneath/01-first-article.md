@@ -33,11 +33,19 @@ We go for building the first article (this article will probably remain untouche
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: fix styles in assests form and content validation message
+✅ step: fix styles in assests form and content validation message
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: integration to a real cdn for image upload
 ```
 
 ```

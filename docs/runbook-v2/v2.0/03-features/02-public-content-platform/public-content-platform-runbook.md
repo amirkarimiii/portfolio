@@ -111,9 +111,9 @@ We have dozens of conflicts to resolve, so we need to define a commit message sc
 
 3 stages for designing this feature
 
-UI design </br>
-Wiring beneath: line </br>
-Checking with readiness: line </br>
+UI design  
+Wiring beneath: line  
+Checking with readiness: line  
 
 ```todo
 ✅ loop: Separate all large steps into smaller steps
