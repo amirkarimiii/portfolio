@@ -7,8 +7,8 @@ import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/shared
 import { Badge } from "@/shared/components/ui/badge";
 
 import {Input} from "@/shared/components/ui/input";
-import {
-    AttachmentUpload, FileAttachment
+import AttachmentUpload, {
+    FileAttachment
 } from "@/features/article-publishing/components/article/article-metadata/card-components/AttachmentUpload";
 
 function extractUrl(val: string | FileAttachment | null): string {
@@ -105,11 +105,11 @@ export function BaseAssetsForm() {
                             <Badge variant="outline" className="w-fit select-none opacity-80">
                                 Thumbnail Image
                             </Badge>
-                                <AttachmentUpload
-                                    label=""
-                                    value={field.value}
-                                    onChange={(val) => field.onChange(extractUrl(val))}
-                                />
+                            <AttachmentUpload
+                                label=""
+                                value={field.value}
+                                onChange={(val) => field.onChange(extractUrl(val))}
+                            />
                             <FormMessage />
                         </FormItem>
                     )}
