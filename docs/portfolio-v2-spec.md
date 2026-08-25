@@ -1,8 +1,8 @@
 # Portfolio V2 Specification (`portfolio-v2-spec.md`)
 
-**Version:** 3.0  
+**Version:** 3.1  
 **Status:** Approved  
-**Last Updated:** 2026-08-08  
+**Last Updated:** 2026-08-25  
 **Owner:** Amir Karimi  
 
 ---
@@ -60,7 +60,7 @@ Portfolio V2 is composed of major capabilities delivered across planned versions
 * **Public Content Platform:** Public article/series rendering, owner authoring workflows, draft autosave/recovery, lifecycle transitions, and SEO metadata.
 * **Interactive Stack Mapping:** Interactive technology index linking tools to mental models, enterprise challenges, code references, and RFCs.
 * **Analytical Bookshelf:** Curated reading library documenting architectural shifts, practical project applications, and learning outcomes.
-* **AI & Search Optimization (AIO/GEO):** Structured semantic data layers (`llms.txt`, `llm.json`, JSON-LD schemas) optimized for AI agent parsing.
+* **AI Knowledge & Discovery:** Internal capability responsible for exposing relevant canonical project and domain knowledge through machine-readable and semantically structured representations for AI and search consumers. *(Industry terms such as AIO/GEO may be referenced where relevant as external/industry terminology, but are not used as the capability name.)*
 * **Engineering Experience:** Interactive architecture visualizers, React Flow diagrams, system walkthroughs, and global article search with tag filtering.
 
 ---
@@ -72,11 +72,12 @@ Portfolio V2 is composed of major capabilities delivered across planned versions
 3. **ADRs for Architectural Decisions:** Platform-wide architectural choices, trade-offs, and design rationale are recorded in Architecture Decision Records (`docs/adr/`) rather than duplicated in feature specs.
 4. **Shared Rules in Shared Docs:** Cross-cutting guidelines (rendering, SEO, media, security) live in `docs/guidelines/` or `docs/conventions.md`.
 5. **Separation of Documentation Concerns:**
-* **Specification:** *What* the system/feature must do.
-* **Readiness:** *Are* prerequisites available to begin?
-* **Verification:** *How* do we prove the contract is satisfied?
-* **ADR:** *Why* was an architectural decision made?
-* **Runbook:** *How* to execute operational workflows.
+   * **Specification:** *What* the system/feature must do.
+   * **Readiness:** *Are* prerequisites available to begin?
+   * **Verification:** *How* do we prove the contract is satisfied?
+   * **ADR:** *Why* was an architectural decision made?
+   * **Runbook:** *How* to execute operational workflows.
+6. **Canonical Knowledge & Representation:** Public project and domain information SHOULD have a canonical authoritative source within the system. AI-facing and search-facing representations SHOULD derive from, or remain consistent with, that canonical source, and MUST NOT become independent authoritative sources of project knowledge.
 
 ---
 
@@ -84,11 +85,11 @@ Portfolio V2 is composed of major capabilities delivered across planned versions
 
 Portfolio V2 is delivered incrementally across clear version milestones:
 
-| Version  | Milestone Name             | Included Capabilities / Scope                                                                                                        | Status      |
-|----------|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------|-------------|
-| **V2.0** | **Production Foundation**  | Private Publishing Infrastructure, Public Content Platform (Blog & Series), Stack Mapping, Analytical Bookshelf, AI/SEO foundations. | In Progress |
-| **V2.1** | **Engineering Experience** | Interactive Engineering Playground, Architecture Explorer, CI/CD walkthroughs, Global Article Search.                                | Planned     |
-| **V2.2** | **Future Enhancements**    | Deferred research items: Telegram bot messaging, telemetry analytics, social cross-posting.                                          | Deferred    |
+| Version  | Milestone Name             | Included Capabilities / Scope                                                                                                                          | Status      |
+|----------|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+| **V2.0** | **Production Foundation**  | Private Publishing Infrastructure, Public Content Platform (Blog & Series), Stack Mapping, Analytical Bookshelf, AI Knowledge & Discovery foundations. | In Progress |
+| **V2.1** | **Engineering Experience** | Interactive Engineering Playground, Architecture Explorer, CI/CD walkthroughs, Global Article Search.                                                  | Planned     |
+| **V2.2** | **Future Enhancements**    | Deferred research items: Telegram bot messaging, telemetry analytics, social cross-posting.                                                            | Deferred    |
 
 ---
 
@@ -113,11 +114,16 @@ The following items are **deferred for future research** (tentatively V2.2) and 
 
 Portfolio V2.0 is considered complete when the following project-level conditions are verified:
 
-### Goal 1 — AI & Search Discoverability
+### Goal 1 — Content Integrity, Semantic Representation & Discoverability
 
-* [ ] `llms.txt` and `llm.json` successfully tested and validated with external LLMs via blind prompting.
-* [ ] Structured JSON-LD schemas (Person, BlogPosting, TechArticle) validate without errors.
-* [ ] SEO and metadata audit passes agreed quality thresholds.
+Portfolio V2.0 must provide:
+
+* [ ] A defined authoritative source for public project and domain information.
+* [ ] Consistent AI/search-facing representations of applicable public information.
+* [ ] Machine-readable discovery surfaces required by the V2.0 scope.
+* [ ] Explicit exclusion of draft, archived, or otherwise non-public content from public AI/search representations.
+
+**Boundary:** Acceptance criteria at the project level define the required architectural outcome. Format-specific schemas, entity mappings, generation rules, and detailed validation criteria are defined by the relevant capability specification.
 
 ### Goal 2 — Proof of Engineering & Brand Alignment
 
@@ -133,28 +139,27 @@ Portfolio V2.0 is considered complete when the following project-level condition
 
 ---
 
-# 9. Related Documents
+## 9. Related Documents
 
 This specification serves as the entry point to the Portfolio V2 documentation system.
 
+| Category               | Location Pattern                                      | Purpose                                                                                                                               |
+|------------------------|-------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| Architecture Decisions | `docs/adr/ADR-XXXX-*.md`                              | Individually numbered ADRs recording architectural decisions affecting the project                                                    |
+| Feature Specs          | `docs/feature/<feature-name>/specification.md`        | One folder per delivery-roadmap feature; owns that feature's own scope, requirements, and API — see Section 5                         |
+| Capability Specs       | `docs/capability/<capability-name>/specifications.md` | One folder per cross-cutting capability (e.g. logging, AI Knowledge & Discovery), same readiness/verification/usage split as features |
+| Guidelines             | `docs/guidelines/*.md`                                | Shared cross-cutting conventions (rendering, media, SEO, etc.) referenced by multiple feature specs                                   |
+| Reference Notes        | `docs/tech-stack.md`, `docs/environment.md`           | Standalone taxonomy entries outside the feature/capability structure                                                                  |
 
-| Category                         | Location Pattern                                              | Purpose                                                                                                       |
-|----------------------------------|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| Architecture Decisions           | `docs/adr/ADR-XXXX-*.md`                                      | Individually numbered ADRs recording architectural decisions affecting the project                            |
-| Feature Specs                    | `docs/feature/<feature-name>/specification.md`                | One folder per delivery-roadmap feature; owns that feature's own scope, requirements, and API — see Section 5 |
-| Capability Specs                 | `docs/capability/<capability-name>/specifications.md`         | One folder per cross-cutting capability (e.g. logging), same readiness/verification/usage split as features   |
-| Guidelines                       | `docs/guidelines/*.md`                                        | Shared cross-cutting conventions (rendering, media, SEO, etc.) referenced by multiple feature specs           |
-| Reference Notes                  | `docs/tech-stack.md`, `docs/environment.md`                   | Standalone taxonomy entries outside the feature/capability structure                                          |
-
-
-*Note: Pending capability specifications (Stack Mapping, Analytical Bookshelf, AIO Suite, Engineering Playground) will be added to this table as their respective specification files are created.*
+*Note: Pending capability specifications (Stack Mapping, Analytical Bookshelf, AI Knowledge & Discovery, Engineering Playground) will be added to this table as their respective specification files are created.*
 
 ---
 
-# 10. Changelog
+## 10. Changelog
 
-| Version | Date       | Summary of Changes                                                                                                                                                                                                                                                                                                                             |
-|---------|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **1.0** | —          | Initial specification: feature list without explicit execution ordering or architectural boundaries.                                                                                                                                                                                                                                           |
-| **2.0** | 2026-07-23 | Introduced delivery roadmap phases, access model, non-goals, and definition of done criteria.                                                                                                                                                                                                                                                  |
-| **3.0** | 2026-08-08 | Restructured into a Project-Level System Charter: removed duplicated feature scopes, unified Access Model & Non-Goals, consolidated Version/Roadmap planning, established explicit System Model & Architecture Principles, and aligned with the 3-file feature documentation standard (`specification.md`, `readiness.md`, `verification.md`). |
+| Version | Date       | Summary of Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|---------|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **1.0** | —          | Initial specification: feature list without explicit execution ordering or architectural boundaries.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| **2.0** | 2026-07-23 | Introduced delivery roadmap phases, access model, non-goals, and definition of done criteria.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| **3.0** | 2026-08-08 | Restructured into a Project-Level System Charter: removed duplicated feature scopes, unified Access Model & Non-Goals, consolidated Version/Roadmap planning, established explicit System Model & Architecture Principles, and aligned with the 3-file feature documentation standard (`specification.md`, `readiness.md`, `verification.md`).                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| **3.1** | 2026-08-25 | Renamed "AI & Search Optimization (AIO/GEO)" capability to **AI Knowledge & Discovery**; established LLM Runtime & Integration as a permanent, project-wide scope exclusion (Section 7.1); added a general Canonical Knowledge & Representation architecture principle (Section 5.6); rewrote Acceptance Criteria Goal 1 to be format-agnostic. All capability-internal detail — boundary definitions, canonical entity model, representation contracts (`llms.txt`, `llm.json`, JSON-LD), format/schema decisions, and open questions — is deferred entirely to the forthcoming `docs/capability/ai-knowledge/specifications.md`, so that this capability's footprint in the project-level spec is proportionate to the other capabilities listed in Section 4. |
