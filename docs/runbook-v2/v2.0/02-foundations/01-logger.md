@@ -253,8 +253,3 @@ step: changes \docs\runbook-v2\v2.0\TRACKING.md
 ```todo
 ✅ delete feature/logging
 ```
-
-```todo
-✅ go to staging-runbook.md line 99
-```
-

@@ -2,7 +2,7 @@
 
 **Status:** Completed
 
-**Last Updated:** 2026-08-02
+**Last Updated:** 2026-08-25
 
 **Owner:** Amir Karimi
 
@@ -20,10 +20,11 @@ Unlike product features, these capabilities are not directly visible to end user
 
 # 2. Tracking
 
-| Capability                       | Status    | Planned Start | Target Milestone | Completed  |
-|----------------------------------|-----------|---------------|------------------|------------|
-| Application Logging Layer        | Completed | 2026-07-30    | 2026-07-31       | 2026-07-30 |
-| Application Logging Layer - Test | Completed | 2026-08-02    | 2026-08-02       | 2026-08-02 |
+| Capability                       | Status    | Planned Start | Target Milestone | Completed     |
+|----------------------------------|-----------|---------------|------------------|---------------|
+| Application Logging Layer        | Completed | 2026-07-30    | 2026-07-31       | 2026-07-30    |
+| Application Logging Layer - Test | Completed | 2026-08-02    | 2026-08-02       | 2026-08-02    |
+| AI Knowledge & Discovery         | Planned   | Not Estimated | Not Estimated    | Not Estimated |
 ---
 
 # 3. Execution Principles
@@ -51,3 +52,5 @@ Unlike product features, these capabilities are not directly visible to end user
 | 2026-07-30 | Application Logging Layer: Status updated to Completed, Completed date set to 2026-07-30.                                              |
 | 2026-08-02 | Application Logging Layer - Test added: Status Completed, Planned Start 2026-08-02, Target Milestone 2026-08-02, Completed 2026-08-02. |
 | 2026-08-02 | Document status updated to Completed.                                                                                                  |
+| 2026-08-25 | Add AI Knowledge & Discovery to Tracking table                                                                                         |
+
