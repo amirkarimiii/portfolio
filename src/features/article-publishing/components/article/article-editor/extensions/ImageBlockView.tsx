@@ -3,12 +3,11 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { NodeViewWrapper, NodeViewProps } from '@tiptap/react';
-import { X, Image as ImageIcon, UploadCloud, Check } from 'lucide-react';
+import { X, Image as ImageIcon, UploadCloud, Check, Loader2 } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
-import {FormLabel} from "@/shared/components/ui/form";
-import {Badge} from "@/shared/components/ui/badge";
+import { Badge } from "@/shared/components/ui/badge";
 
 export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewProps) {
     const { src, alt, caption, isEditing } = node.attrs;
@@ -17,22 +16,43 @@ export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewP
     const [altText, setAltText] = useState<string>(alt || '');
     const [captionText, setCaptionText] = useState<string>(caption || '');
     const [previewUrl, setPreviewUrl] = useState<string>(src || '');
+    const [isUploading, setIsUploading] = useState<boolean>(false);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
-            const url = URL.createObjectURL(file);
-            setPreviewUrl(url);
-            setFileSrc(url);
-            if (!altText) {
-                const fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, '');
-                setAltText(fileNameWithoutExt);
-            }
+        if (!file) return;
+
+        const localPreview = URL.createObjectURL(file);
+        setPreviewUrl(localPreview);
+
+        if (!altText) {
+            const fileNameWithoutExt = file.name.replace(/\.[^/.]+$/, '');
+            setAltText(fileNameWithoutExt);
+        }
+
+        try {
+            setIsUploading(true);
+
+            const res = await fetch(`/api/blog/upload?filename=${encodeURIComponent(file.name)}`, {
+                method: 'POST',
+                body: file,
+            });
+
+            if (!res.ok) throw new Error('Upload failed');
+
+            const blob = await res.json();
+
+            setFileSrc(blob.url);
+            setPreviewUrl(blob.url);
+        } catch (error) {
+            console.error('Image upload failed:', error);
+        } finally {
+            setIsUploading(false);
         }
     };
 
     const handleSave = () => {
-        if (!fileSrc) return;
+        if (!fileSrc || isUploading) return;
         updateAttributes({
             src: fileSrc,
             alt: altText,
@@ -55,7 +75,7 @@ export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewP
                     <div className="flex items-center justify-between border-b pb-3">
                         <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
                             <div className="w-4 aspect-square">
-                                <ImageIcon/>
+                                <ImageIcon />
                             </div>
                             <span>Add / Edit Image</span>
                         </div>
@@ -67,42 +87,55 @@ export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewP
                             onClick={deleteNode}
                         >
                             <div className="w-4 aspect-square">
-                                <X/>
+                                <X />
                             </div>
                         </Button>
                     </div>
 
                     <div className="relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/30 p-6 transition-colors hover:bg-muted/50">
-                        {previewUrl ? (
-                            <div className="relative aspect-video w-full overflow-hidden rounded-md border">
-                                <Image
-                                    src={previewUrl}
-                                    alt="Preview"
-                                    fill
-                                    className="object-cover"
-                                    unoptimized={isUnoptimized(previewUrl)}
-                                    sizes="(max-width: 768px) 100vw, 576px"
-                                />
-                            </div>
-                        ) : (
-                            <label className="flex cursor-pointer flex-col items-center justify-center gap-2 text-center">
-                                <div className="rounded-full bg-background p-3 shadow-sm">
-                                    <UploadCloud className="h-6 w-6" />
+                        <label className="flex flex-col items-center justify-center gap-2 text-center cursor-pointer w-full h-full">
+                            {previewUrl ? (
+                                <div className="relative aspect-video w-full overflow-hidden rounded-md border">
+                                    <Image
+                                        src={previewUrl}
+                                        alt="Preview"
+                                        fill
+                                        className="object-cover"
+                                        unoptimized={isUnoptimized(previewUrl)}
+                                        sizes="(max-width: 768px) 100vw, 576px"
+                                    />
+                                    {isUploading && (
+                                        <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center gap-2 text-xs font-medium">
+                                            <div className="w-4 aspect-square animate-spin">
+                                                <Loader2 />
+                                            </div>
+                                            Uploading...
+                                        </div>
+                                    )}
                                 </div>
-                                <span className="text-sm font-medium text-foreground">
-                                    Click to select an image
-                                </span>
-                                <span className="text-xs text-muted-foreground">
-                                    Allowed formats: PNG, JPG, WEBP
-                                </span>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    className="hidden"
-                                    onChange={handleFileChange}
-                                />
-                            </label>
-                        )}
+                            ) : (
+                                <>
+                                    <div className="rounded-full bg-background p-3 shadow-sm">
+                                        <div className="w-6 aspect-square">
+                                            <UploadCloud />
+                                        </div>
+                                    </div>
+                                    <span className="text-sm font-medium text-foreground">
+                                        Click to select an image
+                                    </span>
+                                    <span className="text-xs text-muted-foreground">
+                                        Allowed formats: PNG, JPG, WEBP
+                                    </span>
+                                </>
+                            )}
+                            <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={handleFileChange}
+                                disabled={isUploading}
+                            />
+                        </label>
                     </div>
 
                     <div className="space-y-1.5">
@@ -149,13 +182,19 @@ export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewP
                         <Button
                             type="button"
                             size="sm"
-                            disabled={!fileSrc}
+                            disabled={!fileSrc || isUploading}
                             onClick={handleSave}
                             className="gap-1.5"
                         >
-                            <div className="w-4 aspect-square">
-                                <Check/>
-                            </div>
+                            {isUploading ? (
+                                <div className="w-4 aspect-square animate-spin">
+                                    <Loader2 />
+                                </div>
+                            ) : (
+                                <div className="w-4 aspect-square">
+                                    <Check />
+                                </div>
+                            )}
                             Save Image
                         </Button>
                     </div>
@@ -180,7 +219,9 @@ export function ImageBlockView({ node, updateAttributes, deleteNode }: NodeViewP
                             className="h-8 w-8 rounded-md shadow-md"
                             title="Delete image"
                         >
-                            <X className="h-4 w-4" />
+                            <div className="w-4 aspect-square">
+                                <X />
+                            </div>
                         </Button>
                     </div>
 
