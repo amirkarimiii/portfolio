@@ -1,7 +1,7 @@
 # Analytical Bookshelf
 
 **Status:** Planned  
-**Last Updated:** 2026-08-24  
+**Last Updated:** 2026-08-25  
 **Owner:** Amir Karimi
 
 ---
@@ -16,11 +16,11 @@ It provides an overview of Analytical Bookshelf status, planning milestones, and
 
 # 2. Tracking
 
-| Stages                  | Status  | Planned Start        | Target Milestone | Completed |
-|-------------------------|---------|----------------------|------------------|:---------:|
-| UI Design               | Planned | Not Estimated        | Not Estimated    |     —     |
-| Wiring Beneath          | Planned | After UI Design      | Not Estimated    |     —     |
-| Checking with Readiness | Planned | After Wiring Beneath | Not Estimated    |     —     |
+| Stages                  | Status  | Planned Start                   | Target Milestone | Completed |
+|-------------------------|---------|---------------------------------|------------------|:---------:|
+| UI Design               | Planned | After Interactive Stack Mapping | 2026-09-04       |     —     |
+| Wiring Beneath          | Planned | After UI Design                 | 2026-09-04       |     —     |
+| Checking with Readiness | Planned | After Wiring Beneath            | 2026-09-05       |     —     |
 
 ---
 

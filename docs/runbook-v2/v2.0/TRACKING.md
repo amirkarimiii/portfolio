@@ -2,7 +2,7 @@
 
 **Status:** In Progress
 
-**Last Updated:** 2026-08-02
+**Last Updated:** 2026-08-25
 
 **Owner:** Amir Karimi
 
@@ -19,14 +19,14 @@ It provides an overview of the version's engineering runbooks, their status, mil
 
 # 2. Tracking
 
-| Runbook               | Status    | Planned Start    | Target Milestone | Completed  |
-|-----------------------|-----------|------------------|------------------|------------|
-| 01 – Pre-V2 Refactors | Completed | 2026-07-15       | 2026-07-24       | 2026-07-24 |
-| 02 – Foundations      | Completed | 2026-07-30       | 2026-08-02       | 2026-08-02 |
-| 03 – Features         | Planned   | 2026-08-05       | Not Estimated    | —          |
-| 04 – Polishings       | Planned   | After Runbook 03 | Not Estimated    | —          |
-| 05 – Testings         | Planned   | After Runbook 04 | Not Estimated    | —          |
-| 06 – Pre-deployment   | Planned   | Before Release   | Not Estimated    | —          |
+| Runbook             | Status    | Planned Start                                | Target Milestone | Completed  |
+|---------------------|-----------|----------------------------------------------|------------------|------------|
+| Pre-V2 Refactors    | Completed | 2026-07-15                                   | 2026-07-24       | 2026-07-24 |
+| Foundations         | Completed | 2026-07-30                                   | 2026-09-07       | —          |
+| Features            | Planned   | 2026-08-05                                   | 2026-09-05       | —          |
+| Polishings          | Planned   | After Foundations - AI Knowledge & Discovery | Not Estimated    | —          |
+| System Verification | Planned   | After Polishings                             | Not Estimated    | —          |
+| Pre-deployment      | Planned   | After System Verification (Before Release)   | Not Estimated    | —          |
 
 ---
 

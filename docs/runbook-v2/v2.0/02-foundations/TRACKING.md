@@ -20,11 +20,11 @@ Unlike product features, these capabilities are not directly visible to end user
 
 # 2. Tracking
 
-| Capability                       | Status    | Planned Start | Target Milestone | Completed     |
-|----------------------------------|-----------|---------------|------------------|---------------|
-| Application Logging Layer        | Completed | 2026-07-30    | 2026-07-31       | 2026-07-30    |
-| Application Logging Layer - Test | Completed | 2026-08-02    | 2026-08-02       | 2026-08-02    |
-| AI Knowledge & Discovery         | Planned   | Not Estimated | Not Estimated    | Not Estimated |
+| Capability                       | Status    | Planned Start              | Target Milestone | Completed     |
+|----------------------------------|-----------|----------------------------|------------------|---------------|
+| Application Logging Layer        | Completed | 2026-07-30                 | 2026-07-31       | 2026-07-30    |
+| Application Logging Layer - Test | Completed | 2026-08-02                 | 2026-08-02       | 2026-08-02    |
+| AI Knowledge & Discovery         | Planned   | After Analytical Bookshelf | 2026-09-07       | Not Estimated |
 ---
 
 # 3. Execution Principles

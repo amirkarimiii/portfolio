@@ -2,7 +2,7 @@
 
 **Status:** In Progress
 
-**Last Updated:** 2026-08-20
+**Last Updated:** 2026-08-25
 
 **Owner:** Amir Karimi
 
@@ -20,9 +20,11 @@ It provides an overview of Wiring Beneath status, planning milestones, and execu
 
 | Sections          | Status      | Planned Start           | Target Milestone | Completed |
 |-------------------|-------------|-------------------------|------------------|:---------:|
-| First Article     | In Progress | 2026-08-20              | 2026-08-20       |     -     |
-| Article Lifecycle | Planned     | After First Article     | Not Estimated    |     -     |
-| API Integration   | Planned     | After Article Lifecycle | Not Estimated    |     -     |
+| First Article     | In Progress | 2026-08-20              | 2026-08-25*      |     -     |
+| Article Lifecycle | Planned     | After First Article     | 2026-08-27       |     -     |
+| API Integration   | Planned     | After Article Lifecycle | 2026-08-29       |     -     |
+
+> *three days were off
 
 ---
 

@@ -1,7 +1,7 @@
 # Public Content Platform
 
 **Status:** In Progress  
-**Last Updated:** 2026-08-09  
+**Last Updated:** 2026-08-25  
 **Owner:** Amir Karimi  
 
 ---
@@ -19,8 +19,8 @@ It provides an overview of Public Content Platform status, planning milestones, 
 | Stages                  | Status      | Planned Start        | Target Milestone | Completed  |
 |-------------------------|-------------|----------------------|------------------|:----------:|
 | UI Design               | Completed   | 2026-08-09           | 2026-08-19       | 2026-08-09 |
-| Wiring Beneath          | In Progress | 2026-08-20           | Not Estimated    |     —      |
-| Checking with Readiness | Planned     | After Wiring Beneath | Not Estimated    |     —      |
+| Wiring Beneath          | In Progress | 2026-08-20           | 2026-08-29       |     —      |
+| Checking with Readiness | Planned     | After Wiring Beneath | 2026-08-31       |     —      |
 
 ---
 
