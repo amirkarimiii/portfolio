@@ -13,6 +13,7 @@
 3. **Strict Separation of Concerns:** Eliminates logical leakage between domain logic, internal capabilities, and external environmental infrastructure.
 4. **Machine & AI-Readable:** Structured systematically to serve as context for LLM/AI tooling, code generators, and CI/CD validation pipelines.
 5. **Course-Changing Decisions Require ADRs:** ADRs record architectural or engineering decisions that materially change the course of the system. An ADR is warranted when a decision has substantial expected change scope, introduces a clearly observable structural impact, or is materially difficult to reverse. Routine corrections, omissions resolved through specification, obvious technical/scientific corrections, and ordinary implementation fixes do not require ADRs.
+6. **Non-Trivial Debugging Experience Is Captured, Not Lost:** Any debugging effort that consumed significant time or surfaced a non-obvious insight is recorded as durable, append-only knowledge rather than left to fade from memory or buried in chat/PR history.
 
 ---
 
@@ -38,6 +39,8 @@ The documentation architecture follows a deterministic flow from governance and 
                  [ Git Observatory & Tracking ]
 ```
 
+> **Note:** `debugging-log.md` (Layer 1) is a cross-cutting knowledge artifact. It is not produced *by* this flow but *from* friction encountered anywhere along it (implementation, verification, infrastructure, etc.), and it feeds back into AI/developer context alongside `git-observatory.md`.
+
 ---
 
 ## 3. The 5-Layer Documentation Taxonomy
@@ -55,8 +58,8 @@ Global documents defining system-wide architectural rules, project conventions, 
 * **Type:** Singleton Rulebook
 * **Role:** Coding standards, folder structures, Git branching strategies, and commit naming conventions.
 * **Governs:** Codebase practices and document formatting rules.
-* **`adr/*.md`** **(Architecture Decision Records)**
 
+* **`adr/*.md`** **(Architecture Decision Records)**
 * **Type:** Template-based (Immutable Records)
 * **Role:** Historical log of course-changing architectural or engineering decisions, including context, rejected alternatives, rationale, and consequences (trade-offs).
 * **Qualification:** An ADR is appropriate when a decision has substantial expected change scope, a clearly observable structural impact, or significant reversal cost. Routine implementation corrections, specification omissions, and obvious technical/scientific corrections are not ADRs.
@@ -66,6 +69,22 @@ Global documents defining system-wide architectural rules, project conventions, 
 * **Type:** Living Backlog (Transient)
 * **Role:** Tracking technical debt and deferred refactoring tasks until they are absorbed into issues or execution runbooks.
 * **Governs:** Technical debt resolution path.
+
+* **`debugging-log.md`**
+* **Type:** Living Knowledge Log (Append-Only, Singleton)
+* **Role:** Durable record of non-trivial debugging experiences — the root causes, rejected hypotheses, and discovery methods behind hard-to-find bugs — captured so the reasoning is not lost once the bug is fixed.
+* **Qualification:** An entry is warranted when a debugging effort either (a) consumed more than ~2 hours of continuous or non-continuous effort, or (b) surfaced an important, non-obvious insight — particularly one *not* caused by a trivial oversight, typo, or clear lapse of attention. Debugging that resolves quickly through an obvious cause does not qualify.
+* **Structure:** The file has a single shared header (`Author`, `Project`) followed by an ordered, append-only sequence of debug entries. Each entry is a `##`-level heading (a short description of the bug) followed by a metadata block and a fixed set of subsections:
+  * **Metadata block:** `Date`, `Branch path` (full branch lineage, using `→` for stacked/nested branches), `Tags` (freeform `#hashtags` for searchability), `Time spent` (duration + whether the effort was individual or team-based).
+  * **Symptoms:** Observable behavior that indicated something was wrong.
+  * **Rejected Hypotheses:** Each candidate cause considered, paired with the specific check that ruled it out. This is the core value of the log — it prevents re-investigating the same dead ends in the future.
+  * **Root Cause:** The actual underlying mechanism.
+  * **Discovery Method:** The investigative technique that led to the root cause (e.g., binary search along a data path, bisecting commits, instrumentation), described generally enough to be reusable in future debugging.
+  * **Solution:** The concrete fix applied.
+  * **Files Involved:** Paths touched by the fix.
+  * **Lesson Learned:** The generalized, reusable takeaway — framed as a rule of thumb applicable beyond this one occurrence, not just a recap of the fix.
+* **Governs:** Nothing downstream in the specification chain (it is not a rulebook); instead, it *informs* — future debugging heuristics, onboarding context, and AI/assistant context when investigating similar symptoms.
+* **Relationship to ADRs:** A debugging log entry is not an ADR. It records a diagnostic/engineering *investigation* and its resulting lesson, not a course-changing *decision*. If a debugging investigation reveals that an architectural decision must change as a consequence, that change is recorded separately as an ADR, which may then cite the corresponding debugging-log entry as supporting context.
 
 ---
 
@@ -126,6 +145,7 @@ This family pattern applies consistently to Features, Capabilities, and Infrastr
 * **Governs:** Developer Experience (DX) and integration patterns.
 
 > Usage guidance is an optional artifact of the documentation family, not a structural property exclusive to Capabilities.
+
 ---
 
 ### Layer 4: Verification & Readiness
@@ -169,18 +189,19 @@ Operational documents guiding daily execution tasks, standard operating procedur
 
 ## 4. Governance & Derivation Matrix
 
-| Document Type                   | Derived From (Upstream)                             | Governs (Downstream)                        | Document Nature          |
-|---------------------------------|-----------------------------------------------------|---------------------------------------------|--------------------------|
-| **Project Spec / Architecture** | Product Requirements / PRD                          | Overall Architecture & ADRs                 | Rulebook (Singleton)     |
-| **ADR**                         | Architecture Trade-offs / Course-Changing Decisions | Implementation Strategy                     | Decision Log (Immutable) |
-| **Feature Spec**                | Project Spec / Architecture                         | Capabilities, Infrastructure & Verification | Specification (Template) |
-| **Capability Spec**             | Feature Spec / Architecture                         | Usage Guides & Verification                 | Specification (Template) |
-| **Infrastructure Spec**         | Feature Spec / System Requirements                  | CI/CD Pipelines & Cloud Deployment          | Specification (Template) |
-| **Verification**                | Feature / Capability / Infrastructure Specs         | Test Suites & Assertion Logic               | Rulebook (Driven)        |
-| **Readiness**                   | Verification & Feature Specs                        | Merge Gate & PR Approvals                   | Living Checklist         |
-| **Usage Guide**                 | Specification / Unit Context                        | Developer Integration Workflows             | Guide (Optional)         |
-| **Runbook & SOPs**              | Readiness & Tracking                                | Daily Developer Workflows                   | Executable Guide         |
-| **Git Observatory**             | Git Repository State                                | AI Context & Branch Alignment               | Living Monitor           |
+| Document Type                   | Derived From (Upstream)                             | Governs (Downstream)                        | Document Nature             |
+|---------------------------------|-----------------------------------------------------|---------------------------------------------|-----------------------------|
+| **Project Spec / Architecture** | Product Requirements / PRD                          | Overall Architecture & ADRs                 | Rulebook (Singleton)        |
+| **ADR**                         | Architecture Trade-offs / Course-Changing Decisions | Implementation Strategy                     | Decision Log (Immutable)    |
+| **Debugging Log**               | Real-World Debugging Effort / Execution Friction    | Future Debugging Heuristics & AI Context    | Knowledge Log (Append-Only) |
+| **Feature Spec**                | Project Spec / Architecture                         | Capabilities, Infrastructure & Verification | Specification (Template)    |
+| **Capability Spec**             | Feature Spec / Architecture                         | Usage Guides & Verification                 | Specification (Template)    |
+| **Infrastructure Spec**         | Feature Spec / System Requirements                  | CI/CD Pipelines & Cloud Deployment          | Specification (Template)    |
+| **Verification**                | Feature / Capability / Infrastructure Specs         | Test Suites & Assertion Logic               | Rulebook (Driven)           |
+| **Readiness**                   | Verification & Feature Specs                        | Merge Gate & PR Approvals                   | Living Checklist            |
+| **Usage Guide**                 | Specification / Unit Context                        | Developer Integration Workflows             | Guide (Optional)            |
+| **Runbook & SOPs**              | Readiness & Tracking                                | Daily Developer Workflows                   | Executable Guide            |
+| **Git Observatory**             | Git Repository State                                | AI Context & Branch Alignment               | Living Monitor              |
 
 ### Documentation Family Rule
 
@@ -203,3 +224,10 @@ The distinction between these units is **what they specify**, not the structure 
 * **Infrastructure:** environmental/runtime/deployment capability.
 
 Additional documents such as usage guides are introduced only when their responsibility is independently useful; they do not alter the core family structure.
+
+### Knowledge-Log Family Rule
+
+`debugging-log.md` and `refactor-backlog.md` both live in Layer 1 as project-wide, cross-cutting artifacts rather than per-unit documents — but they differ in nature:
+
+* **`refactor-backlog.md`** is **transient**: items are removed once resolved (absorbed into issues/runbooks).
+* **`debugging-log.md`** is **permanent and append-only**: entries are never removed or overwritten; the file only grows, since its value is the accumulated diagnostic history itself.
