@@ -49,26 +49,110 @@ We go for building the first article (this article will probably remain untouche
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-loop: Fill the article identity section
+✅ step: Deal with the problem of photos inside the article body (apparently this node only exists now and does not have insert and is not connected to an action)
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: if we already had image, don't upload again, but use the previous on
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Check if reference article and reference series are in json
+  If not it must be checked
+```
+
+```
+✅ step: Check if the tags are inherited and injected correctly
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: The address of the photo must be placed in next.config through the correct and safe way
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: fix absence of attr in imageBlock
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ loop: Fill the article identity section
   Build raw mock files
   Build helper method for finding all the slugs
 ```
 
 ```
-commit changes
+✅ step: Define types and interfaces related to Strategy and build an initial Mapper/Registry
 ```
 
 ```
-step: Fill the assets section
-  Build the cdn bed
-  Provide photo upload to cdn in a basic way
-  Test upload
-  Free the vercel cdn domain in next config
-  ‼️ Until we have not written /blog we do not have standardization of header and thumbnail (we will have it later)
+✅ commit changes
+```
+
+```
+✅ step: Build Renderer for simple text and title Nodes (paragraph, heading, blockquote, codeBlock, lists)
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Build Renderer for image block (imageBlock) with strict adherence to Alt Text and Fallback rules
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Build Renderer for content references (contentReference) with handling of 404/archived and Fallback cards
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Combine all strategies in ContentRenderer.tsx
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Implement the page.tsx routes (standalone article and series member article)
+```
+
+```
+✅ commit changes
+```
+
+```
+step: The standardization of header and photos inside the body must be done
 ```
 
 ```
@@ -175,6 +259,14 @@ commit changes
 
 ```
 step: Check the mock file to see whether all the information that must be is there or not
+```
+
+```
+commit changes
+```
+
+```
+step: inboundReferencingIds must be heath checked (if it's working properly)
 ```
 
 ```
