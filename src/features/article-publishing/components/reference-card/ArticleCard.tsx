@@ -12,6 +12,7 @@ import {PublishedDropdown} from "@/features/article-publishing/components/dropdo
 import {ArchivedDropdown} from "@/features/article-publishing/components/dropdowns/ArchivedDropdown";
 import {Button} from "@/shared/components/ui/button";
 import {useUnsecureDeleteModal} from "@/features/article-publishing/stores/useUnsecureDelete";
+import {getEffectiveTags} from "@/features/article-publishing/utils/tagUtils";
 
 
 interface ArticleCardProps {
@@ -40,6 +41,11 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         data.seriesId && parentSeries?.slug
             ? `/series/${parentSeries.slug}/${data.slug}`
             : `/blog/${data.slug}`;
+
+    const effectiveTags = React.useMemo(
+        () => getEffectiveTags(data.tags, parentSeries?.defaultTags || []),
+        [data.tags, parentSeries]
+    );
 
     const rawDate = data.firstPublishedAt || data.publishedAt;
     const parsedDate = rawDate ? new Date(rawDate) : null;
@@ -155,13 +161,13 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
 
                     <CardFooter className="p-0 mt-3 flex flex-col items-start gap-1.5">
                         <div className="flex flex-wrap gap-1 w-full">
-                            {data.tags.map((tag) => (
+                            {effectiveTags.map((tag) => (
                                 <Badge
-                                    key={tag}
+                                    key={tag.name}
                                     variant="outline"
                                     className="flex items-center select-none gap-1.5 px-2.5 py-0.5 text-[10px]"
                                 >
-                                    {tag}
+                                    {tag.name}
                                 </Badge>
                             ))}
                         </div>
