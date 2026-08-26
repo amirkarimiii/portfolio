@@ -1,16 +1,20 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CircleCheck, CircleX, Clock } from 'lucide-react';
+import { CircleCheck, CircleX, Clock, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
+
 import { Button } from '@/shared/components/ui/button';
 import { seriesFormSchema, type SeriesFormValues } from '@/features/article-publishing/schemas/seriesFormSchema';
-import {BaseIdentityForm} from "./article/article-form/BaseIdentityForm";
-import {BaseAssetsForm} from "./article/article-form/BaseAssetsForm";
-import {Separator} from "@/shared/components/ui/separator";
-import {BaseSEOForm} from "./article/article-form/BaseSEOForm";
-import {TagSelector} from "./tags/TagSelector";
-import {SeriesCreationTagsDisplay} from "./tags/SeriesCreationTagsDisplay";
+import { BaseIdentityForm } from './article/article-form/BaseIdentityForm';
+import { BaseAssetsForm } from './article/article-form/BaseAssetsForm';
+import { Separator } from '@/shared/components/ui/separator';
+import { BaseSEOForm } from './article/article-form/BaseSEOForm';
+import { TagSelector } from './tags/TagSelector';
+import { SeriesCreationTagsDisplay } from './tags/SeriesCreationTagsDisplay';
+import { publishSeriesAction } from '@/features/article-publishing/actions/publishSeriesAction';
 
 const defaultValues: SeriesFormValues = {
     title: '',
@@ -26,20 +30,19 @@ const defaultValues: SeriesFormValues = {
     canonicalUrl: '',
 };
 
+type PublishStatus = 'idle' | 'pending' | 'success' | 'failed';
+
 export function SeriesCreationSection() {
+    const [publishStatus, setPublishStatus] = useState<PublishStatus>('idle');
+    const [isPublishing, setIsPublishing] = useState(false);
+
     const methods = useForm<SeriesFormValues>({
         resolver: zodResolver(seriesFormSchema),
         defaultValues,
         mode: 'onChange',
     });
 
-    const status = {
-        success: [<CircleCheck key="success" color="green" />, 'saved as draft!'],
-        failed: [<CircleX key="failed" color="red" />, 'failed to save!'],
-        pending: [<Clock key="pending" color="gray" />, 'pending'],
-    } as const;
-
-    const { watch, setValue } = methods;
+    const { watch, setValue, setError, handleSubmit } = methods;
 
     const defaultTags: string[] = watch('defaultTags');
 
@@ -50,27 +53,79 @@ export function SeriesCreationSection() {
         setValue('defaultTags', updated, { shouldValidate: true, shouldDirty: true });
     };
 
+    const onPublish = async (data: SeriesFormValues) => {
+        setIsPublishing(true);
+        setPublishStatus('pending');
+
+        try {
+            const payload: SeriesFormValues = JSON.parse(JSON.stringify(data));
+            const result = await publishSeriesAction(payload);
+
+            if (result.success) {
+                setPublishStatus('success');
+                toast.success('Series has been published successfully!');
+            } else {
+                setPublishStatus('failed');
+                if (result.field) {
+                    setError(result.field, { type: 'manual', message: result.error });
+                }
+                toast.error(result.error);
+            }
+        } catch {
+            setPublishStatus('failed');
+            toast.error('Something unexpectedly went wrong!');
+        } finally {
+            setIsPublishing(false);
+        }
+    };
+
+    const statusIcons = {
+        idle: null,
+        pending: (
+            <div className="w-full h-max flex flex-row gap-2 my-auto">
+                <div className="w-5 aspect-square">
+                    <Clock className="text-gray-500" />
+                </div>
+                <p className="text-sm text-muted-foreground">Publishing series...</p>
+            </div>
+        ),
+        success: (
+            <div className="w-full h-max flex flex-row gap-2 my-auto">
+                <div className="w-5 aspect-square">
+                    <CircleCheck className="text-green-500" />
+                </div>
+                <p className="text-sm text-green-600">Saved successfully!</p>
+            </div>
+        ),
+        failed: (
+            <div className="w-full h-max flex flex-row gap-2 my-auto">
+                <div className="w-5 aspect-square">
+                    <CircleX className="text-red-500" />
+                </div>
+                <p className="text-sm text-red-600">Failed to save series!</p>
+            </div>
+        ),
+    };
+
     return (
         <FormProvider {...methods}>
             <section className="max-w-4xl mx-auto max-h-max mt-8 pb-20">
                 <div className="w-full flex flex-row justify-between px-5 py-2">
                     <div className="w-full h-max flex flex-row gap-2 my-auto">
-                        <div className="w-5 aspect-square">
-                            {status.success[0]}
-                        </div>
-                        <p>{status.success[1]}</p>
+                        {statusIcons[publishStatus]}
                     </div>
                     <div className="my-auto">
                         <Button
                             variant="outline"
-                            onClick={methods.handleSubmit((data) => {
-                                console.log('Publish Series payload:', data);
-                            })}
+                            disabled={isPublishing}
+                            onClick={handleSubmit(onPublish)}
                         >
+                            {isPublishing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Add Series
                         </Button>
                     </div>
                 </div>
+
                 <div className="px-5">
                     <div className="text-center">
                         <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">Identity</h2>
@@ -84,6 +139,7 @@ export function SeriesCreationSection() {
                     />
                 </div>
                 <Separator />
+
                 <div className="px-5">
                     <div className="text-center">
                         <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">Assets</h2>
@@ -91,6 +147,7 @@ export function SeriesCreationSection() {
                     <BaseAssetsForm />
                 </div>
                 <Separator />
+
                 <div className="px-5 py-3">
                     <div className="text-center">
                         <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">Classification</h2>
@@ -109,6 +166,7 @@ export function SeriesCreationSection() {
                     />
                 </div>
                 <Separator />
+
                 <div className="px-5 py-3">
                     <div className="text-center">
                         <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">SEO</h2>
