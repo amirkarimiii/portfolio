@@ -20,6 +20,8 @@ export interface SeriesCardData {
     title: string;
     description: string;
     defaultTags: string[];
+    coverImage?: string;
+    coverAltText?: string;
     thumbnailImage: string;
     thumbnailAltText?: string;
     inboundReferencingIds?: string[];
