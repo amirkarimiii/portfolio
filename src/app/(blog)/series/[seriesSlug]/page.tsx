@@ -1,8 +1,8 @@
 import {notFound} from 'next/navigation';
 import Image from 'next/image';
 import {Layers} from 'lucide-react';
-import dummySeries from '@/mock-files/series.json';
-import dummyArticles from '@/mock-files/published-articles.json';
+import dummySeries from '@/mock-files/new-series.json';
+import dummyArticles from '@/mock-files/new-published-articles.json';
 import {ContentCard} from '@/features/article-publishing/components/reference-card/ContentCard';
 import {Badge} from '@/shared/components/ui/badge';
 import {
@@ -46,45 +46,45 @@ export default async function SeriesLandingPage({
 
     return (
         <main className="container mx-auto max-w-4xl px-4 py-8 space-y-10">
-            <header className="flex flex-col md:flex-row gap-6 items-start rounded-xl border bg-card p-6 shadow-sm">
-                <div className="relative h-44 w-full md:w-44 shrink-0 bg-muted rounded-lg overflow-hidden border">
+            <header className="relative w-full overflow-hidden rounded-2xl">
+                <div className="relative w-full aspect-[21/9] md:aspect-[2.5/1] bg-muted overflow-hidden">
                     <Image
-                        src={currentSeries.thumbnailImage}
-                        alt={currentSeries.thumbnailAltText || currentSeries.title}
+                        src={currentSeries.coverImage || currentSeries.thumbnailImage}
+                        alt={currentSeries.coverAltText || currentSeries.title}
                         fill
                         className="object-cover"
                         priority
                     />
-                    <div
-                        className="absolute top-2 right-2 bg-background/90 backdrop-blur-sm p-1.5 rounded-md shadow-sm border">
-                        <Layers className="w-4 h-4 text-primary"/>
-                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                 </div>
 
-                <div className="flex flex-col justify-between space-y-4 flex-1">
-                    <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                            <Badge variant="outline" className="text-xs font-medium border-primary/30 text-primary">
-                                Series Collection
-                            </Badge>
-                        </div>
-                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
-                            {currentSeries.title}
-                        </h1>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                            {currentSeries.description}
-                        </p>
+                <div className="p-6 md:p-8 space-y-4">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <Badge variant="outline" className="text-xs font-semibold border-primary/40 text-primary">
+                            Series Collection
+                        </Badge>
+
+                        {currentSeries.defaultTags && currentSeries.defaultTags.length > 0 && (
+                            <>
+                                <span className="text-muted-foreground/40">•</span>
+                                <div className="flex flex-wrap gap-1.5">
+                                    {currentSeries.defaultTags.map((tag) => (
+                                        <Badge key={tag} variant="secondary" className="text-xs font-normal">
+                                            #{tag}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            </>
+                        )}
                     </div>
 
-                    {currentSeries.defaultTags && currentSeries.defaultTags.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 pt-2">
-                            {currentSeries.defaultTags.map((tag) => (
-                                <Badge key={tag} variant="secondary" className="text-xs">
-                                    {tag}
-                                </Badge>
-                            ))}
-                        </div>
-                    )}
+                    <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground leading-tight">
+                        {currentSeries.title}
+                    </h1>
+
+                    <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl">
+                        {currentSeries.description}
+                    </p>
                 </div>
             </header>
 
