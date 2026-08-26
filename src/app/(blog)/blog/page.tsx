@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
-import dummyPublished from '@/mock-files/published-articles.json';
+import dummyPublished from '@/mock-files/new-published-articles.json';
 import { ContentCard } from '@/features/article-publishing/components/reference-card/ContentCard';
 import { ArticleCardData } from '@/features/article-publishing/types/reference-card.type';
 import { Button } from '@/shared/components/ui/button';
