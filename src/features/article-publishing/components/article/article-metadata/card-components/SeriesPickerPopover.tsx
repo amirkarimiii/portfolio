@@ -1,6 +1,8 @@
-import React, { useState, useMemo } from 'react';
+'use client';
+
+import React, { useState, useEffect, useMemo } from 'react';
 import { Layers, Trash2 } from 'lucide-react';
-import dummySeries from '@/mock-files/series.json';
+import dummySeries from '@/mock-files/new-series.json';
 import { cn } from '@/shared/utils/shadcnUtils';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -17,6 +19,10 @@ import {
 } from '@/shared/components/ui/command';
 import { ContentCard } from '../../../reference-card/ContentCard';
 import { SeriesCardData } from '@/features/article-publishing/types/reference-card.type';
+import {
+    SERIES_BROADCAST_CHANNEL,
+    SeriesCreatedMessage,
+} from '@/features/article-publishing/constants/seriesChannel';
 
 interface SeriesPickerPopoverProps {
     value: string | null;
@@ -33,7 +39,7 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
                                                                         }) => {
     const [open, setOpen] = useState(false);
 
-    const seriesList = useMemo<SeriesCardData[]>(() => {
+    const [seriesList, setSeriesList] = useState<SeriesCardData[]>(() => {
         const rawSeries = dummySeries.series.slice(0, 20);
         return rawSeries.map((item) => ({
             uniqueId: item.uniqueId,
@@ -44,7 +50,31 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
             thumbnailImage: item.thumbnailImage,
             thumbnailAltText: item.thumbnailAltText,
         }));
-    }, []);
+    });
+
+    useEffect(() => {
+        if (typeof window === 'undefined' || !('BroadcastChannel' in window)) return;
+
+        const channel = new BroadcastChannel(SERIES_BROADCAST_CHANNEL);
+
+        channel.onmessage = (event: MessageEvent<SeriesCreatedMessage>) => {
+            if (event.data?.type === 'SERIES_CREATED' && event.data.payload) {
+                const newSeries = event.data.payload;
+
+                setSeriesList((prev) => {
+                    const exists = prev.some((s) => s.uniqueId === newSeries.uniqueId);
+                    if (exists) return prev;
+                    return [newSeries, ...prev];
+                });
+
+                onChange(newSeries.uniqueId);
+            }
+        };
+
+        return () => {
+            channel.close();
+        };
+    }, [onChange]);
 
     const selectedSeries = useMemo(() => {
         if (!value) return null;
@@ -70,7 +100,7 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
                 )}
             >
                 <div className="flex-1 min-w-0">
-                    <ContentCard type="series" data={selectedSeries} target={"_blank"} />
+                    <ContentCard type="series" data={selectedSeries} target="_blank" />
                 </div>
 
                 {!disabled && (
@@ -129,7 +159,7 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
                                         key={series.uniqueId}
                                         value={series.title}
                                         onSelect={() => handleSelect(series.uniqueId)}
-                                        className="flex flex-col gap-2 items-center cursor-pointer "
+                                        className="flex flex-col gap-2 items-center cursor-pointer"
                                     >
                                         <ContentCard type="series" data={series} selective={false} />
                                     </CommandItem>
