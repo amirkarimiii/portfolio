@@ -143,19 +143,20 @@ A commit should still represent one logical change. If a change spans multiple i
 
 (based on root `docs/` artifacts)
 
-| Scope         | Responsibility                                                                                                    |
-|---------------|-------------------------------------------------------------------------------------------------------------------|
-| `adr`         | Architecture Decision Records (`docs/adr/`)                                                                       |
-| `spec`        | Product / technical specifications (`portfolio-v2-spec.md`, feature specifications, capability specifications, …) |
-| `runbook`     | Engineering runbooks (`docs/runbook-v2/`)                                                                         |
-| `tracking`    | Tracking files (`TRACKING.md` and related progress trackers)                                                      |
-| `roadmap`     | Roadmap documents (`ROADMAP.md`)                                                                                  |
-| `observatory` | Git / process observatory (`docs/git-observatory.md`)                                                             |
-| `conventions` | Coding & process conventions (`docs/conventions.md`)                                                              |
-| `ai-wf`       | AI / engineering workflow docs (`docs/ai-integration-workflow.md`)                                                |
-| `environment` | Environment documentation (`docs/environment.md`)                                                                 |
-| `tech-stack`  | Tech stack documentation (`docs/tech-stack.md`)                                                                   |
-| `guide`       | Developer guides, usage examples, implementation guidance, and authoring guidelines                               |
+| Scope         | Responsibility                                                                                                                      |
+|---------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `adr`         | Architecture Decision Records (`docs/adr/`)                                                                                         |
+| `spec`        | Product / technical specifications (`portfolio-v2-spec.md`, feature specifications, capability specifications, …)                   |
+| `runbook`     | Engineering runbooks (`docs/runbook-v2/`)                                                                                           |
+| `tracking`    | Tracking files (`TRACKING.md` and related progress trackers)                                                                        |
+| `roadmap`     | Roadmap documents (`ROADMAP.md`)                                                                                                    |
+| `observatory` | Git / process observatory (`docs/git-observatory.md`)                                                                               |
+| `conventions` | Coding & process conventions (`docs/conventions.md`)                                                                                |
+| `ai-wf`       | AI / engineering workflow docs (`docs/ai-integration-workflow.md`)                                                                  |
+| `environment` | Environment documentation (`docs/environment.md`)                                                                                   |
+| `tech-stack`  | Tech stack documentation (`docs/tech-stack.md`)                                                                                     |
+| `guide`       | Developer guides, usage examples, implementation guidance, and authoring guidelines                                                 |
+| `debug-log`   | Debugging knowledge log — accumulated root-cause investigations, rejected hypotheses, and lessons learned (`docs/debugging-log.md`) |
 
 > `spec` includes `portfolio-v2-spec.md` and all documents under `docs/feature/` and `docs/capability/`.
 
