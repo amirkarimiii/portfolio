@@ -15,6 +15,7 @@ import { BaseSEOForm } from './article/article-form/BaseSEOForm';
 import { TagSelector } from './tags/TagSelector';
 import { SeriesCreationTagsDisplay } from './tags/SeriesCreationTagsDisplay';
 import { publishSeriesAction } from '@/features/article-publishing/actions/publishSeriesAction';
+import { SERIES_BROADCAST_CHANNEL } from "../constants/seriesChannel";
 
 const defaultValues: SeriesFormValues = {
     title: '',
@@ -64,6 +65,23 @@ export function SeriesCreationSection() {
             if (result.success) {
                 setPublishStatus('success');
                 toast.success('Series has been published successfully!');
+
+                if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+                    const channel = new BroadcastChannel(SERIES_BROADCAST_CHANNEL);
+                    channel.postMessage({
+                        type: 'SERIES_CREATED',
+                        payload: {
+                            uniqueId: result.data.uniqueId,
+                            slug: result.data.slug,
+                            title: result.data.title,
+                            description: result.data.description,
+                            defaultTags: result.data.defaultTags,
+                            thumbnailImage: result.data.thumbnailImage,
+                            thumbnailAltText: result.data.thumbnailAltText,
+                        },
+                    });
+                    channel.close();
+                }
             } else {
                 setPublishStatus('failed');
                 if (result.field) {
