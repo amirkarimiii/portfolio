@@ -152,14 +152,6 @@ We go for building the first article (this article will probably remain untouche
 ```
 
 ```
-step: The standardization of header and photos inside the body must be done
-```
-
-```
-commit changes
-```
-
-```
 step: Fill the classification section
   Merely test tag selection for the first article
   ‼️ For the first article we do not have membership and as a result building series and all the work that must be done for building series
