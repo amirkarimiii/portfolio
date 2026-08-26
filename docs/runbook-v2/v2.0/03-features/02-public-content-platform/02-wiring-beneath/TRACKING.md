@@ -2,7 +2,7 @@
 
 **Status:** In Progress
 
-**Last Updated:** 2026-08-25
+**Last Updated:** 2026-08-26
 
 **Owner:** Amir Karimi
 
@@ -18,13 +18,13 @@ It provides an overview of Wiring Beneath status, planning milestones, and execu
 
 # 2. Tracking
 
-| Sections          | Status      | Planned Start           | Target Milestone | Completed |
-|-------------------|-------------|-------------------------|------------------|:---------:|
-| First Article     | In Progress | 2026-08-20              | 2026-08-25*      |     -     |
-| Article Lifecycle | Planned     | After First Article     | 2026-08-27       |     -     |
-| API Integration   | Planned     | After Article Lifecycle | 2026-08-29       |     -     |
+| Sections          | Status      | Planned Start           | Target Milestone | Completed  |
+|-------------------|-------------|-------------------------|------------------|:----------:|
+| First Article     | Completed   | 2026-08-20              | 2026-08-26*      | 2026-08-26 |
+| Article Lifecycle | In Progress | 2026-08-26              | 2026-08-28       |     -      |
+| API Integration   | Planned     | After Article Lifecycle | 2026-08-30       |     -      |
 
-> *three days were off
+> *three days were off from work
 
 ---
 
@@ -41,7 +41,8 @@ It provides an overview of Wiring Beneath status, planning milestones, and execu
 # Appendix A — Change Log
 
 
-| Date       | Change                                                                                                                                                                                               |
-|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 2026-08-20 | Tracking document created.                                                                                                                                                                           |
+| Date       | Change                                                                                                               |
+|------------|----------------------------------------------------------------------------------------------------------------------|
+| 2026-08-20 | Tracking document created.                                                                                           |
+| 2026-08-26 | First Article marked as Completed (2026-08-26). Article Lifecycle moved to In Progress with Planned Start 2026-08-26 |
 
