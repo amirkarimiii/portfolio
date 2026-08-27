@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import mockNewArticles from '@/mock-files/new-published-articles.json';
-import mockSeries from '@/mock-files/series.json';
+import mockSeries from '@/mock-files/new-series.json';
 import { Badge } from '@/shared/components/ui/badge';
 import { SeriesCardData } from '@/features/article-publishing/types/reference-card.type';
 import {TipTapDocument} from "@/features/article-publishing/types/node-renderers.type";

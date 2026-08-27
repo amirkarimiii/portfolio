@@ -7,7 +7,7 @@ import {ArticleCardData, SeriesCardData} from "../../types/reference-card.type";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/shared/components/ui/card";
 import {cn} from "@/shared/utils/shadcnUtils";
 import {Badge} from "@/shared/components/ui/badge";
-import seriesData from "@/mock-files/series.json";
+import seriesData from "@/mock-files/new-series.json";
 import {PublishedDropdown} from "@/features/article-publishing/components/dropdowns/PublishedDropdown";
 import {ArchivedDropdown} from "@/features/article-publishing/components/dropdowns/ArchivedDropdown";
 import {Button} from "@/shared/components/ui/button";

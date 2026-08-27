@@ -2,8 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { Layers, FileText } from 'lucide-react';
-import dummySeries from '@/mock-files/series.json';
-import dummyArticles from '@/mock-files/published-articles.json';
+import dummySeries from '@/mock-files/new-series.json';
+import dummyArticles from '@/mock-files/new-published-articles.json';
 import { cn } from '@/shared/utils/shadcnUtils';
 import {
     Popover,

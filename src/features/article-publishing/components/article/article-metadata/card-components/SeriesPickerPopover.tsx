@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Layers, Trash2 } from 'lucide-react';
-import dummySeries from '@/mock-files/new-series.json';
+import mockSeries from '@/mock-files/new-series.json';
 import { cn } from '@/shared/utils/shadcnUtils';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -40,7 +40,7 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
     const [open, setOpen] = useState(false);
 
     const [seriesList, setSeriesList] = useState<SeriesCardData[]>(() => {
-        const rawSeries = dummySeries.series.slice(0, 20);
+        const rawSeries = (mockSeries.series || []) as SeriesCardData[];
         return rawSeries.map((item) => ({
             uniqueId: item.uniqueId,
             slug: item.slug,

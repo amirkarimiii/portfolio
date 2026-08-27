@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
-import dummyData from '@/mock-files/draft-articles.json';
+import mockDraft from '@/mock-files/new-draft-articles.json';
 import { ContentCard } from '@/features/article-publishing/components/reference-card/ContentCard';
 import { ArticleCardData } from '@/features/article-publishing/types/reference-card.type';
 import { Button } from '@/shared/components/ui/button';
@@ -17,7 +17,7 @@ async function DraftsArchiveContent({ searchParams }: DraftsPageProps) {
     const currentPage = Math.max(1, parseInt(resolvedSearchParams.page || '1', 10));
     const sortOrder = resolvedSearchParams.sort === 'oldest' ? 'oldest' : 'newest';
 
-    const draftArticles = (dummyData as { articles?: ArticleCardData[] }).articles || [];
+    const draftArticles = (mockDraft as { articles?: ArticleCardData[] }).articles || [];
 
     const sortedArticles = [...draftArticles].sort((a, b) => {
         const dateA = new Date(a.firstPublishedAt || a.publishedAt || 0).getTime();

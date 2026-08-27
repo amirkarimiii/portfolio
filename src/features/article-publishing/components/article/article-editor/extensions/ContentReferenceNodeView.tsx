@@ -7,8 +7,8 @@ import { cn } from '@/shared/utils/shadcnUtils';
 import { Button } from '@/shared/components/ui/button';
 import { ContentCard } from '../../../reference-card/ContentCard';
 import { ContentReferencePickerPopover } from './ContentReferencePickerPopover';
-import dummySeries from '@/mock-files/series.json';
-import dummyArticles from '@/mock-files/published-articles.json';
+import mockSeries from '@/mock-files/new-series.json';
+import mockPublished from '@/mock-files/new-published-articles.json';
 import {
     ArticleCardData,
     SeriesCardData,
@@ -59,7 +59,7 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
     let isUnavailable = false;
 
     if (type === 'article') {
-        const articles = (dummyArticles as { articles?: ArticleCardData[] }).articles || [];
+        const articles = (mockPublished as { articles?: ArticleCardData[] }).articles || [];
         const found = articles.find((art) => art.uniqueId === id);
         if (found && found.lifecycle !== 'archived') {
             cardData = found;
@@ -67,7 +67,7 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
             isUnavailable = true;
         }
     } else if (type === 'series') {
-        const seriesList = (dummySeries as { series?: SeriesCardData[] }).series || [];
+        const seriesList = (mockSeries as { series?: SeriesCardData[] }).series || [];
         const found = seriesList.find((s) => s.uniqueId === id);
         if (found) {
             cardData = found;

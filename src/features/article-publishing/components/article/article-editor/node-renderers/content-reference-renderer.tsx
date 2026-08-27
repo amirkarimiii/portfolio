@@ -1,7 +1,6 @@
 import React from 'react';
-import mockNewArticles from '@/mock-files/new-published-articles.json';
-import mockPublishedArticles from '@/mock-files/published-articles.json';
-import mockSeries from '@/mock-files/series.json';
+import mockPublishedArticles from '@/mock-files/new-published-articles.json';
+import mockSeries from '@/mock-files/new-series.json';
 import { ContentCard } from '@/features/article-publishing/components/reference-card/ContentCard';
 import {
     ArticleCardData,
@@ -37,12 +36,10 @@ export const contentReferenceStrategy: NodeRendererStrategy = {
 
         if (refType === 'article') {
             const allArticles = [
-                ...((mockNewArticles as { articles?: ArticleCardData[] }).articles || []),
                 ...((mockPublishedArticles as { articles?: ArticleCardData[] }).articles || []),
             ];
 
             const found = allArticles.find((art) => art.uniqueId === refId);
-            // فقط مقالاتی که منتشر شده‌اند و آرشیو نیستند رندر می‌شوند
             if (found && found.lifecycle === 'Published') {
                 cardData = found;
             } else {
