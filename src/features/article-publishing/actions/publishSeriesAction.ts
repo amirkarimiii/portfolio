@@ -2,6 +2,7 @@
 
 import { seriesFormSchema, type SeriesFormValues } from '../schemas/seriesFormSchema';
 import { SeriesRepository, type Series } from '../repository/seriesRepository';
+import {isReservedSlug} from "@/features/article-publishing/utils/slugValidation";
 
 export type PublishSeriesActionResult =
     | { success: true; data: Series }
@@ -29,6 +30,14 @@ export async function publishSeriesAction(
                 success: false,
                 error: 'A series with this slug already exists.',
                 field: 'slug',
+            };
+        }
+
+        if (formData.slug && isReservedSlug(formData.slug)) {
+            return {
+                success: false,
+                field: 'slug',
+                error: 'This slug is reserved and cannot be used.',
             };
         }
 
