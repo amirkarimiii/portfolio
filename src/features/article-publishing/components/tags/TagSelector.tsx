@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { ChevronsUpDown, Plus } from 'lucide-react';
-import {FormField, FormItem, FormLabel} from "@/shared/components/ui/form";
-import {Badge} from "@/shared/components/ui/badge";
-import {Popover, PopoverContent, PopoverTrigger} from "@/shared/components/ui/popover";
-import {Button} from "@/shared/components/ui/button";
+import { ChevronsUpDown, Plus, Loader2 } from 'lucide-react';
+import { FormField, FormItem, FormLabel } from "@/shared/components/ui/form";
+import { Badge } from "@/shared/components/ui/badge";
+import { Popover, PopoverContent, PopoverTrigger } from "@/shared/components/ui/popover";
+import { Button } from "@/shared/components/ui/button";
 import {
     Command,
     CommandEmpty,
@@ -15,19 +15,7 @@ import {
     CommandItem,
     CommandList
 } from "@/shared/components/ui/command";
-
-
-
-export const INITIAL_MOCK_TAGS = [
-    'React',
-    'React Native',
-    'TypeScript',
-    'Next.js',
-    'Architecture',
-    'Tailwind CSS',
-    'Zustand',
-    'Node.js',
-];
+import { getTagsAction, createTagAction } from '../../actions/tagActions';
 
 interface TagSelectorProps {
     fieldName: string;
@@ -35,18 +23,18 @@ interface TagSelectorProps {
     placeholder?: string;
 }
 
-function FormMessage() {
-    return null;
-}
-
-
 export function TagSelector({ fieldName, label, placeholder = 'Select or type a tag...' }: TagSelectorProps) {
     const [open, setOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
-    const [existingTags, setExistingTags] = useState<string[]>(INITIAL_MOCK_TAGS);
+    const [existingTags, setExistingTags] = useState<string[]>([]);
+    const [isPending, startTransition] = useTransition();
 
     const { control, setValue } = useFormContext();
     const currentTags: string[] = useWatch({ control, name: fieldName }) || [];
+
+    useEffect(() => {
+        getTagsAction().then((tags) => setExistingTags(tags));
+    }, []);
 
     const handleSelectTag = (tag: string) => {
         if (!currentTags.includes(tag)) {
@@ -61,11 +49,13 @@ export function TagSelector({ fieldName, label, placeholder = 'Select or type a 
         const trimmedTag = newTag.trim();
         if (!trimmedTag) return;
 
-        if (!existingTags.some((t) => t.toLowerCase() === trimmedTag.toLowerCase())) {
-            setExistingTags((prev) => [...prev, trimmedTag]);
-        }
-
-        handleSelectTag(trimmedTag);
+        startTransition(async () => {
+            const res = await createTagAction(trimmedTag);
+            if (res.success) {
+                setExistingTags(res.tags);
+                handleSelectTag(trimmedTag);
+            }
+        });
     };
 
     const filteredSuggestions = existingTags.filter((tag) => !currentTags.includes(tag));
@@ -106,11 +96,12 @@ export function TagSelector({ fieldName, label, placeholder = 'Select or type a 
                                         {inputValue.trim() ? (
                                             <button
                                                 type="button"
+                                                disabled={isPending}
                                                 onClick={() => handleCreateTag(inputValue)}
-                                                className="flex items-center gap-2 w-full text-left px-2 py-1.5 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
+                                                className="flex items-center gap-2 w-full text-left px-2 py-1.5 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground cursor-pointer disabled:opacity-50"
                                             >
-                                                <div className="w-4 aspect-square">
-                                                    <Plus />
+                                                <div className="w-4 aspect-square flex items-center justify-center">
+                                                    {isPending ? <Loader2 className="animate-spin w-3 h-3" /> : <Plus />}
                                                 </div>
                                                 <span>Create tag <strong>&quot;{inputValue}&quot;</strong></span>
                                             </button>
@@ -136,7 +127,6 @@ export function TagSelector({ fieldName, label, placeholder = 'Select or type a 
                             </Command>
                         </PopoverContent>
                     </Popover>
-                    <FormMessage />
                 </FormItem>
             )}
         />
