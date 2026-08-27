@@ -13,47 +13,17 @@ import { Button } from "@/shared/components/ui/button";
 import { useUnsecureDeleteModal } from "@/features/article-publishing/stores/useUnsecureDelete";
 import { useArticleFormStore } from '@/features/article-publishing/stores/useArticleFormStore';
 import { publishArticleAction } from '@/features/article-publishing/actions/publishArticleAction';
-import { saveDraftAction } from '@/features/article-publishing/actions/saveDraftAction';
 import type { ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
-import {useDraftSyncStore} from "@/features/article-publishing/stores/useDraftSyncStore";
 
 export function AddArticleDropdown() {
-    const { handleSubmit, setError, getValues } = useFormContext<ArticleFormValues>();
-    const [isPending, setIsPending] = React.useState(false);
+    const { handleSubmit, setError } = useFormContext<ArticleFormValues>();
+    const [isPublishing, setIsPublishing] = React.useState(false);
 
     const articleId = useArticleFormStore((state) => state.articleId);
     const resetArticleId = useArticleFormStore((state) => state.resetArticleId);
-    const setDraftStatus = useDraftSyncStore((state) => state.setStatus);
 
-    const onSaveDraft = async () => {
-        setIsPending(true);
-        setDraftStatus('pending');
-        try {
-            const currentData = getValues();
-            const payload: Partial<ArticleFormValues> = JSON.parse(JSON.stringify(currentData));
-
-            const result = await saveDraftAction({
-                uniqueId: articleId,
-                formData: payload,
-            });
-
-            if (result.success) {
-                toast.success('Draft saved successfully!');
-                setDraftStatus('success');
-            } else {
-                toast.error(result.error || 'Failed to save draft');
-                setDraftStatus('failed');
-            }
-        } catch {
-            toast.error('Something unexpectedly went wrong while saving draft!');
-            setDraftStatus('failed');
-        } finally {
-            setIsPending(false);
-        }
-    };
-    
     const onPublish = async (data: ArticleFormValues) => {
-        setIsPending(true);
+        setIsPublishing(true);
         try {
             const payload: ArticleFormValues = JSON.parse(JSON.stringify(data));
 
@@ -74,15 +44,15 @@ export function AddArticleDropdown() {
         } catch {
             toast.error('Something unexpectedly went wrong!');
         } finally {
-            setIsPending(false);
+            setIsPublishing(false);
         }
     };
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" disabled={isPending}>
-                    {isPending ? 'Processing...' : 'Action'}
+                <Button variant="outline" disabled={isPublishing}>
+                    {isPublishing ? 'Publishing...' : 'Action'}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex flex-col gap-0.5">
@@ -91,12 +61,6 @@ export function AddArticleDropdown() {
                     className="justify-center font-semibold text-primary"
                 >
                     Publish Article
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                    onClick={onSaveDraft}
-                    className="justify-center"
-                >
-                    Save Draft
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => console.log("Archive")} className="justify-center">
                     Archive
