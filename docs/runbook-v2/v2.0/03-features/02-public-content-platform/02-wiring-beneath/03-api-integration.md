@@ -7,14 +7,6 @@ loop:
 ```
 
 ```
-step: inboundReferencingIds must be heath checked (if it's working properly)
-```
-
-```
-commit changes
-```
-
-```
 commit changes
 ```
 

@@ -4,15 +4,15 @@ stage 2: Complete the lifecycle
 stage 3: Replace file system with real API  
 
 ```todo
-✅step: create branch feature/pcp-wiring-beneath
+✅ step: create branch feature/pcp-wiring-beneath
 ```
 
 ```todo
-✅step: go to 01-first-article.md
+✅ step: go to 01-first-article.md
 ```
 
 ```
-step: Go to TRACKING
+✅ step: Go to TRACKING
   mark this step as Completed with mention of completion date
   put the next step as In Progress
   write its changelog
@@ -20,21 +20,21 @@ step: Go to TRACKING
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Go to Observatory
+✅ step: Go to Observatory
   mark this branch as Merged
   activate the next branch
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```todo

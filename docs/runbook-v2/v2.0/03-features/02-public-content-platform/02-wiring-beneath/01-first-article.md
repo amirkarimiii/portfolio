@@ -266,21 +266,21 @@ After that we go for building the first series
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```todo:subbranches
-step: Checkout the branch feature/pcp-wiring-beneath
+✅ step: Checkout the branch feature/pcp-wiring-beneath
 ```
 
 ```todo:subbranches
-step: Merge the branch feature/pcp-first-article into feature/pcp-wiring-beneath
+✅ step: Merge the branch feature/pcp-first-article into feature/pcp-wiring-beneath
 ```
 
 ```todo:subbranches
-step: Delete the branch feature/pcp-first-article
+✅ step: Delete the branch feature/pcp-first-article
 ```
 
 ```todo:subbranches
-step: go to article-creation-and-edit-runbook line 
+✅ step: go to article-creation-and-edit-runbook line 15
 ```

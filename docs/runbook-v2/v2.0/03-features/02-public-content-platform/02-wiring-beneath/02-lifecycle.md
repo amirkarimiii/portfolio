@@ -2,23 +2,94 @@
 step: make branch feature/pcp-lifecycle
 ```
 
+add-article
+
+```
+step: Implement draft save mechanism
+```
+
+```
+commit changes
+```
+
+```
+step: Attempt to implement exponential try
+```
+
+```
+commit changes
+```
+
+```
+step: Colored status system is removed from add-series and comes here
+```
+
+```
+commit changes
+```
+
+```
+step: Build related articles tab
+```
+
+```
+commit changes
+```
+
+```
+step: inboundReferingId is also addressed
+```
+
+```
+commit changes
+```
+
+```
+step: Delete is also implemented with unsecureDeletion
+```
+
+```
+commit changes
+```
+
+```
+step: If validation is passed it can go to archive
+```
+
+```
+commit changes
+```
+
+```
+step: If validation is passed it can go to preview
+```
+
+```
+commit changes
+```
+
+preview
+
 ```
 loop: 
 ```
 
-```backlog
-ما تب related articles رو به اینجا منتقل کردیم چون بیش از اینکه کار ui داشته باشه، کار wiring beneath داشت:
+publish
 
+```
+loop: 
+```
 
-Tab 3 includes Related Articles works:
-* Display list of 20 suggested articles based on highest Tag overlap (Top 20 Tag-Similarity).
-* Ability to search separately for articles outside the suggested 20.
-* Ability to add, remove and Drag/Reorder selected articles.
+archive
 
-`` `todo
-loop: design Related Articles tab
-`` `
+```
+loop: 
+```
 
+edit
+
+```
+loop: 
 ```
 
 ```backlog
@@ -62,15 +133,6 @@ useEffect(() => {
 
 این کاملاً متفاوت از استفاده‌ی فعلی watch در parent است.
 
-```
-
-```backlog
-کارای مرتبط با /preview میاد اینجا
-و همچنین /blog/:articleSlug
-```
-
-```
-commit changes
 ```
 
 ```todo:subbranches
