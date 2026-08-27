@@ -2,6 +2,7 @@
 
 import type { ArticleFormValues } from '../schemas/articleFormSchema';
 import { ArticleRepository } from "@/features/article-publishing/repository/articleRepository";
+import {isReservedSlug} from "@/features/article-publishing/utils/slugValidation";
 
 interface SaveDraftInput {
     uniqueId: string;
@@ -14,6 +15,14 @@ export async function saveDraftAction({ uniqueId, formData }: SaveDraftInput) {
             return {
                 success: false,
                 error: 'Article ID is required for saving draft',
+            };
+        }
+
+        if (formData.slug && isReservedSlug(formData.slug)) {
+            return {
+                success: false,
+                field: 'slug',
+                error: 'This slug is reserved and cannot be used.',
             };
         }
 
