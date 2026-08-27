@@ -12,6 +12,7 @@ import {MetadataTab} from "@/features/article-publishing/components/article/arti
 import {AddArticleDropdown} from "@/features/article-publishing/components/dropdowns/AddArticleDropdown";
 import {useDraftSyncStore} from '@/features/article-publishing/stores/useDraftSyncStore';
 import {useAutoSaveDraft} from '@/features/article-publishing/hooks/useAutoSaveDraft';
+import {useRestoreDraftFallback} from "@/features/article-publishing/hooks/useRestoreDraftFallback";
 
 const defaultValues: ArticleFormValues = {
     title: '',
@@ -21,7 +22,7 @@ const defaultValues: ArticleFormValues = {
     coverAltText: '',
     thumbnailImage: '',
     thumbnailAltText: '',
-    tags: ['React', 'TypeScript', 'Next.js'],
+    tags: [],
     seoTitle: '',
     seoDescription: '',
     canonicalUrl: '',
@@ -29,6 +30,7 @@ const defaultValues: ArticleFormValues = {
 };
 
 function AutoSaveListener() {
+    useRestoreDraftFallback();
     useAutoSaveDraft();
     return null;
 }
