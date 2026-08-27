@@ -15,6 +15,7 @@ import { useArticleFormStore } from '@/features/article-publishing/stores/useArt
 import { publishArticleAction } from '@/features/article-publishing/actions/publishArticleAction';
 import { saveDraftAction } from '@/features/article-publishing/actions/saveDraftAction';
 import type { ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
+import {useDraftSyncStore} from "@/features/article-publishing/stores/useDraftSyncStore";
 
 export function AddArticleDropdown() {
     const { handleSubmit, setError, getValues } = useFormContext<ArticleFormValues>();
@@ -22,9 +23,11 @@ export function AddArticleDropdown() {
 
     const articleId = useArticleFormStore((state) => state.articleId);
     const resetArticleId = useArticleFormStore((state) => state.resetArticleId);
+    const setDraftStatus = useDraftSyncStore((state) => state.setStatus);
 
     const onSaveDraft = async () => {
         setIsPending(true);
+        setDraftStatus('pending');
         try {
             const currentData = getValues();
             const payload: Partial<ArticleFormValues> = JSON.parse(JSON.stringify(currentData));
@@ -36,16 +39,19 @@ export function AddArticleDropdown() {
 
             if (result.success) {
                 toast.success('Draft saved successfully!');
+                setDraftStatus('success');
             } else {
                 toast.error(result.error || 'Failed to save draft');
+                setDraftStatus('failed');
             }
         } catch {
             toast.error('Something unexpectedly went wrong while saving draft!');
+            setDraftStatus('failed');
         } finally {
             setIsPending(false);
         }
     };
-
+    
     const onPublish = async (data: ArticleFormValues) => {
         setIsPending(true);
         try {
