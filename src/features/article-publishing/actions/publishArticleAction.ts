@@ -2,6 +2,7 @@
 
 import type { ArticleFormValues } from '../schemas/articleFormSchema';
 import { ArticleRepository } from "@/features/article-publishing/repository/articleRepository";
+import {isReservedSlug} from "@/features/article-publishing/utils/slugValidation";
 
 interface PublishArticleInput {
     uniqueId: string;
@@ -23,6 +24,14 @@ export async function publishArticleAction({ uniqueId, formData }: PublishArticl
                 success: false,
                 error: 'this slug already exists',
                 field: 'slug',
+            };
+        }
+
+        if (formData.slug && isReservedSlug(formData.slug)) {
+            return {
+                success: false,
+                field: 'slug',
+                error: 'This slug is reserved and cannot be used.',
             };
         }
 
