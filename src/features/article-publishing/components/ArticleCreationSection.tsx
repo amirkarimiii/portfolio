@@ -10,8 +10,8 @@ import ContentTab, {
 } from "@/features/article-publishing/components/article/article-editor/ContentTab";
 import {MetadataTab} from "@/features/article-publishing/components/article/article-metadata/MetadataTab";
 import {AddArticleDropdown} from "@/features/article-publishing/components/dropdowns/AddArticleDropdown";
-import {useState} from "react";
-import {useDraftSyncStore} from "@/features/article-publishing/stores/useDraftSyncStore";
+import {useDraftSyncStore} from '@/features/article-publishing/stores/useDraftSyncStore';
+import {useAutoSaveDraft} from '@/features/article-publishing/hooks/useAutoSaveDraft';
 
 const defaultValues: ArticleFormValues = {
     title: '',
@@ -28,8 +28,12 @@ const defaultValues: ArticleFormValues = {
     content: emptyTiptapDocument,
 };
 
-export default function ArticleCreationSection() {
+function AutoSaveListener() {
+    useAutoSaveDraft();
+    return null;
+}
 
+export default function ArticleCreationSection() {
     const draftStatus = useDraftSyncStore((state) => state.status);
 
     const methods = useForm<ArticleFormValues>({
@@ -43,31 +47,29 @@ export default function ArticleCreationSection() {
         pending: (
             <div className="w-full h-max flex flex-row gap-2 my-auto">
                 <div className="w-3.5 aspect-square">
-                    <Clock className="text-gray-500 mt-px" />
+                    <Clock className="text-gray-500 mt-px"/>
                 </div>
                 <p className="text-sm text-muted-foreground">Publishing series...</p>
-            </div>
-        ),
+            </div>),
         success: (
             <div className="w-full h-max flex flex-row gap-2 my-auto">
                 <div className="w-3.5 aspect-square mt-0.5">
-                    <CircleCheck className="text-green-500" />
+                    <CircleCheck className="text-green-500"/>
                 </div>
                 <p className="text-sm text-green-600">Saved successfully!</p>
-            </div>
-        ),
+            </div>),
         failed: (
             <div className="w-full h-max flex flex-row gap-2 my-auto">
                 <div className="w-3.5 aspect-square mt-0.5">
-                    <CircleX className="text-red-500" />
+                    <CircleX className="text-red-500"/>
                 </div>
                 <p className="text-sm text-red-600">Failed to save series!</p>
-            </div>
-        ),
+            </div>),
     };
 
     return (
         <FormProvider {...methods}>
+            <AutoSaveListener/>
             <section className="max-w-4xl mx-auto max-h-max mt-8">
                 <div className="w-full flex flex-row justify-between px-5 py-2">
                     <div className="w-full h-max flex flex-row gap-2 my-auto">
