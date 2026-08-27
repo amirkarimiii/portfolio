@@ -10,6 +10,8 @@ import ContentTab, {
 } from "@/features/article-publishing/components/article/article-editor/ContentTab";
 import {MetadataTab} from "@/features/article-publishing/components/article/article-metadata/MetadataTab";
 import {AddArticleDropdown} from "@/features/article-publishing/components/dropdowns/AddArticleDropdown";
+import {useState} from "react";
+import {useDraftSyncStore} from "@/features/article-publishing/stores/useDraftSyncStore";
 
 const defaultValues: ArticleFormValues = {
     title: '',
@@ -28,29 +30,48 @@ const defaultValues: ArticleFormValues = {
 
 export default function ArticleCreationSection() {
 
+    const draftStatus = useDraftSyncStore((state) => state.status);
+
     const methods = useForm<ArticleFormValues>({
         resolver: zodResolver(articleFormSchema),
         defaultValues,
         mode: 'onChange',
     });
 
-    const status = {
-        success: [<CircleCheck key="success" color="green"/>, "saved as draft!"],
-        failed: [<CircleX key="failed" color="red"/>, "failed to save!"],
-        pending: [<Clock key="pending" color="gray"/>, "pending"],
-    } as const;
+    const statusIcons = {
+        idle: null,
+        pending: (
+            <div className="w-full h-max flex flex-row gap-2 my-auto">
+                <div className="w-3.5 aspect-square">
+                    <Clock className="text-gray-500 mt-px" />
+                </div>
+                <p className="text-sm text-muted-foreground">Publishing series...</p>
+            </div>
+        ),
+        success: (
+            <div className="w-full h-max flex flex-row gap-2 my-auto">
+                <div className="w-3.5 aspect-square mt-0.5">
+                    <CircleCheck className="text-green-500" />
+                </div>
+                <p className="text-sm text-green-600">Saved successfully!</p>
+            </div>
+        ),
+        failed: (
+            <div className="w-full h-max flex flex-row gap-2 my-auto">
+                <div className="w-3.5 aspect-square mt-0.5">
+                    <CircleX className="text-red-500" />
+                </div>
+                <p className="text-sm text-red-600">Failed to save series!</p>
+            </div>
+        ),
+    };
 
     return (
         <FormProvider {...methods}>
             <section className="max-w-4xl mx-auto max-h-max mt-8">
                 <div className="w-full flex flex-row justify-between px-5 py-2">
                     <div className="w-full h-max flex flex-row gap-2 my-auto">
-                        <div className="w-5 aspect-square">
-                            {status.success[0]}
-                        </div>
-                        <p>
-                            {status.success[1]}
-                        </p>
+                        {statusIcons[draftStatus]}
                     </div>
                     <div className="my-auto">
                         <AddArticleDropdown/>
