@@ -49,21 +49,21 @@ export default function ArticleCreationSection() {
                 <div className="w-3.5 aspect-square">
                     <Clock className="text-gray-500 mt-px"/>
                 </div>
-                <p className="text-sm text-muted-foreground">Publishing series...</p>
+                <p className="text-sm text-muted-foreground">Saving in drafts</p>
             </div>),
         success: (
             <div className="w-full h-max flex flex-row gap-2 my-auto">
                 <div className="w-3.5 aspect-square mt-0.5">
                     <CircleCheck className="text-green-500"/>
                 </div>
-                <p className="text-sm text-green-600">Saved successfully!</p>
+                <p className="text-sm text-green-600">Saved successfully in drafts!</p>
             </div>),
         failed: (
             <div className="w-full h-max flex flex-row gap-2 my-auto">
                 <div className="w-3.5 aspect-square mt-0.5">
                     <CircleX className="text-red-500"/>
                 </div>
-                <p className="text-sm text-red-600">Failed to save series!</p>
+                <p className="text-sm text-red-600">Failed to save in drafts!</p>
             </div>),
     };
 
