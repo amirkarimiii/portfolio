@@ -1,7 +1,5 @@
-// src/features/article-publishing/schemas/identitySchema.ts
 import { z } from 'zod';
-
-const RESERVED_SLUGS = ['admin', 'api', 'drafts', 'archive', 'preview'] as const;
+import { CLIENT_RESERVED_SLUGS } from '../utils/slugValidation';
 
 export const identitySchema = z.object({
     title: z
@@ -17,7 +15,7 @@ export const identitySchema = z.object({
             'Slug can only contain lowercase letters, numbers, and single hyphens'
         )
         .refine(
-            (slug) => !RESERVED_SLUGS.includes(slug.toLowerCase() as typeof RESERVED_SLUGS[number]),
+            (slug) => !CLIENT_RESERVED_SLUGS.includes(slug.toLowerCase()),
             { message: 'This slug is reserved and cannot be used' }
         ),
 
