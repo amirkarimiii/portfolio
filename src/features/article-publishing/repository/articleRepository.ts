@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import type { ArticleFormValues } from '../schemas/articleFormSchema';
 import type { TiptapDocument } from "@/features/article-publishing/schemas/tiptapDocumentSchema";
+import type { ArticleCardData } from '../types/reference-card.type';
 
 const NEW_PUBLISHED_PATH = path.join(
     process.cwd(),
@@ -57,6 +58,34 @@ export class ArticleRepository {
         await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
     }
 
+    public static async getAllArticles(): Promise<ArticleCardData[]> {
+        const paths = [NEW_PUBLISHED_PATH];
+        const articleMap = new Map<string, ArticleCardData>();
+
+        for (const filePath of paths) {
+            const fileContent = await this.readJsonFile(filePath);
+            for (const item of fileContent.articles) {
+                if (!articleMap.has(item.uniqueId)) {
+                    articleMap.set(item.uniqueId, {
+                        lifecycle: "",
+                        uniqueId: item.uniqueId,
+                        slug: item.slug,
+                        title: item.title,
+                        summary: item.summary,
+                        seriesId: item.seriesId,
+                        tags: item.tags || [],
+                        thumbnailImage: item.thumbnailImage,
+                        thumbnailAltText: item.thumbnailAltText,
+                        firstPublishedAt: item.firstPublishedAt || undefined,
+                        publishedAt: item.publishedAt || undefined
+                    });
+                }
+            }
+        }
+
+        return Array.from(articleMap.values());
+    }
+
     public static async isSlugExists(slug: string, currentUniqueId?: string): Promise<boolean> {
         const paths = [NEW_PUBLISHED_PATH];
         const normalizedTargetSlug = slug.trim().toLowerCase();
@@ -91,7 +120,7 @@ export class ArticleRepository {
             title: formData.title || existingArticle?.title || 'Untitled Draft',
             summary: formData.summary || existingArticle?.summary || '',
             lifecycle: 'Draft',
-            seriesId: formData.seriesId || existingArticle?.seriesId || null,
+            seriesId: formData.seriesId !== undefined ? formData.seriesId : (existingArticle?.seriesId || null),
             tags: formData.tags || existingArticle?.tags || [],
             coverImage: formData.coverImage || existingArticle?.coverImage || '',
             coverAltText: formData.coverAltText || existingArticle?.coverAltText || '',
@@ -100,7 +129,7 @@ export class ArticleRepository {
             seoTitle: formData.seoTitle || existingArticle?.seoTitle || formData.title || '',
             seoDescription: formData.seoDescription || existingArticle?.seoDescription || formData.summary || '',
             canonicalUrl: formData.canonicalUrl || existingArticle?.canonicalUrl || null,
-            relatedArticleIds: existingArticle?.relatedArticleIds || [],
+            relatedArticleIds: formData.relatedArticleIds || existingArticle?.relatedArticleIds || [],
             inboundReferencingIds: existingArticle?.inboundReferencingIds || [],
             createdAt: existingArticle?.createdAt || now,
             updatedAt: existingArticle ? now : null,
@@ -156,7 +185,7 @@ export class ArticleRepository {
             seoTitle: formData.seoTitle || formData.title,
             seoDescription: formData.seoDescription || formData.summary,
             canonicalUrl: formData.canonicalUrl || null,
-            relatedArticleIds: existingArticle?.relatedArticleIds || [],
+            relatedArticleIds: formData.relatedArticleIds || existingArticle?.relatedArticleIds || [],
             inboundReferencingIds: existingArticle?.inboundReferencingIds || [],
             createdAt: existingArticle?.createdAt || now,
             updatedAt: existingArticle ? now : null,
