@@ -10,7 +10,12 @@ export const articleFormSchema = z.object({
     ...assetsSchema.shape,
     ...classificationSchema.shape,
     ...seoSchema.shape,
-    content: TiptapDocumentSchema
+    content: TiptapDocumentSchema,
+    relatedArticleIds: z
+        .array(z.string())
+        .refine((items) => new Set(items).size === items.length, {
+            message: 'Duplicate related articles are not allowed.',
+        }),
 });
 
 export type ArticleFormValues = z.infer<typeof articleFormSchema>;
