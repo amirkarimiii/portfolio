@@ -13,28 +13,104 @@ import {
     ArticleCardData,
     SeriesCardData,
 } from '@/features/article-publishing/types/reference-card.type';
+import { useArticleFormStore } from '@/features/article-publishing/stores/useArticleFormStore';
+import {
+    addInboundReferenceAction,
+    removeInboundReferenceAction,
+    changeInboundReferenceAction
+} from '@/features/article-publishing/actions/inboundReferenceActions';
 
 export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
                                                                       node,
                                                                       updateAttributes,
                                                                       deleteNode,
                                                                       selected,
+                                                                      editor,
                                                                   }) => {
     const { id, type } = node.attrs as {
         id: string | null;
         type: 'article' | 'series';
     };
 
-    const handleSelectContent = (selectedId: string) => {
+    const sourceArticleId = useArticleFormStore((state) => state.articleId);
+
+    const getRemainingReferencesInDoc = (excludeCurrentNode = false) => {
+        const refs: { id: string; type: 'article' | 'series' }[] = [];
+        if (!editor) return refs;
+
+        editor.state.doc.descendants((n) => {
+            if (n.type.name === 'contentReference' && n.attrs.id) {
+                if (excludeCurrentNode && n === node) {
+                    return;
+                }
+                refs.push({
+                    id: n.attrs.id as string,
+                    type: (n.attrs.type as 'article' | 'series') || 'article',
+                });
+            }
+        });
+
+        return refs;
+    };
+
+    const handleSelectContent = async (selectedId: string) => {
+        const oldId = id;
+
         updateAttributes({ id: selectedId });
+
+        if (!sourceArticleId) return;
+
+        const remainingRefs = getRemainingReferencesInDoc(true);
+
+        if (!oldId) {
+            await addInboundReferenceAction({
+                sourceArticleId,
+                targetId: selectedId,
+                targetType: type,
+            });
+        } else if (oldId !== selectedId) {
+            // حالت تغییر مرجع (B -> C)
+            await changeInboundReferenceAction(
+                sourceArticleId,
+                { id: oldId, type },
+                { id: selectedId, type },
+                remainingRefs
+            );
+        }
     };
 
-    const handleResetSelection = () => {
+    const handleResetSelection = async () => {
+        const oldId = id;
         updateAttributes({ id: null });
+
+        if (sourceArticleId && oldId) {
+            const remainingRefs = getRemainingReferencesInDoc(true);
+            await removeInboundReferenceAction(
+                {
+                    sourceArticleId,
+                    targetId: oldId,
+                    targetType: type,
+                },
+                remainingRefs
+            );
+        }
     };
 
-    const handleDeleteNode = () => {
+    const handleDeleteNode = async () => {
+        const oldId = id;
         deleteNode();
+
+        if (sourceArticleId && oldId) {
+            const remainingRefs = getRemainingReferencesInDoc(true);
+            await removeInboundReferenceAction(
+                {
+                    sourceArticleId,
+                    targetId: oldId,
+                    targetType: type,
+                },
+                remainingRefs
+            );
+        }
     };
 
     if (!id) {
@@ -112,26 +188,26 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
                         size="icon"
                         onClick={handleResetSelection}
                         className="flex-1 w-full"
-                        title="Remove series assignment"
+                        title="Reset selection"
                     >
                         <div className="w-4 aspect-square">
                             <RefreshCw />
                         </div>
-                        <span className="sr-only">Remove series</span>
-                    </Button>
+                        <span className="sr-only">Reset selection</span>
+                    </Button    >
                     <Button
                         type="button"
                         variant="ghost"
                         size="icon"
                         onClick={handleDeleteNode}
                         className="flex-1 w-full"
-                        title="Remove series assignment"
+                        title="Delete reference"
                     >
                         <div className="w-4 aspect-square my-auto">
                             <Trash2 />
                         </div>
-                        <span className="sr-only">Remove series</span>
-                    </Button>
+                        <span className="sr-only">Delete reference</span>
+                    </Button    >
                 </div>
             </div>
         </NodeViewWrapper>
