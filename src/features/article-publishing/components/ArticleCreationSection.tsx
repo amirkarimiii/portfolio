@@ -27,6 +27,7 @@ const defaultValues: ArticleFormValues = {
     seoDescription: '',
     canonicalUrl: '',
     content: emptyTiptapDocument,
+    relatedArticleIds: []
 };
 
 function AutoSaveListener() {
@@ -35,7 +36,7 @@ function AutoSaveListener() {
     return null;
 }
 
-export default function ArticleCreationSection() {
+export function ArticleCreationSection() {
     const draftStatus = useDraftSyncStore((state) => state.status);
 
     const methods = useForm<ArticleFormValues>({
