@@ -13,9 +13,6 @@ const NEW_DRAFT_PATH = path.join(
     'src/mock-files/new-draft-articles.json'
 );
 
-const LEGACY_PUBLISHED_PATH = path.join(process.cwd(), 'src/mock-files/published-articles.json');
-const LEGACY_ARCHIVED_PATH = path.join(process.cwd(), 'src/mock-files/archived-articles.json');
-
 export interface ArticleRecord {
     uniqueId: string;
     slug: string;
@@ -61,7 +58,7 @@ export class ArticleRepository {
     }
 
     public static async isSlugExists(slug: string, currentUniqueId?: string): Promise<boolean> {
-        const paths = [NEW_PUBLISHED_PATH, LEGACY_PUBLISHED_PATH, LEGACY_ARCHIVED_PATH];
+        const paths = [NEW_PUBLISHED_PATH];
         const normalizedTargetSlug = slug.trim().toLowerCase();
 
         for (const filePath of paths) {
@@ -123,7 +120,6 @@ export class ArticleRepository {
         return draftArticle;
     }
 
-
     public static async deleteDraftArticle(uniqueId: string): Promise<void> {
         const draftContent = await this.readJsonFile(NEW_DRAFT_PATH);
         const updatedArticles = draftContent.articles.filter(a => a.uniqueId !== uniqueId);
@@ -132,7 +128,6 @@ export class ArticleRepository {
             await this.writeJsonFile(NEW_DRAFT_PATH, { articles: updatedArticles });
         }
     }
-
 
     public static async savePublishedArticle(
         uniqueId: string,
@@ -179,5 +174,53 @@ export class ArticleRepository {
 
         await this.writeJsonFile(NEW_PUBLISHED_PATH, publishedContent);
         return publishedArticle;
+    }
+
+    public static async getInboundReferences(targetArticleId: string): Promise<string[]> {
+        const paths = [NEW_PUBLISHED_PATH];
+        for (const filePath of paths) {
+            const data = await this.readJsonFile(filePath);
+            const found = data.articles.find((a) => a.uniqueId === targetArticleId);
+            if (found) {
+                return found.inboundReferencingIds || [];
+            }
+        }
+        return [];
+    }
+
+    public static async addInboundReference(targetArticleId: string, sourceArticleId: string): Promise<void> {
+        const paths = [NEW_PUBLISHED_PATH];
+        for (const filePath of paths) {
+            const data = await this.readJsonFile(filePath);
+            const index = data.articles.findIndex((a) => a.uniqueId === targetArticleId);
+            if (index !== -1) {
+                const article = data.articles[index];
+                const currentRefs = article.inboundReferencingIds || [];
+                if (!currentRefs.includes(sourceArticleId)) {
+                    article.inboundReferencingIds = [...currentRefs, sourceArticleId];
+                    article.updatedAt = new Date().toISOString();
+                    await this.writeJsonFile(filePath, data);
+                }
+                return;
+            }
+        }
+    }
+
+    public static async removeInboundReference(targetArticleId: string, sourceArticleId: string): Promise<void> {
+        const paths = [NEW_PUBLISHED_PATH];
+        for (const filePath of paths) {
+            const data = await this.readJsonFile(filePath);
+            const index = data.articles.findIndex((a) => a.uniqueId === targetArticleId);
+            if (index !== -1) {
+                const article = data.articles[index];
+                const currentRefs = article.inboundReferencingIds || [];
+                if (currentRefs.includes(sourceArticleId)) {
+                    article.inboundReferencingIds = currentRefs.filter((id) => id !== sourceArticleId);
+                    article.updatedAt = new Date().toISOString();
+                    await this.writeJsonFile(filePath, data);
+                }
+                return;
+            }
+        }
     }
 }
