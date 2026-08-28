@@ -37,7 +37,7 @@ add-article
 ```
 
 ```
-step: Build related articles tab
+✅ step: Build related articles tab
 ```
 
 ```
@@ -45,11 +45,11 @@ commit changes
 ```
 
 ```
-step: inboundReferingId is also addressed
+✅ step: inboundReferingId is also addressed
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
