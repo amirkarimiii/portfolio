@@ -13,6 +13,7 @@ import {AddArticleDropdown} from "@/features/article-publishing/components/dropd
 import {useDraftSyncStore} from '@/features/article-publishing/stores/useDraftSyncStore';
 import {useAutoSaveDraft} from '@/features/article-publishing/hooks/useAutoSaveDraft';
 import {useRestoreDraftFallback} from "@/features/article-publishing/hooks/useRestoreDraftFallback";
+import {RelatedArticlesTab} from "@/features/article-publishing/components/article/article-related/RelatedArticlesTab";
 
 const defaultValues: ArticleFormValues = {
     title: '',
@@ -94,7 +95,9 @@ export function ArticleCreationSection() {
                     <TabsContent value="content">
                         <ContentTab/>
                     </TabsContent>
-                    <TabsContent value="related">Related Articles</TabsContent>
+                    <TabsContent value="related">
+                        <RelatedArticlesTab/>
+                    </TabsContent>
                 </Tabs>
             </section>
         </FormProvider>

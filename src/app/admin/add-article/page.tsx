@@ -1,4 +1,6 @@
-import ArticleCreationSection from "@/features/article-publishing/components/ArticleCreationSection";
+import {
+    ArticleCreationSection
+} from "@/features/article-publishing/components/ArticleCreationSection";
 
 export default function AddArticle() {
     return (
