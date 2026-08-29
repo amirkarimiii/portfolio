@@ -24,7 +24,7 @@ export interface ArticleRecord {
     slug: string;
     title: string;
     summary?: string;
-    lifecycle: 'Draft' | 'Published' | 'Archived';
+    lifecycle: null | 'Published' | 'Archived';
     seriesId: string | null;
     tags: string[];
     coverImage: string;
@@ -91,6 +91,11 @@ export class ArticleRepository {
         return Array.from(articleMap.values());
     }
 
+    public static async getDraftArticle(uniqueId: string): Promise<ArticleRecord | null> {
+        const fileContent = await this.readJsonFile(NEW_DRAFT_PATH);
+        return fileContent.articles.find(a => a.uniqueId === uniqueId) || null;
+    }
+
     public static async isSlugExists(slug: string, currentUniqueId?: string): Promise<boolean> {
         const paths = [NEW_PUBLISHED_PATH, NEW_ARCHIVE_PATH, NEW_DRAFT_PATH];
         const normalizedTargetSlug = slug.trim().toLowerCase();
@@ -119,29 +124,62 @@ export class ArticleRepository {
         const existingIndex = fileContent.articles.findIndex(a => a.uniqueId === uniqueId);
         const existingArticle = existingIndex !== -1 ? fileContent.articles[existingIndex] : null;
 
+        const isTitleEmpty = !formData.title || formData.title.trim() === '' || formData.title === 'Untitled Draft';
+        const isContentEmpty = !formData.content || (
+            typeof formData.content === 'object' &&
+            'content' in formData.content &&
+            Array.isArray((formData.content as TiptapDocument).content) &&
+            (formData.content as TiptapDocument).content.length === 0
+        );
+
+        if (!existingArticle && isTitleEmpty && isContentEmpty) {
+            return {
+                uniqueId,
+                slug: '',
+                title: '',
+                lifecycle: null,
+                seriesId: null,
+                tags: [],
+                coverImage: '',
+                coverAltText: '',
+                thumbnailImage: '',
+                thumbnailAltText: '',
+                seoTitle: '',
+                canonicalUrl: null,
+                relatedArticleIds: [],
+                inboundReferencingIds: [],
+                createdAt: now,
+                updatedAt: null,
+                firstPublishedAt: null,
+                publishedAt: null,
+                archivedAt: null,
+                content: { type: 'doc', content: [] }
+            };
+        }
+
         const draftArticle: ArticleRecord = {
             uniqueId,
-            slug: formData.slug || existingArticle?.slug || '',
-            title: formData.title || existingArticle?.title || 'Untitled Draft',
-            summary: formData.summary || existingArticle?.summary || '',
-            lifecycle: 'Draft',
+            slug: formData.slug !== undefined ? formData.slug : (existingArticle?.slug || ''),
+            title: formData.title !== undefined ? formData.title : (existingArticle?.title || 'Untitled Draft'),
+            summary: formData.summary !== undefined ? formData.summary : (existingArticle?.summary || ''),
+            lifecycle: null,
             seriesId: formData.seriesId !== undefined ? formData.seriesId : (existingArticle?.seriesId || null),
-            tags: formData.tags || existingArticle?.tags || [],
-            coverImage: formData.coverImage || existingArticle?.coverImage || '',
-            coverAltText: formData.coverAltText || existingArticle?.coverAltText || '',
-            thumbnailImage: formData.thumbnailImage || existingArticle?.thumbnailImage || '',
-            thumbnailAltText: formData.thumbnailAltText || existingArticle?.thumbnailAltText || '',
-            seoTitle: formData.seoTitle || existingArticle?.seoTitle || formData.title || '',
-            seoDescription: formData.seoDescription || existingArticle?.seoDescription || formData.summary || '',
-            canonicalUrl: formData.canonicalUrl || existingArticle?.canonicalUrl || null,
-            relatedArticleIds: formData.relatedArticleIds || existingArticle?.relatedArticleIds || [],
+            tags: formData.tags !== undefined ? formData.tags : (existingArticle?.tags || []),
+            coverImage: formData.coverImage !== undefined ? formData.coverImage : (existingArticle?.coverImage || ''),
+            coverAltText: formData.coverAltText !== undefined ? formData.coverAltText : (existingArticle?.coverAltText || ''),
+            thumbnailImage: formData.thumbnailImage !== undefined ? formData.thumbnailImage : (existingArticle?.thumbnailImage || ''),
+            thumbnailAltText: formData.thumbnailAltText !== undefined ? formData.thumbnailAltText : (existingArticle?.thumbnailAltText || ''),
+            seoTitle: formData.seoTitle !== undefined ? formData.seoTitle : (existingArticle?.seoTitle || formData.title || ''),
+            seoDescription: formData.seoDescription !== undefined ? formData.seoDescription : (existingArticle?.seoDescription || formData.summary || ''),
+            canonicalUrl: formData.canonicalUrl !== undefined ? formData.canonicalUrl : (existingArticle?.canonicalUrl || null),
+            relatedArticleIds: formData.relatedArticleIds !== undefined ? formData.relatedArticleIds : (existingArticle?.relatedArticleIds || []),
             inboundReferencingIds: existingArticle?.inboundReferencingIds || [],
             createdAt: existingArticle?.createdAt || now,
             updatedAt: existingArticle ? now : null,
             firstPublishedAt: existingArticle?.firstPublishedAt || null,
             publishedAt: null,
             archivedAt: null,
-            content: formData.content || existingArticle?.content || { type: 'doc', content: [] }
+            content: formData.content !== undefined ? formData.content : (existingArticle?.content || { type: 'doc', content: [] })
         };
 
         if (existingIndex !== -1) {
@@ -168,8 +206,6 @@ export class ArticleRepository {
         formData: ArticleFormValues
     ): Promise<ArticleRecord> {
         const now = new Date().toISOString();
-
-        await this.deleteDraftArticle(uniqueId);
 
         const publishedContent = await this.readJsonFile(NEW_PUBLISHED_PATH);
         const existingIndex = publishedContent.articles.findIndex(a => a.uniqueId === uniqueId);
@@ -207,6 +243,8 @@ export class ArticleRepository {
         }
 
         await this.writeJsonFile(NEW_PUBLISHED_PATH, publishedContent);
+        await this.deleteDraftArticle(uniqueId);
+
         return publishedArticle;
     }
 
