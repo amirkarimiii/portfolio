@@ -41,7 +41,7 @@ add-article
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
@@ -69,24 +69,49 @@ commit changes
 ```
 
 ```
-step: If validation is passed it can go to preview
+✅ step: If validation is passed it can go to preview
+```
+
+```
+✅ commit changes
+```
+
+preview
+
+```
+✅ loop: add-article -> preview
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ loop: edit-article -> preview
+```
+
+```
+✅ commit changes
+```
+
+publish
+
+```
+✅ loop: preview -> publish
+```
+
+```
+✅ commit changes
+```
+
+```
+loop: archive -> publish
 ```
 
 ```
 commit changes
 ```
 
-preview
-
-```
-loop: 
-```
-
-publish
-
-```
-loop: 
-```
 
 archive
 
