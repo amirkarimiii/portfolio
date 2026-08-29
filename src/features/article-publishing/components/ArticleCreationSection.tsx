@@ -1,19 +1,21 @@
 'use client';
 
-import {useForm, FormProvider} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/shared/components/ui/tabs";
-import {CircleCheck, CircleX, Clock} from "lucide-react";
-import {articleFormSchema, type ArticleFormValues} from '@/features/article-publishing/schemas/articleFormSchema';
+import { useForm, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
+import { CircleCheck, CircleX, Clock } from "lucide-react";
+import { articleFormSchema, type ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
 import ContentTab, {
     emptyTiptapDocument
 } from "@/features/article-publishing/components/article/article-editor/ContentTab";
-import {MetadataTab} from "@/features/article-publishing/components/article/article-metadata/MetadataTab";
-import {AddArticleDropdown} from "@/features/article-publishing/components/dropdowns/AddArticleDropdown";
-import {useDraftSyncStore} from '@/features/article-publishing/stores/useDraftSyncStore';
-import {useAutoSaveDraft} from '@/features/article-publishing/hooks/useAutoSaveDraft';
-import {useRestoreDraftFallback} from "@/features/article-publishing/hooks/useRestoreDraftFallback";
-import {RelatedArticlesTab} from "@/features/article-publishing/components/article/article-related/RelatedArticlesTab";
+import { MetadataTab } from "@/features/article-publishing/components/article/article-metadata/MetadataTab";
+import { AddArticleDropdown } from "@/features/article-publishing/components/dropdowns/AddArticleDropdown";
+import { useDraftSyncStore } from '@/features/article-publishing/stores/useDraftSyncStore';
+import { useArticleFormStore } from '@/features/article-publishing/stores/useArticleFormStore';
+import { useAutoSaveDraft } from '@/features/article-publishing/hooks/useAutoSaveDraft';
+import { useRestoreDraftFallback } from "@/features/article-publishing/hooks/useRestoreDraftFallback";
+import { useArticlePublishListener } from '@/features/article-publishing/hooks/useArticlePublishListener';
+import { RelatedArticlesTab } from "@/features/article-publishing/components/article/article-related/RelatedArticlesTab";
 
 const defaultValues: ArticleFormValues = {
     title: '',
@@ -39,11 +41,16 @@ function AutoSaveListener() {
 
 export function ArticleCreationSection() {
     const draftStatus = useDraftSyncStore((state) => state.status);
+    const articleId = useArticleFormStore((state) => state.articleId);
 
     const methods = useForm<ArticleFormValues>({
         resolver: zodResolver(articleFormSchema),
         defaultValues,
         mode: 'onChange',
+    });
+
+    useArticlePublishListener({
+        currentArticleId: articleId,
     });
 
     const statusIcons = {
