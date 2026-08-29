@@ -15,7 +15,6 @@ export const assetsSchema = z.object({
 
     thumbnailAltText: z
         .string()
-        .optional(),
 });
 
 export type AssetsFormValues = z.infer<typeof assetsSchema>;
