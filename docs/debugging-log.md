@@ -37,7 +37,7 @@ await publishArticleAction(payload);
 ```
 
 ### Files Involved
-- `src/features/article-publishing/components/dropdowns/AddArticleDropdown.tsx`
+- `src/features/article-publishing/components/dropdowns/DraftedDropdown.tsx`
 - `src/features/article-publishing/actions/publishArticleAction.ts`
 
 ### Lesson Learned
