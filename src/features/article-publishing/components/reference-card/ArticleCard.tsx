@@ -10,9 +10,8 @@ import {Badge} from "@/shared/components/ui/badge";
 import seriesData from "@/mock-files/new-series.json";
 import {PublishedDropdown} from "@/features/article-publishing/components/dropdowns/PublishedDropdown";
 import {ArchivedDropdown} from "@/features/article-publishing/components/dropdowns/ArchivedDropdown";
-import {Button} from "@/shared/components/ui/button";
-import {useUnsecureDeleteModal} from "@/features/article-publishing/stores/useUnsecureDelete";
 import {getEffectiveTags} from "@/features/article-publishing/utils/tagUtils";
+import {DraftedDropdown} from "@/features/article-publishing/components/dropdowns/DraftedDropdown";
 
 
 interface ArticleCardProps {
@@ -90,17 +89,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         const dropdownMap: Record<string, React.ReactNode> = {
             publish: <PublishedDropdown uniqueId={uniqueId}/>,
             archive: <ArchivedDropdown uniqueId={uniqueId}/>,
-            draft: <Button
-                variant="outline"
-                className="w-max h-6 rounded-md p-1 cursor-pointer text-xs"
-                onClick={(e) => {
-                    e.stopPropagation();
-                    useUnsecureDeleteModal.getState().openModal(uniqueId)
-                }}
-                data-no-card-navigate
-            >
-                    delete
-                </Button>,
+            draft: <DraftedDropdown uniqueId={uniqueId}/>
         };
         return dropdownMap[origin] || null;
     };
