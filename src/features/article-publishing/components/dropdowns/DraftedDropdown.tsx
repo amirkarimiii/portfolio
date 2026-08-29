@@ -1,29 +1,29 @@
 'use client';
 
 import * as React from 'react';
-import { useFormContext } from 'react-hook-form';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/shared/components/ui/dropdown-menu";
-import { Button } from "@/shared/components/ui/button";
-import { useUnsecureDeleteModal } from "@/features/article-publishing/stores/useUnsecureDelete";
-import { useArticleFormStore } from '@/features/article-publishing/stores/useArticleFormStore';
-import type { ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
+import {Button} from "@/shared/components/ui/button";
+import {useUnsecureDeleteModal} from "@/features/article-publishing/stores/useUnsecureDelete";
+import {Settings} from "lucide-react";
 
-export function AddArticleDropdown() {
-    const { getValues } = useFormContext<ArticleFormValues>();
-    const articleId = useArticleFormStore((state) => state.articleId);
+interface AddArticleDropdownProps {
+    uniqueId: string;
+    fromPage?: boolean;
+}
+
+export function DraftedDropdown({
+                                    uniqueId,
+                                    fromPage = false
+                                }: AddArticleDropdownProps) {
 
     const handleOpenPreview = () => {
-        if (!articleId) return;
-        const seriesId = getValues('seriesId');
-
-        const previewUrl = seriesId
-            ? `/preview/series/${seriesId}/${articleId}`
-            : `/preview/${articleId}`;
+        if (!uniqueId) return;
+        const previewUrl = `/preview/${uniqueId}`;
 
         window.open(previewUrl, '_blank');
     };
@@ -31,8 +31,13 @@ export function AddArticleDropdown() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline">
-                    Action
+                <Button variant="outline" className={`${!fromPage && "w-max h-max rounded-md p-1 cursor-pointer"}`}>
+                    {fromPage ?
+                        "Action" :
+                        <div className="w-4 aspect-square">
+                            <Settings/>
+                        </div>
+                    }
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex flex-col gap-0.5">
@@ -46,7 +51,7 @@ export function AddArticleDropdown() {
                     Archive
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                    onClick={() => useUnsecureDeleteModal.getState().openModal(articleId)}
+                    onClick={() => useUnsecureDeleteModal.getState().openModal(uniqueId)}
                     variant="destructive"
                     className="justify-center"
                 >
