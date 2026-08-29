@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { useArticleFormStore } from '../stores/useArticleFormStore';
 import { useDraftSyncStore } from '../stores/useDraftSyncStore';
 import { saveDraftAction } from '../actions/saveDraftAction';
+import { articleDraftChannel } from '../channels/articleDraftChannel';
 import type { ArticleFormValues } from '../schemas/articleFormSchema';
 
 const INACTIVITY_DELAY = 5000;
@@ -88,6 +89,15 @@ export function useAutoSaveDraft() {
                 }
                 toast.dismiss(AUTO_SAVE_ERROR_TOAST_ID);
                 setDraftStatus('success');
+
+                if (articleId) {
+                    articleDraftChannel.publish({
+                        type: 'DRAFT_UPDATED',
+                        articleId,
+                        slug: payload.slug,
+                        seriesId: payload.seriesId,
+                    });
+                }
             } else {
                 setDraftStatus('failed');
                 if (lastError !== null) {
