@@ -9,6 +9,11 @@ const NEW_PUBLISHED_PATH = path.join(
     'src/mock-files/new-published-articles.json'
 );
 
+const NEW_ARCHIVE_PATH = path.join(
+    process.cwd(),
+    'src/mock-files/new-archived-articles.json'
+);
+
 const NEW_DRAFT_PATH = path.join(
     process.cwd(),
     'src/mock-files/new-draft-articles.json'
@@ -87,7 +92,7 @@ export class ArticleRepository {
     }
 
     public static async isSlugExists(slug: string, currentUniqueId?: string): Promise<boolean> {
-        const paths = [NEW_PUBLISHED_PATH];
+        const paths = [NEW_PUBLISHED_PATH, NEW_ARCHIVE_PATH, NEW_DRAFT_PATH];
         const normalizedTargetSlug = slug.trim().toLowerCase();
 
         for (const filePath of paths) {
