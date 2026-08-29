@@ -18,6 +18,15 @@ export async function saveDraftAction({ uniqueId, formData }: SaveDraftInput) {
             };
         }
 
+        const slugExists = await ArticleRepository.isSlugExists(formData.slug ?? "", uniqueId);
+        if (slugExists) {
+            return {
+                success: false,
+                error: 'this slug already exists',
+                field: 'slug',
+            };
+        }
+
         if (formData.slug && isReservedSlug(formData.slug)) {
             return {
                 success: false,
