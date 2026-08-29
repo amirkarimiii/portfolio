@@ -201,6 +201,15 @@ export class ArticleRepository {
         }
     }
 
+    public static async deletePublishedArticle(uniqueId: string): Promise<void> {
+        const publishedContent = await this.readJsonFile(NEW_PUBLISHED_PATH);
+        const updatedArticles = publishedContent.articles.filter(a => a.uniqueId !== uniqueId);
+
+        if (updatedArticles.length !== publishedContent.articles.length) {
+            await this.writeJsonFile(NEW_PUBLISHED_PATH, { articles: updatedArticles });
+        }
+    }
+
     public static async savePublishedArticle(
         uniqueId: string,
         formData: ArticleFormValues
@@ -246,6 +255,62 @@ export class ArticleRepository {
         await this.deleteDraftArticle(uniqueId);
 
         return publishedArticle;
+    }
+
+    public static async archiveDraftArticle(
+        uniqueId: string,
+        formData: ArticleFormValues
+    ): Promise<ArticleRecord> {
+        const now = new Date().toISOString();
+        const draftArticle = await this.getDraftArticle(uniqueId);
+
+        if (!draftArticle) {
+            throw new Error('Draft article not found');
+        }
+
+        const archivedContent = await this.readJsonFile(NEW_ARCHIVE_PATH);
+        const existingIndex = archivedContent.articles.findIndex(a => a.uniqueId === uniqueId);
+
+        const archivedArticle: ArticleRecord = {
+            uniqueId,
+            slug: formData.slug,
+            title: formData.title,
+            summary: formData.summary,
+            lifecycle: 'Archived',
+            seriesId: formData.seriesId || null,
+            tags: formData.tags || [],
+            coverImage: formData.coverImage,
+            coverAltText: formData.coverAltText,
+            thumbnailImage: formData.thumbnailImage,
+            thumbnailAltText: formData.thumbnailAltText,
+            seoTitle: formData.seoTitle || formData.title,
+            seoDescription: formData.seoDescription || formData.summary,
+            canonicalUrl: formData.canonicalUrl || null,
+            relatedArticleIds: formData.relatedArticleIds,
+            inboundReferencingIds: draftArticle.inboundReferencingIds || [],
+            createdAt: draftArticle.createdAt || now,
+            updatedAt: now,
+            firstPublishedAt: draftArticle.firstPublishedAt,
+            publishedAt: draftArticle.publishedAt,
+            archivedAt: now,
+            content: formData.content
+        };
+
+        if (existingIndex !== -1) {
+            archivedContent.articles[existingIndex] = archivedArticle;
+        } else {
+            archivedContent.articles.unshift(archivedArticle);
+        }
+
+        await this.writeJsonFile(NEW_ARCHIVE_PATH, archivedContent);
+
+        if (draftArticle.lifecycle === 'Published') {
+            await this.deletePublishedArticle(uniqueId);
+        }
+
+        await this.deleteDraftArticle(uniqueId);
+
+        return archivedArticle;
     }
 
     public static async getInboundReferences(targetArticleId: string): Promise<string[]> {
