@@ -4,18 +4,18 @@ import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArticleView } from './ArticleView';
 import { articleDraftChannel } from '../../channels/articleDraftChannel';
-import { ArticleRecord } from '../../repository/articleRepository';
 import { Button } from '@/shared/components/ui/button';
 import { publishArticleAction } from '../../actions/publishArticleAction';
 import { toast } from 'sonner';
+import {ArticleItem} from "@/features/article-publishing/types/article-item.type";
 
 interface PreviewArticleClientProps {
-    initialArticle: ArticleRecord;
+    initialArticle: ArticleItem;
     seriesTitle?: string;
 }
 
 export function PreviewArticleClient({ initialArticle, seriesTitle }: PreviewArticleClientProps) {
-    const [article, setArticle] = useState<ArticleRecord>(initialArticle);
+    const [article, setArticle] = useState<ArticleItem>(initialArticle);
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
 
