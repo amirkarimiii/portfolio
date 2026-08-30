@@ -3,6 +3,7 @@ import path from 'path';
 import type {ArticleFormValues} from '../schemas/articleFormSchema';
 import type {ArticleCardData} from '../types/reference-card.type';
 import {ArticleItem} from "@/features/article-publishing/types/article-item.type";
+import clientPromise from "@/shared/lib/mongodb";
 
 const NEW_PUBLISHED_PATH = path.join(
     process.cwd(),
@@ -36,6 +37,30 @@ export class ArticleRepository {
 
     private static async writeJsonFile(filePath: string, data: ArticlesJsonStructure): Promise<void> {
         await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
+    }
+
+    public static async getPublishedStandaloneArticleBySlug(slug: string): Promise<ArticleItem | null> {
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('articles');
+
+            const article = await collection.findOne(
+                {
+                    slug: slug,
+                    lifecycle: 'Published',
+                    seriesId: null
+                },
+                {
+                    projection: { _id: 0 }
+                }
+            );
+
+            return article || null;
+        } catch (error) {
+            console.error('[ArticleRepository.getPublishedStandaloneArticleBySlug Error]:', error);
+            return null;
+        }
     }
 
     public static async getAllArticles(): Promise<ArticleCardData[]> {
