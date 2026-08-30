@@ -143,20 +143,21 @@ A commit should still represent one logical change. If a change spans multiple i
 
 (based on root `docs/` artifacts)
 
-| Scope         | Responsibility                                                                                                                      |
-|---------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `adr`         | Architecture Decision Records (`docs/adr/`)                                                                                         |
-| `spec`        | Product / technical specifications (`portfolio-v2-spec.md`, feature specifications, capability specifications, …)                   |
-| `runbook`     | Engineering runbooks (`docs/runbook-v2/`)                                                                                           |
-| `tracking`    | Tracking files (`TRACKING.md` and related progress trackers)                                                                        |
-| `roadmap`     | Roadmap documents (`ROADMAP.md`)                                                                                                    |
-| `observatory` | Git / process observatory (`docs/git-observatory.md`)                                                                               |
-| `conventions` | Coding & process conventions (`docs/conventions.md`)                                                                                |
-| `ai-wf`       | AI / engineering workflow docs (`docs/ai-integration-workflow.md`)                                                                  |
-| `environment` | Environment documentation (`docs/environment.md`)                                                                                   |
-| `tech-stack`  | Tech stack documentation (`docs/tech-stack.md`)                                                                                     |
-| `guide`       | Developer guides, usage examples, implementation guidance, and authoring guidelines                                                 |
-| `debug-log`   | Debugging knowledge log — accumulated root-cause investigations, rejected hypotheses, and lessons learned (`docs/debugging-log.md`) |
+| Scope         | Responsibility                                                                                                                               |
+|---------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| `adr`         | Architecture Decision Records (`docs/adr/`)                                                                                                  |
+| `spec`        | Product / technical specifications (`portfolio-v2-spec.md`, feature specifications, capability specifications, …)                            |
+| `runbook`     | Engineering runbooks (`docs/runbook-v2/`)                                                                                                    |
+| `tracking`    | Tracking files (`TRACKING.md` and related progress trackers)                                                                                 |
+| `roadmap`     | Roadmap documents (`ROADMAP.md`)                                                                                                             |
+| `observatory` | Git / process observatory (`docs/git-observatory.md`)                                                                                        |
+| `conventions` | Coding & process conventions (`docs/conventions.md`)                                                                                         |
+| `ai-wf`       | AI / engineering workflow docs (`docs/ai-integration-workflow.md`)                                                                           |
+| `environment` | Environment documentation (`docs/environment.md`)                                                                                            |
+| `tech-stack`  | Tech stack documentation (`docs/tech-stack.md`)                                                                                              |
+| `guide`       | Developer guides, usage examples, implementation guidance, and authoring guidelines                                                          |
+| `debug-log`   | Debugging knowledge log — accumulated root-cause investigations, rejected hypotheses, and lessons learned (`docs/debugging-log.md`)          |
+| `deviation`   | Known system deviations — deferred work, accepted imperfections, intentional scope cuts, and superseded decisions (`docs/known-deviations/`) |
 
 > `spec` includes `portfolio-v2-spec.md` and all documents under `docs/feature/` and `docs/capability/`.
 
@@ -406,3 +407,13 @@ Updated commit scope governance to align Git history with the repository's featu
 * Clarified that future long-lived features should receive an explicit scope mapping when they become stable product responsibilities.
 * Added a scope selection rule that prioritizes feature ownership over physical file location.
 * Clarified that documentation changes for a feature continue to use documentation scopes such as `spec`, `runbook`, or `tracking`, while implementation changes use the feature's product scope.
+
+### 2026-08-30
+
+#### Known Deviation Scope Added
+
+Introduced the `deviation` scope for documenting known deviations from the intended, specified, or ideal system state.
+
+* Added the `deviation` scope to track deferred work, accepted imperfections, intentional scope cuts, and superseded decisions documented under `docs/known-deviations/`.
+* Established a dedicated scope for release-level engineering deviations, keeping them clearly separated from architectural decisions, specifications, runbooks, and other documentation concerns.
+
