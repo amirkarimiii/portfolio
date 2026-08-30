@@ -86,6 +86,37 @@ Global documents defining system-wide architectural rules, project conventions, 
 * **Governs:** Nothing downstream in the specification chain (it is not a rulebook); instead, it *informs* — future debugging heuristics, onboarding context, and AI/assistant context when investigating similar symptoms.
 * **Relationship to ADRs:** A debugging log entry is not an ADR. It records a diagnostic/engineering *investigation* and its resulting lesson, not a course-changing *decision*. If a debugging investigation reveals that an architectural decision must change as a consequence, that change is recorded separately as an ADR, which may then cite the corresponding debugging-log entry as supporting context.
 
+* **`known-deviations/`**
+* **Type:** Per-Item Living Registry (Status-Tracked)
+* **Role:** One document per intentionally-deferred, scope-cut, superseded, or
+  known-imperfect decision — capturing context, decision, trade-offs, risk,
+  and resolution so that intentional incompleteness is distinguishable from
+  oversight.
+* **Structure:** One file per deviation (`known-deviations/<slug>.md`) using
+  a shared template — `owner`, `category` (Technical Debt / Deferred Work /
+  Scope Cut / Superseded Decision / Known Imperfection), `status` (deferred /
+  accepted / superseded / resolved / won't fix), `issued in`,
+  `target resolution`, `last update`, `related`, followed by
+  Context / Decision / Trade-offs / Risk / Resolution sections — plus a
+  maintained `INDEX.md` summary table (Item | Type | Status | Target).
+* **Qualification:** Reserved for decisions consciously made and worth
+  defending to a reviewer — not every open TODO. Trivial, self-evident gaps
+  do not need an entry.
+* **Governs:** Nothing downstream in the specification chain (it is not a
+  rulebook); instead it *informs* — reviewer understanding, future
+  reconsideration, and AI/assistant context about what was intentionally not
+  built or changed, and why.
+* **Relationship to ADRs:** A deviation entry is not an ADR — it records a
+  scoped, release-time trade-off, not a course-changing architectural
+  decision. If a deviation's resolution later forces an architectural
+  decision, that is recorded separately as an ADR, which may cite the
+  corresponding deviation entry as context.
+* **Relationship to `refactor-backlog.md`:** `refactor-backlog.md` tracks
+  work still intended in roughly its original form; `known-deviations/`
+  tracks cases where the scope, spec, or timeline itself changed. An item
+  may graduate from a deviation entry into a `refactor-backlog.md` task once
+  someone commits to acting on it.
+
 ---
 
 ### Layer 2: Domain & Feature Specs
@@ -189,19 +220,20 @@ Operational documents guiding daily execution tasks, standard operating procedur
 
 ## 4. Governance & Derivation Matrix
 
-| Document Type                   | Derived From (Upstream)                             | Governs (Downstream)                        | Document Nature             |
-|---------------------------------|-----------------------------------------------------|---------------------------------------------|-----------------------------|
-| **Project Spec / Architecture** | Product Requirements / PRD                          | Overall Architecture & ADRs                 | Rulebook (Singleton)        |
-| **ADR**                         | Architecture Trade-offs / Course-Changing Decisions | Implementation Strategy                     | Decision Log (Immutable)    |
-| **Debugging Log**               | Real-World Debugging Effort / Execution Friction    | Future Debugging Heuristics & AI Context    | Knowledge Log (Append-Only) |
-| **Feature Spec**                | Project Spec / Architecture                         | Capabilities, Infrastructure & Verification | Specification (Template)    |
-| **Capability Spec**             | Feature Spec / Architecture                         | Usage Guides & Verification                 | Specification (Template)    |
-| **Infrastructure Spec**         | Feature Spec / System Requirements                  | CI/CD Pipelines & Cloud Deployment          | Specification (Template)    |
-| **Verification**                | Feature / Capability / Infrastructure Specs         | Test Suites & Assertion Logic               | Rulebook (Driven)           |
-| **Readiness**                   | Verification & Feature Specs                        | Merge Gate & PR Approvals                   | Living Checklist            |
-| **Usage Guide**                 | Specification / Unit Context                        | Developer Integration Workflows             | Guide (Optional)            |
-| **Runbook & SOPs**              | Readiness & Tracking                                | Daily Developer Workflows                   | Executable Guide            |
-| **Git Observatory**             | Git Repository State                                | AI Context & Branch Alignment               | Living Monitor              |
+| Document Type                   | Derived From (Upstream)                                                             | Governs (Downstream)                                  | Document Nature                  |
+|---------------------------------|-------------------------------------------------------------------------------------|-------------------------------------------------------|----------------------------------|
+| **Project Spec / Architecture** | Product Requirements / PRD                                                          | Overall Architecture & ADRs                           | Rulebook (Singleton)             |
+| **ADR**                         | Architecture Trade-offs / Course-Changing Decisions                                 | Implementation Strategy                               | Decision Log (Immutable)         |
+| **Debugging Log**               | Real-World Debugging Effort / Execution Friction                                    | Future Debugging Heuristics & AI Context              | Knowledge Log (Append-Only)      |
+| **Feature Spec**                | Project Spec / Architecture                                                         | Capabilities, Infrastructure & Verification           | Specification (Template)         |
+| **Capability Spec**             | Feature Spec / Architecture                                                         | Usage Guides & Verification                           | Specification (Template)         |
+| **Infrastructure Spec**         | Feature Spec / System Requirements                                                  | CI/CD Pipelines & Cloud Deployment                    | Specification (Template)         |
+| **Verification**                | Feature / Capability / Infrastructure Specs                                         | Test Suites & Assertion Logic                         | Rulebook (Driven)                |
+| **Readiness**                   | Verification & Feature Specs                                                        | Merge Gate & PR Approvals                             | Living Checklist                 |
+| **Usage Guide**                 | Specification / Unit Context                                                        | Developer Integration Workflows                       | Guide (Optional)                 |
+| **Runbook & SOPs**              | Readiness & Tracking                                                                | Daily Developer Workflows                             | Executable Guide                 |
+| **Git Observatory**             | Git Repository State                                                                | AI Context & Branch Alignment                         | Living Monitor                   |
+| **Known Deviation**             | Feature / Capability / Infrastructure Spec or a superseded architectural assumption | Reviewer understanding & future re-evaluation trigger | Living Registry (Status-Tracked) |
 
 ### Documentation Family Rule
 
@@ -229,5 +261,14 @@ Additional documents such as usage guides are introduced only when their respons
 
 `debugging-log.md` and `refactor-backlog.md` both live in Layer 1 as project-wide, cross-cutting artifacts rather than per-unit documents — but they differ in nature:
 
-* **`refactor-backlog.md`** is **transient**: items are removed once resolved (absorbed into issues/runbooks).
 * **`debugging-log.md`** is **permanent and append-only**: entries are never removed or overwritten; the file only grows, since its value is the accumulated diagnostic history itself.
+* **`refactor-backlog.md`** is **transient**: items are removed once resolved (absorbed into issues/runbooks).
+
+### Deviation Registry Rule
+
+`known-deviations/` is a third Layer-1 cross-cutting family member, distinct-from both:
+
+* it is **not transient** like `refactor-backlog.md` — entries are never deleted on resolution, only status-transitioned (`resolved`, `superseded`), preserving the reasoning trail;
+* it is **not purely append-only knowledge** like `debugging-log.md` — each entry has an explicit lifecycle (`deferred → accepted / superseded /  resolved / won't fix`) rather than being a permanent record of a closed   investigation.
+
+Its purpose is to make *conscious, defensible incompleteness* legible to reviewers and AI assistants — separating "forgotten" from "deliberately deferred."
