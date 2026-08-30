@@ -1,8 +1,8 @@
 import fs from 'fs/promises';
 import path from 'path';
-import type { ArticleFormValues } from '../schemas/articleFormSchema';
-import type { TiptapDocument } from "@/features/article-publishing/schemas/tiptapDocumentSchema";
-import type { ArticleCardData } from '../types/reference-card.type';
+import type {ArticleFormValues} from '../schemas/articleFormSchema';
+import type {ArticleCardData} from '../types/reference-card.type';
+import {ArticleItem} from "@/features/article-publishing/types/article-item.type";
 
 const NEW_PUBLISHED_PATH = path.join(
     process.cwd(),
@@ -19,33 +19,8 @@ const NEW_DRAFT_PATH = path.join(
     'src/mock-files/new-draft-articles.json'
 );
 
-export interface ArticleRecord {
-    uniqueId: string;
-    slug: string;
-    title: string;
-    summary?: string;
-    lifecycle: null | 'Published' | 'Archived';
-    seriesId: string | null;
-    tags: string[];
-    coverImage: string;
-    coverAltText: string;
-    thumbnailImage: string;
-    thumbnailAltText: string;
-    seoTitle: string;
-    seoDescription?: string;
-    canonicalUrl: string | null;
-    relatedArticleIds: string[];
-    inboundReferencingIds: string[];
-    createdAt: string;
-    updatedAt: string | null;
-    firstPublishedAt: string | null;
-    publishedAt: string | null;
-    archivedAt: string | null;
-    content: TiptapDocument | Record<string, unknown>;
-}
-
 interface ArticlesJsonStructure {
-    articles: ArticleRecord[];
+    articles: ArticleItem[];
 }
 
 export class ArticleRepository {
@@ -91,9 +66,9 @@ export class ArticleRepository {
         return Array.from(articleMap.values());
     }
 
-    public static async getDraftArticle(uniqueId: string): Promise<ArticleRecord | null> {
+    public static async getDraftArticle(uniqueId: string): Promise<ArticleItem | null> {
         const fileContent = await this.readJsonFile(NEW_DRAFT_PATH);
-        return fileContent.articles.find(a => a.uniqueId === uniqueId) || null;
+        return fileContent.articles.find(a => a.uniqueId === uniqueId) || null
     }
 
     public static async isSlugExists(slug: string, currentUniqueId?: string): Promise<boolean> {
@@ -117,52 +92,19 @@ export class ArticleRepository {
     public static async saveDraftArticle(
         uniqueId: string,
         formData: Partial<ArticleFormValues>
-    ): Promise<ArticleRecord> {
+    ): Promise<ArticleItem> {
         const now = new Date().toISOString();
         const fileContent = await this.readJsonFile(NEW_DRAFT_PATH);
 
         const existingIndex = fileContent.articles.findIndex(a => a.uniqueId === uniqueId);
         const existingArticle = existingIndex !== -1 ? fileContent.articles[existingIndex] : null;
 
-        const isTitleEmpty = !formData.title || formData.title.trim() === '' || formData.title === 'Untitled Draft';
-        const isContentEmpty = !formData.content || (
-            typeof formData.content === 'object' &&
-            'content' in formData.content &&
-            Array.isArray((formData.content as TiptapDocument).content) &&
-            (formData.content as TiptapDocument).content.length === 0
-        );
-
-        if (!existingArticle && isTitleEmpty && isContentEmpty) {
-            return {
-                uniqueId,
-                slug: '',
-                title: '',
-                lifecycle: null,
-                seriesId: null,
-                tags: [],
-                coverImage: '',
-                coverAltText: '',
-                thumbnailImage: '',
-                thumbnailAltText: '',
-                seoTitle: '',
-                canonicalUrl: null,
-                relatedArticleIds: [],
-                inboundReferencingIds: [],
-                createdAt: now,
-                updatedAt: null,
-                firstPublishedAt: null,
-                publishedAt: null,
-                archivedAt: null,
-                content: { type: 'doc', content: [] }
-            };
-        }
-
-        const draftArticle: ArticleRecord = {
+        const draftArticle: ArticleItem = {
             uniqueId,
             slug: formData.slug !== undefined ? formData.slug : (existingArticle?.slug || ''),
             title: formData.title !== undefined ? formData.title : (existingArticle?.title || 'Untitled Draft'),
             summary: formData.summary !== undefined ? formData.summary : (existingArticle?.summary || ''),
-            lifecycle: null,
+            lifecycle: formData.lifecycle !== undefined ? formData.lifecycle : (existingArticle?.lifecycle || null),
             seriesId: formData.seriesId !== undefined ? formData.seriesId : (existingArticle?.seriesId || null),
             tags: formData.tags !== undefined ? formData.tags : (existingArticle?.tags || []),
             coverImage: formData.coverImage !== undefined ? formData.coverImage : (existingArticle?.coverImage || ''),
@@ -213,14 +155,14 @@ export class ArticleRepository {
     public static async savePublishedArticle(
         uniqueId: string,
         formData: ArticleFormValues
-    ): Promise<ArticleRecord> {
+    ): Promise<ArticleItem> {
         const now = new Date().toISOString();
 
         const publishedContent = await this.readJsonFile(NEW_PUBLISHED_PATH);
         const existingIndex = publishedContent.articles.findIndex(a => a.uniqueId === uniqueId);
         const existingArticle = existingIndex !== -1 ? publishedContent.articles[existingIndex] : null;
 
-        const publishedArticle: ArticleRecord = {
+        const publishedArticle: ArticleItem = {
             uniqueId,
             slug: formData.slug,
             title: formData.title,
@@ -260,7 +202,7 @@ export class ArticleRepository {
     public static async archiveDraftArticle(
         uniqueId: string,
         formData: ArticleFormValues
-    ): Promise<ArticleRecord> {
+    ): Promise<ArticleItem> {
         const now = new Date().toISOString();
         const draftArticle = await this.getDraftArticle(uniqueId);
 
@@ -271,7 +213,7 @@ export class ArticleRepository {
         const archivedContent = await this.readJsonFile(NEW_ARCHIVE_PATH);
         const existingIndex = archivedContent.articles.findIndex(a => a.uniqueId === uniqueId);
 
-        const archivedArticle: ArticleRecord = {
+        const archivedArticle: ArticleItem = {
             uniqueId,
             slug: formData.slug,
             title: formData.title,
@@ -323,6 +265,36 @@ export class ArticleRepository {
             }
         }
         return [];
+    }
+
+    public static async createEditDraft(uniqueId: string): Promise<ArticleItem> {
+        const draftContent = await this.readJsonFile(NEW_DRAFT_PATH);
+        const existingDraft = draftContent.articles.find(a => a.uniqueId === uniqueId);
+
+        if (existingDraft) {
+            return existingDraft;
+        }
+
+        const publishedContent = await this.readJsonFile(NEW_PUBLISHED_PATH);
+        const archivedContent = await this.readJsonFile(NEW_ARCHIVE_PATH);
+
+        const sourceArticle =
+            publishedContent.articles.find(a => a.uniqueId === uniqueId) ||
+            archivedContent.articles.find(a => a.uniqueId === uniqueId);
+
+        if (!sourceArticle) {
+            throw new Error(`Article with ID ${uniqueId} not found in Published or Archived source.`);
+        }
+
+        const draftCopy: ArticleItem = {
+            ...sourceArticle,
+            updatedAt: new Date().toISOString(),
+        };
+
+        draftContent.articles.unshift(draftCopy);
+        await this.writeJsonFile(NEW_DRAFT_PATH, draftContent);
+
+        return draftCopy;
     }
 
     public static async addInboundReference(targetArticleId: string, sourceArticleId: string): Promise<void> {
