@@ -1,17 +1,46 @@
+'use client';
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/shared/components/ui/dropdown-menu";
-import {Button} from "@/shared/components/ui/button";
-import {Settings} from "lucide-react";
+import { Button } from "@/shared/components/ui/button";
+import { Settings, Loader2 } from "lucide-react";
+import { editArticleAction } from "../../actions/editArticleAction";
 
 type Props = {
     uniqueId: string;
 };
 
 export function ArchivedDropdown({ uniqueId }: Props) {
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleEdit = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (isLoading) return;
+
+        setIsLoading(true);
+        try {
+            const result = await editArticleAction({ uniqueId });
+            if (result.success) {
+                router.push(`/admin/edit-article/${uniqueId}`);
+            } else {
+                toast.error(result.error || "Failed to prepare article for editing");
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error("An error occurred while switching to edit mode.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -19,29 +48,27 @@ export function ArchivedDropdown({ uniqueId }: Props) {
                     variant="outline"
                     className="w-max h-max rounded-md p-1 cursor-pointer self-end"
                     data-no-card-navigate
+                    disabled={isLoading}
                 >
-                    <div className="w-4 aspect-square">
-                        <Settings/>
+                    <div className="w-4 aspect-square flex items-center justify-center">
+                        {isLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Settings />}
                     </div>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex flex-col gap-0.5">
-                <DropdownMenuItem onClick={(e) => {
-                    e.stopPropagation();
-                    console.log("edit action")
-                }} className="justify-center">
+                <DropdownMenuItem onClick={handleEdit} className="justify-center cursor-pointer">
                     Edit
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={(e) => {
                     e.stopPropagation();
-                    console.log("archive action")
-                }} className="justify-center">
+                    console.log("publish action");
+                }} className="justify-center cursor-pointer">
                     Publish
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={(e) => {
                     e.stopPropagation();
-                    console.log("safe delete action")
-                }} variant="destructive" className="justify-center">
+                    console.log("safe delete action");
+                }} variant="destructive" className="justify-center cursor-pointer">
                     Delete
                 </DropdownMenuItem>
             </DropdownMenuContent>
