@@ -39,6 +39,7 @@ export async function publishArticleAction({ uniqueId }: PublishArticleInput) {
             seriesId: draftArticle.seriesId,
             tags: draftArticle.tags,
             relatedArticleIds: draftArticle.relatedArticleIds,
+            lifecycle: draftArticle.lifecycle,
         };
 
         const validationResult = articleFormSchema.safeParse(formDataToValidate);
