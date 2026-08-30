@@ -1,23 +1,22 @@
 'use client';
 
-import {useForm, FormProvider} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/shared/components/ui/tabs";
-import {CircleCheck, CircleX, Clock} from "lucide-react";
-import {articleFormSchema, type ArticleFormValues} from '@/features/article-publishing/schemas/articleFormSchema';
+import { useForm, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
+import { CircleCheck, CircleX, Clock } from "lucide-react";
+import { articleFormSchema, type ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
 import ContentTab, {
     emptyTiptapDocument
 } from "@/features/article-publishing/components/article/article-editor/ContentTab";
-import {MetadataTab} from "@/features/article-publishing/components/article/article-metadata/MetadataTab";
-import {DraftedDropdown} from "./dropdowns/DraftedDropdown";
-import {useDraftSyncStore} from '@/features/article-publishing/stores/useDraftSyncStore';
-import {useArticleFormStore} from '@/features/article-publishing/stores/useArticleFormStore';
-import {useAutoSaveDraft} from '@/features/article-publishing/hooks/useAutoSaveDraft';
-import {useRestoreDraftFallback} from "@/features/article-publishing/hooks/useRestoreDraftFallback";
-import {useArticlePublishListener} from '@/features/article-publishing/hooks/useArticlePublishListener';
-import {RelatedArticlesTab} from "@/features/article-publishing/components/article/article-related/RelatedArticlesTab";
+import { MetadataTab } from "@/features/article-publishing/components/article/article-metadata/MetadataTab";
+import { DraftedDropdown } from "./dropdowns/DraftedDropdown";
+import { useDraftSyncStore } from '@/features/article-publishing/stores/useDraftSyncStore';
+import { useAutoSaveDraft } from '@/features/article-publishing/hooks/useAutoSaveDraft';
+import { useRestoreDraftFallback } from "@/features/article-publishing/hooks/useRestoreDraftFallback";
+import { useArticlePublishListener } from '@/features/article-publishing/hooks/useArticlePublishListener';
+import { RelatedArticlesTab } from "@/features/article-publishing/components/article/article-related/RelatedArticlesTab";
 
-const defaultValues: ArticleFormValues = {
+const defaultArticleValues: ArticleFormValues = {
     title: '',
     slug: '',
     summary: '',
@@ -30,7 +29,8 @@ const defaultValues: ArticleFormValues = {
     seoDescription: '',
     canonicalUrl: '',
     content: emptyTiptapDocument,
-    relatedArticleIds: []
+    relatedArticleIds: [],
+    lifecycle: null,
 };
 
 function AutoSaveListener() {
@@ -39,18 +39,22 @@ function AutoSaveListener() {
     return null;
 }
 
-export function ArticleCreationSection() {
+interface ArticleCreationSectionProps {
+    uniqueId: string;
+    initialValues?: ArticleFormValues;
+}
+
+export function ArticleCreationSection({ uniqueId, initialValues }: ArticleCreationSectionProps) {
     const draftStatus = useDraftSyncStore((state) => state.status);
-    const articleId = useArticleFormStore((state) => state.articleId);
 
     const methods = useForm<ArticleFormValues>({
         resolver: zodResolver(articleFormSchema),
-        defaultValues,
+        defaultValues: initialValues || defaultArticleValues,
         mode: 'onChange',
     });
 
     useArticlePublishListener({
-        currentArticleId: articleId,
+        currentArticleId: uniqueId,
     });
 
     const statusIcons = {
@@ -87,7 +91,7 @@ export function ArticleCreationSection() {
                         {statusIcons[draftStatus]}
                     </div>
                     <div className="my-auto">
-                        <DraftedDropdown uniqueId={articleId} fromPage={true}/>
+                        <DraftedDropdown uniqueId={uniqueId} fromPage={true}/>
                     </div>
                 </div>
                 <Tabs defaultValue="metadata" className="w-full">
