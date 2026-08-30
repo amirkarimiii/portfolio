@@ -4,8 +4,8 @@ export interface ArticleItem {
     uniqueId: string;
     slug: string;
     title: string;
-    summary: string;
-    lifecycle: string;
+    summary?: string;
+    lifecycle: 'Published' | 'Archived' | null;
     seriesId: string | null;
     tags: string[];
     coverImage: string;
@@ -13,7 +13,7 @@ export interface ArticleItem {
     thumbnailImage: string;
     thumbnailAltText: string;
     seoTitle: string;
-    seoDescription: string;
+    seoDescription?: string;
     canonicalUrl: string | null;
     relatedArticleIds: string[];
     inboundReferencingIds: string[];
@@ -22,5 +22,5 @@ export interface ArticleItem {
     firstPublishedAt: string | null;
     publishedAt: string | null;
     archivedAt: string | null;
-    content: TipTapDocument;
+    content: TipTapDocument | Record<string, unknown>;
 }
