@@ -1,9 +1,45 @@
 ```todo:subbranches
-step: make branch feature/pcp-api-integration
+✅ step: make branch feature/pcp-api-integration
 ```
 
 ```
-loop: 
+loop: Check the current infrastructure
+```
+
+```
+loop: Public Read
+```
+
+```
+commit changes
+```
+
+```
+loop: Public relationships
+```
+
+```
+commit changes
+```
+
+```
+loop: Admin authentication
+```
+
+```
+commit changes
+```
+
+```
+loop: Draft / Article creation
+```
+
+```
+commit changes
+```
+
+```
+loop: Publishing lifecycle
 ```
 
 ```

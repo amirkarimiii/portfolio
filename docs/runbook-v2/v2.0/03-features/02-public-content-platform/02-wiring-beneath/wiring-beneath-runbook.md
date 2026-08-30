@@ -65,7 +65,7 @@ stage 3: Replace file system with real API
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```todo
