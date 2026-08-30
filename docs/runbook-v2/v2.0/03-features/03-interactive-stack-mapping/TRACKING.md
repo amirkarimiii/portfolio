@@ -1,7 +1,7 @@
 # Interactive Stack Mapping
 
 **Status:** Planned  
-**Last Updated:** 2026-08-25  
+**Last Updated:** 2026-08-30  
 **Owner:** Amir Karimi  
 
 ---
@@ -16,11 +16,11 @@ It provides an overview of Interactive Stack Mapping status, planning milestones
 
 # 2. Tracking
 
-| Stages                  | Status  | Planned Start                 | Target Milestone | Completed |
-|-------------------------|---------|-------------------------------|------------------|:---------:|
-| UI Design               | Planned | After Public Content Platform | 2026-09-01       |     —     |
-| Wiring Beneath          | Planned | After UI Design               | 2026-09-02       |     —     |
-| Checking with Readiness | Planned | After Wiring Beneath          | 2026-09-03       |     —     |
+| Stages                  | Status   | Planned Start                 | Target Milestone | Completed |
+|-------------------------|----------|-------------------------------|------------------|:---------:|
+| UI Design               | Planned  | After Public Content Platform | 2026-09-01       |     —     |
+| Wiring Beneath          | Planned  | After UI Design               | 2026-09-02       |     —     |
+| Checking with Readiness | Deferred | Not Estimated                 | Not Estimated    |     —     |
 
 ---
 
@@ -37,6 +37,7 @@ It provides an overview of Interactive Stack Mapping status, planning milestones
 # Appendix A — Change Log
 
 
-| Date       | Change                                                                                                        |
-|------------|---------------------------------------------------------------------------------------------------------------|
-| 2026-08-24 | Tracking document created.                                                                                    |
+| Date       | Change                                                                                           |
+|------------|--------------------------------------------------------------------------------------------------|
+| 2026-08-24 | Tracking document created.                                                                       |
+| 2026-08-30 | Moved Checking with Readiness to Deferred status as it has been deferred to an unestimated time. |

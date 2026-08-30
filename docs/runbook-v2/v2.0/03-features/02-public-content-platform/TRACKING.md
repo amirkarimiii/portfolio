@@ -1,7 +1,7 @@
 # Public Content Platform
 
 **Status:** In Progress  
-**Last Updated:** 2026-08-25  
+**Last Updated:** 2026-08-30  
 **Owner:** Amir Karimi  
 
 ---
@@ -16,11 +16,11 @@ It provides an overview of Public Content Platform status, planning milestones, 
 
 # 2. Tracking
 
-| Stages                  | Status      | Planned Start        | Target Milestone | Completed  |
-|-------------------------|-------------|----------------------|------------------|:----------:|
-| UI Design               | Completed   | 2026-08-09           | 2026-08-19       | 2026-08-09 |
-| Wiring Beneath          | In Progress | 2026-08-20           | 2026-08-29       |     —      |
-| Checking with Readiness | Planned     | After Wiring Beneath | 2026-08-31       |     —      |
+| Stages                  | Status      | Planned Start | Target Milestone | Completed  |
+|-------------------------|-------------|---------------|------------------|:----------:|
+| UI Design               | Completed   | 2026-08-09    | 2026-08-19       | 2026-08-09 |
+| Wiring Beneath          | In Progress | 2026-08-20    | 2026-08-31       |     —      |
+| Checking with Readiness | Deferred    | Not Estimated | Not Estimated    |     —      |
 
 ---
 
@@ -41,3 +41,4 @@ It provides an overview of Public Content Platform status, planning milestones, 
 |------------|---------------------------------------------------------------------------------------------------------------|
 | 2026-08-09 | Tracking document created.                                                                                    |
 | 2026-08-20 | UI Design marked as Completed (2026-08-20). Wiring Beneath moved to In Progress with Planned Start 2026-08-20 |
+| 2026-08-30 | Moved Checking with Readiness to Deferred status as it has been deferred to an unestimated time.              |

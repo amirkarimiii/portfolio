@@ -21,8 +21,8 @@ It provides an overview of Wiring Beneath status, planning milestones, and execu
 | Sections          | Status      | Planned Start           | Target Milestone | Completed  |
 |-------------------|-------------|-------------------------|------------------|:----------:|
 | First Article     | Completed   | 2026-08-20              | 2026-08-26*      | 2026-08-26 |
-| Article Lifecycle | In Progress | 2026-08-26              | 2026-08-28       |     -      |
-| API Integration   | Planned     | After Article Lifecycle | 2026-08-30       |     -      |
+| Article Lifecycle | In Progress | 2026-08-26              | 2026-08-30       |     -      |
+| API Integration   | Planned     | After Article Lifecycle | 2026-08-31       |     -      |
 
 > *three days were off from work
 
