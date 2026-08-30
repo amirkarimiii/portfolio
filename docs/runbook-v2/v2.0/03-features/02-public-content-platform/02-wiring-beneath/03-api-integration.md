@@ -3,7 +3,7 @@
 ```
 
 ```
-loop: Check the current infrastructure
+✅ loop: Check the current infrastructure
 ```
 
 ```
