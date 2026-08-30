@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
-import mockNewArticles from '@/mock-files/new-published-articles.json';
 import { ArticleView } from '@/features/article-publishing/components/article/ArticleView';
-import {ArticleItem} from "@/features/article-publishing/types/article-item.type";
+import { ArticleService } from '@/features/article-publishing/services/articleService';
 
 interface PageProps {
     params: Promise<{
@@ -11,10 +10,10 @@ interface PageProps {
 
 export default async function StandaloneArticlePage({ params }: PageProps) {
     const { slug } = await params;
-    const articles = (mockNewArticles.articles || []) as ArticleItem[];
-    const article = articles.find((a) => a.slug === slug);
 
-    if (!article || article.lifecycle !== 'Published' || article.seriesId !== null) {
+    const article = await ArticleService.getPublishedStandaloneArticle(slug);
+
+    if (!article) {
         notFound();
     }
 
