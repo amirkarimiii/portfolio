@@ -127,17 +127,17 @@ edit
 ```
 
 ```todo:subbranches
-step: Checkout the branch feature/pcp-wiring-beneath
+✅ step: Checkout the branch feature/pcp-wiring-beneath
 ```
 
 ```todo:subbranches
-step: Merge the branch feature/pcp-lifecycle into feature/pcp-wiring-beneath
+✅ step: Merge the branch feature/pcp-lifecycle into feature/pcp-wiring-beneath
 ```
 
 ```todo:subbranches
-step: Delete the branch feature/pcp-lifecycle
+✅ step: Delete the branch feature/pcp-lifecycle
 ```
 
 ```todo:subbranches
-step: go to article-creation-and-edit-runbook line 
+✅ step: go to article-creation-and-edit-runbook line 45
 ```
