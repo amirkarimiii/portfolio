@@ -16,6 +16,7 @@ export const articleFormSchema = z.object({
         .refine((items) => new Set(items).size === items.length, {
             message: 'Duplicate related articles are not allowed.',
         }),
+    lifecycle: z.enum(['Published', 'Archived']).nullable(),
 });
 
 export type ArticleFormValues = z.infer<typeof articleFormSchema>;
