@@ -4,6 +4,7 @@ import type {ArticleFormValues} from '../schemas/articleFormSchema';
 import type {ArticleCardData} from '../types/reference-card.type';
 import {ArticleItem} from "@/features/article-publishing/types/article-item.type";
 import clientPromise from "@/shared/lib/mongodb";
+import {PaginatedArticlesResult} from "@/features/article-publishing/types/pagination.type";
 
 const NEW_PUBLISHED_PATH = path.join(
     process.cwd(),
@@ -26,19 +27,6 @@ interface ArticlesJsonStructure {
 
 export class ArticleRepository {
 
-    private static async readJsonFile(filePath: string): Promise<ArticlesJsonStructure> {
-        try {
-            const data = await fs.readFile(filePath, 'utf-8');
-            return JSON.parse(data) as ArticlesJsonStructure;
-        } catch {
-            return { articles: [] };
-        }
-    }
-
-    private static async writeJsonFile(filePath: string, data: ArticlesJsonStructure): Promise<void> {
-        await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
-    }
-
     public static async getPublishedStandaloneArticleBySlug(slug: string): Promise<ArticleItem | null> {
         try {
             const client = await clientPromise;
@@ -48,7 +36,6 @@ export class ArticleRepository {
             const article = await collection.findOne(
                 {
                     slug: slug,
-                    lifecycle: 'Published',
                     seriesId: null
                 },
                 {
@@ -61,6 +48,88 @@ export class ArticleRepository {
             console.error('[ArticleRepository.getPublishedStandaloneArticleBySlug Error]:', error);
             return null;
         }
+    }
+
+    public static async getPublishedStandaloneArticles({
+                                                           page = 1,
+                                                           pageSize = 20,
+                                                           sort = 'newest',
+                                                       }: {
+        page?: number;
+        pageSize?: number;
+        sort?: 'newest' | 'oldest';
+    }): Promise<PaginatedArticlesResult> {
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('articles');
+
+            const query = {
+                lifecycle: 'Published' as const,
+                seriesId: null,
+            };
+
+            const sortOrder = sort === 'oldest' ? 1 : -1;
+            const skip = (page - 1) * pageSize;
+
+            const [totalItems, docs] = await Promise.all([
+                collection.countDocuments(query),
+                collection
+                    .find(query)
+                    .sort({ publishedAt: sortOrder, firstPublishedAt: sortOrder, createdAt: sortOrder })
+                    .skip(skip)
+                    .limit(pageSize)
+                    .project<ArticleCardData>({
+                        _id: 0,
+                        uniqueId: 1,
+                        slug: 1,
+                        title: 1,
+                        summary: 1,
+                        seriesId: 1,
+                        tags: 1,
+                        thumbnailImage: 1,
+                        thumbnailAltText: 1,
+                        firstPublishedAt: 1,
+                        publishedAt: 1,
+                        lifecycle: 1,
+                    })
+                    .toArray(),
+            ]);
+
+            const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+
+            return {
+                articles: docs,
+                totalItems,
+                totalPages,
+                currentPage: page,
+                pageSize,
+            };
+        } catch (error) {
+            console.error('[ArticleRepository.getPublishedStandaloneArticles Error]:', error);
+            return {
+                articles: [],
+                totalItems: 0,
+                totalPages: 1,
+                currentPage: page,
+                pageSize,
+            };
+        }
+    }
+
+    // #################### Mock legacy functions
+
+    private static async readJsonFile(filePath: string): Promise<ArticlesJsonStructure> {
+        try {
+            const data = await fs.readFile(filePath, 'utf-8');
+            return JSON.parse(data) as ArticlesJsonStructure;
+        } catch {
+            return { articles: [] };
+        }
+    }
+
+    private static async writeJsonFile(filePath: string, data: ArticlesJsonStructure): Promise<void> {
+        await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
     }
 
     public static async getAllArticles(): Promise<ArticleCardData[]> {
