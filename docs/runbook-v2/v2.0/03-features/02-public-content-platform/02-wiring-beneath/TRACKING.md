@@ -2,7 +2,7 @@
 
 **Status:** In Progress
 
-**Last Updated:** 2026-08-26
+**Last Updated:** 2026-08-30
 
 **Owner:** Amir Karimi
 
@@ -21,8 +21,8 @@ It provides an overview of Wiring Beneath status, planning milestones, and execu
 | Sections          | Status      | Planned Start           | Target Milestone | Completed  |
 |-------------------|-------------|-------------------------|------------------|:----------:|
 | First Article     | Completed   | 2026-08-20              | 2026-08-26*      | 2026-08-26 |
-| Article Lifecycle | In Progress | 2026-08-26              | 2026-08-30       |     -      |
-| API Integration   | Planned     | After Article Lifecycle | 2026-08-31       |     -      |
+| Article Lifecycle | Completed   | 2026-08-26              | 2026-08-30       | 2026-08-30 |
+| API Integration   | In Progress | After Article Lifecycle | 2026-08-31       |     -      |
 
 > *three days were off from work
 
@@ -45,4 +45,5 @@ It provides an overview of Wiring Beneath status, planning milestones, and execu
 |------------|----------------------------------------------------------------------------------------------------------------------|
 | 2026-08-20 | Tracking document created.                                                                                           |
 | 2026-08-26 | First Article marked as Completed (2026-08-26). Article Lifecycle moved to In Progress with Planned Start 2026-08-26 |
+| 2026-08-30 | API Integration marked as Completed (2026-08-30). API Integration moved to In Progress with Planned Start 2026-08-30 |
 
