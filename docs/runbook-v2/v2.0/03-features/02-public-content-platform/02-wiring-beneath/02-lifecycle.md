@@ -53,19 +53,16 @@ add-article
 ```
 
 ```
+deferred
 step: Delete is also implemented with unsecureDeletion
 ```
 
 ```
-commit changes
+✅ step: If validation is passed it can go to archive
 ```
 
 ```
-step: If validation is passed it can go to archive
-```
-
-```
-commit changes
+✅ commit changes
 ```
 
 ```
@@ -86,14 +83,6 @@ preview
 ✅ commit changes
 ```
 
-```
-✅ loop: edit-article -> preview
-```
-
-```
-✅ commit changes
-```
-
 publish
 
 ```
@@ -104,25 +93,37 @@ publish
 ✅ commit changes
 ```
 
+archive
+
 ```
+deferred
 loop: archive -> publish
 ```
 
 ```
-commit changes
+✅ loop: archive -> draft
 ```
 
-
-archive
-
 ```
-loop: 
+✅ commit changes
 ```
 
 edit
 
 ```
-loop: 
+✅ loop: edit-article -> preview
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ loop: edit-article -> archive
+```
+
+```
+✅ commit changes
 ```
 
 ```todo:subbranches
