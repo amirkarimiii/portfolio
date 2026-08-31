@@ -7,7 +7,7 @@ import { articleDraftChannel } from '../../channels/articleDraftChannel';
 import { Button } from '@/shared/components/ui/button';
 import { publishArticleAction } from '../../actions/publishArticleAction';
 import { toast } from 'sonner';
-import {ArticleItem} from "@/features/article-publishing/types/article-item.type";
+import { ArticleItem } from "@/features/article-publishing/types/article-item.type";
 
 interface PreviewArticleClientProps {
     initialArticle: ArticleItem;
@@ -35,24 +35,42 @@ export function PreviewArticleClient({ initialArticle, seriesTitle }: PreviewArt
         setArticle(initialArticle);
     }, [initialArticle]);
 
-    const handlePublish = async () => {
-        try {
-            const result = await publishArticleAction({ uniqueId: article.uniqueId });
-            if (result.success) {
-                toast.success('article has been successfully published!');
+    const handlePublish = () => {
+        startTransition(async () => {
+            try {
+                const result = await publishArticleAction({ uniqueId: article.uniqueId });
+                if (result.success && result.data) {
+                    toast.success('Article has been successfully published!');
 
-                articleDraftChannel.publish({
-                    type: 'ARTICLE_PUBLISHED',
-                    articleId: article.uniqueId,
-                });
+                    const publishedSlug = result.data.slug;
+                    const publishedSeriesSlug = result.data.seriesSlug || null;
 
-                window.close();
-            } else {
-                toast.error(result.error || 'error in publishing article');
+                    articleDraftChannel.publish({
+                        type: 'ARTICLE_PUBLISHED',
+                        articleId: article.uniqueId,
+                        slug: publishedSlug,
+                        seriesSlug: publishedSeriesSlug,
+                        seriesId: article.seriesId,
+                    });
+
+                    localStorage.removeItem(`draft_fallback_${article.uniqueId}`);
+
+                    if (window.opener && window.opener !== window) {
+                        window.close();
+                    } else {
+                        if (publishedSeriesSlug && publishedSlug) {
+                            router.push(`/series/${publishedSeriesSlug}/${publishedSlug}`);
+                        } else if (publishedSlug) {
+                            router.push(`/blog/${publishedSlug}`);
+                        }
+                    }
+                } else {
+                    toast.error(result.error || 'Error in publishing article');
+                }
+            } catch {
+                toast.error('Unexpected error during publishing article');
             }
-        } catch {
-            toast.error('unexpected error during publishing article');
-        }
+        });
     };
 
     return (
@@ -60,10 +78,10 @@ export function PreviewArticleClient({ initialArticle, seriesTitle }: PreviewArt
             <div className="sticky top-0 z-50 flex items-center justify-between border-b bg-background/95 p-4 backdrop-blur">
                 <div className="flex items-center gap-2">
                     <span className="inline-block h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
-                    <span className="text-sm font-medium text-muted-foreground">draft preview</span>
+                    <span className="text-sm font-medium text-muted-foreground">Draft Preview</span>
                 </div>
                 <Button onClick={handlePublish} disabled={isPending}>
-                    {isPending ? 'publishing...' : 'publish'}
+                    {isPending ? 'Publishing...' : 'Publish'}
                 </Button>
             </div>
 
