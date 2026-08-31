@@ -2,35 +2,81 @@ import fs from 'fs/promises';
 import path from 'path';
 import { ulid } from 'ulid';
 import type { SeriesFormValues } from '../schemas/seriesFormSchema';
+import {SeriesItem} from "@/features/article-publishing/types/series-item.type";
+import {SeriesCardData} from "@/features/article-publishing/types/reference-card.type";
+import {PaginatedSeriesResult} from "@/features/article-publishing/types/pagination.type";
+import clientPromise from "@/shared/lib/mongodb";
 
 const NEW_SERIES_FILE_PATH = path.join(
     process.cwd(),
     'src/mock-files/new-series.json'
 );
 
-export interface Series {
-    uniqueId: string;
-    slug: string;
-    title: string;
-    description: string;
-    defaultTags: string[];
-    coverImage: string;
-    coverAltText: string;
-    thumbnailImage: string;
-    thumbnailAltText: string;
-    seoTitle: string;
-    seoDescription: string;
-    canonicalUrl: string | null;
-    inboundReferencingIds: string[];
-    createdAt: string;
-    updatedAt: string;
-}
-
 interface SeriesJsonStructure {
-    series: Series[];
+    series: SeriesItem[];
 }
 
 export class SeriesRepository {
+
+
+    public static async getPaginatedSeries({
+                                               page = 1,
+                                               pageSize = 20,
+                                           }: {
+        page?: number;
+        pageSize?: number;
+    }): Promise<PaginatedSeriesResult> {
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<SeriesItem>('series');
+
+            const skip = (page - 1) * pageSize;
+
+            const [totalItems, docs] = await Promise.all([
+                collection.countDocuments({}),
+                collection
+                    .find({})
+                    .sort({ updatedAt: -1, createdAt: -1 })
+                    .skip(skip)
+                    .limit(pageSize)
+                    .project<SeriesCardData>({
+                        _id: 0,
+                        uniqueId: 1,
+                        slug: 1,
+                        title: 1,
+                        description: 1,
+                        thumbnailImage: 1,
+                        thumbnailAltText: 1,
+                        updatedAt: 1,
+                    })
+                    .toArray(),
+            ]);
+
+            const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+
+            return {
+                series: docs,
+                totalItems,
+                totalPages,
+                currentPage: page,
+                pageSize,
+            };
+        } catch (error) {
+            console.error('[SeriesRepository.getPaginatedSeries Error]:', error);
+            return {
+                series: [],
+                totalItems: 0,
+                totalPages: 1,
+                currentPage: page,
+                pageSize,
+            };
+        }
+    }
+
+
+    // #################### Mock legacy functions
+
     public static async isSlugExists(slug: string): Promise<boolean> {
         const paths = [NEW_SERIES_FILE_PATH];
         const normalizedTargetSlug = slug.trim().toLowerCase();
@@ -47,7 +93,7 @@ export class SeriesRepository {
 
                 if (exists) return true;
             } catch {
-                // Ignore file read or parse errors
+
             }
         }
 
@@ -70,11 +116,11 @@ export class SeriesRepository {
 
     public static async saveSeries(
         formData: SeriesFormValues
-    ): Promise<Series> {
+    ): Promise<SeriesItem> {
         const now = new Date().toISOString();
         const uniqueId = `ser_${ulid()}`;
 
-        const newSeries: Series = {
+        const newSeries: SeriesItem = {
             uniqueId,
             slug: formData.slug,
             title: formData.title,
