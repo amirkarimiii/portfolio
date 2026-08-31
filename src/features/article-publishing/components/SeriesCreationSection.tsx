@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CircleCheck, CircleX, Clock, Loader2 } from 'lucide-react';
+import { CircleX, Clock, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Button } from '@/shared/components/ui/button';
@@ -31,9 +32,10 @@ const defaultValues: SeriesFormValues = {
     canonicalUrl: '',
 };
 
-type PublishStatus = 'idle' | 'pending' | 'success' | 'failed';
+type PublishStatus = 'idle' | 'pending' | 'failed';
 
 export function SeriesCreationSection() {
+    const router = useRouter();
     const [publishStatus, setPublishStatus] = useState<PublishStatus>('idle');
     const [isPublishing, setIsPublishing] = useState(false);
 
@@ -63,7 +65,6 @@ export function SeriesCreationSection() {
             const result = await publishSeriesAction(payload);
 
             if (result.success) {
-                setPublishStatus('success');
                 toast.success('Series has been published successfully!');
 
                 if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
@@ -82,14 +83,15 @@ export function SeriesCreationSection() {
                     });
                     channel.close();
                 }
+                router.push(`/series/${result.data.slug}`);
             } else {
                 setPublishStatus('failed');
                 if (result.field) {
-                    setError(result.field, { type: 'manual', message: result.error });
+                    setError(result.field as keyof SeriesFormValues, { type: 'manual', message: result.error });
                 }
                 toast.error(result.error);
             }
-        } catch {
+        } catch (e) {
             setPublishStatus('failed');
             toast.error('Something unexpectedly went wrong!');
         } finally {
@@ -105,14 +107,6 @@ export function SeriesCreationSection() {
                     <Clock className="text-gray-500" />
                 </div>
                 <p className="text-sm text-muted-foreground">Publishing series...</p>
-            </div>
-        ),
-        success: (
-            <div className="w-full h-max flex flex-row gap-2 my-auto">
-                <div className="w-5 aspect-square">
-                    <CircleCheck className="text-green-500" />
-                </div>
-                <p className="text-sm text-green-600">Saved successfully!</p>
             </div>
         ),
         failed: (
