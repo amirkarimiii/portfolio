@@ -1,11 +1,12 @@
 'use server';
 
 import { seriesFormSchema, type SeriesFormValues } from '../schemas/seriesFormSchema';
-import { SeriesRepository, type Series } from '../repository/seriesRepository';
+import { SeriesRepository } from '../repository/seriesRepository';
 import {isReservedSlug} from "@/features/article-publishing/utils/slugValidation";
+import {SeriesItem} from "@/features/article-publishing/types/series-item.type";
 
 export type PublishSeriesActionResult =
-    | { success: true; data: Series }
+    | { success: true; data: SeriesItem }
     | { success: false; error: string; field?: keyof SeriesFormValues };
 
 export async function publishSeriesAction(
