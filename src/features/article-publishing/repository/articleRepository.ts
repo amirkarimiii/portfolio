@@ -440,6 +440,93 @@ export class ArticleRepository {
         return publishedArticle;
     }
 
+    public static async archiveDraftArticle(
+        uniqueId: string,
+        formData: ArticleFormValues
+    ): Promise<ArticleItem> {
+        const client = await clientPromise;
+        const db = client.db();
+        const archivedCollection = db.collection<ArticleItem>('articles');
+        const draftsCollection = db.collection<ArticleItem>('drafts');
+        const publishedCollection = db.collection<ArticleItem>('articles');
+        const now = new Date().toISOString();
+
+        const draftArticle = await draftsCollection.findOne({ uniqueId });
+        if (!draftArticle) {
+            throw new Error('Draft article not found');
+        }
+
+        const archivedArticle: ArticleItem = {
+            uniqueId,
+            slug: formData.slug,
+            title: formData.title,
+            summary: formData.summary,
+            lifecycle: 'Archived',
+            seriesId: formData.seriesId || null,
+            tags: formData.tags || [],
+            coverImage: formData.coverImage,
+            coverAltText: formData.coverAltText,
+            thumbnailImage: formData.thumbnailImage,
+            thumbnailAltText: formData.thumbnailAltText,
+            seoTitle: formData.seoTitle || formData.title,
+            seoDescription: formData.seoDescription || formData.summary,
+            canonicalUrl: formData.canonicalUrl || null,
+            relatedArticleIds: formData.relatedArticleIds,
+            inboundReferencingIds: draftArticle.inboundReferencingIds || [],
+            createdAt: draftArticle.createdAt || now,
+            updatedAt: now,
+            firstPublishedAt: draftArticle.firstPublishedAt,
+            publishedAt: draftArticle.publishedAt,
+            archivedAt: now,
+            content: formData.content
+        };
+
+        await archivedCollection.updateOne(
+            { uniqueId },
+            { $set: archivedArticle },
+            { upsert: true }
+        );
+
+        if (draftArticle.lifecycle === 'Published') {
+            await publishedCollection.deleteOne({ uniqueId });
+        }
+
+        await draftsCollection.deleteOne({ uniqueId });
+
+        return archivedArticle;
+    }
+
+    public static async createEditDraft(uniqueId: string): Promise<ArticleItem> {
+        const client = await clientPromise;
+        const db = client.db();
+        const draftsCollection = db.collection<ArticleItem>('drafts');
+        const articlesCollection = db.collection<ArticleItem>('articles');
+
+        const existingDraft = await draftsCollection.findOne({ uniqueId });
+        if (existingDraft) {
+            return existingDraft;
+        }
+
+        const sourceArticle = await articlesCollection.findOne({ uniqueId });
+        if (!sourceArticle) {
+            throw new Error(`Article with ID ${uniqueId} not found.`);
+        }
+
+        const draftCopy: ArticleItem = {
+            ...sourceArticle,
+            lifecycle: sourceArticle.lifecycle,
+            updatedAt: new Date().toISOString(),
+        };
+
+        await draftsCollection.updateOne(
+            { uniqueId },
+            { $set: draftCopy },
+            { upsert: true }
+        );
+
+        return draftCopy;
+    }
+
     // #################### Mock legacy functions
 
     private static async readJsonFile(filePath: string): Promise<ArticlesJsonStructure> {
