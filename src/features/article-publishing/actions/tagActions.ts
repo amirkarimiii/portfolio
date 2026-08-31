@@ -1,10 +1,10 @@
 'use server';
 
-import { tagRepository } from '../repository/tagRepository';
+import { TagService } from '../services/tagService';
 
 export async function getTagsAction(): Promise<string[]> {
     try {
-        return await tagRepository.getAllTags();
+        return await TagService.getAllTags();
     } catch (error) {
         console.error('Failed to fetch tags:', error);
         return [];
@@ -13,7 +13,7 @@ export async function getTagsAction(): Promise<string[]> {
 
 export async function createTagAction(newTag: string): Promise<{ success: boolean; tags: string[] }> {
     try {
-        const updatedTags = await tagRepository.createTag(newTag);
+        const updatedTags = await TagService.createTag(newTag);
         return { success: true, tags: updatedTags };
     } catch (error) {
         console.error('Failed to create tag:', error);
