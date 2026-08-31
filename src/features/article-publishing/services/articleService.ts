@@ -102,4 +102,22 @@ export class ArticleService {
         return ArticleRepository.getDraftArticleById(articleId.trim());
     }
 
+    public static async getDraftArticles(params: {
+        page?: string;
+        sort?: string;
+        pageSize?: number;
+    }): Promise<PaginatedArticlesResult> {
+        const rawPage = parseInt(params.page || '1', 10);
+        const validPage = isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
+
+        const validSort: 'newest' | 'oldest' = params.sort === 'oldest' ? 'oldest' : 'newest';
+        const pageSize = params.pageSize && params.pageSize > 0 ? params.pageSize : 20;
+
+        return ArticleRepository.getDraftArticles({
+            page: validPage,
+            sort: validSort,
+            pageSize,
+        });
+    }
+
 }
