@@ -2,7 +2,7 @@
 
 import type { ArticleFormValues } from '../schemas/articleFormSchema';
 import { ArticleRepository } from "@/features/article-publishing/repository/articleRepository";
-import {isReservedSlug} from "@/features/article-publishing/utils/slugValidation";
+import { isReservedSlug } from "@/features/article-publishing/utils/slugValidation";
 
 interface SaveDraftInput {
     uniqueId: string;
@@ -18,21 +18,23 @@ export async function saveDraftAction({ uniqueId, formData }: SaveDraftInput) {
             };
         }
 
-        const slugExists = await ArticleRepository.isSlugExists(formData.slug ?? "", uniqueId);
-        if (slugExists) {
-            return {
-                success: false,
-                error: 'this slug already exists',
-                field: 'slug',
-            };
-        }
+        if (formData.slug && formData.slug.trim() !== '') {
+            const slugExists = await ArticleRepository.isSlugExists(formData.slug, uniqueId);
+            if (slugExists) {
+                return {
+                    success: false,
+                    error: 'This slug already exists',
+                    field: 'slug',
+                };
+            }
 
-        if (formData.slug && isReservedSlug(formData.slug)) {
-            return {
-                success: false,
-                field: 'slug',
-                error: 'This slug is reserved and cannot be used.',
-            };
+            if (isReservedSlug(formData.slug)) {
+                return {
+                    success: false,
+                    field: 'slug',
+                    error: 'This slug is reserved and cannot be used.',
+                };
+            }
         }
 
         const draftArticle = await ArticleRepository.saveDraftArticle(uniqueId, formData);
