@@ -244,6 +244,29 @@ export class ArticleRepository {
         }
     }
 
+    public static async getArchivedArticleById(articleId: string): Promise<ArticleItem | null> {
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('articles');
+
+            const article = await collection.findOne(
+                {
+                    uniqueId: articleId,
+                    lifecycle: 'Archived',
+                },
+                {
+                    projection: { _id: 0 },
+                }
+            );
+
+            return article || null;
+        } catch (error) {
+            console.error('[ArticleRepository.getArchivedArticleById Error]:', error);
+            return null;
+        }
+    }
+
     // #################### Mock legacy functions
 
     private static async readJsonFile(filePath: string): Promise<ArticlesJsonStructure> {
