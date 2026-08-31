@@ -1,20 +1,29 @@
-import { notFound } from 'next/navigation';
-import { ArticleRepository } from '@/features/article-publishing/repository/articleRepository';
-import { PreviewArticleClient } from '@/features/article-publishing/components/article/PreviewArticleClient';
+import { Suspense } from 'react';
+import {PreviewArticleSectionWrapper} from "@/features/article-publishing/components/PreviewArticleSectionWrapper";
 
-interface PageProps {
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+interface PreviewPageProps {
     params: Promise<{
         articleId: string;
     }>;
 }
 
-export default async function PreviewArticlePage({ params }: PageProps) {
-    const { articleId } = await params;
-    const draftArticle = await ArticleRepository.getDraftArticle(articleId);
+export default async function PreviewArticlePage(props: PreviewPageProps) {
+    const { articleId } = await props.params;
 
-    if (!draftArticle) {
-        notFound();
-    }
-
-    return <PreviewArticleClient initialArticle={draftArticle} />;
+    return (
+        <main className="container mx-auto max-w-4xl px-4 py-8">
+            <Suspense
+                fallback={
+                    <div className="py-12 text-center text-sm text-muted-foreground">
+                        Loading preview draft...
+                    </div>
+                }
+            >
+                <PreviewArticleSectionWrapper articleId={articleId} />
+            </Suspense>
+        </main>
+    );
 }
