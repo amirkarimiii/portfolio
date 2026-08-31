@@ -1,6 +1,8 @@
 import { ArticleRepository } from '../repository/articleRepository';
 import type { ArticleItem } from '../types/article-item.type';
 import {PaginatedArticlesResult} from "@/features/article-publishing/types/pagination.type";
+import {SeriesRepository} from "@/features/article-publishing/repository/seriesRepository";
+import {SeriesArticleData} from "@/features/article-publishing/types/series-article.type";
 
 export class ArticleService {
 
@@ -18,6 +20,35 @@ export class ArticleService {
         return ArticleRepository.getPublishedStandaloneArticleBySlug(normalizedSlug);
     }
 
+    public static async getSeriesArticleDetails(
+        seriesSlug: string,
+        articleSlug: string
+    ): Promise<SeriesArticleData | null> {
+        const series = await SeriesRepository.getSeriesBySlug(seriesSlug);
+        if (!series) {
+            return null;
+        }
+
+        const article = await ArticleRepository.getPublishedSeriesArticleBySlug(
+            articleSlug,
+            series.uniqueId
+        );
+
+        if (!article) {
+            return null;
+        }
+
+        const seriesTags = series.defaultTags || [];
+        const articleManualTags = article.tags || [];
+        const uniqueArticleTags = articleManualTags.filter((tag) => !seriesTags.includes(tag));
+        const mergedTags = [...seriesTags, ...uniqueArticleTags];
+
+        return {
+            article,
+            seriesTitle: series.title,
+            mergedTags,
+        };
+    }
 
     public static async getPublishedStandaloneArticles(params: {
         page?: string;
