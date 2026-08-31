@@ -3,9 +3,10 @@ import { useFormContext } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useArticleFormStore } from '../stores/useArticleFormStore';
 import { useDraftSyncStore } from '../stores/useDraftSyncStore';
-import { saveDraftAction } from '../actions/saveDraftAction';
+
 import { articleDraftChannel } from '../channels/articleDraftChannel';
 import type { ArticleFormValues } from '../schemas/articleFormSchema';
+import { saveDraftAction } from '@/features/article-publishing/actions/saveDraftAction';
 
 const INACTIVITY_DELAY = 5000;
 const RETRY_DELAYS = [500, 1000, 2000, 4000, 8000];
@@ -15,25 +16,22 @@ const AUTO_SAVE_ERROR_TOAST_ID = 'auto-save-network-error';
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function getCacheKey(articleId: string | number | undefined | null): string | null {
-
-    if (articleId === undefined || articleId === null || articleId === '') {
-        return null;
-    }
+    if (!articleId) return null;
     return `${LOCAL_STORAGE_KEY_PREFIX}${articleId}`;
 }
 
 export function useAutoSaveDraft() {
-    const { watch, getValues } = useFormContext<ArticleFormValues>();
+    const { watch, getValues, formState: { isDirty } } = useFormContext<ArticleFormValues>();
     const articleId = useArticleFormStore((state) => state.articleId);
     const setDraftStatus = useDraftSyncStore((state) => state.setStatus);
 
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const saveVersionRef = useRef(0);
     const isSavingRef = useRef(false);
+    const isUserTriggeredRef = useRef(false);
 
     const executeAutoSave = useCallback(async () => {
-
-        if (isSavingRef.current) return;
+        if (isSavingRef.current || !isUserTriggeredRef.current) return;
 
         const currentVersion = ++saveVersionRef.current;
         isSavingRef.current = true;
@@ -128,6 +126,12 @@ export function useAutoSaveDraft() {
                 return;
             }
 
+            if (!isUserTriggeredRef.current && isDirty) {
+                isUserTriggeredRef.current = true;
+            }
+
+            if (!isUserTriggeredRef.current) return;
+
             setDraftStatus('idle');
 
             if (timerRef.current) {
@@ -146,5 +150,5 @@ export function useAutoSaveDraft() {
             }
             saveVersionRef.current++;
         };
-    }, [watch, executeAutoSave]);
+    }, [watch, executeAutoSave, isDirty, setDraftStatus]);
 }
