@@ -267,6 +267,24 @@ export class ArticleRepository {
         }
     }
 
+    public static async getDraftArticleById(articleId: string): Promise<ArticleItem | null> {
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('drafts');
+
+            const article = await collection.findOne(
+                { uniqueId: articleId },
+                { projection: { _id: 0 } }
+            );
+
+            return article || null;
+        } catch (error) {
+            console.error('[ArticleRepository.getDraftArticleById Error]:', error);
+            return null;
+        }
+    }
+
     // #################### Mock legacy functions
 
     private static async readJsonFile(filePath: string): Promise<ArticlesJsonStructure> {
