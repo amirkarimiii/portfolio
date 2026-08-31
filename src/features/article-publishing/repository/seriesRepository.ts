@@ -95,6 +95,24 @@ export class SeriesRepository {
         }
     }
 
+    public static async getSeriesById(seriesId: string): Promise<SeriesItem | null> {
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<SeriesItem>('series');
+
+            const series = await collection.findOne(
+                { uniqueId: seriesId },
+                { projection: { _id: 0 } }
+            );
+
+            return series || null;
+        } catch (error) {
+            console.error('[SeriesRepository.getSeriesById Error]:', error);
+            return null;
+        }
+    }
+
     // #################### Mock legacy functions
 
     public static async isSlugExists(slug: string): Promise<boolean> {
