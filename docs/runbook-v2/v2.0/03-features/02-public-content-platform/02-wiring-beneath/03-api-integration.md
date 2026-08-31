@@ -7,39 +7,15 @@
 ```
 
 ```
-loop: Public Read
+✅ loop: Public Read
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-loop: Public relationships
-```
-
-```
-commit changes
-```
-
-```
-loop: Admin authentication
-```
-
-```
-commit changes
-```
-
-```
-loop: Draft / Article creation
-```
-
-```
-commit changes
-```
-
-```
-loop: Publishing lifecycle
+loop: private routes and relationships
 ```
 
 ```
