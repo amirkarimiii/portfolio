@@ -1,23 +1,17 @@
-import fs from 'fs/promises';
-import path from 'path';
 import { ulid } from 'ulid';
 import type { SeriesFormValues } from '../schemas/seriesFormSchema';
-import {SeriesItem} from "@/features/article-publishing/types/series-item.type";
-import {SeriesCardData} from "@/features/article-publishing/types/reference-card.type";
-import {PaginatedSeriesResult} from "@/features/article-publishing/types/pagination.type";
-import clientPromise from "@/shared/lib/mongodb";
-
-const NEW_SERIES_FILE_PATH = path.join(
-    process.cwd(),
-    'src/mock-files/new-series.json'
-);
-
-interface SeriesJsonStructure {
-    series: SeriesItem[];
-}
+import { SeriesItem } from '@/features/article-publishing/types/series-item.type';
+import { SeriesCardData } from '@/features/article-publishing/types/reference-card.type';
+import { PaginatedSeriesResult } from '@/features/article-publishing/types/pagination.type';
+import clientPromise from '@/shared/lib/mongodb';
+import { OptionalId } from "mongodb";
 
 export class SeriesRepository {
-
+    private static async getCollection() {
+        const client = await clientPromise;
+        const db = client.db();
+        return db.collection<OptionalId<SeriesItem>>('series');
+    }
 
     public static async getPaginatedSeries({
                                                page = 1,
@@ -27,10 +21,7 @@ export class SeriesRepository {
         pageSize?: number;
     }): Promise<PaginatedSeriesResult> {
         try {
-            const client = await clientPromise;
-            const db = client.db();
-            const collection = db.collection<SeriesItem>('series');
-
+            const collection = await this.getCollection();
             const skip = (page - 1) * pageSize;
 
             const [totalItems, docs] = await Promise.all([
@@ -76,19 +67,14 @@ export class SeriesRepository {
 
     public static async getSeriesBySlug(slug: string): Promise<SeriesItem | null> {
         try {
-            const client = await clientPromise;
-            const db = client.db();
-            const collection = db.collection<SeriesItem>('series');
-
+            const collection = await this.getCollection();
             const normalizedSlug = slug.trim().toLowerCase();
-            const series = await collection.findOne({ slug: normalizedSlug });
+            const series = await collection.findOne(
+                { slug: normalizedSlug },
+                { projection: { _id: 0 } }
+            );
 
-            if (!series) {
-                return null;
-            }
-
-            const { _id, ...cleanSeries } = series as SeriesItem & { _id?: unknown };
-            return cleanSeries as SeriesItem;
+            return series || null;
         } catch (error) {
             console.error('[SeriesRepository.getSeriesBySlug Error]:', error);
             return null;
@@ -97,10 +83,7 @@ export class SeriesRepository {
 
     public static async getSeriesById(seriesId: string): Promise<SeriesItem | null> {
         try {
-            const client = await clientPromise;
-            const db = client.db();
-            const collection = db.collection<SeriesItem>('series');
-
+            const collection = await this.getCollection();
             const series = await collection.findOne(
                 { uniqueId: seriesId },
                 { projection: { _id: 0 } }
@@ -113,61 +96,33 @@ export class SeriesRepository {
         }
     }
 
-    // #################### Mock legacy functions
-
     public static async isSlugExists(slug: string): Promise<boolean> {
-        const paths = [NEW_SERIES_FILE_PATH];
-        const normalizedTargetSlug = slug.trim().toLowerCase();
-
-        for (const filePath of paths) {
-            try {
-                const content = await fs.readFile(filePath, 'utf-8');
-                const parsed = JSON.parse(content);
-                const seriesList: Array<{ slug: string }> = parsed.series || [];
-
-                const exists = seriesList.some(
-                    (item) => item.slug?.trim().toLowerCase() === normalizedTargetSlug
-                );
-
-                if (exists) return true;
-            } catch {
-
-            }
-        }
-
-        return false;
-    }
-
-    private static async readSeriesFile(filePath = NEW_SERIES_FILE_PATH): Promise<SeriesJsonStructure> {
         try {
-            const data = await fs.readFile(filePath, 'utf-8');
-            const parsed = JSON.parse(data);
-            return { series: Array.isArray(parsed.series) ? parsed.series : [] };
-        } catch {
-            return { series: [] };
+            const collection = await this.getCollection();
+            const normalizedSlug = slug.trim().toLowerCase();
+            const count = await collection.countDocuments({ slug: normalizedSlug }, { limit: 1 });
+            return count > 0;
+        } catch (error) {
+            console.error('[SeriesRepository.isSlugExists Error]:', error);
+            return false;
         }
     }
 
-    private static async writeSeriesFile(filePath: string, data: SeriesJsonStructure): Promise<void> {
-        await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
-    }
-
-    public static async saveSeries(
-        formData: SeriesFormValues
-    ): Promise<SeriesItem> {
+    public static async saveSeries(formData: SeriesFormValues): Promise<SeriesItem> {
+        const collection = await this.getCollection();
         const now = new Date().toISOString();
         const uniqueId = `ser_${ulid()}`;
 
         const newSeries: SeriesItem = {
             uniqueId,
-            slug: formData.slug,
-            title: formData.title,
-            description: formData.description,
+            slug: formData.slug.trim().toLowerCase(),
+            title: formData.title.trim(),
+            description: formData.description.trim(),
             defaultTags: formData.defaultTags || [],
-            coverImage: formData.coverImage || 'https://cdn.example.com/series/covers/default-series.webp',
-            coverAltText: formData.coverAltText || `${formData.title} cover image`,
-            thumbnailImage: formData.thumbnailImage || 'https://cdn.example.com/series/thumbnails/default-series.webp',
-            thumbnailAltText: formData.thumbnailAltText || `${formData.title} thumbnail image`,
+            coverImage: formData.coverImage,
+            coverAltText: formData.coverAltText,
+            thumbnailImage: formData.thumbnailImage,
+            thumbnailAltText: formData.thumbnailAltText || '',
             seoTitle: formData.seoTitle || formData.title,
             seoDescription: formData.seoDescription || formData.description,
             canonicalUrl: formData.canonicalUrl || null,
@@ -176,60 +131,48 @@ export class SeriesRepository {
             updatedAt: now,
         };
 
-        const fileContent = await this.readSeriesFile(NEW_SERIES_FILE_PATH);
-
-        fileContent.series.unshift(newSeries);
-
-        await this.writeSeriesFile(NEW_SERIES_FILE_PATH, fileContent);
+        await collection.insertOne(newSeries);
 
         return newSeries;
     }
 
     public static async getInboundReferences(targetSeriesId: string): Promise<string[]> {
-        const paths = [NEW_SERIES_FILE_PATH];
-        for (const filePath of paths) {
-            const data = await this.readSeriesFile(filePath);
-            const found = data.series.find((s) => s.uniqueId === targetSeriesId);
-            if (found) {
-                return found.inboundReferencingIds || [];
-            }
+        try {
+            const series = await this.getSeriesById(targetSeriesId);
+            return series?.inboundReferencingIds || [];
+        } catch (error) {
+            console.error('[SeriesRepository.getInboundReferences Error]:', error);
+            return [];
         }
-        return [];
     }
 
     public static async addInboundReference(targetSeriesId: string, sourceArticleId: string): Promise<void> {
-        const paths = [NEW_SERIES_FILE_PATH];
-        for (const filePath of paths) {
-            const data = await this.readSeriesFile(filePath);
-            const index = data.series.findIndex((s) => s.uniqueId === targetSeriesId);
-            if (index !== -1) {
-                const item = data.series[index];
-                const currentRefs = item.inboundReferencingIds || [];
-                if (!currentRefs.includes(sourceArticleId)) {
-                    item.inboundReferencingIds = [...currentRefs, sourceArticleId];
-                    item.updatedAt = new Date().toISOString();
-                    await this.writeSeriesFile(filePath, data);
+        try {
+            const collection = await this.getCollection();
+            await collection.updateOne(
+                { uniqueId: targetSeriesId },
+                {
+                    $addToSet: { inboundReferencingIds: sourceArticleId },
+                    $set: { updatedAt: new Date().toISOString() },
                 }
-                return;
-            }
+            );
+        } catch (error) {
+            console.error('[SeriesRepository.addInboundReference Error]:', error);
         }
     }
 
     public static async removeInboundReference(targetSeriesId: string, sourceArticleId: string): Promise<void> {
-        const paths = [NEW_SERIES_FILE_PATH];
-        for (const filePath of paths) {
-            const data = await this.readSeriesFile(filePath);
-            const index = data.series.findIndex((s) => s.uniqueId === targetSeriesId);
-            if (index !== -1) {
-                const item = data.series[index];
-                const currentRefs = item.inboundReferencingIds || [];
-                if (currentRefs.includes(sourceArticleId)) {
-                    item.inboundReferencingIds = currentRefs.filter((id) => id !== sourceArticleId);
-                    item.updatedAt = new Date().toISOString();
-                    await this.writeSeriesFile(filePath, data);
+        try {
+            const collection = await this.getCollection();
+            await collection.updateOne(
+                { uniqueId: targetSeriesId },
+                {
+                    $pull: { inboundReferencingIds: sourceArticleId },
+                    $set: { updatedAt: new Date().toISOString() },
                 }
-                return;
-            }
+            );
+        } catch (error) {
+            console.error('[SeriesRepository.removeInboundReference Error]:', error);
         }
     }
 }
