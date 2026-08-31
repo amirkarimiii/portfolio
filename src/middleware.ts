@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { env } from "@/env";
-import {logger} from "@/shared/logger/logger";
-import {getClientIp} from "@/shared/http/get-client-ip";
+import { logger } from "@/shared/logger/logger";
+import { getClientIp } from "@/shared/http/get-client-ip";
 
 const PUBLIC_API_ROUTES = [
     "/api/admin/login",
@@ -12,29 +12,38 @@ const PUBLIC_API_ROUTES = [
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
-    if (!pathname.startsWith("/api/admin") || PUBLIC_API_ROUTES.includes(pathname)) {
+    if (pathname.startsWith("/api/admin") && PUBLIC_API_ROUTES.includes(pathname)) {
         return NextResponse.next();
     }
 
     const accessToken = request.cookies.get("admin_access_token")?.value;
 
-    if (!accessToken) {
-        logger.warn("Admin access blocked: Missing access token", {
+    const handleUnauthorized = (reason: string) => {
+        logger.warn(reason, {
             pathname,
             method: request.method,
             ip: getClientIp(request),
         });
 
-        return NextResponse.json(
-            {
-                success: false,
-                error: {
-                    code: "UNAUTHORIZED",
-                    message: "Authentication required",
+        if (pathname.startsWith("/api/")) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: {
+                        code: "UNAUTHORIZED",
+                        message: "Authentication required",
+                    },
                 },
-            },
-            { status: 401 }
-        );
+                { status: 401 }
+            );
+        }
+
+        const loginUrl = new URL("/", request.url);
+        return NextResponse.redirect(loginUrl);
+    };
+
+    if (!accessToken) {
+        return handleUnauthorized("Admin access blocked: Missing access token");
     }
 
     try {
@@ -57,26 +66,14 @@ export async function middleware(request: NextRequest) {
             },
         });
     } catch (error) {
-        logger.warn(error instanceof Error ? error : new Error(String(error)), "Admin access blocked: Invalid or expired access token", {
-            pathname,
-            method: request.method,
-        });
-
-        return NextResponse.json(
-            {
-                success: false,
-                error: {
-                    code: "UNAUTHORIZED",
-                    message: "Invalid or expired access token",
-                },
-            },
-            { status: 401 }
-        );
+        return handleUnauthorized("Admin access blocked: Invalid or expired access token");
     }
 }
 
 export const config = {
     matcher: [
         "/api/admin/:path*",
+        "/admin/:path*",
+        "/preview/:path*",
     ],
 };
