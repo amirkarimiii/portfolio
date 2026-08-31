@@ -285,6 +285,68 @@ export class ArticleRepository {
         }
     }
 
+    public static async getDraftArticles({
+                                             page = 1,
+                                             pageSize = 20,
+                                             sort = 'newest',
+                                         }: {
+        page?: number;
+        pageSize?: number;
+        sort?: 'newest' | 'oldest';
+    }): Promise<PaginatedArticlesResult> {
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('drafts');
+
+            const sortOrder = sort === 'oldest' ? 1 : -1;
+            const skip = (page - 1) * pageSize;
+
+            const [totalItems, docs] = await Promise.all([
+                collection.countDocuments({}),
+                collection
+                    .find({})
+                    .sort({ updatedAt: sortOrder, createdAt: sortOrder })
+                    .skip(skip)
+                    .limit(pageSize)
+                    .project<ArticleCardData>({
+                        _id: 0,
+                        uniqueId: 1,
+                        slug: 1,
+                        title: 1,
+                        summary: 1,
+                        seriesId: 1,
+                        tags: 1,
+                        thumbnailImage: 1,
+                        thumbnailAltText: 1,
+                        firstPublishedAt: 1,
+                        publishedAt: 1,
+                        lifecycle: 1,
+                    })
+                    .toArray(),
+            ]);
+
+            const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+
+            return {
+                articles: docs,
+                totalItems,
+                totalPages,
+                currentPage: page,
+                pageSize,
+            };
+        } catch (error) {
+            console.error('[ArticleRepository.getDraftArticles Error]:', error);
+            return {
+                articles: [],
+                totalItems: 0,
+                totalPages: 1,
+                currentPage: page,
+                pageSize,
+            };
+        }
+    }
+
     // #################### Mock legacy functions
 
     private static async readJsonFile(filePath: string): Promise<ArticlesJsonStructure> {
