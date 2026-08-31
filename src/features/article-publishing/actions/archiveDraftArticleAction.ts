@@ -17,7 +17,7 @@ export async function archiveDraftArticleAction({ uniqueId }: ArchiveDraftArticl
             };
         }
 
-        const draftArticle = await ArticleRepository.getDraftArticle(uniqueId);
+        const draftArticle = await ArticleRepository.getDraftArticleById(uniqueId);
         if (!draftArticle) {
             return {
                 success: false,
@@ -36,6 +36,7 @@ export async function archiveDraftArticleAction({ uniqueId }: ArchiveDraftArticl
             thumbnailAltText: draftArticle.thumbnailAltText,
             seoTitle: draftArticle.seoTitle,
             seoDescription: draftArticle.seoDescription || '',
+            canonicalUrl: draftArticle.canonicalUrl || '',
             seriesId: draftArticle.seriesId,
             tags: draftArticle.tags,
             relatedArticleIds: draftArticle.relatedArticleIds,
@@ -44,11 +45,11 @@ export async function archiveDraftArticleAction({ uniqueId }: ArchiveDraftArticl
 
         const validationResult = articleFormSchema.safeParse(formDataToValidate);
         if (!validationResult.success) {
-            const firstError = validationResult.error;
+            const firstIssue = validationResult.error.issues[0];
             return {
                 success: false,
-                error: firstError.message,
-                field: firstError.cause as string,
+                error: firstIssue.message,
+                field: firstIssue.path.join('.'),
             };
         }
 
@@ -58,7 +59,7 @@ export async function archiveDraftArticleAction({ uniqueId }: ArchiveDraftArticl
         if (slugExists) {
             return {
                 success: false,
-                error: 'this slug already exists',
+                error: 'This slug already exists',
                 field: 'slug',
             };
         }
@@ -77,7 +78,7 @@ export async function archiveDraftArticleAction({ uniqueId }: ArchiveDraftArticl
         console.error('Failed to archive draft article:', error);
         return {
             success: false,
-            error: error instanceof Error ? error.message : 'something went wrong during archiving',
+            error: error instanceof Error ? error.message : 'Something went wrong during archiving',
         };
     }
 }
