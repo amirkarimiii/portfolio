@@ -19,7 +19,7 @@ export class SeriesService {
             pageSize,
         });
     }
-    
+
     public static async getSeriesWithArticles(slug: string): Promise<{
         series: SeriesItem;
         articles: ArticleCardData[];
@@ -40,6 +40,14 @@ export class SeriesService {
             series,
             articles,
         };
+    }
+
+    public static async getSeriesById(seriesId: string): Promise<SeriesItem | null> {
+        if (!seriesId || typeof seriesId !== 'string') {
+            return null;
+        }
+
+        return SeriesRepository.getSeriesById(seriesId.trim());
     }
 
 }
