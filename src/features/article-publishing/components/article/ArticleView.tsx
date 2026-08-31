@@ -30,7 +30,7 @@ export function ArticleView({ article }: ArticleViewProps) {
                     </div>
                 )}
                 <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">
-                    {article.title || 'بدون عنوان'}
+                    {article.title || 'untitled'}
                 </h1>
                 {article.summary && (
                     <p className="text-xl text-muted-foreground leading-relaxed">
