@@ -74,6 +74,26 @@ export class SeriesRepository {
         }
     }
 
+    public static async getSeriesBySlug(slug: string): Promise<SeriesItem | null> {
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<SeriesItem>('series');
+
+            const normalizedSlug = slug.trim().toLowerCase();
+            const series = await collection.findOne({ slug: normalizedSlug });
+
+            if (!series) {
+                return null;
+            }
+
+            const { _id, ...cleanSeries } = series as SeriesItem & { _id?: unknown };
+            return cleanSeries as SeriesItem;
+        } catch (error) {
+            console.error('[SeriesRepository.getSeriesBySlug Error]:', error);
+            return null;
+        }
+    }
 
     // #################### Mock legacy functions
 
