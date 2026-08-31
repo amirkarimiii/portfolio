@@ -1,8 +1,6 @@
 import { Suspense } from 'react';
 import {PreviewArticleSectionWrapper} from "@/features/article-publishing/components/PreviewArticleSectionWrapper";
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 interface PreviewPageProps {
     params: Promise<{
