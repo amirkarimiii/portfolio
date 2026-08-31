@@ -5,6 +5,7 @@ export interface DraftEventPayload {
     articleId: string;
     slug?: string;
     seriesId?: string | null;
+    seriesSlug?: string | null;
 }
 
 const CHANNEL_NAME = 'article_draft_sync_channel';
