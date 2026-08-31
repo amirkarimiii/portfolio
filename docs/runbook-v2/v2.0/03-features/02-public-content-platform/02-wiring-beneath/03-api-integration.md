@@ -15,7 +15,15 @@
 ```
 
 ```
-loop: private routes and relationships
+✅ loop: private getter routes
+```
+
+```
+commit changes
+```
+
+```
+loop: private setter routes
 ```
 
 ```
