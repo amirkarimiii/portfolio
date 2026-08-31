@@ -151,6 +151,33 @@ export class ArticleRepository {
         }
     }
 
+    public static async getPublishedSeriesArticleBySlug(
+        articleSlug: string,
+        seriesId: string
+    ): Promise<ArticleItem | null> {
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('articles');
+
+            const article = await collection.findOne(
+                {
+                    slug: articleSlug,
+                    seriesId: seriesId,
+                    lifecycle: 'Published',
+                },
+                {
+                    projection: { _id: 0 },
+                }
+            );
+
+            return article || null;
+        } catch (error) {
+            console.error('[ArticleRepository.getPublishedSeriesArticleBySlug Error]:', error);
+            return null;
+        }
+    }
+
     // #################### Mock legacy functions
 
     private static async readJsonFile(filePath: string): Promise<ArticlesJsonStructure> {
