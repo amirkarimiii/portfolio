@@ -36,10 +36,14 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
 
     const parentSeries = seriesObjects.find((series) => series.uniqueId === data.seriesId);
 
-    const destinationRoute =
-        data.seriesId && parentSeries?.slug
+    const destinationRoute = React.useMemo(() => {
+        if (origin === "archive") {
+            return `/admin/articles/archive/${data.uniqueId}`;
+        }
+        return data.seriesId && parentSeries?.slug
             ? `/series/${parentSeries.slug}/${data.slug}`
             : `/blog/${data.slug}`;
+    }, [origin, data.uniqueId, data.seriesId, data.slug, parentSeries?.slug]);
 
     const effectiveTags = React.useMemo(
         () => getEffectiveTags(data.tags, parentSeries?.defaultTags || []),
