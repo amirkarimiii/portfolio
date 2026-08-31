@@ -347,6 +347,99 @@ export class ArticleRepository {
         }
     }
 
+    public static async saveDraftArticle(
+        uniqueId: string,
+        formData: Partial<ArticleFormValues>
+    ): Promise<ArticleItem> {
+        const client = await clientPromise;
+        const db = client.db();
+        const collection = db.collection<ArticleItem>('drafts');
+        const now = new Date().toISOString();
+
+        const existingDraft = await collection.findOne({ uniqueId });
+
+        const draftArticle: ArticleItem = {
+            uniqueId,
+            slug: formData.slug !== undefined ? formData.slug : (existingDraft?.slug || ''),
+            title: formData.title !== undefined ? formData.title : (existingDraft?.title || 'Untitled Draft'),
+            summary: formData.summary !== undefined ? formData.summary : (existingDraft?.summary || ''),
+            lifecycle: formData.lifecycle !== undefined ? formData.lifecycle : (existingDraft?.lifecycle || null),
+            seriesId: formData.seriesId !== undefined ? formData.seriesId : (existingDraft?.seriesId || null),
+            tags: formData.tags !== undefined ? formData.tags : (existingDraft?.tags || []),
+            coverImage: formData.coverImage !== undefined ? formData.coverImage : (existingDraft?.coverImage || ''),
+            coverAltText: formData.coverAltText !== undefined ? formData.coverAltText : (existingDraft?.coverAltText || ''),
+            thumbnailImage: formData.thumbnailImage !== undefined ? formData.thumbnailImage : (existingDraft?.thumbnailImage || ''),
+            thumbnailAltText: formData.thumbnailAltText !== undefined ? formData.thumbnailAltText : (existingDraft?.thumbnailAltText || ''),
+            seoTitle: formData.seoTitle !== undefined ? formData.seoTitle : (existingDraft?.seoTitle || formData.title || ''),
+            seoDescription: formData.seoDescription !== undefined ? formData.seoDescription : (existingDraft?.seoDescription || formData.summary || ''),
+            canonicalUrl: formData.canonicalUrl !== undefined ? formData.canonicalUrl : (existingDraft?.canonicalUrl || null),
+            relatedArticleIds: formData.relatedArticleIds !== undefined ? formData.relatedArticleIds : (existingDraft?.relatedArticleIds || []),
+            inboundReferencingIds: existingDraft?.inboundReferencingIds || [],
+            createdAt: existingDraft?.createdAt || now,
+            updatedAt: existingDraft ? now : null,
+            firstPublishedAt: existingDraft?.firstPublishedAt || null,
+            publishedAt: null,
+            archivedAt: null,
+            content: formData.content !== undefined ? formData.content : (existingDraft?.content || { type: 'doc', content: [] })
+        };
+
+        await collection.updateOne(
+            { uniqueId },
+            { $set: draftArticle },
+            { upsert: true }
+        );
+
+        return draftArticle;
+    }
+
+    public static async savePublishedArticle(
+        uniqueId: string,
+        formData: ArticleFormValues
+    ): Promise<ArticleItem> {
+        const client = await clientPromise;
+        const db = client.db();
+        const publishedCollection = db.collection<ArticleItem>('articles');
+        const draftsCollection = db.collection<ArticleItem>('drafts');
+        const now = new Date().toISOString();
+
+        const existingPublished = await publishedCollection.findOne({ uniqueId });
+
+        const publishedArticle: ArticleItem = {
+            uniqueId,
+            slug: formData.slug,
+            title: formData.title,
+            summary: formData.summary,
+            lifecycle: 'Published',
+            seriesId: formData.seriesId || null,
+            tags: formData.tags || [],
+            coverImage: formData.coverImage,
+            coverAltText: formData.coverAltText,
+            thumbnailImage: formData.thumbnailImage,
+            thumbnailAltText: formData.thumbnailAltText,
+            seoTitle: formData.seoTitle || formData.title,
+            seoDescription: formData.seoDescription || formData.summary,
+            canonicalUrl: formData.canonicalUrl || null,
+            relatedArticleIds: formData.relatedArticleIds || existingPublished?.relatedArticleIds || [],
+            inboundReferencingIds: existingPublished?.inboundReferencingIds || [],
+            createdAt: existingPublished?.createdAt || now,
+            updatedAt: existingPublished ? now : null,
+            firstPublishedAt: existingPublished?.firstPublishedAt || now,
+            publishedAt: now,
+            archivedAt: null,
+            content: formData.content
+        };
+
+        await publishedCollection.updateOne(
+            { uniqueId },
+            { $set: publishedArticle },
+            { upsert: true }
+        );
+
+        await draftsCollection.deleteOne({ uniqueId });
+
+        return publishedArticle;
+    }
+
     // #################### Mock legacy functions
 
     private static async readJsonFile(filePath: string): Promise<ArticlesJsonStructure> {
@@ -413,51 +506,6 @@ export class ArticleRepository {
         return false;
     }
 
-    public static async saveDraftArticle(
-        uniqueId: string,
-        formData: Partial<ArticleFormValues>
-    ): Promise<ArticleItem> {
-        const now = new Date().toISOString();
-        const fileContent = await this.readJsonFile(NEW_DRAFT_PATH);
-
-        const existingIndex = fileContent.articles.findIndex(a => a.uniqueId === uniqueId);
-        const existingArticle = existingIndex !== -1 ? fileContent.articles[existingIndex] : null;
-
-        const draftArticle: ArticleItem = {
-            uniqueId,
-            slug: formData.slug !== undefined ? formData.slug : (existingArticle?.slug || ''),
-            title: formData.title !== undefined ? formData.title : (existingArticle?.title || 'Untitled Draft'),
-            summary: formData.summary !== undefined ? formData.summary : (existingArticle?.summary || ''),
-            lifecycle: formData.lifecycle !== undefined ? formData.lifecycle : (existingArticle?.lifecycle || null),
-            seriesId: formData.seriesId !== undefined ? formData.seriesId : (existingArticle?.seriesId || null),
-            tags: formData.tags !== undefined ? formData.tags : (existingArticle?.tags || []),
-            coverImage: formData.coverImage !== undefined ? formData.coverImage : (existingArticle?.coverImage || ''),
-            coverAltText: formData.coverAltText !== undefined ? formData.coverAltText : (existingArticle?.coverAltText || ''),
-            thumbnailImage: formData.thumbnailImage !== undefined ? formData.thumbnailImage : (existingArticle?.thumbnailImage || ''),
-            thumbnailAltText: formData.thumbnailAltText !== undefined ? formData.thumbnailAltText : (existingArticle?.thumbnailAltText || ''),
-            seoTitle: formData.seoTitle !== undefined ? formData.seoTitle : (existingArticle?.seoTitle || formData.title || ''),
-            seoDescription: formData.seoDescription !== undefined ? formData.seoDescription : (existingArticle?.seoDescription || formData.summary || ''),
-            canonicalUrl: formData.canonicalUrl !== undefined ? formData.canonicalUrl : (existingArticle?.canonicalUrl || null),
-            relatedArticleIds: formData.relatedArticleIds !== undefined ? formData.relatedArticleIds : (existingArticle?.relatedArticleIds || []),
-            inboundReferencingIds: existingArticle?.inboundReferencingIds || [],
-            createdAt: existingArticle?.createdAt || now,
-            updatedAt: existingArticle ? now : null,
-            firstPublishedAt: existingArticle?.firstPublishedAt || null,
-            publishedAt: null,
-            archivedAt: null,
-            content: formData.content !== undefined ? formData.content : (existingArticle?.content || { type: 'doc', content: [] })
-        };
-
-        if (existingIndex !== -1) {
-            fileContent.articles[existingIndex] = draftArticle;
-        } else {
-            fileContent.articles.unshift(draftArticle);
-        }
-
-        await this.writeJsonFile(NEW_DRAFT_PATH, fileContent);
-        return draftArticle;
-    }
-
     public static async deleteDraftArticle(uniqueId: string): Promise<void> {
         const draftContent = await this.readJsonFile(NEW_DRAFT_PATH);
         const updatedArticles = draftContent.articles.filter(a => a.uniqueId !== uniqueId);
@@ -476,109 +524,6 @@ export class ArticleRepository {
         }
     }
 
-    public static async savePublishedArticle(
-        uniqueId: string,
-        formData: ArticleFormValues
-    ): Promise<ArticleItem> {
-        const now = new Date().toISOString();
-
-        const publishedContent = await this.readJsonFile(NEW_PUBLISHED_PATH);
-        const existingIndex = publishedContent.articles.findIndex(a => a.uniqueId === uniqueId);
-        const existingArticle = existingIndex !== -1 ? publishedContent.articles[existingIndex] : null;
-
-        const publishedArticle: ArticleItem = {
-            uniqueId,
-            slug: formData.slug,
-            title: formData.title,
-            summary: formData.summary,
-            lifecycle: 'Published',
-            seriesId: formData.seriesId || null,
-            tags: formData.tags || [],
-            coverImage: formData.coverImage || 'https://cdn.example.com/articles/covers/retry-policies.webp',
-            coverAltText: formData.coverAltText || 'Diagram illustrating retry policies',
-            thumbnailImage: formData.thumbnailImage || 'https://cdn.example.com/articles/thumbnails/retry-policies.webp',
-            thumbnailAltText: formData.thumbnailAltText || 'Diagram illustrating retry policies_thmb',
-            seoTitle: formData.seoTitle || formData.title,
-            seoDescription: formData.seoDescription || formData.summary,
-            canonicalUrl: formData.canonicalUrl || null,
-            relatedArticleIds: formData.relatedArticleIds || existingArticle?.relatedArticleIds || [],
-            inboundReferencingIds: existingArticle?.inboundReferencingIds || [],
-            createdAt: existingArticle?.createdAt || now,
-            updatedAt: existingArticle ? now : null,
-            firstPublishedAt: existingArticle?.firstPublishedAt || now,
-            publishedAt: now,
-            archivedAt: null,
-            content: formData.content
-        };
-
-        if (existingIndex !== -1) {
-            publishedContent.articles[existingIndex] = publishedArticle;
-        } else {
-            publishedContent.articles.unshift(publishedArticle);
-        }
-
-        await this.writeJsonFile(NEW_PUBLISHED_PATH, publishedContent);
-        await this.deleteDraftArticle(uniqueId);
-
-        return publishedArticle;
-    }
-
-    public static async archiveDraftArticle(
-        uniqueId: string,
-        formData: ArticleFormValues
-    ): Promise<ArticleItem> {
-        const now = new Date().toISOString();
-        const draftArticle = await this.getDraftArticle(uniqueId);
-
-        if (!draftArticle) {
-            throw new Error('Draft article not found');
-        }
-
-        const archivedContent = await this.readJsonFile(NEW_ARCHIVE_PATH);
-        const existingIndex = archivedContent.articles.findIndex(a => a.uniqueId === uniqueId);
-
-        const archivedArticle: ArticleItem = {
-            uniqueId,
-            slug: formData.slug,
-            title: formData.title,
-            summary: formData.summary,
-            lifecycle: 'Archived',
-            seriesId: formData.seriesId || null,
-            tags: formData.tags || [],
-            coverImage: formData.coverImage,
-            coverAltText: formData.coverAltText,
-            thumbnailImage: formData.thumbnailImage,
-            thumbnailAltText: formData.thumbnailAltText,
-            seoTitle: formData.seoTitle || formData.title,
-            seoDescription: formData.seoDescription || formData.summary,
-            canonicalUrl: formData.canonicalUrl || null,
-            relatedArticleIds: formData.relatedArticleIds,
-            inboundReferencingIds: draftArticle.inboundReferencingIds || [],
-            createdAt: draftArticle.createdAt || now,
-            updatedAt: now,
-            firstPublishedAt: draftArticle.firstPublishedAt,
-            publishedAt: draftArticle.publishedAt,
-            archivedAt: now,
-            content: formData.content
-        };
-
-        if (existingIndex !== -1) {
-            archivedContent.articles[existingIndex] = archivedArticle;
-        } else {
-            archivedContent.articles.unshift(archivedArticle);
-        }
-
-        await this.writeJsonFile(NEW_ARCHIVE_PATH, archivedContent);
-
-        if (draftArticle.lifecycle === 'Published') {
-            await this.deletePublishedArticle(uniqueId);
-        }
-
-        await this.deleteDraftArticle(uniqueId);
-
-        return archivedArticle;
-    }
-
     public static async getInboundReferences(targetArticleId: string): Promise<string[]> {
         const paths = [NEW_PUBLISHED_PATH];
         for (const filePath of paths) {
@@ -589,36 +534,6 @@ export class ArticleRepository {
             }
         }
         return [];
-    }
-
-    public static async createEditDraft(uniqueId: string): Promise<ArticleItem> {
-        const draftContent = await this.readJsonFile(NEW_DRAFT_PATH);
-        const existingDraft = draftContent.articles.find(a => a.uniqueId === uniqueId);
-
-        if (existingDraft) {
-            return existingDraft;
-        }
-
-        const publishedContent = await this.readJsonFile(NEW_PUBLISHED_PATH);
-        const archivedContent = await this.readJsonFile(NEW_ARCHIVE_PATH);
-
-        const sourceArticle =
-            publishedContent.articles.find(a => a.uniqueId === uniqueId) ||
-            archivedContent.articles.find(a => a.uniqueId === uniqueId);
-
-        if (!sourceArticle) {
-            throw new Error(`Article with ID ${uniqueId} not found in Published or Archived source.`);
-        }
-
-        const draftCopy: ArticleItem = {
-            ...sourceArticle,
-            updatedAt: new Date().toISOString(),
-        };
-
-        draftContent.articles.unshift(draftCopy);
-        await this.writeJsonFile(NEW_DRAFT_PATH, draftContent);
-
-        return draftCopy;
     }
 
     public static async addInboundReference(targetArticleId: string, sourceArticleId: string): Promise<void> {
