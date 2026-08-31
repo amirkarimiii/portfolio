@@ -3,6 +3,7 @@
 import { ArticleRepository } from "@/features/article-publishing/repository/articleRepository";
 import { isReservedSlug } from "@/features/article-publishing/utils/slugValidation";
 import { articleFormSchema, type ArticleFormValues } from '../schemas/articleFormSchema';
+import { SeriesRepository } from "@/features/article-publishing/repository/seriesRepository";
 
 interface PublishArticleInput {
     uniqueId: string;
@@ -17,7 +18,7 @@ export async function publishArticleAction({ uniqueId }: PublishArticleInput) {
             };
         }
 
-        const draftArticle = await ArticleRepository.getDraftArticle(uniqueId);
+        const draftArticle = await ArticleRepository.getDraftArticleById(uniqueId);
         if (!draftArticle) {
             return {
                 success: false,
@@ -36,6 +37,7 @@ export async function publishArticleAction({ uniqueId }: PublishArticleInput) {
             thumbnailAltText: draftArticle.thumbnailAltText,
             seoTitle: draftArticle.seoTitle,
             seoDescription: draftArticle.seoDescription || '',
+            canonicalUrl: draftArticle.canonicalUrl || '',
             seriesId: draftArticle.seriesId,
             tags: draftArticle.tags,
             relatedArticleIds: draftArticle.relatedArticleIds,
@@ -44,11 +46,11 @@ export async function publishArticleAction({ uniqueId }: PublishArticleInput) {
 
         const validationResult = articleFormSchema.safeParse(formDataToValidate);
         if (!validationResult.success) {
-            const firstError = validationResult.error;
+            const firstIssue = validationResult.error.issues[0];
             return {
                 success: false,
-                error: firstError.message,
-                field: firstError.cause as string,
+                error: firstIssue.message,
+                field: firstIssue.path.join('.'),
             };
         }
 
@@ -58,7 +60,7 @@ export async function publishArticleAction({ uniqueId }: PublishArticleInput) {
         if (slugExists) {
             return {
                 success: false,
-                error: 'this slug already exists',
+                error: 'This slug already exists.',
                 field: 'slug',
             };
         }
@@ -71,13 +73,26 @@ export async function publishArticleAction({ uniqueId }: PublishArticleInput) {
             };
         }
 
-        const newArticle = await ArticleRepository.savePublishedArticle(uniqueId, validFormData);
-        return { success: true, data: newArticle };
+        let seriesSlug: string | null = null;
+        if (validFormData.seriesId) {
+            const series = await SeriesRepository.getSeriesById(validFormData.seriesId);
+            seriesSlug = series?.slug || null;
+        }
+
+        const publishedArticle = await ArticleRepository.savePublishedArticle(uniqueId, validFormData);
+
+        return {
+            success: true,
+            data: {
+                ...publishedArticle,
+                seriesSlug,
+            }
+        };
     } catch (error) {
         console.error('Failed to publish article:', error);
         return {
             success: false,
-            error: error instanceof Error ? error.message : 'something went wrong',
+            error: error instanceof Error ? error.message : 'Something went wrong',
         };
     }
 }
