@@ -94,4 +94,12 @@ export class ArticleService {
         return ArticleRepository.getArchivedArticleById(articleId.trim());
     }
 
+    public static async getDraftArticleById(articleId: string): Promise<ArticleItem | null> {
+        if (!articleId || typeof articleId !== 'string') {
+            return null;
+        }
+
+        return ArticleRepository.getDraftArticleById(articleId.trim());
+    }
+
 }
