@@ -86,4 +86,12 @@ export class ArticleService {
         });
     }
 
+    public static async getArchivedArticleById(articleId: string): Promise<ArticleItem | null> {
+        if (!articleId || typeof articleId !== 'string') {
+            return null;
+        }
+
+        return ArticleRepository.getArchivedArticleById(articleId.trim());
+    }
+
 }
