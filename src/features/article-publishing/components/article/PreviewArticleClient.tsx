@@ -8,6 +8,7 @@ import { Button } from '@/shared/components/ui/button';
 import { publishArticleAction } from '../../actions/publishArticleAction';
 import { ArticleItem } from "@/features/article-publishing/types/article-item.type";
 import {notify} from "@/shared/notification/notification.service";
+import {logger} from "@/shared/logger/logger";
 
 interface PreviewArticleClientProps {
     initialArticle: ArticleItem;
@@ -66,10 +67,20 @@ export function PreviewArticleClient({ initialArticle, seriesTitle }: PreviewArt
                         }
                     }
                 } else {
+                    logger.warn('Publish article failed with business error', {
+                        context: 'handlePublish',
+                        uniqueId: article.uniqueId,
+                        error: result.error,
+                    });
                     const errorMessage = result.error?.message || 'Error in publishing article';
                     notify.error(errorMessage);
                 }
-            } catch {
+            } catch (error) {
+                logger.error(
+                    error as Error,
+                    'Unexpected error while publishing article',
+                    { context: 'handlePublish', uniqueId: article.uniqueId }
+                );
                 notify.error("ARTICLE_PUBLISH_UNEXPECTED_ERROR");
             }
         });
