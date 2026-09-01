@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { toast } from 'sonner';
 import { useArticleFormStore } from '../stores/useArticleFormStore';
 import { useDraftSyncStore } from '../stores/useDraftSyncStore';
-
 import { articleDraftChannel } from '../channels/articleDraftChannel';
 import type { ArticleFormValues } from '../schemas/articleFormSchema';
 import {saveDraftAction} from "@/features/article-publishing/actions/articleAction";
+import {notify} from "@/shared/notification/notification.service";
 
 const INACTIVITY_DELAY = 5000;
 const RETRY_DELAYS = [500, 1000, 2000, 4000, 8000];
@@ -85,7 +84,7 @@ export function useAutoSaveDraft() {
                 if (cacheKey) {
                     localStorage.removeItem(cacheKey);
                 }
-                toast.dismiss(AUTO_SAVE_ERROR_TOAST_ID);
+                notify.dismiss(AUTO_SAVE_ERROR_TOAST_ID);
                 setDraftStatus('success');
 
                 if (articleId) {
@@ -99,7 +98,7 @@ export function useAutoSaveDraft() {
             } else {
                 setDraftStatus('failed');
                 if (lastError !== null) {
-                    toast.error('Network connection issue. Auto-save failed.', {
+                    notify.error("AUTO_SAVE_FAILED", {
                         duration: Infinity,
                         id: AUTO_SAVE_ERROR_TOAST_ID,
                     });
