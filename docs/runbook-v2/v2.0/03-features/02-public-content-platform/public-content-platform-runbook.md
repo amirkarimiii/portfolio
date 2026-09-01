@@ -170,7 +170,7 @@ Checking with readiness: line
 ```
 
 ```
-step: Go to TRACKING
+✅ step: Go to TRACKING
   mark this step as Completed with mention of completion date
   put the next step as In Progress
   write its changelog
@@ -178,28 +178,44 @@ step: Go to TRACKING
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Go to Observatory
+✅ step: Go to Observatory
   mark this branch as Merged
   activate the next branch
 ```
 
 ```
-commit changes
+✅ commit changes
+```
+
+```
+commit runbook
 ```
 
 ```todo
+deferred
 step: go to 03-checking-with-readiness
 ```
 
 ```
+deferred
 step: Go to TRACKING
   mark this step as Completed with mention of completion date
   write its changelog
   fix Last Updated
+```
+
+```
+deferred
+commit changes
+```
+
+```
+deferred
+commit runbook
 ```
 
 ```todo
