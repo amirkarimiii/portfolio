@@ -19,12 +19,14 @@ import {
     useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import {ArticleCardData} from "@/features/article-publishing/types/reference-card.type";
+import {
+    SelectableContentCard
+} from "@/features/article-publishing/components/article/article-related/SelectableContentCard";
+import {ArticleFormValues} from "@/features/article-publishing/schemas/articleFormSchema";
+import {getSuggestedArticles} from "@/features/article-publishing/utils/relatedArticleUtils";
+import {getArticlesAction} from "@/features/article-publishing/actions/articleAction";
 
-import { ArticleFormValues } from '../../../schemas/articleFormSchema';
-import { ArticleCardData } from '../../../types/reference-card.type';
-import { getSuggestedArticles } from '../../../utils/relatedArticleUtils';
-import { SelectableContentCard } from './SelectableContentCard';
-import {getAllArticlesAction} from "@/features/article-publishing/actions/relatedActions";
 
 interface SortableItemProps {
     article: ArticleCardData;
@@ -75,7 +77,7 @@ export const RelatedArticlesTab: React.FC = () => {
         let isMounted = true;
         async function fetchArticles() {
             try {
-                const articles = await getAllArticlesAction();
+                const articles = await getArticlesAction();
                 if (isMounted) {
                     setAllArticles(articles);
                 }
