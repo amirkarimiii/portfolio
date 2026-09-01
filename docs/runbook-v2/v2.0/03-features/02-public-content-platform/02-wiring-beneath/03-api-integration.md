@@ -19,11 +19,19 @@
 ```
 
 ```
+✅ commit changes
+```
+
+```
+✅ loop: private setter routes
+```
+
+```
 commit changes
 ```
 
 ```
-loop: private setter routes
+loop: final refactor of action, repository, services
 ```
 
 ```
