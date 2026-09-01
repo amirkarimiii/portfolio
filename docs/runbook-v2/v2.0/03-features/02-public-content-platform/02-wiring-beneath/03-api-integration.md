@@ -86,11 +86,11 @@ in flow:
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```
-loop: Final audit of the data flow (Architecture Boundaries Verification)
+✅ loop: Final audit of the data flow (Architecture Boundaries Verification)
   Sub-stage 4.1: Check the absence of unauthorized Imports
     What happens? We ensure that none of the Action files in the actions/ folder have imported ArticleRepository or SeriesRepository at all
   Sub-stage 4.2: Examination of the pattern reference (InboundReference)
@@ -98,7 +98,7 @@ loop: Final audit of the data flow (Architecture Boundaries Verification)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
