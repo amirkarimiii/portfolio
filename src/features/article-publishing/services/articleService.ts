@@ -253,4 +253,19 @@ export class ArticleService {
         return { success: true, data: archivedArticle };
     }
 
+    public static async editArticle(uniqueId: string): Promise<ApiResponse<ArticleItem>> {
+        if (!uniqueId) {
+            return {
+                success: false,
+                error: {
+                    code: ErrorCode.VALIDATION_ERROR,
+                    message: 'Article ID is required to start editing.',
+                },
+            };
+        }
+
+        const draftArticle = await ArticleRepository.createEditDraft(uniqueId);
+        return { success: true, data: draftArticle };
+    }
+
 }
