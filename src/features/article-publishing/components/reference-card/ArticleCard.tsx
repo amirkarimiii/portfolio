@@ -12,6 +12,7 @@ import {PublishedDropdown} from "@/features/article-publishing/components/dropdo
 import {ArchivedDropdown} from "@/features/article-publishing/components/dropdowns/ArchivedDropdown";
 import {getEffectiveTags} from "@/features/article-publishing/utils/tagUtils";
 import {DraftedDropdown} from "@/features/article-publishing/components/dropdowns/DraftedDropdown";
+import {useAdminSession} from "@/features/admin/hooks/useAdminAuth";
 
 
 interface ArticleCardProps {
@@ -31,6 +32,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                                                         }) => {
 
     const router = useRouter();
+
+    const { data: session } = useAdminSession();
 
     const seriesObjects = (seriesData as { series: SeriesCardData[] })?.series || [];
 
@@ -95,8 +98,10 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             archive: <ArchivedDropdown uniqueId={uniqueId}/>,
             draft: <DraftedDropdown uniqueId={uniqueId}/>
         };
-        return dropdownMap[origin] || null;
+        if (!session?.authenticated) return null;
+        return   dropdownMap[origin] || null;
     };
+
     return (
         <div
             className="block group"
