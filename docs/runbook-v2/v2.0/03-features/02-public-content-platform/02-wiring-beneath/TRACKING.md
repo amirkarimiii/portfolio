@@ -1,8 +1,8 @@
 # Wiring Beneath
 
-**Status:** In Progress
+**Status:** Completed
 
-**Last Updated:** 2026-08-30
+**Last Updated:** 2026-09-01
 
 **Owner:** Amir Karimi
 
@@ -18,11 +18,11 @@ It provides an overview of Wiring Beneath status, planning milestones, and execu
 
 # 2. Tracking
 
-| Sections          | Status      | Planned Start           | Target Milestone | Completed  |
-|-------------------|-------------|-------------------------|------------------|:----------:|
-| First Article     | Completed   | 2026-08-20              | 2026-08-26*      | 2026-08-26 |
-| Article Lifecycle | Completed   | 2026-08-26              | 2026-08-30       | 2026-08-30 |
-| API Integration   | In Progress | After Article Lifecycle | 2026-08-31       |     -      |
+| Sections          | Status    | Planned Start | Target Milestone | Completed  |
+|-------------------|-----------|---------------|------------------|:----------:|
+| First Article     | Completed | 2026-08-20    | 2026-08-26*      | 2026-08-26 |
+| Article Lifecycle | Completed | 2026-08-26    | 2026-08-30       | 2026-08-30 |
+| API Integration   | Completed | 2026-08-30    | 2026-09-01       | 2026-08-01 |
 
 > *three days were off from work
 
@@ -41,9 +41,10 @@ It provides an overview of Wiring Beneath status, planning milestones, and execu
 # Appendix A — Change Log
 
 
-| Date       | Change                                                                                                               |
-|------------|----------------------------------------------------------------------------------------------------------------------|
-| 2026-08-20 | Tracking document created.                                                                                           |
-| 2026-08-26 | First Article marked as Completed (2026-08-26). Article Lifecycle moved to In Progress with Planned Start 2026-08-26 |
-| 2026-08-30 | API Integration marked as Completed (2026-08-30). API Integration moved to In Progress with Planned Start 2026-08-30 |
+| Date       | Change                                                                                                                 |
+|------------|------------------------------------------------------------------------------------------------------------------------|
+| 2026-08-20 | Tracking document created.                                                                                             |
+| 2026-08-26 | First Article marked as Completed (2026-08-26). Article Lifecycle moved to In Progress with Planned Start 2026-08-26   |
+| 2026-08-30 | Article Lifecycle marked as Completed (2026-08-30). API Integration moved to In Progress with Planned Start 2026-08-30 |
+| 2026-08-30 | API Integration marked as Completed (2026-09-01). Mark this Tracking file as Completed                                 |
 
