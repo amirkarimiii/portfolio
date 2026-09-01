@@ -6,7 +6,7 @@ import { useDraftSyncStore } from '../stores/useDraftSyncStore';
 
 import { articleDraftChannel } from '../channels/articleDraftChannel';
 import type { ArticleFormValues } from '../schemas/articleFormSchema';
-import { saveDraftAction } from '@/features/article-publishing/actions/saveDraftAction';
+import {saveDraftAction} from "@/features/article-publishing/actions/articleAction";
 
 const INACTIVITY_DELAY = 5000;
 const RETRY_DELAYS = [500, 1000, 2000, 4000, 8000];
