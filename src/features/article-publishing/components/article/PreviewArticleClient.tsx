@@ -39,7 +39,8 @@ export function PreviewArticleClient({ initialArticle, seriesTitle }: PreviewArt
         startTransition(async () => {
             try {
                 const result = await publishArticleAction({ uniqueId: article.uniqueId });
-                if (result.success && result.data) {
+
+                if (result.success) {
                     toast.success('Article has been successfully published!');
 
                     const publishedSlug = result.data.slug;
@@ -65,7 +66,8 @@ export function PreviewArticleClient({ initialArticle, seriesTitle }: PreviewArt
                         }
                     }
                 } else {
-                    toast.error(result.error || 'Error in publishing article');
+                    const errorMessage = result.error?.message || 'Error in publishing article';
+                    toast.error(errorMessage);
                 }
             } catch {
                 toast.error('Unexpected error during publishing article');
