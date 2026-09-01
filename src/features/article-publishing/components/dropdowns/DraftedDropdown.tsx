@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,6 +12,7 @@ import { Button } from "@/shared/components/ui/button";
 import { useUnsecureDeleteModal } from "@/features/article-publishing/stores/useUnsecureDelete";
 import { Settings } from "lucide-react";
 import {archiveDraftArticleAction} from "@/features/article-publishing/actions/articleAction";
+import {notify} from "@/shared/notification/notification.service";
 
 interface AddArticleDropdownProps {
     uniqueId: string;
@@ -41,13 +41,13 @@ export function DraftedDropdown({
                 const result = await archiveDraftArticleAction({ uniqueId });
 
                 if (result.success) {
-                    toast.success('Article moved to archive successfully!');
+                    notify.success("ARTICLE_ARCHIVED");
                     router.refresh();
                 } else {
-                    toast.error(result.error.message || 'Failed to archive article');
+                    notify.error(result.error.message || "ARTICLE_ARCHIVE_FAILED");
                 }
             } catch {
-                toast.error('An unexpected error occurred while archiving');
+                notify.error("ARTICLE_ARCHIVE_FAILED");
             }
         });
     };
