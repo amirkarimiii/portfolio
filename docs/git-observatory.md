@@ -136,8 +136,8 @@ Branches are created only when the preceding feature is complete.
 | Branch Name                       | Feature                           | Diverged / Merged to | Status  |
 |-----------------------------------|-----------------------------------|:--------------------:|---------|
 | `feature/private-publishing`      | Private Publishing Infrastructure |       staging        | Merged  |
-| `feature/public-content-platform` | Public Content Platform (Core V2) |       staging        | Active  |
-| `feature/stack-map`               | Interactive Stack Mapping         |       staging        | Pending |
+| `feature/public-content-platform` | Public Content Platform (Core V2) |       staging        | Merged  |
+| `feature/stack-map`               | Interactive Stack Mapping         |       staging        | Active  |
 | `feature/bookshelf`               | Analytical Bookshelf              |       staging        | Pending |
 | `feature/ai-optimization`         | AI Optimization Suite (AIO/GEO)   |       staging        | Pending |
 
@@ -149,8 +149,8 @@ Sub-branches are fast-forward merged back into `feature/public-content-platform`
 | Branch Name                   | Stages                  |      Diverged / Merged to       | Status  |
 |-------------------------------|-------------------------|:-------------------------------:|---------|
 | `feature/pcp-ui-design`       | UI Design               | feature/public-content-platform | Merged  |
-| `feature/pcp-wiring-beneath`  | Wiring Beneath          | feature/public-content-platform | Active  |
-| `feature/pcp-readiness-check` | Checking with Readiness | feature/public-content-platform | Pending |
+| `feature/pcp-wiring-beneath`  | Wiring Beneath          | feature/public-content-platform | Merged  |
+| `feature/pcp-readiness-check` | Checking with Readiness | feature/public-content-platform | Defered |
 
 UI Design and Wiring Beneath stages contain organized sub-tasks tracked as sequential sub-branches. Checking with Readiness is a single-phase stage with no sub-branches.
 
@@ -185,7 +185,20 @@ Sub-branches are fast-forward merged back into `feature/pcp-wiring-beneath` upon
 |-------------------------------|-------------------|:--------------------------:|--------|
 | `feature/pcp-first-article`   | First Article     | feature/pcp-wiring-beneath | Merged |
 | `feature/pcp-lifecycle`       | Article Lifecycle | feature/pcp-wiring-beneath | Merged |
-| `feature/pcp-api-integration` | API Integration   | feature/pcp-wiring-beneath | Active |
+| `feature/pcp-api-integration` | API Integration   | feature/pcp-wiring-beneath | Merged |
+
+### `feature/stack-map`
+
+This feature is organized into sequential stages.
+Sub-branches are fast-forward merged back into `feature/stack-map` upon completion.
+
+| Branch Name                  | Stages                  | Diverged / Merged to | Status  |
+|------------------------------|-------------------------|:--------------------:|---------|
+| `feature/sm-ui-design`       | UI Design               |  feature/stack-map   | Active  |
+| `feature/sm-wiring-beneath`  | Wiring Beneath          |  feature/stack-map   | Planned |
+| `feature/sm-readiness-check` | Checking with Readiness |  feature/stack-map   | Defered |
+
+All branches above are a single-phase stage with no sub-branches.
 
 ---
 
