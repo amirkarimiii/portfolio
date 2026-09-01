@@ -69,27 +69,27 @@ stage 3: Replace file system with real API
 ```
 
 ```todo
-step: go to 03-api-integration.md
+✅ step: go to 03-api-integration.md
 ```
 
 ```
-step: Go to TRACKING
+✅ step: Go to TRACKING
   mark this step as Completed with mention of completion date
   write its changelog
   fix Last Updated
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Go to Observatory
+✅ step: Go to Observatory
   mark this branch as Merged
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
