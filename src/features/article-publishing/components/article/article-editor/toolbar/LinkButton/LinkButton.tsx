@@ -9,6 +9,7 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/shared/components/ui/po
 import {Button} from "@/shared/components/ui/button";
 import {cn} from "@/shared/utils/shadcnUtils";
 import {Input} from "@/shared/components/ui/input";
+import {notify} from "@/shared/notification/notification.service";
 
 interface LinkButtonProps {
     editor: Editor | null;
@@ -48,7 +49,7 @@ export function LinkButton({ editor }: LinkButtonProps) {
         }
 
         if (trimmed.startsWith("http://")) {
-            toast.warning("This link is not secure (http). Please use https", { position: "top-center" });
+            notify.warning("This link is not secure (http). Please use https", { position: "top-center" });
             return;
         }
 
@@ -64,7 +65,7 @@ export function LinkButton({ editor }: LinkButtonProps) {
         })();
 
         if (!isValidUrl) {
-            toast.error("The input must be a valid URL", { position: "top-center" });
+            notify.error("The input must be a valid URL", { position: "top-center" });
             return;
         }
 
