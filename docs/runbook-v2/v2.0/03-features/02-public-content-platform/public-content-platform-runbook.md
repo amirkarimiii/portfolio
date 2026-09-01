@@ -249,17 +249,18 @@ commit changes
 ```
 
 ```todo
-checkout statging
+✅ checkout statging
 ```
 
 ```todo
-merge feature/public-content-platform into staging
+✅ merge feature/public-content-platform into staging
 ```
 
 ```todo
-delete feature/public-content-platform
+✅ delete feature/public-content-platform
 ```
 
 ```todo
+deferred
 go to 03-interactive-stack-mapping.md
 ```

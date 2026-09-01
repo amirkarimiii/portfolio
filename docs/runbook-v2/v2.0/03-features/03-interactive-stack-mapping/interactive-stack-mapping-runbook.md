@@ -1,57 +1,109 @@
 ```todo
-step: make branch: feature/stack-map
+✅ step: make branch: feature/stack-map
 ```
 
 ```todo
-step: Making the conversation centered on the dimensions of this feature
-make as much as questions and answers for the feature
-using deepseek
+step: go to 01-ui-design.md
 ```
 
-```todo
-step: Create the main feature file in the feature directory using the obtained questions and answers; using chatgpt
 ```
-
-```todo
-commit changes
-```
-
-```todo
-loop: create steps based on [dedicated feature file in docs/features]
-```
-
-```todo
-change status in TRACKING for this feature
+step: Go to TRACKING
+  mark this step as Completed with mention of completion date
+  put the next step as In Progress
+  write its changelog
+  fix Last Updated
 ```
 
 ```todo
 commit changes
 ```
 
-```todo
-checkout statging
+```
+step: Go to Observatory
+  mark this branch as Merged
+  activate the next branch
+```
+
+```
+commit changes
+```
+
+```
+commit runbook
 ```
 
 ```todo
-merge feature/stack-map into staging
+step: go to 02-wiring-beneath
 ```
 
-```todo
-delete feature/stack-map
 ```
-
-```todo
-upload git observatory to claude
-```
-
-```todo
-change observatory based on new refactors
+step: Go to TRACKING
+  mark this step as Completed with mention of completion date
+  put the next step as In Progress
+  write its changelog
+  fix Last Updated
 ```
 
 ```todo
 commit changes
 ```
 
+```
+step: Go to Observatory
+  mark this branch as Merged
+  activate the next branch
+```
+
+```
+commit changes
+```
+
+```
+commit runbook
+```
+
 ```todo
-go to 05-analytical-bookshelf.md
+deferred
+step: go to 03-checking-with-readiness.md
+```
+
+```
+step: Go to TRACKING
+  mark this step as Completed with mention of completion date
+  mark whole Tracking as completed
+  write its changelog
+  fix Last Updated
+```
+
+```todo
+commit changes
+```
+
+```
+step: Go to Observatory
+  mark this branch as Merged
+```
+
+```
+commit changes
+```
+
+```
+commit runbook
+```
+
+```todo:subbranches
+step: Checkout the branch staging
+```
+
+```todo:subbranches
+step: Merge the branch feature/stack-map into staging
+```
+
+```todo:subbranches
+step: Delete the branch feature/stack-map
+```
+
+```todo:subbranches
+step: go to 04-analytical-bookshelf
 ```
