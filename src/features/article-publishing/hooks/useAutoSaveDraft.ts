@@ -4,8 +4,9 @@ import { useArticleFormStore } from '../stores/useArticleFormStore';
 import { useDraftSyncStore } from '../stores/useDraftSyncStore';
 import { articleDraftChannel } from '../channels/articleDraftChannel';
 import type { ArticleFormValues } from '../schemas/articleFormSchema';
-import {saveDraftAction} from "@/features/article-publishing/actions/articleAction";
-import {notify} from "@/shared/notification/notification.service";
+import { saveDraftAction } from "@/features/article-publishing/actions/articleAction";
+import { notify } from "@/shared/notification/notification.service";
+import { logger } from "@/shared/logger/logger";
 
 const INACTIVITY_DELAY = 5000;
 const RETRY_DELAYS = [500, 1000, 2000, 4000, 8000];
@@ -45,7 +46,11 @@ export function useAutoSaveDraft() {
                 try {
                     localStorage.setItem(cacheKey, JSON.stringify(payload));
                 } catch (e) {
-                    console.warn('Failed to save draft to localStorage fallback:', e);
+                    logger.warn('Failed to save draft to localStorage fallback', {
+                        context: 'useAutoSaveDraft.localStorage',
+                        articleId,
+                        error: e,
+                    });
                 }
             }
 
@@ -70,10 +75,22 @@ export function useAutoSaveDraft() {
                         isSuccess = true;
                         break;
                     }
+
+                    logger.warn('Auto-save rejected by server business validation', {
+                        context: 'useAutoSaveDraft.saveDraftAction',
+                        articleId,
+                        attempt: attempt + 1,
+                        error: result.error,
+                    });
                     lastError = null;
                     break;
                 } catch (error) {
-                    console.warn(`Auto-save attempt ${attempt + 1} failed:`, error);
+                    logger.warn(`Auto-save attempt ${attempt + 1} failed`, {
+                        context: 'useAutoSaveDraft.retryLoop',
+                        articleId,
+                        attempt: attempt + 1,
+                        error,
+                    });
                     lastError = error;
                 }
             }
@@ -105,7 +122,11 @@ export function useAutoSaveDraft() {
                 }
             }
         } catch (error) {
-            console.warn('Auto-save failed unexpectedly:', error);
+            logger.error(
+                error as Error,
+                'Auto-save failed unexpectedly',
+                { context: 'useAutoSaveDraft.executeAutoSave', articleId }
+            );
             if (saveVersionRef.current === currentVersion) {
                 setDraftStatus('failed');
             }
