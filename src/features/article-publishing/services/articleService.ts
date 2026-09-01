@@ -3,6 +3,7 @@ import type { ArticleItem } from '../types/article-item.type';
 import {PaginatedArticlesResult} from "@/features/article-publishing/types/pagination.type";
 import {SeriesRepository} from "@/features/article-publishing/repository/seriesRepository";
 import {SeriesArticleData} from "@/features/article-publishing/types/series-article.type";
+import {ArticleCardData} from "@/features/article-publishing/types/reference-card.type";
 
 export class ArticleService {
 
@@ -118,6 +119,10 @@ export class ArticleService {
             sort: validSort,
             pageSize,
         });
+    }
+
+    public static async getAllArticles(): Promise<ArticleCardData[]> {
+        return await ArticleRepository.getAllArticles();
     }
 
 }
