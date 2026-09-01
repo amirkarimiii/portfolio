@@ -44,7 +44,7 @@ export function DraftedDropdown({
                     toast.success('Article moved to archive successfully!');
                     router.refresh();
                 } else {
-                    toast.error(result.error || 'Failed to archive article');
+                    toast.error(result.error.message || 'Failed to archive article');
                 }
             } catch {
                 toast.error('An unexpected error occurred while archiving');
