@@ -53,6 +53,7 @@ Product code scopes are organized around **feature ownership and stable applicat
 |--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `admin`      | Private publishing infrastructure — admin authentication, login/logout/session APIs, admin feature components, hooks, services, stores, JWT utilities, and related private publishing flows       |
 | `blog`       | Public content platform — public blog surface, article listing/previews, content presentation, banner/navbar actions, search, and related public content flows                                    |
+| `stack`      | Stack mapping feature — technology stack showcase, skills/tech list presentation, related components, data, and public display flows                                                              |
 | `main`       | Main portfolio surface — banner, contact, projects, info sections, and main navbar actions                                                                                                        |
 | `shared`     | Cross-cutting application infrastructure — shared layout, constants, libraries, providers, types, utilities, HTTP/API helpers, MongoDB access, logging, and other reusable application concerns   |
 | `env`        | Environment configuration (`src/env.ts`, `.env*` files, validation)                                                                                                                               |
