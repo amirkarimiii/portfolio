@@ -19,6 +19,7 @@ export interface ApiSuccessResponse<T> {
 export interface ApiErrorDetail {
     code: ErrorCodeType;
     message: string;
+    field?: string;
     details?: unknown;
 }
 
@@ -34,7 +35,12 @@ export class AppError extends Error {
     public readonly code: ErrorCodeType;
     public readonly details?: unknown;
 
-    constructor(message: string, statusCode: number = 400, code: ErrorCodeType = ErrorCode.VALIDATION_ERROR, details?: unknown) {
+    constructor(
+        message: string,
+        statusCode: number = 400,
+        code: ErrorCodeType = ErrorCode.VALIDATION_ERROR,
+        details?: unknown
+    ) {
         super(message);
         this.name = 'AppError';
         this.statusCode = statusCode;
