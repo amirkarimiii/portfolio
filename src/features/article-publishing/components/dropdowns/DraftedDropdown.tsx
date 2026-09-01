@@ -13,6 +13,7 @@ import { useUnsecureDeleteModal } from "@/features/article-publishing/stores/use
 import { Settings } from "lucide-react";
 import {archiveDraftArticleAction} from "@/features/article-publishing/actions/articleAction";
 import {notify} from "@/shared/notification/notification.service";
+import {logger} from "@/shared/logger/logger";
 
 interface AddArticleDropdownProps {
     uniqueId: string;
@@ -44,9 +45,19 @@ export function DraftedDropdown({
                     notify.success("ARTICLE_ARCHIVED");
                     router.refresh();
                 } else {
-                    notify.error(result.error.message || "ARTICLE_ARCHIVE_FAILED");
+                    logger.warn('Archive draft article failed with business error', {
+                        context: 'handleArchive',
+                        uniqueId,
+                        error: result.error,
+                    });
+                    notify.error(result.error?.message || "ARTICLE_ARCHIVE_FAILED");
                 }
-            } catch {
+            } catch (error) {
+                logger.error(
+                    error as Error,
+                    'Unexpected error while archiving draft article',
+                    { context: 'handleArchive', uniqueId }
+                );
                 notify.error("ARTICLE_ARCHIVE_FAILED");
             }
         });
