@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,6 +11,7 @@ import {
 import { Button } from "@/shared/components/ui/button";
 import { Settings, Loader2 } from "lucide-react";
 import {editArticleAction} from "@/features/article-publishing/actions/articleAction";
+import {notify} from "@/shared/notification/notification.service";
 
 type Props = {
     uniqueId: string;
@@ -31,11 +31,11 @@ export function ArchivedDropdown({ uniqueId }: Props) {
             if (result.success) {
                 router.push(`/admin/edit-article/${uniqueId}`);
             } else {
-                toast.error(result.error.message || "Failed to prepare article for editing");
+                notify.error(result.error.message || "ARTICLE_EDIT_PREPARATION_FAILED");
             }
         } catch (err) {
             console.error(err);
-            toast.error("An error occurred while switching to edit mode.");
+            notify.error("ARTICLE_EDIT_MODE_FAILED");
         } finally {
             setIsLoading(false);
         }
