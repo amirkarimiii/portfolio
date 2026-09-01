@@ -1,4 +1,5 @@
 import clientPromise from '@/shared/lib/mongodb';
+import { logger } from '@/shared/logger/logger';
 
 export interface TagDocument {
     name: string;
@@ -18,7 +19,11 @@ export class TagRepository {
             const docs = await collection.find({}, { projection: { _id: 0, name: 1 } }).toArray();
             return docs.map((doc) => doc.name);
         } catch (error) {
-            console.error('[TagRepository.getAllTags Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch all tags',
+                { context: 'TagRepository.getAllTags' }
+            );
             return [];
         }
     }
@@ -42,7 +47,11 @@ export class TagRepository {
 
             return await this.getAllTags();
         } catch (error) {
-            console.error('[TagRepository.createTag Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to create tag',
+                { context: 'TagRepository.createTag', newTag }
+            );
             return await this.getAllTags();
         }
     }
