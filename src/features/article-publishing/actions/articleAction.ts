@@ -6,6 +6,7 @@ import type {ArticleItem} from "@/features/article-publishing/types/article-item
 import {ArticleRepository} from "@/features/article-publishing/repository/articleRepository";
 import {articleFormSchema, ArticleFormValues} from "@/features/article-publishing/schemas/articleFormSchema";
 import {isReservedSlug} from "@/features/article-publishing/utils/slugValidation";
+import {ApiResponse, ErrorCode} from "@/shared/types/api";
 
 interface ArchiveDraftArticleInput {
     uniqueId: string;
@@ -128,41 +129,17 @@ export async function editArticleAction({ uniqueId }: EditArticleInput) {
     }
 }
 
-export async function saveDraftAction({ uniqueId, formData }: SaveDraftInput) {
+export async function saveDraftAction({ uniqueId, formData }: SaveDraftInput): Promise<ApiResponse<ArticleItem>> {
     try {
-        if (!uniqueId) {
-            return {
-                success: false,
-                error: 'Article ID is required for saving draft',
-            };
-        }
-
-        if (formData.slug && formData.slug.trim() !== '') {
-            const slugExists = await ArticleRepository.isSlugExists(formData.slug, uniqueId);
-            if (slugExists) {
-                return {
-                    success: false,
-                    error: 'This slug already exists',
-                    field: 'slug',
-                };
-            }
-
-            if (isReservedSlug(formData.slug)) {
-                return {
-                    success: false,
-                    field: 'slug',
-                    error: 'This slug is reserved and cannot be used.',
-                };
-            }
-        }
-
-        const draftArticle = await ArticleRepository.saveDraftArticle(uniqueId, formData);
-        return { success: true, data: draftArticle };
+        return await ArticleService.saveDraft(uniqueId, formData);
     } catch (error) {
         console.error('Failed to save draft:', error);
         return {
             success: false,
-            error: error instanceof Error ? error.message : 'Something went wrong while saving draft',
+            error: {
+                code: ErrorCode.INTERNAL_SERVER_ERROR,
+                message: error instanceof Error ? error.message : 'Something went wrong while saving draft',
+            },
         };
     }
 }
