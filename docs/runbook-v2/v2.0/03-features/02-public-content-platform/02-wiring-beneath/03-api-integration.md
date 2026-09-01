@@ -102,11 +102,31 @@ in flow:
 ```
 
 ```
+✅ commit runbook
+```
+
+```
+✅ loop: proper integration with notification system and logger
+```
+
+```
+✅ commit changes
+```
+
+```
 commit runbook
 ```
 
 ```
-loop: proper integration with notification system and logger
+loop: last checkup
+```
+
+```
+commit changes
+```
+
+```
+commit runbook
 ```
 
 ```todo:subbranches
