@@ -2,9 +2,9 @@
 
 import { useState, useRef, ChangeEvent, DragEvent } from 'react';
 import { Upload, Image as ImageIcon, Trash2, RefreshCw, AlertCircle, Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
 import { Button } from '@/shared/components/ui/button';
 import { validateImageFile } from '@/features/article-publishing/utils/imageValidation';
+import {notify} from "@/shared/notification/notification.service";
 
 export interface FileAttachment {
     file?: File;
@@ -53,7 +53,7 @@ function AttachmentUpload({
             if (!validation.valid) {
                 const errorMsg = validation.error || 'Invalid image file';
                 setErrorMessage(errorMsg);
-                toast.error('Image Validation Failed', { description: errorMsg });
+                notify.error("IMAGE_VALIDATION_FAILED", { description: errorMsg });
                 setIsProcessing(false);
                 return;
             }
@@ -76,11 +76,11 @@ function AttachmentUpload({
                 size: file.size,
             });
 
-            toast.success('Image uploaded successfully');
+            notify.success("IMAGE_UPLOAD_SUCCESS");
         } catch {
             const fallbackError = 'Failed to upload image file';
             setErrorMessage(fallbackError);
-            toast.error('Error', { description: fallbackError });
+            notify.error("IMAGE_UPLOAD_FAILED", { description: fallbackError });
         } finally {
             setIsProcessing(false);
         }
@@ -131,9 +131,9 @@ function AttachmentUpload({
 
             if (fileInputRef.current) fileInputRef.current.value = '';
             onChange(null);
-            toast.info('Image removed');
+            notify.info("IMAGE_REMOVED");
         } catch {
-            toast.error('Error', { description: 'Could not delete the file from storage' });
+            notify.error("IMAGE_DELETE_FAILED");
         } finally {
             setIsProcessing(false);
         }
