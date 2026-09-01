@@ -11,7 +11,7 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 import { Button } from "@/shared/components/ui/button";
 import { Settings, Loader2 } from "lucide-react";
-import { editArticleAction } from "../../actions/editArticleAction";
+import {editArticleAction} from "@/features/article-publishing/actions/articleAction";
 
 type Props = {
     uniqueId: string;
