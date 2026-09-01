@@ -1,6 +1,14 @@
-import { env } from "@/env";
-import { shouldLog } from './levels';
-import {LogArgs, Logger, LogLevel, LogMetadata, LogMethod, LogPayload} from './types';
+import { shouldLog, isLogLevel } from './levels';
+import {
+    LogArgs,
+    Logger,
+    LogLevel,
+    LogMetadata,
+    LogMethod,
+    LogPayload,
+} from './types';
+
+const DEFAULT_LOG_LEVEL: LogLevel = 'debug';
 
 const SENSITIVE_KEYS = [
     'password',
@@ -17,27 +25,47 @@ class ApplicationLogger implements Logger {
     private readonly minLevel: LogLevel;
 
     constructor() {
-        const isProduction = env.NODE_ENV === 'production';
-        this.minLevel = (env.LOG_LEVEL as LogLevel) || (isProduction ? 'info' : 'debug');
+        const configuredLevel = process.env.NEXT_PUBLIC_LOG_LEVEL;
+
+        this.minLevel = isLogLevel(configuredLevel)
+            ? configuredLevel
+            : DEFAULT_LOG_LEVEL;
     }
 
-    private sanitizeMetadata(metadata?: LogMetadata): LogMetadata | undefined {
+    private sanitizeMetadata(
+        metadata?: LogMetadata
+    ): LogMetadata | undefined {
         if (!metadata) return undefined;
 
         try {
             const sanitized: LogMetadata = {};
+
             for (const [key, value] of Object.entries(metadata)) {
-                if (SENSITIVE_KEYS.some((sensitive) => key.toLowerCase().includes(sensitive))) {
+                if (
+                    SENSITIVE_KEYS.some((sensitive) =>
+                        key.toLowerCase().includes(sensitive)
+                    )
+                ) {
                     sanitized[key] = '[REDACTED]';
-                } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-                    sanitized[key] = this.sanitizeMetadata(value as LogMetadata);
+                } else if (
+                    typeof value === 'object' &&
+                    value !== null &&
+                    !Array.isArray(value)
+                ) {
+                    sanitized[key] = this.sanitizeMetadata(
+                        value as LogMetadata
+                    );
                 } else {
                     sanitized[key] = value;
                 }
             }
+
             return sanitized;
         } catch {
-            return { _sanitizationError: 'Failed to sanitize metadata safely' };
+            return {
+                _sanitizationError:
+                    'Failed to sanitize metadata safely',
+            };
         }
     }
 
@@ -45,7 +73,7 @@ class ApplicationLogger implements Logger {
         try {
             if (!shouldLog(level, this.minLevel)) return;
 
-            let message = '';
+            let message: string;
             let errorObj: Error | undefined;
             let rawMetadata: LogMetadata | undefined;
 
@@ -83,22 +111,32 @@ class ApplicationLogger implements Logger {
                 console.log(formattedOutput);
             }
         } catch (err) {
-
             try {
                 console.error('Logger internal error failure:', err);
             } catch {
-
+                // Ignore logger failures.
             }
         }
     }
 
-    trace: LogMethod = (...args: LogArgs) => this.emit('trace', args);
-    debug: LogMethod = (...args: LogArgs) => this.emit('debug', args);
-    info: LogMethod = (...args: LogArgs) => this.emit('info', args);
-    warn: LogMethod = (...args: LogArgs) => this.emit('warn', args);
-    error: LogMethod = (...args: LogArgs) => this.emit('error', args);
-    fatal: LogMethod = (...args: LogArgs) => this.emit('fatal', args);
+    trace: LogMethod = (...args: LogArgs) =>
+        this.emit('trace', args);
 
+    debug: LogMethod = (...args: LogArgs) =>
+        this.emit('debug', args);
+
+    info: LogMethod = (...args: LogArgs) =>
+        this.emit('info', args);
+
+    warn: LogMethod = (...args: LogArgs) =>
+        this.emit('warn', args);
+
+    error: LogMethod = (...args: LogArgs) =>
+        this.emit('error', args);
+
+    fatal: LogMethod = (...args: LogArgs) =>
+        this.emit('fatal', args);
 }
 
 export const logger: Logger = new ApplicationLogger();
+

@@ -18,6 +18,13 @@ export const LOG_LEVELS: LogLevel[] = [
     'fatal',
 ];
 
-export function shouldLog(targetLevel: LogLevel, currentLevel: LogLevel): boolean {
+export function shouldLog(
+    targetLevel: LogLevel,
+    currentLevel: LogLevel
+): boolean {
     return LOG_LEVEL_PRIORITY[targetLevel] >= LOG_LEVEL_PRIORITY[currentLevel];
+}
+
+export function isLogLevel(value: unknown): value is LogLevel {
+    return typeof value === 'string' && LOG_LEVELS.includes(value as LogLevel);
 }
