@@ -4,6 +4,9 @@ import {PaginatedArticlesResult} from "@/features/article-publishing/types/pagin
 import {SeriesRepository} from "@/features/article-publishing/repository/seriesRepository";
 import {SeriesArticleData} from "@/features/article-publishing/types/series-article.type";
 import {ArticleCardData} from "@/features/article-publishing/types/reference-card.type";
+import {ArticleFormValues} from "@/features/article-publishing/schemas/articleFormSchema";
+import {ApiResponse, ErrorCode} from "@/shared/types/api";
+import {isReservedSlug} from "@/features/article-publishing/utils/slugValidation";
 
 export class ArticleService {
 
@@ -123,6 +126,49 @@ export class ArticleService {
 
     public static async getAllArticles(): Promise<ArticleCardData[]> {
         return await ArticleRepository.getAllArticles();
+    }
+
+    public static async saveDraft(
+        uniqueId: string,
+        formData: Partial<ArticleFormValues>
+    ): Promise<ApiResponse<ArticleItem>> {
+        if (!uniqueId) {
+            return {
+                success: false,
+                error: {
+                    code: ErrorCode.VALIDATION_ERROR,
+                    message: 'Article ID is required for saving draft',
+                },
+            };
+        }
+
+        if (formData.slug && formData.slug.trim() !== '') {
+            const slugExists = await ArticleRepository.isSlugExists(formData.slug, uniqueId);
+            if (slugExists) {
+                return {
+                    success: false,
+                    error: {
+                        code: ErrorCode.VALIDATION_ERROR,
+                        message: 'This slug already exists',
+                        field: 'slug',
+                    },
+                };
+            }
+
+            if (isReservedSlug(formData.slug)) {
+                return {
+                    success: false,
+                    error: {
+                        code: ErrorCode.VALIDATION_ERROR,
+                        message: 'This slug is reserved and cannot be used.',
+                        field: 'slug',
+                    },
+                };
+            }
+        }
+
+        const draftArticle = await ArticleRepository.saveDraftArticle(uniqueId, formData);
+        return { success: true, data: draftArticle };
     }
 
 }
