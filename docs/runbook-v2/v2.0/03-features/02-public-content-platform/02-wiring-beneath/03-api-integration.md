@@ -27,7 +27,7 @@
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 doing some cleanups,
@@ -114,15 +114,15 @@ in flow:
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```
-loop: last checkup
+✅ loop: last checkup
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
