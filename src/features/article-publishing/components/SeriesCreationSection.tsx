@@ -16,6 +16,7 @@ import { SeriesCreationTagsDisplay } from './tags/SeriesCreationTagsDisplay';
 import { publishSeriesAction } from '@/features/article-publishing/actions/publishSeriesAction';
 import { SERIES_BROADCAST_CHANNEL } from "../constants/seriesChannel";
 import {notify} from "@/shared/notification/notification.service";
+import {logger} from "@/shared/logger/logger";
 
 const defaultValues: SeriesFormValues = {
     title: '',
@@ -85,6 +86,12 @@ export function SeriesCreationSection() {
             } else {
                 setPublishStatus('failed');
 
+                logger.warn('Publish series rejected by backend business rules', {
+                    context: 'onPublish',
+                    slug: data.slug,
+                    error: result.error,
+                });
+
                 const errorMessage = result.error?.message || 'Failed to publish series';
 
                 if ('field' in result.error && result.error.field) {
@@ -97,12 +104,16 @@ export function SeriesCreationSection() {
             }
         } catch (e) {
             setPublishStatus('failed');
+            logger.error(
+                e as Error,
+                'Unexpected error while publishing series',
+                { context: 'onPublish', slug: data.slug }
+            );
             notify.error("UNEXPECTED_ERROR");
         } finally {
             setIsPublishing(false);
         }
     };
-
 
     const statusIcons = {
         idle: null,
