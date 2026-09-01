@@ -69,11 +69,11 @@ in flow:
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```
-loop: Unification of the series section (Series Management)
+✅ loop: Unification of the series section (Series Management)
   The series actions currently bypass the service layer and talk directly with the Repository
   Sub-stage 3.1: Implementation of SeriesService.publishSeries
     What happens? Zod validation, checking the uniqueness of the slug and checking the reserved slug is transferred from publishSeriesAction to SeriesService
@@ -82,7 +82,7 @@ loop: Unification of the series section (Series Management)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
