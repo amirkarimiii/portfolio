@@ -1,5 +1,7 @@
-import {toast} from "sonner";
-import { NOTIFICATION_MESSAGES, NotificationMessageKey } from "./notification.constants";
+import { toast, type ExternalToast } from "sonner";
+import { NOTIFICATION_MESSAGES, type NotificationMessageKey } from "./notification.constants";
+
+export type NotifyOptions = ExternalToast;
 
 type ToastInput = NotificationMessageKey | string;
 
@@ -10,18 +12,24 @@ const resolveMessage = (input: ToastInput): string => {
     return input;
 };
 
-
 export const notify = {
-    success: (message: ToastInput) => {
-        toast.success(resolveMessage(message));
+    success: (message: ToastInput, options?: NotifyOptions) => {
+        toast.success(resolveMessage(message), options);
     },
-    error: (message: ToastInput) => {
-        toast.error(resolveMessage(message));
+
+    error: (message: ToastInput, options?: NotifyOptions) => {
+        toast.error(resolveMessage(message), options);
     },
-    info: (message: ToastInput) => {
-        toast.info(resolveMessage(message));
+
+    info: (message: ToastInput, options?: NotifyOptions) => {
+        toast.info(resolveMessage(message), options);
     },
-    warning: (message: ToastInput) => {
-        toast.warning(resolveMessage(message));
+
+    warning: (message: ToastInput, options?: NotifyOptions) => {
+        toast.warning(resolveMessage(message), options);
+    },
+
+    dismiss: (toastId?: string | number) => {
+        toast.dismiss(toastId);
     },
 };
