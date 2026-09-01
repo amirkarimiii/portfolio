@@ -12,6 +12,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Settings, Loader2 } from "lucide-react";
 import {editArticleAction} from "@/features/article-publishing/actions/articleAction";
 import {notify} from "@/shared/notification/notification.service";
+import {logger} from "@/shared/logger/logger";
 
 type Props = {
     uniqueId: string;
@@ -31,10 +32,19 @@ export function ArchivedDropdown({ uniqueId }: Props) {
             if (result.success) {
                 router.push(`/admin/edit-article/${uniqueId}`);
             } else {
-                notify.error(result.error.message || "ARTICLE_EDIT_PREPARATION_FAILED");
+                logger.warn('Edit article preparation rejected with business error', {
+                    context: 'handleEdit',
+                    uniqueId,
+                    error: result.error,
+                });
+                notify.error(result.error?.message || "ARTICLE_EDIT_PREPARATION_FAILED");
             }
         } catch (err) {
-            console.error(err);
+            logger.error(
+                err as Error,
+                'Unexpected error during edit article preparation',
+                { context: 'handleEdit', uniqueId }
+            );
             notify.error("ARTICLE_EDIT_MODE_FAILED");
         } finally {
             setIsLoading(false);
