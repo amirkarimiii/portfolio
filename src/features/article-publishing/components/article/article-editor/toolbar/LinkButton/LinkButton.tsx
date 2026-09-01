@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { Editor, useEditorState } from "@tiptap/react";
-import { toast } from "sonner";
 import { linkButtonInitializer } from "./linkButtonInitializer";
 import {Trash} from "lucide-react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/shared/components/ui/popover";
