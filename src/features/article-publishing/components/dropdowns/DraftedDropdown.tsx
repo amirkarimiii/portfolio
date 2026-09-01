@@ -11,8 +11,8 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 import { Button } from "@/shared/components/ui/button";
 import { useUnsecureDeleteModal } from "@/features/article-publishing/stores/useUnsecureDelete";
-import { archiveDraftArticleAction } from '@/features/article-publishing/actions/archiveDraftArticleAction';
 import { Settings } from "lucide-react";
+import {archiveDraftArticleAction} from "@/features/article-publishing/actions/articleAction";
 
 interface AddArticleDropdownProps {
     uniqueId: string;
