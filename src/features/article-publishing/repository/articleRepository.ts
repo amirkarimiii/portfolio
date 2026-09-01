@@ -1,29 +1,9 @@
-import fs from 'fs/promises';
-import path from 'path';
 import type {ArticleFormValues} from '../schemas/articleFormSchema';
 import type {ArticleCardData} from '../types/reference-card.type';
 import {ArticleItem} from "@/features/article-publishing/types/article-item.type";
 import clientPromise from "@/shared/lib/mongodb";
 import {PaginatedArticlesResult} from "@/features/article-publishing/types/pagination.type";
-
-const NEW_PUBLISHED_PATH = path.join(
-    process.cwd(),
-    'src/mock-files/new-published-articles.json'
-);
-
-const NEW_ARCHIVE_PATH = path.join(
-    process.cwd(),
-    'src/mock-files/new-archived-articles.json'
-);
-
-const NEW_DRAFT_PATH = path.join(
-    process.cwd(),
-    'src/mock-files/new-draft-articles.json'
-);
-
-interface ArticlesJsonStructure {
-    articles: ArticleItem[];
-}
+import {Filter} from "mongodb";
 
 export class ArticleRepository {
 
@@ -242,6 +222,19 @@ export class ArticleRepository {
                 pageSize,
             };
         }
+    }
+
+    public static async getPublishedArticleById(uniqueId: string): Promise<ArticleItem | null> {
+        const client = await clientPromise;
+        const db = client.db();
+        const collection = db.collection<ArticleItem>('articles');
+
+        const article = await collection.findOne({
+            uniqueId,
+            lifecycle: 'Published'
+        });
+
+        return article || null;
     }
 
     public static async getArchivedArticleById(articleId: string): Promise<ArticleItem | null> {
@@ -527,135 +520,110 @@ export class ArticleRepository {
         return draftCopy;
     }
 
-    // #################### Mock legacy functions
-
-    private static async readJsonFile(filePath: string): Promise<ArticlesJsonStructure> {
+    public static async getDraftArticle(uniqueId: string): Promise<ArticleItem | null> {
         try {
-            const data = await fs.readFile(filePath, 'utf-8');
-            return JSON.parse(data) as ArticlesJsonStructure;
-        } catch {
-            return { articles: [] };
-        }
-    }
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('drafts');
 
-    private static async writeJsonFile(filePath: string, data: ArticlesJsonStructure): Promise<void> {
-        await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
+            const article = await collection.findOne(
+                { uniqueId },
+                { projection: { _id: 0 } }
+            );
+
+            return article || null;
+        } catch (error) {
+            console.error('[ArticleRepository.getDraftArticle Error]:', error);
+            return null;
+        }
     }
 
     public static async getAllArticles(): Promise<ArticleCardData[]> {
-        const paths = [NEW_PUBLISHED_PATH];
-        const articleMap = new Map<string, ArticleCardData>();
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('articles');
 
-        for (const filePath of paths) {
-            const fileContent = await this.readJsonFile(filePath);
-            for (const item of fileContent.articles) {
-                if (!articleMap.has(item.uniqueId)) {
-                    articleMap.set(item.uniqueId, {
-                        lifecycle: "",
-                        uniqueId: item.uniqueId,
-                        slug: item.slug,
-                        title: item.title,
-                        summary: item.summary,
-                        seriesId: item.seriesId,
-                        tags: item.tags || [],
-                        thumbnailImage: item.thumbnailImage,
-                        thumbnailAltText: item.thumbnailAltText,
-                        firstPublishedAt: item.firstPublishedAt || undefined,
-                        publishedAt: item.publishedAt || undefined
-                    });
-                }
-            }
+            return await collection
+                .find({})
+                .sort({ publishedAt: -1, createdAt: -1 })
+                .project<ArticleCardData>({
+                    _id: 0,
+                    uniqueId: 1,
+                    slug: 1,
+                    title: 1,
+                    summary: 1,
+                    seriesId: 1,
+                    tags: 1,
+                    thumbnailImage: 1,
+                    thumbnailAltText: 1,
+                    firstPublishedAt: 1,
+                    publishedAt: 1,
+                    lifecycle: 1,
+                })
+                .toArray();
+        } catch (error) {
+            console.error('[ArticleRepository.getAllArticles Error]:', error);
+            return [];
         }
-
-        return Array.from(articleMap.values());
-    }
-
-    public static async getDraftArticle(uniqueId: string): Promise<ArticleItem | null> {
-        const fileContent = await this.readJsonFile(NEW_DRAFT_PATH);
-        return fileContent.articles.find(a => a.uniqueId === uniqueId) || null
-    }
-
-    public static async isSlugExists(slug: string, currentUniqueId?: string): Promise<boolean> {
-        const paths = [NEW_PUBLISHED_PATH, NEW_ARCHIVE_PATH, NEW_DRAFT_PATH];
-        const normalizedTargetSlug = slug.trim().toLowerCase();
-
-        for (const filePath of paths) {
-            const fileContent = await this.readJsonFile(filePath);
-            const exists = fileContent.articles.some(
-                (article) =>
-                    article.slug.trim().toLowerCase() === normalizedTargetSlug &&
-                    article.uniqueId !== currentUniqueId
-            );
-
-            if (exists) return true;
-        }
-
-        return false;
-    }
-
-    public static async deleteDraftArticle(uniqueId: string): Promise<void> {
-        const draftContent = await this.readJsonFile(NEW_DRAFT_PATH);
-        const updatedArticles = draftContent.articles.filter(a => a.uniqueId !== uniqueId);
-
-        if (updatedArticles.length !== draftContent.articles.length) {
-            await this.writeJsonFile(NEW_DRAFT_PATH, { articles: updatedArticles });
-        }
-    }
-
-    public static async deletePublishedArticle(uniqueId: string): Promise<void> {
-        const publishedContent = await this.readJsonFile(NEW_PUBLISHED_PATH);
-        const updatedArticles = publishedContent.articles.filter(a => a.uniqueId !== uniqueId);
-
-        if (updatedArticles.length !== publishedContent.articles.length) {
-            await this.writeJsonFile(NEW_PUBLISHED_PATH, { articles: updatedArticles });
-        }
-    }
-
-    public static async getInboundReferences(targetArticleId: string): Promise<string[]> {
-        const paths = [NEW_PUBLISHED_PATH];
-        for (const filePath of paths) {
-            const data = await this.readJsonFile(filePath);
-            const found = data.articles.find((a) => a.uniqueId === targetArticleId);
-            if (found) {
-                return found.inboundReferencingIds || [];
-            }
-        }
-        return [];
     }
 
     public static async addInboundReference(targetArticleId: string, sourceArticleId: string): Promise<void> {
-        const paths = [NEW_PUBLISHED_PATH];
-        for (const filePath of paths) {
-            const data = await this.readJsonFile(filePath);
-            const index = data.articles.findIndex((a) => a.uniqueId === targetArticleId);
-            if (index !== -1) {
-                const article = data.articles[index];
-                const currentRefs = article.inboundReferencingIds || [];
-                if (!currentRefs.includes(sourceArticleId)) {
-                    article.inboundReferencingIds = [...currentRefs, sourceArticleId];
-                    article.updatedAt = new Date().toISOString();
-                    await this.writeJsonFile(filePath, data);
-                }
-                return;
+        const client = await clientPromise;
+        const db = client.db();
+        const collection = db.collection<ArticleItem>('articles');
+
+        await collection.updateOne(
+            { uniqueId: targetArticleId },
+            {
+                $addToSet: { inboundReferencingIds: sourceArticleId },
+                $set: { updatedAt: new Date().toISOString() }
             }
-        }
+        );
     }
 
     public static async removeInboundReference(targetArticleId: string, sourceArticleId: string): Promise<void> {
-        const paths = [NEW_PUBLISHED_PATH];
-        for (const filePath of paths) {
-            const data = await this.readJsonFile(filePath);
-            const index = data.articles.findIndex((a) => a.uniqueId === targetArticleId);
-            if (index !== -1) {
-                const article = data.articles[index];
-                const currentRefs = article.inboundReferencingIds || [];
-                if (currentRefs.includes(sourceArticleId)) {
-                    article.inboundReferencingIds = currentRefs.filter((id) => id !== sourceArticleId);
-                    article.updatedAt = new Date().toISOString();
-                    await this.writeJsonFile(filePath, data);
-                }
-                return;
+        const client = await clientPromise;
+        const db = client.db();
+        const collection = db.collection<ArticleItem>('articles');
+
+        await collection.updateOne(
+            { uniqueId: targetArticleId },
+            {
+                $pull: { inboundReferencingIds: sourceArticleId },
+                $set: { updatedAt: new Date().toISOString() }
             }
+        );
+    }
+
+    public static async isSlugExists(slug: string, currentUniqueId?: string): Promise<boolean> {
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+
+            const articlesCollection = db.collection<ArticleItem>('articles');
+            const draftsCollection = db.collection<ArticleItem>('drafts');
+
+            const normalizedSlug = slug.trim().toLowerCase();
+
+            const query: Filter<ArticleItem> = {
+                slug: { $regex: new RegExp(`^${normalizedSlug}$`, 'i') }
+            };
+
+            if (currentUniqueId) {
+                query.uniqueId = { $ne: currentUniqueId };
+            }
+
+            const [existsInArticles, existsInDrafts] = await Promise.all([
+                articlesCollection.findOne(query, { projection: { _id: 1 } }),
+                draftsCollection.findOne(query, { projection: { _id: 1 } })
+            ]);
+
+            return Boolean(existsInArticles || existsInDrafts);
+        } catch (error) {
+            console.error('[ArticleRepository.isSlugExists Error]:', error);
+            return false;
         }
     }
+
 }
