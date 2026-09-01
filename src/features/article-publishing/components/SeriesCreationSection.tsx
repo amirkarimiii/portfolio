@@ -5,8 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CircleX, Clock, Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
-
 import { Button } from '@/shared/components/ui/button';
 import { seriesFormSchema, type SeriesFormValues } from '@/features/article-publishing/schemas/seriesFormSchema';
 import { BaseIdentityForm } from './article/article-form/BaseIdentityForm';
@@ -17,6 +15,7 @@ import { TagSelector } from './tags/TagSelector';
 import { SeriesCreationTagsDisplay } from './tags/SeriesCreationTagsDisplay';
 import { publishSeriesAction } from '@/features/article-publishing/actions/publishSeriesAction';
 import { SERIES_BROADCAST_CHANNEL } from "../constants/seriesChannel";
+import {notify} from "@/shared/notification/notification.service";
 
 const defaultValues: SeriesFormValues = {
     title: '',
@@ -65,8 +64,7 @@ export function SeriesCreationSection() {
             const result = await publishSeriesAction(payload);
 
             if (result.success) {
-                toast.success('Series has been published successfully!');
-
+                notify.success("SERIES_PUBLISHED");
                 if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
                     const channel = new BroadcastChannel(SERIES_BROADCAST_CHANNEL);
                     channel.postMessage({
@@ -95,12 +93,11 @@ export function SeriesCreationSection() {
                         message: errorMessage
                     });
                 }
-
-                toast.error(errorMessage);
+                notify.error(errorMessage);
             }
         } catch (e) {
             setPublishStatus('failed');
-            toast.error('Something unexpectedly went wrong!');
+            notify.error("UNEXPECTED_ERROR");
         } finally {
             setIsPublishing(false);
         }
