@@ -16,6 +16,7 @@ import {
     CommandList
 } from "@/shared/components/ui/command";
 import { getTagsAction, createTagAction } from '../../actions/tagActions';
+import {logger} from "@/shared/logger/logger";
 
 interface TagSelectorProps {
     fieldName: string;
@@ -33,7 +34,17 @@ export function TagSelector({ fieldName, label, placeholder = 'Select or type a 
     const currentTags: string[] = useWatch({ control, name: fieldName }) || [];
 
     useEffect(() => {
-        getTagsAction().then((tags) => setExistingTags(tags));
+        getTagsAction()
+            .then((tags) => {
+                setExistingTags(tags);
+            })
+            .catch((error: unknown) => {
+                logger.error(
+                    error as Error,
+                    'Failed to fetch existing tags on component mount',
+                    { context: 'useEffect:getTagsAction' }
+                );
+            });
     }, []);
 
     const handleSelectTag = (tag: string) => {
@@ -50,10 +61,23 @@ export function TagSelector({ fieldName, label, placeholder = 'Select or type a 
         if (!trimmedTag) return;
 
         startTransition(async () => {
-            const res = await createTagAction(trimmedTag);
-            if (res.success) {
-                setExistingTags(res.tags);
-                handleSelectTag(trimmedTag);
+            try {
+                const res = await createTagAction(trimmedTag);
+                if (res.success) {
+                    setExistingTags(res.tags);
+                    handleSelectTag(trimmedTag);
+                } else {
+                    logger.warn('Tag creation returned unsuccessful status', {
+                        context: 'handleCreateTag',
+                        newTag: trimmedTag,
+                    });
+                }
+            } catch (error) {
+                logger.error(
+                    error as Error,
+                    'Failed to create new tag',
+                    { context: 'handleCreateTag', newTag: trimmedTag }
+                );
             }
         });
     };
