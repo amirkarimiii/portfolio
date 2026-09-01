@@ -26,6 +26,7 @@ import {
 import {ArticleFormValues} from "@/features/article-publishing/schemas/articleFormSchema";
 import {getSuggestedArticles} from "@/features/article-publishing/utils/relatedArticleUtils";
 import {getArticlesAction} from "@/features/article-publishing/actions/articleAction";
+import {logger} from "@/shared/logger/logger";
 
 
 interface SortableItemProps {
@@ -82,14 +83,20 @@ export const RelatedArticlesTab: React.FC = () => {
                     setAllArticles(articles);
                 }
             } catch (error) {
-                console.error('Failed to load articles for suggestions:', error);
+                logger.error(
+                    error as Error,
+                    'Failed to load articles for suggestions',
+                    { context: 'useEffect.fetchArticles' }
+                );
             } finally {
                 if (isMounted) {
                     setIsLoading(false);
                 }
             }
         }
+
         fetchArticles();
+
         return () => {
             isMounted = false;
         };
