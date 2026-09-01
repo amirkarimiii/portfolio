@@ -36,10 +36,18 @@ export function ArticleCreationSectionWrapper({ uniqueId: initialUniqueId }: Art
                 if (draft) {
                     setInitialValues(mapDraftArticleToFormValues(draft));
                 } else {
+                    logger.warn('Draft article not found for editing', {
+                        context: 'useEffect.loadDraft',
+                        initialUniqueId,
+                    });
                     setNotFound(true);
                 }
             } catch (error) {
-                console.error('Failed to load draft for editing:', error);
+                logger.error(
+                    error as Error,
+                    'Failed to load draft for editing',
+                    { context: 'useEffect.loadDraft', initialUniqueId }
+                );
                 setNotFound(true);
             } finally {
                 setIsLoading(false);
