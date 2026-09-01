@@ -19,6 +19,7 @@ import {
     removeInboundReferenceAction,
     changeInboundReferenceAction
 } from '@/features/article-publishing/actions/inboundReferenceActions';
+import {logger} from "@/shared/logger/logger";
 
 export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
                                                                       node,
@@ -38,17 +39,25 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
         const refs: { id: string; type: 'article' | 'series' }[] = [];
         if (!editor) return refs;
 
-        editor.state.doc.descendants((n) => {
-            if (n.type.name === 'contentReference' && n.attrs.id) {
-                if (excludeCurrentNode && n === node) {
-                    return;
+        try {
+            editor.state.doc.descendants((n) => {
+                if (n.type.name === 'contentReference' && n.attrs.id) {
+                    if (excludeCurrentNode && n === node) {
+                        return;
+                    }
+                    refs.push({
+                        id: n.attrs.id as string,
+                        type: (n.attrs.type as 'article' | 'series') || 'article',
+                    });
                 }
-                refs.push({
-                    id: n.attrs.id as string,
-                    type: (n.attrs.type as 'article' | 'series') || 'article',
-                });
-            }
-        });
+            });
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to parse remaining references from document',
+                { context: 'getRemainingReferencesInDoc' }
+            );
+        }
 
         return refs;
     };
@@ -58,23 +67,36 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
 
         updateAttributes({ id: selectedId });
 
-        if (!sourceArticleId) return;
-
-        const remainingRefs = getRemainingReferencesInDoc(true);
-
-        if (!oldId) {
-            await addInboundReferenceAction({
-                sourceArticleId,
-                targetId: selectedId,
-                targetType: type,
+        if (!sourceArticleId) {
+            logger.warn('Skipping inbound reference sync: sourceArticleId is missing', {
+                context: 'handleSelectContent',
+                selectedId,
             });
-        } else if (oldId !== selectedId) {
-            // حالت تغییر مرجع (B -> C)
-            await changeInboundReferenceAction(
-                sourceArticleId,
-                { id: oldId, type },
-                { id: selectedId, type },
-                remainingRefs
+            return;
+        }
+
+        try {
+            const remainingRefs = getRemainingReferencesInDoc(true);
+
+            if (!oldId) {
+                await addInboundReferenceAction({
+                    sourceArticleId,
+                    targetId: selectedId,
+                    targetType: type,
+                });
+            } else if (oldId !== selectedId) {
+                await changeInboundReferenceAction(
+                    sourceArticleId,
+                    { id: oldId, type },
+                    { id: selectedId, type },
+                    remainingRefs
+                );
+            }
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to sync inbound reference selection',
+                { context: 'handleSelectContent', sourceArticleId, oldId, selectedId, type }
             );
         }
     };
@@ -84,15 +106,23 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
         updateAttributes({ id: null });
 
         if (sourceArticleId && oldId) {
-            const remainingRefs = getRemainingReferencesInDoc(true);
-            await removeInboundReferenceAction(
-                {
-                    sourceArticleId,
-                    targetId: oldId,
-                    targetType: type,
-                },
-                remainingRefs
-            );
+            try {
+                const remainingRefs = getRemainingReferencesInDoc(true);
+                await removeInboundReferenceAction(
+                    {
+                        sourceArticleId,
+                        targetId: oldId,
+                        targetType: type,
+                    },
+                    remainingRefs
+                );
+            } catch (error) {
+                logger.error(
+                    error as Error,
+                    'Failed to remove inbound reference on reset',
+                    { context: 'handleResetSelection', sourceArticleId, oldId, type }
+                );
+            }
         }
     };
 
@@ -101,15 +131,23 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
         deleteNode();
 
         if (sourceArticleId && oldId) {
-            const remainingRefs = getRemainingReferencesInDoc(true);
-            await removeInboundReferenceAction(
-                {
-                    sourceArticleId,
-                    targetId: oldId,
-                    targetType: type,
-                },
-                remainingRefs
-            );
+            try {
+                const remainingRefs = getRemainingReferencesInDoc(true);
+                await removeInboundReferenceAction(
+                    {
+                        sourceArticleId,
+                        targetId: oldId,
+                        targetType: type,
+                    },
+                    remainingRefs
+                );
+            } catch (error) {
+                logger.error(
+                    error as Error,
+                    'Failed to remove inbound reference on delete node',
+                    { context: 'handleDeleteNode', sourceArticleId, oldId, type }
+                );
+            }
         }
     };
 
