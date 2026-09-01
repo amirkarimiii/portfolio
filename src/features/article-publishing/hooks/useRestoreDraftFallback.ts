@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { toast } from 'sonner';
 import { useArticleFormStore } from '../stores/useArticleFormStore';
 import { articleFormSchema, type ArticleFormValues } from '../schemas/articleFormSchema';
+import {notify} from "@/shared/notification/notification.service";
 
 const LOCAL_STORAGE_KEY_PREFIX = 'draft_fallback_';
 
@@ -39,7 +39,7 @@ export function useRestoreDraftFallback() {
 
             reset(validation.data as Partial<ArticleFormValues>);
             restoredForArticleIdRef.current = articleId;
-            toast.info('Unsaved offline changes have been restored!');
+            notify.info("DRAFT_RESTORED");
         } catch (error) {
             console.error('Failed to restore draft from localStorage:', error);
             localStorage.removeItem(cacheKey);
