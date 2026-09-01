@@ -3,7 +3,6 @@
 import {ArticleCardData} from "@/features/article-publishing/types/reference-card.type";
 import {ArticleService} from "@/features/article-publishing/services/articleService";
 import type {ArticleItem} from "@/features/article-publishing/types/article-item.type";
-import {ArticleRepository} from "@/features/article-publishing/repository/articleRepository";
 import {ArticleFormValues} from "@/features/article-publishing/schemas/articleFormSchema";
 import {ApiResponse, ErrorCode} from "@/shared/types/api";
 
@@ -30,7 +29,7 @@ export async function getArticlesAction(): Promise<ArticleCardData[]> {
 }
 
 export async function getDraftArticleAction(uniqueId: string): Promise<ArticleItem | null> {
-    return await ArticleRepository.getDraftArticle(uniqueId);
+    return await ArticleService.getDraftArticleById(uniqueId);
 }
 
 export async function archiveDraftArticleAction({ uniqueId }: ArchiveDraftArticleInput): Promise<ApiResponse<ArticleItem>> {
@@ -48,26 +47,6 @@ export async function archiveDraftArticleAction({ uniqueId }: ArchiveDraftArticl
     }
 }
 
-export async function editArticleAction({ uniqueId }: EditArticleInput) {
-    try {
-        if (!uniqueId) {
-            return {
-                success: false,
-                error: 'Article ID is required to start editing.',
-            };
-        }
-
-        const draftArticle = await ArticleRepository.createEditDraft(uniqueId);
-        return { success: true, data: draftArticle };
-    } catch (error) {
-        console.error('Failed to prepare draft for editing:', error);
-        return {
-            success: false,
-            error: error instanceof Error ? error.message : 'Failed to prepare draft for editing.',
-        };
-    }
-}
-
 export async function saveDraftAction({ uniqueId, formData }: SaveDraftInput): Promise<ApiResponse<ArticleItem>> {
     try {
         return await ArticleService.saveDraft(uniqueId, formData);
@@ -78,6 +57,21 @@ export async function saveDraftAction({ uniqueId, formData }: SaveDraftInput): P
             error: {
                 code: ErrorCode.INTERNAL_SERVER_ERROR,
                 message: error instanceof Error ? error.message : 'Something went wrong while saving draft',
+            },
+        };
+    }
+}
+
+export async function editArticleAction({ uniqueId }: EditArticleInput): Promise<ApiResponse<ArticleItem>> {
+    try {
+        return await ArticleService.editArticle(uniqueId);
+    } catch (error) {
+        console.error('Failed to prepare draft for editing:', error);
+        return {
+            success: false,
+            error: {
+                code: ErrorCode.INTERNAL_SERVER_ERROR,
+                message: error instanceof Error ? error.message : 'Failed to prepare draft for editing.',
             },
         };
     }
