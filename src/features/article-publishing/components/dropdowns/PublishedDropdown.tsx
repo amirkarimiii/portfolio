@@ -31,7 +31,7 @@ export function PublishedDropdown({ uniqueId }: Props) {
             if (result.success) {
                 router.push(`/admin/edit-article/${uniqueId}`);
             } else {
-                toast.error(result.error || "Failed to prepare article for editing");
+                toast.error(result.error.message || "Failed to prepare article for editing");
             }
         } catch (err) {
             console.error(err);
