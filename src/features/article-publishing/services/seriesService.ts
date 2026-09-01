@@ -3,6 +3,9 @@ import {PaginatedSeriesResult} from "@/features/article-publishing/types/paginat
 import {ArticleRepository} from "@/features/article-publishing/repository/articleRepository";
 import {ArticleCardData} from "@/features/article-publishing/types/reference-card.type";
 import {SeriesItem} from "@/features/article-publishing/types/series-item.type";
+import {seriesFormSchema, SeriesFormValues} from "@/features/article-publishing/schemas/seriesFormSchema";
+import {ApiResponse, ErrorCode} from "@/shared/types/api";
+import {isReservedSlug} from "@/features/article-publishing/utils/slugValidation";
 
 export class SeriesService {
 
@@ -48,6 +51,50 @@ export class SeriesService {
         }
 
         return SeriesRepository.getSeriesById(seriesId.trim());
+    }
+
+    public static async publishSeries(formData: SeriesFormValues): Promise<ApiResponse<SeriesItem>> {
+        const validationResult = seriesFormSchema.safeParse(formData);
+        if (!validationResult.success) {
+            const issue = validationResult.error.issues[0];
+            return {
+                success: false,
+                error: {
+                    code: ErrorCode.VALIDATION_ERROR,
+                    message: issue?.message || 'Invalid form data',
+                    field: issue?.path[0] as string,
+                },
+            };
+        }
+
+        const validData = validationResult.data;
+
+        const slugExists = await SeriesRepository.isSlugExists(validData.slug);
+        if (slugExists) {
+            return {
+                success: false,
+                error: {
+                    code: ErrorCode.VALIDATION_ERROR,
+                    message: 'A series with this slug already exists.',
+                    field: 'slug',
+                },
+            };
+        }
+
+        if (formData.slug && isReservedSlug(formData.slug)) {
+            return {
+                success: false,
+                error: {
+                    code: ErrorCode.VALIDATION_ERROR,
+                    message: 'This slug is reserved and cannot be used.',
+                    field: 'slug',
+                },
+            };
+        }
+
+        const savedSeries = await SeriesRepository.saveSeries(validData);
+
+        return { success: true, data: savedSeries };
     }
 
 }
