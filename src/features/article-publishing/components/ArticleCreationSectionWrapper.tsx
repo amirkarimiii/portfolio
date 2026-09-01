@@ -6,7 +6,7 @@ import { ArticleCreationSection } from './ArticleCreationSection';
 import { mapDraftArticleToFormValues } from '../utils/mapDraftArticleToFormValues';
 import type { ArticleFormValues } from '../schemas/articleFormSchema';
 import { Loader2 } from 'lucide-react';
-import {getDraftArticleAction} from "@/features/article-publishing/actions/articleCSWActions";
+import {getDraftArticleAction} from "@/features/article-publishing/actions/articleAction";
 
 interface ArticleCreationSectionWrapperProps {
     uniqueId?: string;
