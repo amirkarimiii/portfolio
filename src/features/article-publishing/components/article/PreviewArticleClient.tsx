@@ -6,8 +6,8 @@ import { ArticleView } from './ArticleView';
 import { articleDraftChannel } from '../../channels/articleDraftChannel';
 import { Button } from '@/shared/components/ui/button';
 import { publishArticleAction } from '../../actions/publishArticleAction';
-import { toast } from 'sonner';
 import { ArticleItem } from "@/features/article-publishing/types/article-item.type";
+import {notify} from "@/shared/notification/notification.service";
 
 interface PreviewArticleClientProps {
     initialArticle: ArticleItem;
@@ -41,7 +41,7 @@ export function PreviewArticleClient({ initialArticle, seriesTitle }: PreviewArt
                 const result = await publishArticleAction({ uniqueId: article.uniqueId });
 
                 if (result.success) {
-                    toast.success('Article has been successfully published!');
+                    notify.success("ARTICLE_PUBLISHED");
 
                     const publishedSlug = result.data.slug;
                     const publishedSeriesSlug = result.data.seriesSlug || null;
@@ -67,10 +67,10 @@ export function PreviewArticleClient({ initialArticle, seriesTitle }: PreviewArt
                     }
                 } else {
                     const errorMessage = result.error?.message || 'Error in publishing article';
-                    toast.error(errorMessage);
+                    notify.error(errorMessage);
                 }
             } catch {
-                toast.error('Unexpected error during publishing article');
+                notify.error("ARTICLE_PUBLISH_UNEXPECTED_ERROR");
             }
         });
     };
