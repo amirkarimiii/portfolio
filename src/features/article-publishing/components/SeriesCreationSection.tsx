@@ -86,10 +86,17 @@ export function SeriesCreationSection() {
                 router.push(`/series/${result.data.slug}`);
             } else {
                 setPublishStatus('failed');
-                if (result.field) {
-                    setError(result.field as keyof SeriesFormValues, { type: 'manual', message: result.error });
+
+                const errorMessage = result.error?.message || 'Failed to publish series';
+
+                if ('field' in result.error && result.error.field) {
+                    setError(result.error.field as keyof SeriesFormValues, {
+                        type: 'manual',
+                        message: errorMessage
+                    });
                 }
-                toast.error(result.error);
+
+                toast.error(errorMessage);
             }
         } catch (e) {
             setPublishStatus('failed');
@@ -98,6 +105,7 @@ export function SeriesCreationSection() {
             setIsPublishing(false);
         }
     };
+
 
     const statusIcons = {
         idle: null,
