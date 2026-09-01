@@ -219,31 +219,33 @@ commit runbook
 ```
 
 ```todo
+deferred
 update Private-Publishing-Infrastructure.md, section 7: Routes, part Protected
 ```
 
 ```todo
+deferred
 commit changes
 ```
 
 ```todo:git-observatory
-step: upload git observatory to claude
+✅ step: upload git observatory to claude
 ```
 
 ```todo:git-observatory
-step: request for changes -> this branch is completed
+✅ step: request for changes -> this branch is completed
 ```
 
 ```todo:git-observatory
-step: change git observatory
+✅ step: change git observatory
 ```
 
 ```todo:git-observatory
-commit changes
+✅ commit changes
 ```
 
 ```todo:git-observatory
-step: upload git observatory to claude in firefox and chrome
+✅ step: upload git observatory to claude in firefox and chrome
 ```
 
 ```todo
