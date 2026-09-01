@@ -11,15 +11,16 @@ export const env = createEnv({
         JWT_REFRESH_EXPIRES_IN: z.string().default("7d"),
         MAX_LOGIN_ATTEMPTS: z.coerce.number().default(5),
         LOGIN_RATE_LIMIT_WINDOW_MS: z.coerce.number().default(15 * 60 * 1000),
-        LOG_LEVEL: z
-            .enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal'])
-            .optional()
-            .default('debug'),
         VERCEL_OIDC_TOKEN: z.string().optional(),
         BLOB_STORE_ID: z.string().optional(),
         BLOB_WEBHOOK_PUBLIC_KEY: z.string().optional(),
     },
-    client: {},
+    client: {
+        NEXT_PUBLIC_LOG_LEVEL: z
+            .enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal'])
+            .optional()
+            .default('debug'),
+    },
     runtimeEnv: {
         MONGODB_URI: process.env.MONGODB_URI,
         NODE_ENV: process.env.NODE_ENV,
@@ -29,7 +30,7 @@ export const env = createEnv({
         JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN,
         MAX_LOGIN_ATTEMPTS: process.env.MAX_LOGIN_ATTEMPTS,
         LOGIN_RATE_LIMIT_WINDOW_MS: process.env.LOGIN_RATE_LIMIT_WINDOW_MS,
-        LOG_LEVEL: process.env.LOG_LEVEL,
+        NEXT_PUBLIC_LOG_LEVEL: process.env.NEXT_PUBLIC_LOG_LEVEL,
         VERCEL_OIDC_TOKEN: process.env.VERCEL_OIDC_TOKEN,
         BLOB_STORE_ID: process.env.BLOB_STORE_ID,
         BLOB_WEBHOOK_PUBLIC_KEY: process.env.BLOB_WEBHOOK_PUBLIC_KEY,
