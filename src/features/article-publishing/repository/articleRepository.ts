@@ -4,6 +4,7 @@ import {ArticleItem} from "@/features/article-publishing/types/article-item.type
 import clientPromise from "@/shared/lib/mongodb";
 import {PaginatedArticlesResult} from "@/features/article-publishing/types/pagination.type";
 import {Filter} from "mongodb";
+import {logger} from "@/shared/logger/logger";
 
 export class ArticleRepository {
 
@@ -19,13 +20,17 @@ export class ArticleRepository {
                     seriesId: null
                 },
                 {
-                    projection: { _id: 0 }
+                    projection: {_id: 0}
                 }
             );
 
             return article || null;
         } catch (error) {
-            console.error('[ArticleRepository.getPublishedStandaloneArticleBySlug Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch published standalone article by slug',
+                {context: 'ArticleRepository.getPublishedStandaloneArticleBySlug', slug}
+            );
             return null;
         }
     }
@@ -56,7 +61,7 @@ export class ArticleRepository {
                 collection.countDocuments(query),
                 collection
                     .find(query)
-                    .sort({ publishedAt: sortOrder, firstPublishedAt: sortOrder, createdAt: sortOrder })
+                    .sort({publishedAt: sortOrder, firstPublishedAt: sortOrder, createdAt: sortOrder})
                     .skip(skip)
                     .limit(pageSize)
                     .project<ArticleCardData>({
@@ -86,7 +91,11 @@ export class ArticleRepository {
                 pageSize,
             };
         } catch (error) {
-            console.error('[ArticleRepository.getPublishedStandaloneArticles Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch published standalone articles pagination',
+                {context: 'ArticleRepository.getPublishedStandaloneArticles', page, pageSize, sort}
+            );
             return {
                 articles: [],
                 totalItems: 0,
@@ -96,7 +105,6 @@ export class ArticleRepository {
             };
         }
     }
-
 
     public static async getPublishedArticlesBySeriesId(seriesId: string): Promise<ArticleCardData[]> {
         try {
@@ -126,7 +134,11 @@ export class ArticleRepository {
                 })
                 .toArray();
         } catch (error) {
-            console.error('[ArticleRepository.getPublishedArticlesBySeriesId Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch published articles by seriesId',
+                {context: 'ArticleRepository.getPublishedArticlesBySeriesId', seriesId}
+            );
             return [];
         }
     }
@@ -147,13 +159,17 @@ export class ArticleRepository {
                     lifecycle: 'Published',
                 },
                 {
-                    projection: { _id: 0 },
+                    projection: {_id: 0},
                 }
             );
 
             return article || null;
         } catch (error) {
-            console.error('[ArticleRepository.getPublishedSeriesArticleBySlug Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch published series article by slug',
+                {context: 'ArticleRepository.getPublishedSeriesArticleBySlug', articleSlug, seriesId}
+            );
             return null;
         }
     }
@@ -183,7 +199,7 @@ export class ArticleRepository {
                 collection.countDocuments(query),
                 collection
                     .find(query)
-                    .sort({ archivedAt: sortOrder, updatedAt: sortOrder, createdAt: sortOrder })
+                    .sort({archivedAt: sortOrder, updatedAt: sortOrder, createdAt: sortOrder})
                     .skip(skip)
                     .limit(pageSize)
                     .project<ArticleCardData>({
@@ -213,7 +229,11 @@ export class ArticleRepository {
                 pageSize,
             };
         } catch (error) {
-            console.error('[ArticleRepository.getArchivedArticles Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch archived articles pagination',
+                {context: 'ArticleRepository.getArchivedArticles', page, pageSize, sort}
+            );
             return {
                 articles: [],
                 totalItems: 0,
@@ -225,16 +245,25 @@ export class ArticleRepository {
     }
 
     public static async getPublishedArticleById(uniqueId: string): Promise<ArticleItem | null> {
-        const client = await clientPromise;
-        const db = client.db();
-        const collection = db.collection<ArticleItem>('articles');
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('articles');
 
-        const article = await collection.findOne({
-            uniqueId,
-            lifecycle: 'Published'
-        });
+            const article = await collection.findOne({
+                uniqueId,
+                lifecycle: 'Published'
+            });
 
-        return article || null;
+            return article || null;
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to fetch published article by uniqueId',
+                {context: 'ArticleRepository.getPublishedArticleById', uniqueId}
+            );
+            return null;
+        }
     }
 
     public static async getArchivedArticleById(articleId: string): Promise<ArticleItem | null> {
@@ -249,13 +278,17 @@ export class ArticleRepository {
                     lifecycle: 'Archived',
                 },
                 {
-                    projection: { _id: 0 },
+                    projection: {_id: 0},
                 }
             );
 
             return article || null;
         } catch (error) {
-            console.error('[ArticleRepository.getArchivedArticleById Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch archived article by articleId',
+                {context: 'ArticleRepository.getArchivedArticleById', articleId}
+            );
             return null;
         }
     }
@@ -267,13 +300,17 @@ export class ArticleRepository {
             const collection = db.collection<ArticleItem>('drafts');
 
             const article = await collection.findOne(
-                { uniqueId: articleId },
-                { projection: { _id: 0 } }
+                {uniqueId: articleId},
+                {projection: {_id: 0}}
             );
 
             return article || null;
         } catch (error) {
-            console.error('[ArticleRepository.getDraftArticleById Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch draft article by articleId',
+                {context: 'ArticleRepository.getDraftArticleById', articleId}
+            );
             return null;
         }
     }
@@ -299,7 +336,7 @@ export class ArticleRepository {
                 collection.countDocuments({}),
                 collection
                     .find({})
-                    .sort({ updatedAt: sortOrder, createdAt: sortOrder })
+                    .sort({updatedAt: sortOrder, createdAt: sortOrder})
                     .skip(skip)
                     .limit(pageSize)
                     .project<ArticleCardData>({
@@ -329,7 +366,11 @@ export class ArticleRepository {
                 pageSize,
             };
         } catch (error) {
-            console.error('[ArticleRepository.getDraftArticles Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch draft articles pagination',
+                {context: 'ArticleRepository.getDraftArticles', page, pageSize, sort}
+            );
             return {
                 articles: [],
                 totalItems: 0,
@@ -344,180 +385,229 @@ export class ArticleRepository {
         uniqueId: string,
         formData: Partial<ArticleFormValues>
     ): Promise<ArticleItem> {
-        const client = await clientPromise;
-        const db = client.db();
-        const collection = db.collection<ArticleItem>('drafts');
-        const now = new Date().toISOString();
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('drafts');
+            const now = new Date().toISOString();
 
-        const existingDraft = await collection.findOne({ uniqueId });
+            const existingDraft = await collection.findOne({uniqueId});
 
-        const draftArticle: ArticleItem = {
-            uniqueId,
-            slug: formData.slug !== undefined ? formData.slug : (existingDraft?.slug || ''),
-            title: formData.title !== undefined ? formData.title : (existingDraft?.title || 'Untitled Draft'),
-            summary: formData.summary !== undefined ? formData.summary : (existingDraft?.summary || ''),
-            lifecycle: formData.lifecycle !== undefined ? formData.lifecycle : (existingDraft?.lifecycle || null),
-            seriesId: formData.seriesId !== undefined ? formData.seriesId : (existingDraft?.seriesId || null),
-            tags: formData.tags !== undefined ? formData.tags : (existingDraft?.tags || []),
-            coverImage: formData.coverImage !== undefined ? formData.coverImage : (existingDraft?.coverImage || ''),
-            coverAltText: formData.coverAltText !== undefined ? formData.coverAltText : (existingDraft?.coverAltText || ''),
-            thumbnailImage: formData.thumbnailImage !== undefined ? formData.thumbnailImage : (existingDraft?.thumbnailImage || ''),
-            thumbnailAltText: formData.thumbnailAltText !== undefined ? formData.thumbnailAltText : (existingDraft?.thumbnailAltText || ''),
-            seoTitle: formData.seoTitle !== undefined ? formData.seoTitle : (existingDraft?.seoTitle || formData.title || ''),
-            seoDescription: formData.seoDescription !== undefined ? formData.seoDescription : (existingDraft?.seoDescription || formData.summary || ''),
-            canonicalUrl: formData.canonicalUrl !== undefined ? formData.canonicalUrl : (existingDraft?.canonicalUrl || null),
-            relatedArticleIds: formData.relatedArticleIds !== undefined ? formData.relatedArticleIds : (existingDraft?.relatedArticleIds || []),
-            inboundReferencingIds: existingDraft?.inboundReferencingIds || [],
-            createdAt: existingDraft?.createdAt || now,
-            updatedAt: existingDraft ? now : null,
-            firstPublishedAt: existingDraft?.firstPublishedAt || null,
-            publishedAt: null,
-            archivedAt: null,
-            content: formData.content !== undefined ? formData.content : (existingDraft?.content || { type: 'doc', content: [] })
-        };
+            const draftArticle: ArticleItem = {
+                uniqueId,
+                slug: formData.slug !== undefined ? formData.slug : (existingDraft?.slug || ''),
+                title: formData.title !== undefined ? formData.title : (existingDraft?.title || 'Untitled Draft'),
+                summary: formData.summary !== undefined ? formData.summary : (existingDraft?.summary || ''),
+                lifecycle: formData.lifecycle !== undefined ? formData.lifecycle : (existingDraft?.lifecycle || null),
+                seriesId: formData.seriesId !== undefined ? formData.seriesId : (existingDraft?.seriesId || null),
+                tags: formData.tags !== undefined ? formData.tags : (existingDraft?.tags || []),
+                coverImage: formData.coverImage !== undefined ? formData.coverImage : (existingDraft?.coverImage || ''),
+                coverAltText: formData.coverAltText !== undefined ? formData.coverAltText : (existingDraft?.coverAltText || ''),
+                thumbnailImage: formData.thumbnailImage !== undefined ? formData.thumbnailImage : (existingDraft?.thumbnailImage || ''),
+                thumbnailAltText: formData.thumbnailAltText !== undefined ? formData.thumbnailAltText : (existingDraft?.thumbnailAltText || ''),
+                seoTitle: formData.seoTitle !== undefined ? formData.seoTitle : (existingDraft?.seoTitle || formData.title || ''),
+                seoDescription: formData.seoDescription !== undefined ? formData.seoDescription : (existingDraft?.seoDescription || formData.summary || ''),
+                canonicalUrl: formData.canonicalUrl !== undefined ? formData.canonicalUrl : (existingDraft?.canonicalUrl || null),
+                relatedArticleIds: formData.relatedArticleIds !== undefined ? formData.relatedArticleIds : (existingDraft?.relatedArticleIds || []),
+                inboundReferencingIds: existingDraft?.inboundReferencingIds || [],
+                createdAt: existingDraft?.createdAt || now,
+                updatedAt: existingDraft ? now : null,
+                firstPublishedAt: existingDraft?.firstPublishedAt || null,
+                publishedAt: null,
+                archivedAt: null,
+                content: formData.content !== undefined ? formData.content : (existingDraft?.content || {
+                    type: 'doc',
+                    content: []
+                })
+            };
 
-        await collection.updateOne(
-            { uniqueId },
-            { $set: draftArticle },
-            { upsert: true }
-        );
+            await collection.updateOne(
+                {uniqueId},
+                {$set: draftArticle},
+                {upsert: true}
+            );
 
-        return draftArticle;
+            return draftArticle;
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to save draft article',
+                {context: 'ArticleRepository.saveDraftArticle', uniqueId}
+            );
+            throw error;
+        }
     }
 
     public static async savePublishedArticle(
         uniqueId: string,
         formData: ArticleFormValues
     ): Promise<ArticleItem> {
-        const client = await clientPromise;
-        const db = client.db();
-        const publishedCollection = db.collection<ArticleItem>('articles');
-        const draftsCollection = db.collection<ArticleItem>('drafts');
-        const now = new Date().toISOString();
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const publishedCollection = db.collection<ArticleItem>('articles');
+            const draftsCollection = db.collection<ArticleItem>('drafts');
+            const now = new Date().toISOString();
 
-        const existingPublished = await publishedCollection.findOne({ uniqueId });
+            const existingPublished = await publishedCollection.findOne({uniqueId});
 
-        const publishedArticle: ArticleItem = {
-            uniqueId,
-            slug: formData.slug,
-            title: formData.title,
-            summary: formData.summary,
-            lifecycle: 'Published',
-            seriesId: formData.seriesId || null,
-            tags: formData.tags || [],
-            coverImage: formData.coverImage,
-            coverAltText: formData.coverAltText,
-            thumbnailImage: formData.thumbnailImage,
-            thumbnailAltText: formData.thumbnailAltText,
-            seoTitle: formData.seoTitle || formData.title,
-            seoDescription: formData.seoDescription || formData.summary,
-            canonicalUrl: formData.canonicalUrl || null,
-            relatedArticleIds: formData.relatedArticleIds || existingPublished?.relatedArticleIds || [],
-            inboundReferencingIds: existingPublished?.inboundReferencingIds || [],
-            createdAt: existingPublished?.createdAt || now,
-            updatedAt: existingPublished ? now : null,
-            firstPublishedAt: existingPublished?.firstPublishedAt || now,
-            publishedAt: now,
-            archivedAt: null,
-            content: formData.content
-        };
+            const publishedArticle: ArticleItem = {
+                uniqueId,
+                slug: formData.slug,
+                title: formData.title,
+                summary: formData.summary,
+                lifecycle: 'Published',
+                seriesId: formData.seriesId || null,
+                tags: formData.tags || [],
+                coverImage: formData.coverImage,
+                coverAltText: formData.coverAltText,
+                thumbnailImage: formData.thumbnailImage,
+                thumbnailAltText: formData.thumbnailAltText,
+                seoTitle: formData.seoTitle || formData.title,
+                seoDescription: formData.seoDescription || formData.summary,
+                canonicalUrl: formData.canonicalUrl || null,
+                relatedArticleIds: formData.relatedArticleIds || existingPublished?.relatedArticleIds || [],
+                inboundReferencingIds: existingPublished?.inboundReferencingIds || [],
+                createdAt: existingPublished?.createdAt || now,
+                updatedAt: existingPublished ? now : null,
+                firstPublishedAt: existingPublished?.firstPublishedAt || now,
+                publishedAt: now,
+                archivedAt: null,
+                content: formData.content
+            };
 
-        await publishedCollection.updateOne(
-            { uniqueId },
-            { $set: publishedArticle },
-            { upsert: true }
-        );
+            await publishedCollection.updateOne(
+                {uniqueId},
+                {$set: publishedArticle},
+                {upsert: true}
+            );
 
-        await draftsCollection.deleteOne({ uniqueId });
+            await draftsCollection.deleteOne({uniqueId});
 
-        return publishedArticle;
+            return publishedArticle;
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to save published article',
+                {context: 'ArticleRepository.savePublishedArticle', uniqueId}
+            );
+            throw error;
+        }
     }
 
     public static async archiveDraftArticle(
         uniqueId: string,
         formData: ArticleFormValues
     ): Promise<ArticleItem> {
-        const client = await clientPromise;
-        const db = client.db();
-        const archivedCollection = db.collection<ArticleItem>('articles');
-        const draftsCollection = db.collection<ArticleItem>('drafts');
-        const publishedCollection = db.collection<ArticleItem>('articles');
-        const now = new Date().toISOString();
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const archivedCollection = db.collection<ArticleItem>('articles');
+            const draftsCollection = db.collection<ArticleItem>('drafts');
+            const publishedCollection = db.collection<ArticleItem>('articles');
+            const now = new Date().toISOString();
 
-        const draftArticle = await draftsCollection.findOne({ uniqueId });
-        if (!draftArticle) {
-            throw new Error('Draft article not found');
+            const draftArticle = await draftsCollection.findOne({uniqueId});
+            if (!draftArticle) {
+                const error = new Error('Draft article not found');
+                logger.warn('Attempted to archive non-existent draft', {
+                    context: 'ArticleRepository.archiveDraftArticle',
+                    uniqueId
+                });
+                throw error;
+            }
+
+            const archivedArticle: ArticleItem = {
+                uniqueId,
+                slug: formData.slug,
+                title: formData.title,
+                summary: formData.summary,
+                lifecycle: 'Archived',
+                seriesId: formData.seriesId || null,
+                tags: formData.tags || [],
+                coverImage: formData.coverImage,
+                coverAltText: formData.coverAltText,
+                thumbnailImage: formData.thumbnailImage,
+                thumbnailAltText: formData.thumbnailAltText,
+                seoTitle: formData.seoTitle || formData.title,
+                seoDescription: formData.seoDescription || formData.summary,
+                canonicalUrl: formData.canonicalUrl || null,
+                relatedArticleIds: formData.relatedArticleIds,
+                inboundReferencingIds: draftArticle.inboundReferencingIds || [],
+                createdAt: draftArticle.createdAt || now,
+                updatedAt: now,
+                firstPublishedAt: draftArticle.firstPublishedAt,
+                publishedAt: draftArticle.publishedAt,
+                archivedAt: now,
+                content: formData.content
+            };
+
+            await archivedCollection.updateOne(
+                {uniqueId},
+                {$set: archivedArticle},
+                {upsert: true}
+            );
+
+            if (draftArticle.lifecycle === 'Published') {
+                await publishedCollection.deleteOne({uniqueId});
+            }
+
+            await draftsCollection.deleteOne({uniqueId});
+
+            return archivedArticle;
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to archive draft article',
+                {context: 'ArticleRepository.archiveDraftArticle', uniqueId}
+            );
+            throw error;
         }
-
-        const archivedArticle: ArticleItem = {
-            uniqueId,
-            slug: formData.slug,
-            title: formData.title,
-            summary: formData.summary,
-            lifecycle: 'Archived',
-            seriesId: formData.seriesId || null,
-            tags: formData.tags || [],
-            coverImage: formData.coverImage,
-            coverAltText: formData.coverAltText,
-            thumbnailImage: formData.thumbnailImage,
-            thumbnailAltText: formData.thumbnailAltText,
-            seoTitle: formData.seoTitle || formData.title,
-            seoDescription: formData.seoDescription || formData.summary,
-            canonicalUrl: formData.canonicalUrl || null,
-            relatedArticleIds: formData.relatedArticleIds,
-            inboundReferencingIds: draftArticle.inboundReferencingIds || [],
-            createdAt: draftArticle.createdAt || now,
-            updatedAt: now,
-            firstPublishedAt: draftArticle.firstPublishedAt,
-            publishedAt: draftArticle.publishedAt,
-            archivedAt: now,
-            content: formData.content
-        };
-
-        await archivedCollection.updateOne(
-            { uniqueId },
-            { $set: archivedArticle },
-            { upsert: true }
-        );
-
-        if (draftArticle.lifecycle === 'Published') {
-            await publishedCollection.deleteOne({ uniqueId });
-        }
-
-        await draftsCollection.deleteOne({ uniqueId });
-
-        return archivedArticle;
     }
 
     public static async createEditDraft(uniqueId: string): Promise<ArticleItem> {
-        const client = await clientPromise;
-        const db = client.db();
-        const draftsCollection = db.collection<ArticleItem>('drafts');
-        const articlesCollection = db.collection<ArticleItem>('articles');
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const draftsCollection = db.collection<ArticleItem>('drafts');
+            const articlesCollection = db.collection<ArticleItem>('articles');
 
-        const existingDraft = await draftsCollection.findOne({ uniqueId });
-        if (existingDraft) {
-            return existingDraft;
+            const existingDraft = await draftsCollection.findOne({uniqueId});
+            if (existingDraft) {
+                return existingDraft;
+            }
+
+            const sourceArticle = await articlesCollection.findOne({uniqueId});
+            if (!sourceArticle) {
+                const error = new Error(`Article with ID ${uniqueId} not found.`);
+                logger.warn('Source article not found for edit draft', {
+                    context: 'ArticleRepository.createEditDraft',
+                    uniqueId
+                });
+                throw error;
+            }
+
+            const draftCopy: ArticleItem = {
+                ...sourceArticle,
+                lifecycle: sourceArticle.lifecycle,
+                updatedAt: new Date().toISOString(),
+            };
+
+            await draftsCollection.updateOne(
+                {uniqueId},
+                {$set: draftCopy},
+                {upsert: true}
+            );
+
+            return draftCopy;
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to create edit draft',
+                {context: 'ArticleRepository.createEditDraft', uniqueId}
+            );
+            throw error;
         }
-
-        const sourceArticle = await articlesCollection.findOne({ uniqueId });
-        if (!sourceArticle) {
-            throw new Error(`Article with ID ${uniqueId} not found.`);
-        }
-
-        const draftCopy: ArticleItem = {
-            ...sourceArticle,
-            lifecycle: sourceArticle.lifecycle,
-            updatedAt: new Date().toISOString(),
-        };
-
-        await draftsCollection.updateOne(
-            { uniqueId },
-            { $set: draftCopy },
-            { upsert: true }
-        );
-
-        return draftCopy;
     }
 
     public static async getDraftArticle(uniqueId: string): Promise<ArticleItem | null> {
@@ -527,13 +617,17 @@ export class ArticleRepository {
             const collection = db.collection<ArticleItem>('drafts');
 
             const article = await collection.findOne(
-                { uniqueId },
-                { projection: { _id: 0 } }
+                {uniqueId},
+                {projection: {_id: 0}}
             );
 
             return article || null;
         } catch (error) {
-            console.error('[ArticleRepository.getDraftArticle Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch draft article',
+                {context: 'ArticleRepository.getDraftArticle', uniqueId}
+            );
             return null;
         }
     }
@@ -546,7 +640,7 @@ export class ArticleRepository {
 
             return await collection
                 .find({})
-                .sort({ publishedAt: -1, createdAt: -1 })
+                .sort({publishedAt: -1, createdAt: -1})
                 .project<ArticleCardData>({
                     _id: 0,
                     uniqueId: 1,
@@ -563,37 +657,59 @@ export class ArticleRepository {
                 })
                 .toArray();
         } catch (error) {
-            console.error('[ArticleRepository.getAllArticles Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch all articles',
+                {context: 'ArticleRepository.getAllArticles'}
+            );
             return [];
         }
     }
 
     public static async addInboundReference(targetArticleId: string, sourceArticleId: string): Promise<void> {
-        const client = await clientPromise;
-        const db = client.db();
-        const collection = db.collection<ArticleItem>('articles');
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('articles');
 
-        await collection.updateOne(
-            { uniqueId: targetArticleId },
-            {
-                $addToSet: { inboundReferencingIds: sourceArticleId },
-                $set: { updatedAt: new Date().toISOString() }
-            }
-        );
+            await collection.updateOne(
+                {uniqueId: targetArticleId},
+                {
+                    $addToSet: {inboundReferencingIds: sourceArticleId},
+                    $set: {updatedAt: new Date().toISOString()}
+                }
+            );
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to add inbound reference',
+                {context: 'ArticleRepository.addInboundReference', targetArticleId, sourceArticleId}
+            );
+            throw error;
+        }
     }
 
     public static async removeInboundReference(targetArticleId: string, sourceArticleId: string): Promise<void> {
-        const client = await clientPromise;
-        const db = client.db();
-        const collection = db.collection<ArticleItem>('articles');
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('articles');
 
-        await collection.updateOne(
-            { uniqueId: targetArticleId },
-            {
-                $pull: { inboundReferencingIds: sourceArticleId },
-                $set: { updatedAt: new Date().toISOString() }
-            }
-        );
+            await collection.updateOne(
+                {uniqueId: targetArticleId},
+                {
+                    $pull: {inboundReferencingIds: sourceArticleId},
+                    $set: {updatedAt: new Date().toISOString()}
+                }
+            );
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to remove inbound reference',
+                {context: 'ArticleRepository.removeInboundReference', targetArticleId, sourceArticleId}
+            );
+            throw error;
+        }
     }
 
     public static async isSlugExists(slug: string, currentUniqueId?: string): Promise<boolean> {
@@ -607,23 +723,26 @@ export class ArticleRepository {
             const normalizedSlug = slug.trim().toLowerCase();
 
             const query: Filter<ArticleItem> = {
-                slug: { $regex: new RegExp(`^${normalizedSlug}$`, 'i') }
+                slug: {$regex: new RegExp(`^${normalizedSlug}$`, 'i')}
             };
 
             if (currentUniqueId) {
-                query.uniqueId = { $ne: currentUniqueId };
+                query.uniqueId = {$ne: currentUniqueId};
             }
 
             const [existsInArticles, existsInDrafts] = await Promise.all([
-                articlesCollection.findOne(query, { projection: { _id: 1 } }),
-                draftsCollection.findOne(query, { projection: { _id: 1 } })
+                articlesCollection.findOne(query, {projection: {_id: 1}}),
+                draftsCollection.findOne(query, {projection: {_id: 1}})
             ]);
 
             return Boolean(existsInArticles || existsInDrafts);
         } catch (error) {
-            console.error('[ArticleRepository.isSlugExists Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to check if slug exists',
+                {context: 'ArticleRepository.isSlugExists', slug, currentUniqueId}
+            );
             return false;
         }
     }
-
 }
