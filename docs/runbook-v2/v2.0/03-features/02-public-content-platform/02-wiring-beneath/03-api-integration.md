@@ -52,11 +52,11 @@ in flow:
 ```
 
 ```
-commit runbook
+✅ commit runbook
 ```
 
 ```
-loop: Transfer the article publishing logic (Publish Article Use Case)
+✅ loop: Transfer the article publishing logic (Publish Article Use Case)
   This phase is the most complex Use Case of the project because it is involved with several Repositories (both article and series)
   Sub-stage 2.1: Design the ArticleService.publishArticle method
     What happens? All stages of receiving the draft, validating the form, checking the slug, checking the reserved slug, extracting seriesSlug from SeriesRepository and finally storing the article are aggregated in ArticleService
@@ -65,7 +65,7 @@ loop: Transfer the article publishing logic (Publish Article Use Case)
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
