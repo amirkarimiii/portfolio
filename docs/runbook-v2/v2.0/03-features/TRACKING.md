@@ -1,10 +1,8 @@
 # Features
 
-**Status:** In Progress
-
-**Last Updated:** 2026-08-25
-
-**Owner:** Amir Karimi
+**Status:** In Progress  
+**Last Updated:** 2026-09-01  
+**Owner:** Amir Karimi  
 
 ---
 
@@ -20,10 +18,10 @@ It provides an overview of feature status, planning milestones, and execution or
 
 | Feature                           | Status      | Planned Start                   | Target Milestone | Completed  |
 |-----------------------------------|-------------|---------------------------------|------------------|------------|
-| Private Publishing Infrastructure | Completed   | 2026-08-05                      | 2026-08-05       | 2026-08-05 |
-| Public Content Platform (Core V2) | In Progress | 2026-08-06                      | 2026-08-31       | —          |
-| Interactive Stack Mapping         | Planned     | After Public Content Platform   | 2026-09-03       | —          |
-| Analytical Bookshelf              | Planned     | After Interactive Stack Mapping | 2026-09-05       | —          |
+| Private Publishing Infrastructure | Completed   | 2026-07-15                      | 2026-08-05       | 2026-08-05 |
+| Public Content Platform (Core V2) | Completed   | 2026-08-06                      | 2026-09-01       | 2026-09-01 |
+| Interactive Stack Mapping         | In Progress | 2026-09-01                      | 2026-09-05       | —          |
+| Analytical Bookshelf              | Planned     | After Interactive Stack Mapping | 2026-09-07       | —          |
 
 ---
 
@@ -52,4 +50,5 @@ It provides an overview of feature status, planning milestones, and execution or
 | 2026-08-05 | Private Publishing Infrastructure marked as Completed (2026-08-05). Public Content Platform (Core V2) moved to In Progress with Planned Start 2026-08-06. |
 | 2026-08-15 | Deleted unnecessary row Production Readiness from the Tracking table.                                                                                     |
 | 2026-08-25 | Deleted unnecessary row AI Optimization Suite (AIO/GEO) from the Tracking table.                                                                          |
+| 2026-09-01 | Public Content Platform (Core V2) as Completed (2026-09-01). Interactive Stack Mapping moved to In Progress with Planned Start 2026-09-01                 |
 
