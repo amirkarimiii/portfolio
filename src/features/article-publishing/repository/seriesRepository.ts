@@ -5,6 +5,7 @@ import { SeriesCardData } from '@/features/article-publishing/types/reference-ca
 import { PaginatedSeriesResult } from '@/features/article-publishing/types/pagination.type';
 import clientPromise from '@/shared/lib/mongodb';
 import { OptionalId } from "mongodb";
+import { logger } from '@/shared/logger/logger';
 
 export class SeriesRepository {
     private static async getCollection() {
@@ -54,7 +55,11 @@ export class SeriesRepository {
                 pageSize,
             };
         } catch (error) {
-            console.error('[SeriesRepository.getPaginatedSeries Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch paginated series',
+                { context: 'SeriesRepository.getPaginatedSeries', page, pageSize }
+            );
             return {
                 series: [],
                 totalItems: 0,
@@ -76,7 +81,11 @@ export class SeriesRepository {
 
             return series || null;
         } catch (error) {
-            console.error('[SeriesRepository.getSeriesBySlug Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch series by slug',
+                { context: 'SeriesRepository.getSeriesBySlug', slug }
+            );
             return null;
         }
     }
@@ -91,7 +100,11 @@ export class SeriesRepository {
 
             return series || null;
         } catch (error) {
-            console.error('[SeriesRepository.getSeriesById Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch series by ID',
+                { context: 'SeriesRepository.getSeriesById', seriesId }
+            );
             return null;
         }
     }
@@ -103,37 +116,50 @@ export class SeriesRepository {
             const count = await collection.countDocuments({ slug: normalizedSlug }, { limit: 1 });
             return count > 0;
         } catch (error) {
-            console.error('[SeriesRepository.isSlugExists Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to check if series slug exists',
+                { context: 'SeriesRepository.isSlugExists', slug }
+            );
             return false;
         }
     }
 
     public static async saveSeries(formData: SeriesFormValues): Promise<SeriesItem> {
-        const collection = await this.getCollection();
-        const now = new Date().toISOString();
-        const uniqueId = `ser_${ulid()}`;
+        try {
+            const collection = await this.getCollection();
+            const now = new Date().toISOString();
+            const uniqueId = `ser_${ulid()}`;
 
-        const newSeries: SeriesItem = {
-            uniqueId,
-            slug: formData.slug.trim().toLowerCase(),
-            title: formData.title.trim(),
-            description: formData.description.trim(),
-            defaultTags: formData.defaultTags || [],
-            coverImage: formData.coverImage,
-            coverAltText: formData.coverAltText,
-            thumbnailImage: formData.thumbnailImage,
-            thumbnailAltText: formData.thumbnailAltText || '',
-            seoTitle: formData.seoTitle || formData.title,
-            seoDescription: formData.seoDescription || formData.description,
-            canonicalUrl: formData.canonicalUrl || null,
-            inboundReferencingIds: [],
-            createdAt: now,
-            updatedAt: now,
-        };
+            const newSeries: SeriesItem = {
+                uniqueId,
+                slug: formData.slug.trim().toLowerCase(),
+                title: formData.title.trim(),
+                description: formData.description.trim(),
+                defaultTags: formData.defaultTags || [],
+                coverImage: formData.coverImage,
+                coverAltText: formData.coverAltText,
+                thumbnailImage: formData.thumbnailImage,
+                thumbnailAltText: formData.thumbnailAltText || '',
+                seoTitle: formData.seoTitle || formData.title,
+                seoDescription: formData.seoDescription || formData.description,
+                canonicalUrl: formData.canonicalUrl || null,
+                inboundReferencingIds: [],
+                createdAt: now,
+                updatedAt: now,
+            };
 
-        await collection.insertOne(newSeries);
+            await collection.insertOne(newSeries);
 
-        return newSeries;
+            return newSeries;
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to save new series',
+                { context: 'SeriesRepository.saveSeries', slug: formData.slug }
+            );
+            throw error;
+        }
     }
 
     public static async getInboundReferences(targetSeriesId: string): Promise<string[]> {
@@ -141,7 +167,11 @@ export class SeriesRepository {
             const series = await this.getSeriesById(targetSeriesId);
             return series?.inboundReferencingIds || [];
         } catch (error) {
-            console.error('[SeriesRepository.getInboundReferences Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to fetch inbound references for series',
+                { context: 'SeriesRepository.getInboundReferences', targetSeriesId }
+            );
             return [];
         }
     }
@@ -157,7 +187,12 @@ export class SeriesRepository {
                 }
             );
         } catch (error) {
-            console.error('[SeriesRepository.addInboundReference Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to add inbound reference to series',
+                { context: 'SeriesRepository.addInboundReference', targetSeriesId, sourceArticleId }
+            );
+            throw error;
         }
     }
 
@@ -172,7 +207,12 @@ export class SeriesRepository {
                 }
             );
         } catch (error) {
-            console.error('[SeriesRepository.removeInboundReference Error]:', error);
+            logger.error(
+                error as Error,
+                'Failed to remove inbound reference from series',
+                { context: 'SeriesRepository.removeInboundReference', targetSeriesId, sourceArticleId }
+            );
+            throw error;
         }
     }
 }
