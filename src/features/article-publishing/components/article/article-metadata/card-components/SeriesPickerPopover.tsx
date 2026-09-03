@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { Layers, Trash2 } from 'lucide-react';
-import mockSeries from '@/mock-files/new-series.json';
+import React, { useState, useEffect } from 'react';
+import { Layers, Trash2, Loader2 } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/shared/utils/shadcnUtils';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -23,6 +23,7 @@ import {
     SERIES_BROADCAST_CHANNEL,
     SeriesCreatedMessage,
 } from '@/features/article-publishing/constants/seriesChannel';
+import { useContentReferencePickerData } from '@/features/article-publishing/hooks/useContentReferencePickerData';
 
 interface SeriesPickerPopoverProps {
     value: string | null;
@@ -38,19 +39,14 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
                                                                             className,
                                                                         }) => {
     const [open, setOpen] = useState(false);
+    const queryClient = useQueryClient();
 
-    const [seriesList, setSeriesList] = useState<SeriesCardData[]>(() => {
-        const rawSeries = (mockSeries.series || []) as SeriesCardData[];
-        return rawSeries.map((item) => ({
-            uniqueId: item.uniqueId,
-            slug: item.slug,
-            title: item.title,
-            description: item.description,
-            defaultTags: item.defaultTags,
-            thumbnailImage: item.thumbnailImage,
-            thumbnailAltText: item.thumbnailAltText,
-        }));
+    const { data: rawSeries = [], isLoading } = useContentReferencePickerData({
+        type: 'series',
+        enabled: open || Boolean(value),
     });
+
+    const seriesList = rawSeries as SeriesCardData[];
 
     useEffect(() => {
         if (typeof window === 'undefined' || !('BroadcastChannel' in window)) return;
@@ -61,11 +57,14 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
             if (event.data?.type === 'SERIES_CREATED' && event.data.payload) {
                 const newSeries = event.data.payload;
 
-                setSeriesList((prev) => {
-                    const exists = prev.some((s) => s.uniqueId === newSeries.uniqueId);
-                    if (exists) return prev;
-                    return [newSeries, ...prev];
-                });
+                queryClient.setQueryData<SeriesCardData[]>(
+                    ['contentReferencePickerData', 'series'],
+                    (oldData = []) => {
+                        const exists = oldData.some((s) => s.uniqueId === newSeries.uniqueId);
+                        if (exists) return oldData;
+                        return [newSeries, ...oldData];
+                    }
+                );
 
                 onChange(newSeries.uniqueId);
             }
@@ -74,12 +73,11 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
         return () => {
             channel.close();
         };
-    }, [onChange]);
+    }, [onChange, queryClient]);
 
-    const selectedSeries = useMemo(() => {
-        if (!value) return null;
-        return seriesList.find((item) => item.uniqueId === value) || null;
-    }, [value, seriesList]);
+    const selectedSeries = value
+        ? seriesList.find((item) => item.uniqueId === value) || null
+        : null;
 
     const handleSelect = (seriesId: string) => {
         onChange(seriesId);
@@ -152,19 +150,28 @@ export const SeriesPickerPopover: React.FC<SeriesPickerPopoverProps> = ({
                 <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
                     <Command>
                         <CommandList className="max-h-60 overflow-y-auto">
-                            <CommandEmpty>No series found.</CommandEmpty>
-                            <CommandGroup>
-                                {seriesList.map((series) => (
-                                    <CommandItem
-                                        key={series.uniqueId}
-                                        value={series.title}
-                                        onSelect={() => handleSelect(series.uniqueId)}
-                                        className="flex flex-col gap-2 items-center cursor-pointer"
-                                    >
-                                        <ContentCard type="series" data={series} selective={false} />
-                                    </CommandItem>
-                                ))}
-                            </CommandGroup>
+                            {isLoading ? (
+                                <div className="p-4 text-center text-xs text-muted-foreground flex items-center justify-center gap-2">
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                    Loading series...
+                                </div>
+                            ) : (
+                                <>
+                                    <CommandEmpty>No series found.</CommandEmpty>
+                                    <CommandGroup>
+                                        {seriesList.map((series) => (
+                                            <CommandItem
+                                                key={series.uniqueId}
+                                                value={series.title}
+                                                onSelect={() => handleSelect(series.uniqueId)}
+                                                className="flex flex-col gap-2 items-center cursor-pointer"
+                                            >
+                                                <ContentCard type="series" data={series} selective={false} />
+                                            </CommandItem>
+                                        ))}
+                                    </CommandGroup>
+                                </>
+                            )}
                         </CommandList>
                     </Command>
                 </PopoverContent>
