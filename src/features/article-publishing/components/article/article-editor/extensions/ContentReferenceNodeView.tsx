@@ -2,13 +2,12 @@
 
 import React from 'react';
 import { NodeViewWrapper, NodeViewProps } from '@tiptap/react';
-import { RefreshCw, Trash2 } from 'lucide-react';
+import { RefreshCw, Trash2, Loader2 } from 'lucide-react';
 import { cn } from '@/shared/utils/shadcnUtils';
 import { Button } from '@/shared/components/ui/button';
 import { ContentCard } from '../../../reference-card/ContentCard';
 import { ContentReferencePickerPopover } from './ContentReferencePickerPopover';
-import mockSeries from '@/mock-files/new-series.json';
-import mockPublished from '@/mock-files/new-published-articles.json';
+
 import {
     ArticleCardData,
     SeriesCardData,
@@ -19,7 +18,8 @@ import {
     removeInboundReferenceAction,
     changeInboundReferenceAction
 } from '@/features/article-publishing/actions/inboundReferenceActions';
-import {logger} from "@/shared/logger/logger";
+import { useContentCardData } from '@/features/article-publishing/hooks/useContentCardData';
+import { logger } from "@/shared/logger/logger";
 
 export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
                                                                       node,
@@ -34,6 +34,8 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
     };
 
     const sourceArticleId = useArticleFormStore((state) => state.articleId);
+
+    const { data: cardData, isLoading } = useContentCardData({ id, type });
 
     const getRemainingReferencesInDoc = (excludeCurrentNode = false) => {
         const refs: { id: string; type: 'article' | 'series' }[] = [];
@@ -169,26 +171,7 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
         );
     }
 
-    let cardData: ArticleCardData | SeriesCardData | null = null;
-    let isUnavailable = false;
-
-    if (type === 'article') {
-        const articles = (mockPublished as { articles?: ArticleCardData[] }).articles || [];
-        const found = articles.find((art) => art.uniqueId === id);
-        if (found && found.lifecycle !== 'archived') {
-            cardData = found;
-        } else {
-            isUnavailable = true;
-        }
-    } else if (type === 'series') {
-        const seriesList = (mockSeries as { series?: SeriesCardData[] }).series || [];
-        const found = seriesList.find((s) => s.uniqueId === id);
-        if (found) {
-            cardData = found;
-        } else {
-            isUnavailable = true;
-        }
-    }
+    const isUnavailable = !isLoading && !cardData;
 
     return (
         <NodeViewWrapper className="my-4 select-none">
@@ -199,7 +182,11 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
                 )}
             >
                 <div className="flex-1 min-w-0">
-                    {isUnavailable || !cardData ? (
+                    {isLoading ? (
+                        <div className="flex h-32 w-full items-center justify-center">
+                            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                        </div>
+                    ) : isUnavailable || !cardData ? (
                         <ContentCard isUnavailable={true} type={type} />
                     ) : type === 'article' ? (
                         <ContentCard
@@ -219,33 +206,33 @@ export const ContentReferenceNodeView: React.FC<NodeViewProps> = ({
                     )}
                 </div>
 
-                <div className="flex h-10 w-full flex-row items-center justify-center md:h-auto md:w-12 md:flex-col">
+                <div className="flex h-10 w-full flex-row items-center justify-center md:h-auto md:w-12 md:flex-col border-t md:border-t-0 md:border-l border-border">
                     <Button
                         type="button"
                         variant="ghost"
                         size="icon"
                         onClick={handleResetSelection}
-                        className="flex-1 w-full"
+                        className="flex-1 w-full rounded-none"
                         title="Reset selection"
                     >
                         <div className="w-4 aspect-square">
                             <RefreshCw />
                         </div>
                         <span className="sr-only">Reset selection</span>
-                    </Button    >
+                    </Button>
                     <Button
                         type="button"
                         variant="ghost"
                         size="icon"
                         onClick={handleDeleteNode}
-                        className="flex-1 w-full"
+                        className="flex-1 w-full rounded-none"
                         title="Delete reference"
                     >
                         <div className="w-4 aspect-square my-auto">
                             <Trash2 />
                         </div>
                         <span className="sr-only">Delete reference</span>
-                    </Button    >
+                    </Button>
                 </div>
             </div>
         </NodeViewWrapper>
