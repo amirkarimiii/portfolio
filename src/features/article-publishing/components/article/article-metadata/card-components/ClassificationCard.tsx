@@ -9,9 +9,7 @@ import { TagSelector } from "../../../tags/TagSelector";
 import { SeriesPickerPopover } from "@/features/article-publishing/components/article/article-metadata/card-components/SeriesPickerPopover";
 import { ArticleCreationTagsDisplay } from "../../../tags/ArticleCreationTagsDisplay";
 import { getEffectiveTags } from "@/features/article-publishing/utils/tagUtils";
-import dummySeries from '@/mock-files/new-series.json';
-import mockSeries from "@/mock-files/new-series.json";
-import {SeriesCardData} from "@/features/article-publishing/types/reference-card.type";
+import { useSeriesDefaultTags } from "@/features/article-publishing/hooks/useSeriesDefaultTags";
 
 export function ClassificationCard() {
     const { control, watch, setValue } = useFormContext();
@@ -19,12 +17,7 @@ export function ClassificationCard() {
     const selectedSeriesId = watch('seriesId');
     const manualTags: string[] = watch('tags');
 
-    const seriesDefaultTags = useMemo<string[]>(() => {
-        if (!selectedSeriesId) return [];
-        const seriesList = (mockSeries.series || []) as SeriesCardData[];
-        const series = seriesList.find((item) => item.uniqueId === selectedSeriesId);
-        return series?.defaultTags || [];
-    }, [selectedSeriesId]);
+    const seriesDefaultTags = useSeriesDefaultTags(selectedSeriesId);
 
     const effectiveTags = useMemo(() => {
         return getEffectiveTags(manualTags, seriesDefaultTags);
