@@ -1,13 +1,16 @@
-import { ArticleRepository } from '../repository/articleRepository';
-import type { ArticleItem } from '../types/article-item.type';
-import { PaginatedArticlesResult } from "@/features/article-publishing/types/pagination.type";
-import { SeriesRepository } from "@/features/article-publishing/repository/seriesRepository";
-import { SeriesArticleData } from "@/features/article-publishing/types/series-article.type";
-import { ArticleCardData } from "@/features/article-publishing/types/reference-card.type";
-import { articleFormSchema, ArticleFormValues } from "@/features/article-publishing/schemas/articleFormSchema";
-import { ApiResponse, ErrorCode } from "@/shared/types/api";
-import { isReservedSlug } from "@/features/article-publishing/utils/slugValidation";
-import { logger } from "@/shared/logger/logger";
+import {ArticleRepository} from '../repository/articleRepository';
+import type {ArticleItem} from '../types/article-item.type';
+import {PaginatedArticlesResult} from "@/features/article-publishing/types/pagination.type";
+import {SeriesRepository} from "@/features/article-publishing/repository/seriesRepository";
+import {SeriesArticleData} from "@/features/article-publishing/types/series-article.type";
+import {ArticleCardData} from "@/features/article-publishing/types/reference-card.type";
+import {
+    ArticleFormValues,
+    createArticleFormSchema
+} from "@/features/article-publishing/schemas/articleFormSchema";
+import {ApiResponse, ErrorCode} from "@/shared/types/api";
+import {logger} from "@/shared/logger/logger";
+import {ReserveSlugsService} from "@/features/article-publishing/services/reserveSlugsService";
 
 export type PublishedArticleData = ArticleItem & {
     seriesSlug: string | null;
@@ -32,7 +35,7 @@ export class ArticleService {
             logger.error(
                 error as Error,
                 'Failed to fetch published standalone article',
-                { context: 'ArticleService.getPublishedStandaloneArticle', slug: normalizedSlug }
+                {context: 'ArticleService.getPublishedStandaloneArticle', slug: normalizedSlug}
             );
             return null;
         }
@@ -82,7 +85,7 @@ export class ArticleService {
             logger.error(
                 error as Error,
                 'Failed to get series article details',
-                { context: 'ArticleService.getSeriesArticleDetails', seriesSlug, articleSlug }
+                {context: 'ArticleService.getSeriesArticleDetails', seriesSlug, articleSlug}
             );
             return null;
         }
@@ -109,7 +112,7 @@ export class ArticleService {
             logger.error(
                 error as Error,
                 'Failed to fetch published standalone articles',
-                { context: 'ArticleService.getPublishedStandaloneArticles', params }
+                {context: 'ArticleService.getPublishedStandaloneArticles', params}
             );
             return {
                 articles: [],
@@ -142,7 +145,7 @@ export class ArticleService {
             logger.error(
                 error as Error,
                 'Failed to fetch archived articles',
-                { context: 'ArticleService.getArchivedArticles', params }
+                {context: 'ArticleService.getArchivedArticles', params}
             );
             return {
                 articles: [],
@@ -165,7 +168,7 @@ export class ArticleService {
             logger.error(
                 error as Error,
                 'Failed to get archived article by ID',
-                { context: 'ArticleService.getArchivedArticleById', articleId }
+                {context: 'ArticleService.getArchivedArticleById', articleId}
             );
             return null;
         }
@@ -182,7 +185,7 @@ export class ArticleService {
             logger.error(
                 error as Error,
                 'Failed to get draft article by ID',
-                { context: 'ArticleService.getDraftArticleById', articleId }
+                {context: 'ArticleService.getDraftArticleById', articleId}
             );
             return null;
         }
@@ -199,7 +202,7 @@ export class ArticleService {
             logger.error(
                 error as Error,
                 'Failed to get published article by ID',
-                { context: 'ArticleService.getPublishedArticleById', articleId }
+                {context: 'ArticleService.getPublishedArticleById', articleId}
             );
             return null;
         }
@@ -226,7 +229,7 @@ export class ArticleService {
             logger.error(
                 error as Error,
                 'Failed to fetch draft articles',
-                { context: 'ArticleService.getDraftArticles', params }
+                {context: 'ArticleService.getDraftArticles', params}
             );
             return {
                 articles: [],
@@ -245,7 +248,7 @@ export class ArticleService {
             logger.error(
                 error as Error,
                 'Failed to fetch published articles in ArticleService',
-                { context: 'ArticleService.getPublishedArticles' }
+                {context: 'ArticleService.getPublishedArticles'}
             );
             return [];
         }
@@ -258,7 +261,7 @@ export class ArticleService {
             logger.error(
                 error as Error,
                 'Failed to fetch all articles in ArticleService',
-                { context: 'ArticleService.getAllArticles' }
+                {context: 'ArticleService.getAllArticles'}
             );
             return [];
         }
@@ -300,7 +303,7 @@ export class ArticleService {
                     };
                 }
 
-                if (isReservedSlug(formData.slug)) {
+                if (await ReserveSlugsService.isReservedSlug(formData.slug)) {
                     logger.warn('Draft save rejected: Slug is reserved', {
                         context: 'ArticleService.saveDraft',
                         uniqueId,
@@ -318,12 +321,12 @@ export class ArticleService {
             }
 
             const draftArticle = await ArticleRepository.saveDraftArticle(uniqueId, formData);
-            return { success: true, data: draftArticle };
+            return {success: true, data: draftArticle};
         } catch (error) {
             logger.error(
                 error as Error,
                 'Unexpected error while saving draft article',
-                { context: 'ArticleService.saveDraft', uniqueId }
+                {context: 'ArticleService.saveDraft', uniqueId}
             );
             return {
                 success: false,
@@ -383,6 +386,8 @@ export class ArticleService {
                 lifecycle: draftArticle.lifecycle,
             };
 
+            const articleFormSchema = createArticleFormSchema(await ReserveSlugsService.getReservedSlugs());
+
             const validationResult = articleFormSchema.safeParse(formDataToValidate);
             if (!validationResult.success) {
                 const firstIssue = validationResult.error.issues[0];
@@ -420,7 +425,7 @@ export class ArticleService {
                 };
             }
 
-            if (validFormData.slug && isReservedSlug(validFormData.slug)) {
+            if (validFormData.slug && await ReserveSlugsService.isReservedSlug(validFormData.slug)) {
                 logger.warn('Archive draft rejected: Slug is reserved', {
                     context: 'ArticleService.archiveDraft',
                     uniqueId,
@@ -437,12 +442,12 @@ export class ArticleService {
             }
 
             const archivedArticle = await ArticleRepository.archiveDraftArticle(uniqueId, validFormData);
-            return { success: true, data: archivedArticle };
+            return {success: true, data: archivedArticle};
         } catch (error) {
             logger.error(
                 error as Error,
                 'Unexpected error while archiving draft article',
-                { context: 'ArticleService.archiveDraft', uniqueId }
+                {context: 'ArticleService.archiveDraft', uniqueId}
             );
             return {
                 success: false,
@@ -470,12 +475,12 @@ export class ArticleService {
 
         try {
             const draftArticle = await ArticleRepository.createEditDraft(uniqueId);
-            return { success: true, data: draftArticle };
+            return {success: true, data: draftArticle};
         } catch (error) {
             logger.error(
                 error as Error,
                 'Unexpected error while creating edit draft',
-                { context: 'ArticleService.editArticle', uniqueId }
+                {context: 'ArticleService.editArticle', uniqueId}
             );
             return {
                 success: false,
@@ -535,6 +540,8 @@ export class ArticleService {
                 lifecycle: draftArticle.lifecycle,
             };
 
+            const articleFormSchema = createArticleFormSchema(await ReserveSlugsService.getReservedSlugs());
+
             const validationResult = articleFormSchema.safeParse(formDataToValidate);
             if (!validationResult.success) {
                 const firstIssue = validationResult.error.issues[0];
@@ -572,7 +579,7 @@ export class ArticleService {
                 };
             }
 
-            if (validFormData.slug && isReservedSlug(validFormData.slug)) {
+            if (validFormData.slug && await ReserveSlugsService.isReservedSlug(validFormData.slug)) {
                 logger.warn('Publish article rejected: Slug is reserved', {
                     context: 'ArticleService.publishArticle',
                     uniqueId,
@@ -607,7 +614,7 @@ export class ArticleService {
             logger.error(
                 error as Error,
                 'Unexpected error while publishing article',
-                { context: 'ArticleService.publishArticle', uniqueId }
+                {context: 'ArticleService.publishArticle', uniqueId}
             );
             return {
                 success: false,
