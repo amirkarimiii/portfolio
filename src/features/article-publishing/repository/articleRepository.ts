@@ -610,6 +610,40 @@ export class ArticleRepository {
         }
     }
 
+    public static async getPublishedArticles(): Promise<ArticleCardData[]> {
+        try {
+            const client = await clientPromise;
+            const db = client.db();
+            const collection = db.collection<ArticleItem>('articles');
+
+            return await collection
+                .find({ lifecycle: 'Published' })
+                .sort({ publishedAt: -1, createdAt: -1 })
+                .project<ArticleCardData>({
+                    _id: 0,
+                    uniqueId: 1,
+                    slug: 1,
+                    title: 1,
+                    summary: 1,
+                    seriesId: 1,
+                    tags: 1,
+                    thumbnailImage: 1,
+                    thumbnailAltText: 1,
+                    firstPublishedAt: 1,
+                    publishedAt: 1,
+                    lifecycle: 1,
+                })
+                .toArray();
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to fetch published articles',
+                { context: 'ArticleRepository.getPublishedArticles' }
+            );
+            return [];
+        }
+    }
+
     public static async getDraftArticle(uniqueId: string): Promise<ArticleItem | null> {
         try {
             const client = await clientPromise;
