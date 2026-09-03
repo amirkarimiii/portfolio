@@ -1,6 +1,6 @@
 import { textNodeStrategy } from './text-renderer';
 import { imageBlockStrategy } from './image-renderer';
-import { contentReferenceStrategy } from './content-reference-renderer';
+import { contentReferenceStrategy } from './ContentReferenceRenderer';
 import {NodeRendererStrategy, TipTapNode} from "@/features/article-publishing/types/node-renderers.type";
 
 class StrategyRegistry {
