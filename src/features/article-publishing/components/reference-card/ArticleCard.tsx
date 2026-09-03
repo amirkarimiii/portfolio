@@ -1,26 +1,25 @@
-"use client"
+'use client';
 
 import React from 'react';
-import {useRouter} from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import {ArticleCardData, SeriesCardData} from "../../types/reference-card.type";
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/shared/components/ui/card";
-import {cn} from "@/shared/utils/shadcnUtils";
-import {Badge} from "@/shared/components/ui/badge";
-import seriesData from "@/mock-files/new-series.json";
-import {PublishedDropdown} from "@/features/article-publishing/components/dropdowns/PublishedDropdown";
-import {ArchivedDropdown} from "@/features/article-publishing/components/dropdowns/ArchivedDropdown";
-import {getEffectiveTags} from "@/features/article-publishing/utils/tagUtils";
-import {DraftedDropdown} from "@/features/article-publishing/components/dropdowns/DraftedDropdown";
-import {useAdminSession} from "@/features/admin/hooks/useAdminAuth";
-
+import { ArticleCardData } from "../../types/reference-card.type";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { cn } from "@/shared/utils/shadcnUtils";
+import { Badge } from "@/shared/components/ui/badge";
+import { PublishedDropdown } from "@/features/article-publishing/components/dropdowns/PublishedDropdown";
+import { ArchivedDropdown } from "@/features/article-publishing/components/dropdowns/ArchivedDropdown";
+import { getEffectiveTags } from "@/features/article-publishing/utils/tagUtils";
+import { DraftedDropdown } from "@/features/article-publishing/components/dropdowns/DraftedDropdown";
+import { useAdminSession } from "@/features/admin/hooks/useAdminAuth";
+import { useSeriesDetails } from "@/features/article-publishing/hooks/useSeriesDetails";
 
 interface ArticleCardProps {
     data: ArticleCardData;
     className?: string;
     selective?: boolean;
-    origin: "publish" | "archive" | "draft" | "paper"
-    target?: "_self" | "_blank"
+    origin: "publish" | "archive" | "draft" | "paper";
+    target?: "_self" | "_blank";
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
@@ -28,16 +27,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                                                             className,
                                                             origin,
                                                             selective = true,
-                                                            target
+                                                            target,
                                                         }) => {
-
     const router = useRouter();
-
     const { data: session } = useAdminSession();
 
-    const seriesObjects = (seriesData as { series: SeriesCardData[] })?.series || [];
-
-    const parentSeries = seriesObjects.find((series) => series.uniqueId === data.seriesId);
+    const parentSeries = useSeriesDetails(data.seriesId);
 
     const destinationRoute = React.useMemo(() => {
         if (origin === "archive") {
@@ -94,12 +89,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
 
     const renderDropdown = (uniqueId: string) => {
         const dropdownMap: Record<string, React.ReactNode> = {
-            publish: <PublishedDropdown uniqueId={uniqueId}/>,
-            archive: <ArchivedDropdown uniqueId={uniqueId}/>,
-            draft: <DraftedDropdown uniqueId={uniqueId}/>
+            publish: <PublishedDropdown uniqueId={uniqueId} />,
+            archive: <ArchivedDropdown uniqueId={uniqueId} />,
+            draft: <DraftedDropdown uniqueId={uniqueId} />,
         };
         if (!session?.authenticated) return null;
-        return   dropdownMap[origin] || null;
+        return dropdownMap[origin] || null;
     };
 
     return (
@@ -123,7 +118,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                         src={data.thumbnailImage}
                         alt={data.thumbnailAltText || data.title}
                         fill
-                        className={`object-cover transition-transform duration-300 ${selective && "group-hover:scale-105"} `}
+                        className={`object-cover transition-transform duration-300 ${selective && "group-hover:scale-105"}`}
                     />
                 </div>
 
@@ -131,7 +126,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                     <div>
                         <CardHeader className="p-0 mb-1.5 space-y-1">
                             <div
-                                className={`flex ${origin === "paper" ? "flex-row" : "flex-row-reverse"} justify-between`}>
+                                className={`flex ${origin === "paper" ? "flex-row" : "flex-row-reverse"} justify-between`}
+                            >
                                 {renderDropdown(data.uniqueId)}
                                 {data.seriesId && parentSeries?.title && (
                                     <Badge
@@ -143,7 +139,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
                                 )}
                             </div>
                             <CardTitle
-                                className={`text-base ${selective && "group-hover:text-primary"} transition-colors line-clamp-1`}>
+                                className={`text-base ${selective && "group-hover:text-primary"} transition-colors line-clamp-1`}
+                            >
                                 {data.title}
                             </CardTitle>
                         </CardHeader>
