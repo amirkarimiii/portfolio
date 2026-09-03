@@ -1,6 +1,6 @@
 'use server'
 
-import {ArticleCardData, SeriesCardData} from "@/features/article-publishing/types/reference-card.type";
+import {ArticleCardData} from "@/features/article-publishing/types/reference-card.type";
 import { ArticleService } from "@/features/article-publishing/services/articleService";
 import type { ArticleItem } from "@/features/article-publishing/types/article-item.type";
 import { ArticleFormValues } from "@/features/article-publishing/schemas/articleFormSchema";
@@ -28,6 +28,19 @@ export async function getArticlesAction(): Promise<ArticleCardData[]> {
             error as Error,
             'Failed to fetch articles',
             { context: 'getArticlesAction' }
+        );
+        return [];
+    }
+}
+
+export async function getPublishedArticlesAction(): Promise<ArticleCardData[]> {
+    try {
+        return await ArticleService.getPublishedArticles();
+    } catch (error) {
+        logger.error(
+            error as Error,
+            'Failed to fetch published articles action',
+            { context: 'getPublishedArticlesAction' }
         );
         return [];
     }
