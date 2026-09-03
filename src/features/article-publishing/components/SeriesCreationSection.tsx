@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CircleX, Clock, Loader2 } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
-import { seriesFormSchema, type SeriesFormValues } from '@/features/article-publishing/schemas/seriesFormSchema';
+import { createSeriesFormSchema, type SeriesFormValues } from '@/features/article-publishing/schemas/seriesFormSchema';
+import { useReservedSlugs } from '@/features/article-publishing/hooks/useReservedSlugs';
 import { BaseIdentityForm } from './article/article-form/BaseIdentityForm';
 import { BaseAssetsForm } from './article/article-form/BaseAssetsForm';
 import { Separator } from '@/shared/components/ui/separator';
@@ -15,8 +16,8 @@ import { TagSelector } from './tags/TagSelector';
 import { SeriesCreationTagsDisplay } from './tags/SeriesCreationTagsDisplay';
 import { publishSeriesAction } from '@/features/article-publishing/actions/publishSeriesAction';
 import { SERIES_BROADCAST_CHANNEL } from "../constants/seriesChannel";
-import {notify} from "@/shared/notification/notification.service";
-import {logger} from "@/shared/logger/logger";
+import { notify } from "@/shared/notification/notification.service";
+import { logger } from "@/shared/logger/logger";
 
 const defaultValues: SeriesFormValues = {
     title: '',
@@ -39,6 +40,12 @@ export function SeriesCreationSection() {
     const [publishStatus, setPublishStatus] = useState<PublishStatus>('idle');
     const [isPublishing, setIsPublishing] = useState(false);
 
+    const { data: reservedSlugs = [] } = useReservedSlugs();
+
+    const seriesFormSchema = useMemo(() => {
+        return createSeriesFormSchema(reservedSlugs);
+    }, [reservedSlugs]);
+
     const methods = useForm<SeriesFormValues>({
         resolver: zodResolver(seriesFormSchema),
         defaultValues,
@@ -47,7 +54,7 @@ export function SeriesCreationSection() {
 
     const { watch, setValue, setError, handleSubmit } = methods;
 
-    const defaultTags: string[] = watch('defaultTags');
+    const defaultTags: string[] = watch('defaultTags') as string[];
 
     const handleRemoveTag = (tagName: string) => {
         const updated = defaultTags.filter(
@@ -153,7 +160,6 @@ export function SeriesCreationSection() {
                         </Button>
                     </div>
                 </div>
-
                 <div className="px-5">
                     <div className="text-center">
                         <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">Identity</h2>
@@ -167,7 +173,6 @@ export function SeriesCreationSection() {
                     />
                 </div>
                 <Separator />
-
                 <div className="px-5">
                     <div className="text-center">
                         <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">Assets</h2>
@@ -175,7 +180,6 @@ export function SeriesCreationSection() {
                     <BaseAssetsForm />
                 </div>
                 <Separator />
-
                 <div className="px-5 py-3">
                     <div className="text-center">
                         <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">Classification</h2>
@@ -194,7 +198,6 @@ export function SeriesCreationSection() {
                     />
                 </div>
                 <Separator />
-
                 <div className="px-5 py-3">
                     <div className="text-center">
                         <h2 className="font-bold opacity-80 text-md my-5 ml-2 md:ml-0 lg:mt-5 lg:text-xl">SEO</h2>
