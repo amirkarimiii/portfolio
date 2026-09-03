@@ -1,9 +1,7 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { Layers, FileText } from 'lucide-react';
-import dummySeries from '@/mock-files/new-series.json';
-import dummyArticles from '@/mock-files/new-published-articles.json';
+import React, { useState } from 'react';
+import { Layers, FileText, Loader2 } from 'lucide-react';
 import { cn } from '@/shared/utils/shadcnUtils';
 import {
     Popover,
@@ -23,6 +21,7 @@ import {
     ArticleCardData,
     SeriesCardData,
 } from '@/features/article-publishing/types/reference-card.type';
+import { useContentReferencePickerData } from '@/features/article-publishing/hooks/useContentReferencePickerData';
 
 interface ContentReferencePickerPopoverProps {
     type: 'article' | 'series';
@@ -36,29 +35,11 @@ export const ContentReferencePickerPopover: React.FC<
 > = ({ type, onSelect, disabled = false, className }) => {
     const [open, setOpen] = useState(false);
 
-    const items = useMemo<(ArticleCardData | SeriesCardData)[]>(() => {
-        const rawSeries = (dummySeries as { series?: SeriesCardData[] })?.series || [];
+    const { data: items = [], isLoading } = useContentReferencePickerData({
+        type,
+        enabled: open,
+    });
 
-        if (type === 'series') {
-            return rawSeries.slice(0, 20);
-        }
-
-        const rawArticles = (dummyArticles as { articles?: ArticleCardData[] })?.articles || [];
-        const seriesMap = new Map(rawSeries.map((series) => [series.uniqueId, series]));
-
-        return rawArticles
-            .filter((item) => item.lifecycle !== 'archived')
-            .slice(0, 20)
-            .map((item) => {
-                const parentSeries = item.seriesId ? seriesMap.get(item.seriesId) : undefined;
-                return {
-                    ...item,
-                    seriesSlug: parentSeries?.slug,
-                    seriesTitle: parentSeries?.title,
-                };
-            });
-    }, [type]);
-    
     const handleItemSelect = (id: string) => {
         onSelect(id);
         setOpen(false);
@@ -103,34 +84,43 @@ export const ContentReferencePickerPopover: React.FC<
                             placeholder={isSeries ? 'Search series...' : 'Search articles...'}
                         />
                         <CommandList className="max-h-60 overflow-y-auto p-1">
-                            <CommandEmpty>
-                                {isSeries ? 'No series found.' : 'No articles found.'}
-                            </CommandEmpty>
-                            <CommandGroup>
-                                {items.map((item) => (
-                                    <CommandItem
-                                        key={item.uniqueId}
-                                        value={item.title}
-                                        onSelect={() => handleItemSelect(item.uniqueId)}
-                                        className="flex flex-col gap-2 items-center cursor-pointer p-1 rounded-lg"
-                                    >
-                                        {type === 'series' ? (
-                                            <ContentCard
-                                                type="series"
-                                                data={item as SeriesCardData}
-                                                selective={false}
-                                            />
-                                        ) : (
-                                            <ContentCard
-                                                type="article"
-                                                data={item as ArticleCardData}
-                                                selective={false}
-                                                origin="paper"
-                                            />
-                                        )}
-                                    </CommandItem>
-                                ))}
-                            </CommandGroup>
+                            {isLoading ? (
+                                <div className="p-4 text-center text-xs text-muted-foreground flex items-center justify-center gap-2">
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                    Loading...
+                                </div>
+                            ) : (
+                                <>
+                                    <CommandEmpty>
+                                        {isSeries ? 'No series found.' : 'No articles found.'}
+                                    </CommandEmpty>
+                                    <CommandGroup>
+                                        {items.map((item) => (
+                                            <CommandItem
+                                                key={item.uniqueId}
+                                                value={item.title}
+                                                onSelect={() => handleItemSelect(item.uniqueId)}
+                                                className="flex flex-col gap-2 items-center cursor-pointer p-1 rounded-lg"
+                                            >
+                                                {type === 'series' ? (
+                                                    <ContentCard
+                                                        type="series"
+                                                        data={item as SeriesCardData}
+                                                        selective={false}
+                                                    />
+                                                ) : (
+                                                    <ContentCard
+                                                        type="article"
+                                                        data={item as ArticleCardData}
+                                                        selective={false}
+                                                        origin="paper"
+                                                    />
+                                                )}
+                                            </CommandItem>
+                                        ))}
+                                    </CommandGroup>
+                                </>
+                            )}
                         </CommandList>
                     </Command>
                 </PopoverContent>
