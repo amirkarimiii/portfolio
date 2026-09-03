@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContentReferenceCard } from './ContentReferenceCard';
+import { DynamicReferenceCard } from './DynamicReferenceCard';
 import {
     NodeRendererContext,
     NodeRendererStrategy,
@@ -19,7 +19,7 @@ export const contentReferenceStrategy: NodeRendererStrategy = {
 
         return (
             <div key={index} className="my-6 max-w-2xl">
-                <ContentReferenceCard refId={refId} refType={refType} />
+                <DynamicReferenceCard refId={refId} refType={refType} />
             </div>
         );
     },
