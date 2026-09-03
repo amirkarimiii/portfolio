@@ -238,6 +238,19 @@ export class ArticleService {
         }
     }
 
+    public static async getPublishedArticles(): Promise<ArticleCardData[]> {
+        try {
+            return await ArticleRepository.getPublishedArticles();
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to fetch published articles in ArticleService',
+                { context: 'ArticleService.getPublishedArticles' }
+            );
+            return [];
+        }
+    }
+
     public static async getAllArticles(): Promise<ArticleCardData[]> {
         try {
             return await ArticleRepository.getAllArticles();
