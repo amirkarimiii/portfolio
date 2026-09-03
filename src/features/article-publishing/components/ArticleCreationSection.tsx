@@ -4,7 +4,10 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { CircleCheck, CircleX, Clock } from "lucide-react";
-import { articleFormSchema, type ArticleFormValues } from '@/features/article-publishing/schemas/articleFormSchema';
+import {
+    type ArticleFormValues,
+    createArticleFormSchema
+} from '@/features/article-publishing/schemas/articleFormSchema';
 import ContentTab, {
     emptyTiptapDocument
 } from "@/features/article-publishing/components/article/article-editor/ContentTab";
@@ -15,6 +18,8 @@ import { useAutoSaveDraft } from '@/features/article-publishing/hooks/useAutoSav
 import { useRestoreDraftFallback } from "@/features/article-publishing/hooks/useRestoreDraftFallback";
 import { useArticlePublishListener } from '@/features/article-publishing/hooks/useArticlePublishListener';
 import { RelatedArticlesTab } from "@/features/article-publishing/components/article/article-related/RelatedArticlesTab";
+import {useReservedSlugs} from "@/features/article-publishing/hooks/useReservedSlugs";
+import {useMemo} from "react";
 
 const defaultArticleValues: ArticleFormValues = {
     title: '',
@@ -46,6 +51,12 @@ interface ArticleCreationSectionProps {
 
 export function ArticleCreationSection({ uniqueId, initialValues }: ArticleCreationSectionProps) {
     const draftStatus = useDraftSyncStore((state) => state.status);
+
+    const { data: reservedSlugs = [] } = useReservedSlugs();
+
+    const articleFormSchema = useMemo(() => {
+        return createArticleFormSchema(reservedSlugs);
+    }, [reservedSlugs]);
 
     const methods = useForm<ArticleFormValues>({
         resolver: zodResolver(articleFormSchema),
