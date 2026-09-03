@@ -3,9 +3,9 @@ import {PaginatedSeriesResult} from "@/features/article-publishing/types/paginat
 import {ArticleRepository} from "@/features/article-publishing/repository/articleRepository";
 import {ArticleCardData} from "@/features/article-publishing/types/reference-card.type";
 import {SeriesItem} from "@/features/article-publishing/types/series-item.type";
-import {seriesFormSchema, SeriesFormValues} from "@/features/article-publishing/schemas/seriesFormSchema";
+import {createSeriesFormSchema, SeriesFormValues} from "@/features/article-publishing/schemas/seriesFormSchema";
 import {ApiResponse, ErrorCode} from "@/shared/types/api";
-import {isReservedSlug} from "@/features/article-publishing/utils/slugValidation";
+import {ReserveSlugsService} from "@/features/article-publishing/services/reserveSlugsService";
 import {logger} from "@/shared/logger/logger";
 
 export class SeriesService {
@@ -93,6 +93,7 @@ export class SeriesService {
 
     public static async publishSeries(formData: SeriesFormValues): Promise<ApiResponse<SeriesItem>> {
         try {
+            const seriesFormSchema = createSeriesFormSchema(await ReserveSlugsService.getReservedSlugs());
             const validationResult = seriesFormSchema.safeParse(formData);
             if (!validationResult.success) {
                 const issue = validationResult.error.issues[0];
@@ -128,7 +129,7 @@ export class SeriesService {
                 };
             }
 
-            if (formData.slug && isReservedSlug(formData.slug)) {
+            if (formData.slug && await ReserveSlugsService.isReservedSlug(formData.slug)) {
                 logger.warn('Publish series rejected: Slug is reserved', {
                     context: 'SeriesService.publishSeries',
                     slug: formData.slug,
