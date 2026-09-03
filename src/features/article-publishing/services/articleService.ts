@@ -188,6 +188,23 @@ export class ArticleService {
         }
     }
 
+    public static async getPublishedArticleById(articleId: string): Promise<ArticleItem | null> {
+        if (!articleId || typeof articleId !== 'string') {
+            return null;
+        }
+
+        try {
+            return await ArticleRepository.getPublishedArticleById(articleId.trim());
+        } catch (error) {
+            logger.error(
+                error as Error,
+                'Failed to get published article by ID',
+                { context: 'ArticleService.getPublishedArticleById', articleId }
+            );
+            return null;
+        }
+    }
+
     public static async getDraftArticles(params: {
         page?: string;
         sort?: string;
@@ -588,5 +605,4 @@ export class ArticleService {
             };
         }
     }
-
 }
