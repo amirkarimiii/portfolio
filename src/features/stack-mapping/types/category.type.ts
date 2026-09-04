@@ -3,5 +3,5 @@ export interface Category {
     name: string,
     icon?: string,
     description?: string,
-    createdAt: Date
+    createdAt: string
 }
