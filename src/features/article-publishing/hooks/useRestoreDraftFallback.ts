@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
+import {useEffect, useMemo, useRef} from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useArticleFormStore } from '../stores/useArticleFormStore';
-import { articleFormSchema, type ArticleFormValues } from '../schemas/articleFormSchema';
+import {createArticleFormSchema, type ArticleFormValues} from '../schemas/articleFormSchema';
 import {notify} from "@/shared/notification/notification.service";
+import {useReservedSlugs} from "@/features/article-publishing/hooks/useReservedSlugs";
 
 const LOCAL_STORAGE_KEY_PREFIX = 'draft_fallback_';
 
@@ -18,6 +19,12 @@ export function useRestoreDraftFallback() {
     const articleId = useArticleFormStore((state) => state.articleId);
 
     const restoredForArticleIdRef = useRef<string | number | null>(null);
+
+    const { data: reservedSlugs = [] } = useReservedSlugs();
+
+    const articleFormSchema = useMemo(() => {
+        return createArticleFormSchema(reservedSlugs);
+    }, [reservedSlugs]);
 
     useEffect(() => {
         const cacheKey = getCacheKey(articleId);
