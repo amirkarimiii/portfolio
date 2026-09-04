@@ -19,7 +19,7 @@ export async function StackSection() {
         <section className="max-w-4xl mx-auto">
             <div className="py-2 px-5 mb-10">
                 <Tabs defaultValue={defaultTabValue}>
-                    <TabsList className="flex flex-wrap h-max justify-start gap-1">
+                    <TabsList variant="default" className="flex flex-wrap h-max justify-start gap-1">
                         {categories.map((category) => (
                             <TabsTrigger
                                 key={category.uniqueId}
@@ -53,28 +53,53 @@ export async function StackSection() {
                                     </p>
                                 )}
 
-                                <div className="space-y-6 pt-2">
-                                    <div className="space-y-2">
-                                        <h4 className="text-sm font-semibold text-foreground">
-                                            Subcategories in this field
-                                        </h4>
-                                        <div className="space-y-1">
-                                            {categorySubcategories.length > 0 ? (
-                                                categorySubcategories.map((sub) => (
-                                                    <p key={sub.uniqueId} className="text-sm text-muted-foreground">
-                                                        {sub.name}
-                                                    </p>
-                                                ))
-                                            ) : (
-                                                <p className="text-xs text-muted-foreground/60 italic">
-                                                    No subcategories found.
-                                                </p>
-                                            )}
+                                <div className="space-y-8 pt-2">
+                                    {/* بخش Subcategoryها همراه با StackEntryهای مربوط به هرکدام */}
+                                    {categorySubcategories.length > 0 && (
+                                        <div className="space-y-6">
+                                            {categorySubcategories.map((sub) => {
+                                                // فیلتر تکنولوژی‌هایی که متعلق به این subcategory هستند
+                                                const subCategoryEntries = stackEntries.filter(
+                                                    (entry) =>
+                                                        entry.categoryId === category.uniqueId &&
+                                                        entry.subcategoryId === sub.uniqueId
+                                                );
+
+                                                return (
+                                                    <div key={sub.uniqueId} className="space-y-2 border-l-2 border-muted pl-4">
+                                                        <h4 className="text-base font-semibold text-foreground">
+                                                            {sub.name}
+                                                        </h4>
+
+                                                        {sub.description && (
+                                                            <p className="text-xs text-muted-foreground leading-relaxed">
+                                                                {sub.description}
+                                                            </p>
+                                                        )}
+
+                                                        <div className="space-y-1 pt-1">
+                                                            {subCategoryEntries.length > 0 ? (
+                                                                subCategoryEntries.map((entry) => (
+                                                                    <p key={entry.uniqueId} className="text-sm text-foreground/80">
+                                                                        {entry.name}
+                                                                    </p>
+                                                                ))
+                                                            ) : (
+                                                                <p className="text-xs text-muted-foreground/60 italic">
+                                                                    No technologies listed in this subcategory.
+                                                                </p>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
-                                    </div>
-                                    <div className="space-y-2">
+                                    )}
+
+                                    {/* بخش تکنولوژی‌های بدون Subcategory (Cross-category / Standalone) */}
+                                    <div className="space-y-3 pt-2">
                                         <h4 className="text-sm font-semibold text-foreground">
-                                            Standalone Technologies
+                                            Cross-category Technologies
                                         </h4>
                                         <div className="space-y-1">
                                             {standaloneEntries.length > 0 ? (
@@ -85,7 +110,7 @@ export async function StackSection() {
                                                 ))
                                             ) : (
                                                 <p className="text-xs text-muted-foreground/60 italic">
-                                                    No standalone technologies found.
+                                                    No cross-category technologies found.
                                                 </p>
                                             )}
                                         </div>
