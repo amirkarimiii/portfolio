@@ -15,6 +15,8 @@ import {
     DrawerFooter,
     DrawerClose,
 } from "@/shared/components/ui/drawer";
+import type {TipTapDocument} from "@/features/article-publishing/types/node-renderers.type";
+import {ContentRenderer} from "@/features/article-publishing/components/article/article-editor/ContentRenderer";
 
 interface StackTabContentProps {
     category: Category;
@@ -124,7 +126,7 @@ export function StackTabContent({ category, subcategories, stackEntries }: Stack
                                     {selectedEntry.name}
                                 </DrawerTitle>
                                 {selectedEntry.shortDescription && (
-                                    <DrawerDescription className="text-sm text-muted-foreground mt-1">
+                                    <DrawerDescription className="text-sm text-start text-muted-foreground mt-1">
                                         {selectedEntry.shortDescription}
                                     </DrawerDescription>
                                 )}
@@ -136,9 +138,10 @@ export function StackTabContent({ category, subcategories, stackEntries }: Stack
                                         No detailed content available yet for this entry.
                                     </p>
                                 ) : (
-                                    <div className="prose dark:prose-invert text-sm">
-                                        <p>Content goes here...</p>
-                                    </div>
+                                    <ContentRenderer
+                                        content={(selectedEntry.content as TipTapDocument) || { type: 'doc', content: [] }}
+                                        fallbackTitle={selectedEntry.name}
+                                    />
                                 )}
                             </div>
 
