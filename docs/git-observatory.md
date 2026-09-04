@@ -194,8 +194,8 @@ Sub-branches are fast-forward merged back into `feature/stack-map` upon completi
 
 | Branch Name                  | Stages                  | Diverged / Merged to | Status  |
 |------------------------------|-------------------------|:--------------------:|---------|
-| `feature/sm-ui-design`       | UI Design               |  feature/stack-map   | Active  |
-| `feature/sm-wiring-beneath`  | Wiring Beneath          |  feature/stack-map   | Planned |
+| `feature/sm-ui-design`       | UI Design               |  feature/stack-map   | Merged  |
+| `feature/sm-wiring-beneath`  | Wiring Beneath          |  feature/stack-map   | Active  |
 | `feature/sm-readiness-check` | Checking with Readiness |  feature/stack-map   | Defered |
 
 All branches above are a single-phase stage with no sub-branches.
