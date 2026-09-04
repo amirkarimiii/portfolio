@@ -19,7 +19,15 @@
 ```
 
 ```
-loop: do works
+✅ loop: do works
+```
+
+```
+✅ commit changes
+```
+
+```
+commit runbook
 ```
 
 ```todo:subbranches
