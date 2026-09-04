@@ -3,7 +3,7 @@
 ```
 
 ```todo
-step: go to 01-ui-design.md
+✅ step: go to 01-ui-design
 ```
 
 ```

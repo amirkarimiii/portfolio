@@ -1,5 +1,21 @@
 ```todo
-step: make branch: feature/sm-ui-design
+✅ step: make branch: feature/sm-ui-design
+```
+
+```
+✅ step: Separate the language and education section from the goal section
+```
+
+```
+✅ commit changes
+```
+
+```
+✅ step: Build the file or files of mock based on the specification
+```
+
+```
+✅ commit changes
 ```
 
 ```
