@@ -4,7 +4,7 @@ export interface StackEntry {
     uniqueId: string,
     name: string,
     shortDescription: string,
-    content: TiptapDocument,
+    content: TiptapDocument | [],
     categoryId: string,
     subcategoryId: string | null,
     createdAt: string
