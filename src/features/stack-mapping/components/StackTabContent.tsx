@@ -37,6 +37,13 @@ export function StackTabContent({ category, subcategories, stackEntries }: Stack
 
     return (
         <div className="space-y-6">
+            <div className="flex flex-row gap-3">
+                <h2 className="text-xl font-bold">
+                    <span className="mr-1">{category.icon}</span>
+                    {category.name}
+                </h2>
+                <Badge variant="outline" className="h-max mt-1.5">{category.level}</Badge>
+            </div>
             {category.description && (
                 <p className="text-muted-foreground text-sm leading-relaxed">
                     {category.description}
