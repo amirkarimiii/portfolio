@@ -9,6 +9,7 @@ import {LoginDialog} from "@/features/admin/components/LoginDialog";
 import {Toaster} from "@/shared/components/ui/sonner";
 import {TooltipProvider} from "@/shared/components/ui/tooltip";
 import {UnsecureDeleteModal} from "@/features/article-publishing/components/modals/UnsecureDeleteModal";
+import {SidebarProvider} from "@/shared/components/ui/sidebar";
 
 
 const geistSans = Geist({
@@ -33,6 +34,7 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
         <Provider>
+            <SidebarProvider>
             <TooltipProvider>
             <QueryProvider>
                 {children}
@@ -43,6 +45,7 @@ export default function RootLayout({
                 <Toaster />
             </QueryProvider>
             </TooltipProvider>
+            </SidebarProvider>
         </Provider>
         </body>
         </html>
