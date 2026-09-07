@@ -1,12 +1,12 @@
-import {getCategories, getSubcategories, getStackEntries} from "../repository/stackRepository";
 import {Separator} from "@/shared/components/ui/separator";
 import {StackTabsSwitcher} from "./StackTabsSwitcher";
+import {StackService} from "@/features/stack-mapping/service/stackService";
 
 export async function StackSection() {
     const [categories, subcategories, stackEntries] = await Promise.all([
-        getCategories(),
-        getSubcategories(),
-        getStackEntries(),
+        StackService.getCategories(),
+        StackService.getSubcategories(),
+        StackService.getStackEntries(),
     ]);
 
     if (!categories || categories.length === 0) {
