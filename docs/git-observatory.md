@@ -118,15 +118,30 @@ into this branch before the next one begins:
 
 This branch was merged via fast-forward into `refactor/pre-v2-backlog` after all four decisions were completed, and subsequently deleted.
 
-## `feature/logging`
+## V2 Capability Branch Registry
 
-**Purpose**
+The following branch names are reserved for V2 roadmap capabilities.
+Branches are created only when the preceding capability is complete.
+
+| Branch Name            | Capability               | Diverged / Merged to | Status |
+|------------------------|--------------------------|:--------------------:|--------|
+| `feature/logging`      | AI Knowledge & Discovery |       staging        | Merged |
+| `feature/ai-knowledge` | AI Knowledge & Discovery |       staging        | Active |
+
+### `feature/logging`
 
 Application Logging Layer foundation capability.
 
 Establishes shared logging infrastructure before product features are implemented.
 This branch was merged via fast-forward into `staging` upon completion of the Application Logging Layer, and subsequently deleted.
 This branch precedes all V2 product feature branches.
+
+### `capability/ai-knowledge`
+
+AI Knowledge & Discovery capability
+
+Establishes canonical knowledge representation, LLM integration contracts, and serialization standards before product features depend upon this capability.
+This branch is currently active for capability specification and architectural groundwork. Implementation branches will be created sequentially as prerequisites are completed.
 
 ## V2 Feature Branch Registry
 
@@ -137,9 +152,8 @@ Branches are created only when the preceding feature is complete.
 |-----------------------------------|-----------------------------------|:--------------------:|---------|
 | `feature/private-publishing`      | Private Publishing Infrastructure |       staging        | Merged  |
 | `feature/public-content-platform` | Public Content Platform (Core V2) |       staging        | Merged  |
-| `feature/stack-map`               | Interactive Stack Mapping         |       staging        | Active  |
-| `feature/bookshelf`               | Analytical Bookshelf              |       staging        | Pending |
-| `feature/ai-optimization`         | AI Optimization Suite (AIO/GEO)   |       staging        | Pending |
+| `feature/stack-map`               | Interactive Stack Mapping         |       staging        | Merged  |
+| `feature/bookshelf`               | Analytical Bookshelf              |       staging        | Defered |
 
 ### `feature/public-content-platform`
 
@@ -199,6 +213,11 @@ Sub-branches are fast-forward merged back into `feature/stack-map` upon completi
 | `feature/sm-readiness-check` | Checking with Readiness |  feature/stack-map   | Defered |
 
 All branches above are a single-phase stage with no sub-branches.
+
+### `feature/bookshelf`
+
+Analytical Bookshelf feature development is intentionally deferred beyond the V2.0 release cycle. Details regarding the deferral rationale, scope impact, and future reconsideration criteria are documented in `docs/known-deviations`.
+
 
 ---
 
