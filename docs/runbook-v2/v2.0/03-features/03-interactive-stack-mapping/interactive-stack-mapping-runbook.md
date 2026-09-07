@@ -77,34 +77,34 @@ step: Go to TRACKING
 ```
 
 ```todo
-commit changes
+✅ commit changes
 ```
 
 ```
-step: Go to Observatory
+✅ step: Go to Observatory
   mark this branch as Merged
 ```
 
 ```
-commit changes
+✅ commit changes
 ```
 
 ```
-commit runbook
-```
-
-```todo:subbranches
-step: Checkout the branch staging
+✅ commit runbook
 ```
 
 ```todo:subbranches
-step: Merge the branch feature/stack-map into staging
+✅ step: Checkout the branch staging
 ```
 
 ```todo:subbranches
-step: Delete the branch feature/stack-map
+✅ step: Merge the branch feature/stack-map into staging
 ```
 
 ```todo:subbranches
-step: go to 04-analytical-bookshelf
+✅ step: Delete the branch feature/stack-map
+```
+
+```todo:subbranches
+✅ step: go to 04-analytical-bookshelf
 ```
