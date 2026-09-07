@@ -1,27 +1,87 @@
-import categoriesMock from "@/mock-files/categories.json";
-import subcategoriesMock from "@/mock-files/subcategories.json";
-import stackEntriesMock from "@/mock-files/stack-entries.json";
-
+import clientPromise from "@/shared/lib/mongodb";
+import { OptionalId } from "mongodb";
 import { Category } from "../types/category.type";
 import { Subcategory } from "../types/subcategory.type";
 import { StackEntry } from "../types/stack-entry.type";
+import { logger } from "@/shared/logger/logger";
 
-export async function getCategories(): Promise<Category[]> {
-    return categoriesMock as Category[];
-}
+export class StackRepository {
+    private static async getCollection<T>(collectionName: string) {
+        const client = await clientPromise;
+        const db = client.db();
+        return db.collection<OptionalId<T>>(collectionName);
+    }
 
-export async function getSubcategories(): Promise<Subcategory[]> {
-    return subcategoriesMock as Subcategory[];
-}
+    public static async getCategories(): Promise<Category[]> {
+        try {
+            const collection = await this.getCollection<Category>("techStackCategories");
+            return await collection.find({}).project<Category>({ _id: 0 }).toArray();
+        } catch (error) {
+            logger.error(
+                error as Error,
+                "Failed to fetch stack categories",
+                { context: "StackRepository.getCategories" }
+            );
+            return [];
+        }
+    }
 
-export async function getStackEntries(): Promise<StackEntry[]> {
-    return stackEntriesMock as StackEntry[];
-}
+    public static async getSubcategories(): Promise<Subcategory[]> {
+        try {
+            const collection = await this.getCollection<Subcategory>("teckStackSubCategories");
+            return await collection.find({}).project<Subcategory>({ _id: 0 }).toArray();
+        } catch (error) {
+            logger.error(
+                error as Error,
+                "Failed to fetch stack subcategories",
+                { context: "StackRepository.getSubcategories" }
+            );
+            return [];
+        }
+    }
 
-export async function getStackSectionData() {
-    return {
-        categories: categoriesMock as Category[],
-        subcategories: subcategoriesMock as Subcategory[],
-        stackEntries: stackEntriesMock as StackEntry[],
-    };
+    public static async getStackEntries(): Promise<StackEntry[]> {
+        try {
+            const collection = await this.getCollection<StackEntry>("teckStackEntry");
+            return await collection.find({}).project<StackEntry>({ _id: 0 }).toArray();
+        } catch (error) {
+            logger.error(
+                error as Error,
+                "Failed to fetch stack entries",
+                { context: "StackRepository.getStackEntries" }
+            );
+            return [];
+        }
+    }
+
+    public static async getStackSectionData(): Promise<{
+        categories: Category[];
+        subcategories: Subcategory[];
+        stackEntries: StackEntry[];
+    }> {
+        try {
+            const [categories, subcategories, stackEntries] = await Promise.all([
+                this.getCategories(),
+                this.getSubcategories(),
+                this.getStackEntries(),
+            ]);
+
+            return {
+                categories,
+                subcategories,
+                stackEntries,
+            };
+        } catch (error) {
+            logger.error(
+                error as Error,
+                "Failed to fetch full stack section data",
+                { context: "StackRepository.getStackSectionData" }
+            );
+            return {
+                categories: [],
+                subcategories: [],
+                stackEntries: [],
+            };
+        }
+    }
 }
