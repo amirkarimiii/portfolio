@@ -1,7 +1,7 @@
 # Interactive Stack Mapping
 
-**Status:** In Progress  
-**Last Updated:** 2026-09-04  
+**Status:** Deferred 
+**Last Updated:** 2026-09-07  
 **Owner:** Amir Karimi  
 
 ---
@@ -16,11 +16,11 @@ It provides an overview of Interactive Stack Mapping status, planning milestones
 
 # 2. Tracking
 
-| Stages                  | Status      | Planned Start | Target Milestone | Completed  |
-|-------------------------|-------------|---------------|------------------|:----------:|
-| UI Design               | Completed   | 2026-09-01    | 2026-09-04*      | 2026-09-04 |
-| Wiring Beneath          | In Progress | 2026-09-04    | 2026-09-05       |     —      |
-| Checking with Readiness | Deferred    | Not Estimated | Not Estimated    |     —      |
+| Stages                  | Status    | Planned Start | Target Milestone | Completed  |
+|-------------------------|-----------|---------------|------------------|:----------:|
+| UI Design               | Completed | 2026-09-01    | 2026-09-04*      | 2026-09-04 |
+| Wiring Beneath          | Completed | 2026-09-04    | 2026-09-07       | 2026-09-07 |
+| Checking with Readiness | Deferred  | Not Estimated | Not Estimated    |     —      |
 
 > *one day was off
 
@@ -45,3 +45,4 @@ It provides an overview of Interactive Stack Mapping status, planning milestones
 | 2026-08-30 | Moved Checking with Readiness to Deferred status as it has been deferred to an unestimated time.              |
 | 2026-09-01 | UI Design moved to In Progress with Planned Start 2026-09-01                                                  |
 | 2026-09-04 | UI Design marked as Completed (2026-09-04). Wiring Beneath moved to In Progress with Planned Start 2026-09-04 |
+| 2026-09-07 | Wiring Beneath marked as Completed (2026-09-07). Mark this Tracking file as Deferred                          |
