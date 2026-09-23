@@ -88,34 +88,12 @@ Global documents defining system-wide architectural rules, project conventions, 
 
 * **`known-deviations/`**
 * **Type:** Per-Item Living Registry (Status-Tracked)
-* **Role:** One document per intentionally-deferred, scope-cut, superseded, or
-  known-imperfect decision — capturing context, decision, trade-offs, risk,
-  and resolution so that intentional incompleteness is distinguishable from
-  oversight.
-* **Structure:** One file per deviation (`known-deviations/<slug>.md`) using
-  a shared template — `owner`, `category` (Technical Debt / Deferred Work /
-  Scope Cut / Superseded Decision / Known Imperfection), `status` (deferred /
-  accepted / superseded / resolved / won't fix), `issued in`,
-  `target resolution`, `last update`, `related`, followed by
-  Context / Decision / Trade-offs / Risk / Resolution sections — plus a
-  maintained `INDEX.md` summary table (Item | Type | Status | Target).
-* **Qualification:** Reserved for decisions consciously made and worth
-  defending to a reviewer — not every open TODO. Trivial, self-evident gaps
-  do not need an entry.
-* **Governs:** Nothing downstream in the specification chain (it is not a
-  rulebook); instead it *informs* — reviewer understanding, future
-  reconsideration, and AI/assistant context about what was intentionally not
-  built or changed, and why.
-* **Relationship to ADRs:** A deviation entry is not an ADR — it records a
-  scoped, release-time trade-off, not a course-changing architectural
-  decision. If a deviation's resolution later forces an architectural
-  decision, that is recorded separately as an ADR, which may cite the
-  corresponding deviation entry as context.
-* **Relationship to `refactor-backlog.md`:** `refactor-backlog.md` tracks
-  work still intended in roughly its original form; `known-deviations/`
-  tracks cases where the scope, spec, or timeline itself changed. An item
-  may graduate from a deviation entry into a `refactor-backlog.md` task once
-  someone commits to acting on it.
+* **Role:** One document per intentionally-deferred, scope-cut, superseded, or known-imperfect decision — capturing context, decision, trade-offs, risk, and resolution so that intentional incompleteness is distinguishable from oversight.
+* **Structure:** One file per deviation (`known-deviations/<slug>.md`) using a shared template — `owner`, `category` (Technical Debt / Deferred Work / Scope Cut / Superseded Decision / Known Imperfection), `status` (deferred / accepted / superseded / resolved / won't fix), `issued in`, `target resolution`, `last update`, `related`, followed by Context / Decision / Trade-offs / Risk / Resolution sections — plus a maintained `INDEX.md` summary table (Item | Type | Status | Target).
+* **Qualification:** Reserved for decisions consciously made and worth defending to a reviewer — not every open TODO. Trivial, self-evident gaps do not need an entry.
+* **Governs:** Nothing downstream in the specification chain (it is not a rulebook); instead it *informs* — reviewer understanding, future reconsideration, and AI/assistant context about what was intentionally not built or changed, and why.
+* **Relationship to ADRs:** A deviation entry is not an ADR — it records a scoped, release-time trade-off, not a course-changing architectural decision. If a deviation's resolution later forces an architectural decision, that is recorded separately as an ADR, which may cite the corresponding deviation entry as context.
+* **Relationship to `refactor-backlog.md`:** `refactor-backlog.md` tracks work still intended in roughly its original form; `known-deviations/` tracks cases where the scope, spec, or timeline itself changed. An item may graduate from a deviation entry into a `refactor-backlog.md` task once someone commits to acting on it.
 
 ---
 
