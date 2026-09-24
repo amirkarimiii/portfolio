@@ -8,3 +8,4 @@
 | Direct Publish-Archive Transition      | Scope Cut          | deferred | 2.0.1       |
 | Duplicated Code                        | Technical Debt     | deferred | 2.0.1       |
 | Admin Article Metadata                 | Scope Cut          | deferred | 2.0.1       |
+| Preview UI Styling                     | Known Imperfection | deferred | 2.0.1       |
