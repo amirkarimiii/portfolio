@@ -1,5 +1,20 @@
 Here we perform pre-deployment works and cleanups
 
+```backlog
+05-pre-deploy/
+├── accessibility/
+├── metadata/
+│   ├── robots.txt
+│   ├── sitemap
+│   └── canonical
+├── seo/
+├── production-config/
+├── environment/
+├── security/
+├── monitoring/
+└── deployment-checks/
+```
+
 ```todo
 step: Create doc for ui (including flow)
 ```

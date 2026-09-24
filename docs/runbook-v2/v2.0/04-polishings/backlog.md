@@ -3,24 +3,18 @@
 
 ```backlog
 04-polishings/
-├── backlog.md
-│
-├── rendering
+├── rendering/
 │   ├── loading-and-suspense
 │   └── streaming-and-boundaries
-│
-├── semantic
+├── semantic/
 │   ├── html-semantics
-│   ├── accessibility and metadata (including useful files like robot.txt)
 │   └── interaction-semantics
-│
-├── ux
+├── ux/
 │   ├── responsive-behavior
 │   ├── empty-states
 │   ├── error-states
 │   └── micro-interactions
-│
-└── consistency
+└── consistency/
     ├── visual-consistency
     ├── component-consistency
     └── content-consistency
