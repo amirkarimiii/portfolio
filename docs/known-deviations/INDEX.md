@@ -11,3 +11,4 @@
 | Preview UI Styling                     | Known Imperfection | deferred | 2.0.1       |
 | Preview Validation                     | Known Imperfection | deferred | 2.0.1       |
 | Verification Deferred                  | Deferred Work      | deferred | 2.0.1       |
+| Article Transition Redirect            | Known Imperfection | deferred | 2.0.1       |
