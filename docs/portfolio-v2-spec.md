@@ -1,4 +1,4 @@
-# Portfolio V2 Specification (`portfolio-v2-spec.md`)
+# Portfolio V2 Specification
 
 **Version:** 3.1  
 **Status:** Approved  
