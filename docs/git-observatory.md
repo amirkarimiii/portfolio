@@ -123,10 +123,10 @@ This branch was merged via fast-forward into `refactor/pre-v2-backlog` after all
 The following branch names are reserved for V2 roadmap capabilities.
 Branches are created only when the preceding capability is complete.
 
-| Branch Name            | Capability               | Diverged / Merged to | Status |
-|------------------------|--------------------------|:--------------------:|--------|
-| `feature/logging`      | AI Knowledge & Discovery |       staging        | Merged |
-| `feature/ai-knowledge` | AI Knowledge & Discovery |       staging        | Active |
+| Branch Name            | Capability               | Diverged / Merged to | Status  |
+|------------------------|--------------------------|:--------------------:|---------|
+| `feature/logging`      | AI Knowledge & Discovery |       staging        | Merged  |
+| `feature/ai-knowledge` | AI Knowledge & Discovery |       staging        | Defered |
 
 ### `feature/logging`
 
@@ -136,7 +136,7 @@ Establishes shared logging infrastructure before product features are implemente
 This branch was merged via fast-forward into `staging` upon completion of the Application Logging Layer, and subsequently deleted.
 This branch precedes all V2 product feature branches.
 
-### `capability/ai-knowledge`
+### `feature/ai-knowledge`
 
 AI Knowledge & Discovery capability
 
@@ -153,6 +153,7 @@ Branches are created only when the preceding feature is complete.
 | `feature/private-publishing`      | Private Publishing Infrastructure |       staging        | Merged  |
 | `feature/public-content-platform` | Public Content Platform (Core V2) |       staging        | Merged  |
 | `feature/stack-map`               | Interactive Stack Mapping         |       staging        | Merged  |
+| `feature/portfolio-body`          | Portfolio Main Body               |       staging        | Active  |
 | `feature/bookshelf`               | Analytical Bookshelf              |       staging        | Defered |
 
 ### `feature/public-content-platform`
@@ -213,6 +214,10 @@ Sub-branches are fast-forward merged back into `feature/stack-map` upon completi
 | `feature/sm-readiness-check` | Checking with Readiness |  feature/stack-map   | Defered |
 
 All branches above are a single-phase stage with no sub-branches.
+
+### `feature/portfolio-body`
+
+Development of the Portfolio Main Body will be done in this branch, and no sub-branches have been considered for it.
 
 ### `feature/bookshelf`
 
