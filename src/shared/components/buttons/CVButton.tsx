@@ -3,14 +3,18 @@
 import Link from "next/link";
 import {Button} from "@/shared/components/ui/button";
 
-export function CvButton() {
+interface CVButtonProps {
+    url?: string;
+}
+
+export function CvButton({ url }: CVButtonProps) {
     return (
         <Button
             variant="outline"
             className="w-25 h-max rounded-md p-1 cursor-pointer"
         >
             <Link
-                href="https://drive.google.com/file/d/1yN2KR-Lc0RoDthUUwt_tiHn-6a7A_pHA/view?usp=sharing"
+                href={url ? url : ""}
                 target="_blank"
                 className="flex"
                 rel="noopener noreferrer"
