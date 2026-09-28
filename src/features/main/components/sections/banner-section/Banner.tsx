@@ -1,15 +1,23 @@
 import Link from "next/link";
 import {BadgeCheck, ExternalLink} from "lucide-react";
-import { MyImage } from "./MyImage";
+import {MyImage} from "./MyImage";
 import {Button} from "@/shared/components/ui/button";
 import {Paths} from "@/shared/constants/paths";
 import {Alert, AlertDescription, AlertTitle} from "@/shared/components/ui/alert";
 import {Ids} from "@/shared/constants/ids";
 import {Separator} from "@/shared/components/ui/separator";
+import {BannerService} from "@/features/main/services/bannerService";
 
+export const Banner = async () => {
+    const person = await BannerService.getPerson();
 
+    const displayName = person?.professionalName || person?.fullName;
+    const fullName = person?.fullName;
+    const shortIntroduction = person?.shortIntroduction;
+    const professionalNarrative = person?.professionalNarrative;
+    const workAvailability = person?.workAvailability;
+    const externalProfile = person?.externalProfiles;
 
-export const Banner = () => {
     return (
         <section className="max-w-4xl mx-auto">
             <div className="py-2 px-5 flex flex-col gap-10 lg:flex-row-reverse mb-5 lg:mt-20">
@@ -17,11 +25,16 @@ export const Banner = () => {
                     <MyImage/>
                 </div>
                 <div>
-                    <h1 className="font-bold text-3xl lg:text-5xl">Hi, I’m Amir 👋</h1>
-                    <p className="text-sm mt-2 lg:mt-4 lg:text-base">
-                        <strong>Frontend Developer</strong> focused on building&nbsp;
-                        <strong>high-performance, scalable web applications</strong> with&nbsp;
-                        <strong>Next.js.</strong>
+                    <h1 className="font-bold text-3xl lg:text-4xl select-none">
+                        Hi, I’m {displayName} 👋
+                    </h1>
+                    {fullName && (
+                        <p className="text-xs lg:text-sm mt-1 opacity-50">
+                            my full name is {fullName}
+                        </p>
+                    )}
+                    <p className="text-sm mt-2 lg:mt-3 lg:text-base">
+                        {shortIntroduction}
                     </p>
                     <Button asChild variant="outline" className="block w-full mx-auto text-xs h-max border-4 my-5">
                         <Link
@@ -35,49 +48,40 @@ export const Banner = () => {
                         </Link>
                     </Button>
                     <div className="flex flex-col">
-                        <p className="mt-2 text-sm lg:text-base">
-                            I work primarily with&nbsp;
-                            <strong>React (App Router & Server Components)</strong> and&nbsp;
-                            <strong>TypeScript</strong>, with a strong emphasis on&nbsp;
-                            <strong>clean architecture</strong>,&nbsp;
-                            <strong>performance optimization</strong>, and writing code that scales well within teams.
+                        <p className="text-xs lg:text-sm">
+                            {professionalNarrative}
                         </p>
-                        <Alert variant="verified" className="mt-4">
-                            <BadgeCheck/>
-                            <AlertTitle className="lg:text-base">I’m open to full-time remote opportunities</AlertTitle>
-                            <AlertDescription className="lg:text-base">
-                                where I can contribute to impactful products, adapt quickly to team needs, and continue
-                                growing as an engineer.
-                            </AlertDescription>
-                        </Alert>
+                        {
+                            workAvailability?.status && (
+                                <Alert variant="verified" className="mt-4">
+                                    <BadgeCheck/>
+                                    <AlertTitle className="lg:text-base">I’m open
+                                        to {workAvailability?.employmentType} {workAvailability?.workMode} opportunities</AlertTitle>
+                                    <AlertDescription className="lg:text-base">
+                                        {workAvailability?.explanation}
+                                    </AlertDescription>
+                                </Alert>
+                            )
+                        }
                     </div>
                     <div className="flex gap-1">
-                        <Button asChild className="flex-1 text-xs mt-2">
-                            <Link
-                                href="https://www.linkedin.com/in/amirhosein-karimkhani/"
-                                target="_blank"
-                                className="flex"
-                                rel="noopener noreferrer"
-                            >
-                                My Github
-                                <span className="w-3">
-                                    <ExternalLink/>
-                                </span>
-                            </Link>
-                        </Button>
-                        <Button asChild className="flex-1 text-xs mt-2">
-                            <Link
-                                href="https://www.linkedin.com/in/amirhosein-karimkhani/"
-                                target="_blank"
-                                className="flex items-center justify-center gap-1"
-                                rel="noopener noreferrer"
-                            >
-                                My Linkedin
-                                <span className="w-3">
-                                    <ExternalLink/>
-                                </span>
-                            </Link>
-                        </Button>
+                        {
+                            externalProfile?.map(value => (
+                                <Button asChild className="flex-1 text-xs mt-2" key={value.platform}>
+                                    <Link
+                                        href={value.url}
+                                        target="_blank"
+                                        className="flex"
+                                        rel="noopener noreferrer"
+                                    >
+                                        My {value.platform}
+                                        <span className="w-3">
+                                            <ExternalLink/>
+                                        </span>
+                                    </Link>
+                                </Button>
+                            ))
+                        }
                     </div>
                     <Button asChild variant="outline" className="block w-full mx-auto text-xs h-max border-4 mt-2">
                         <a
