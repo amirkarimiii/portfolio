@@ -17,3 +17,4 @@
 | Canonical Data Refresh                 | Deferred Work      | deferred | 2.0.1       |
 | Bookshelf Canonical Data               | Deferred Work      | deferred | 2.0.1       |
 | Interactive Stack Mapping Zod Types    | Technical Debt     | deferred | 2.0.1       |
+| Portfolio CV Access                    | Known Imperfection | deferred | 2.0.1       |
