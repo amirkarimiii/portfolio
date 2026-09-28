@@ -1,6 +1,6 @@
 import {Metadata} from "next";
 import {Navbar} from "@/shared/components/layout/Navbar";
-import {MainNavbarActions} from "../../features/main/components/MainNavbarActions";
+import {MainNavbarActions} from "@/features/main/components/MainNavbarActions";
 
 export const metadata: Metadata = {
     title: "amir's portfolio",
