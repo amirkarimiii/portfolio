@@ -13,3 +13,7 @@
 | Verification Deferred                  | Deferred Work      | deferred | 2.0.1       |
 | Article Transition Redirect            | Known Imperfection | deferred | 2.0.1       |
 | Add Article Navigation                 | Known Imperfection | deferred | 2.0.1       |
+| AI Knowledge Deferred                  | Scope Cut          | deferred | 2.0.1       |
+| Canonical Data Refresh                 | Deferred Work      | deferred | 2.0.1       |
+| Bookshelf Canonical Data               | Deferred Work      | deferred | 2.0.1       |
+| Interactive Stack Mapping Zod Types    | Technical Debt     | deferred | 2.0.1       |
