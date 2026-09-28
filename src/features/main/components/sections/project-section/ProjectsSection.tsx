@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import Link from "next/link";
 import {InfoIcon} from "lucide-react";
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/shared/components/ui/tabs";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/shared/components/ui/card";
-import {Badge} from "@/shared/components/ui/badge";
-import ProjectPhoto from "@/features/main/ProjectPhoto";
-import {Button} from "@/shared/components/ui/button";
-import {Alert, AlertDescription, AlertTitle} from "@/shared/components/ui/alert";
-import {Separator} from "@/shared/components/ui/separator";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "src/shared/components/ui/tabs";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "src/shared/components/ui/card";
+import {Badge} from "src/shared/components/ui/badge";
+import ProjectPhoto from "./ProjectPhoto";
+import {Button} from "src/shared/components/ui/button";
+import {Alert, AlertDescription, AlertTitle} from "src/shared/components/ui/alert";
+import {Separator} from "src/shared/components/ui/separator";
 
 export function ProjectsSection() {
     return (

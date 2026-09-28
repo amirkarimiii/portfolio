@@ -2,9 +2,9 @@
 import Image from "next/image";
 import {useState, useSyncExternalStore} from "react";
 import {useTheme} from "next-themes";
-import {Card} from "@/shared/components/ui/card";
-import {Skeleton} from "@/shared/components/ui/skeleton";
-import {Badge} from "@/shared/components/ui/badge";
+import {Card} from "src/shared/components/ui/card";
+import {Skeleton} from "src/shared/components/ui/skeleton";
+import {Badge} from "src/shared/components/ui/badge";
 
 function useMounted() {
     return useSyncExternalStore(

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import {ExternalLink} from "lucide-react";
 import Image from 'next/image';
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/shared/components/ui/tabs";
-import {Alert, AlertDescription, AlertTitle} from "@/shared/components/ui/alert";
-import {Separator} from "@/shared/components/ui/separator";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "src/shared/components/ui/tabs";
+import {Alert, AlertDescription, AlertTitle} from "src/shared/components/ui/alert";
+import {Separator} from "src/shared/components/ui/separator";
 
 
 export function InfoSection() {

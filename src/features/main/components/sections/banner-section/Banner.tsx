@@ -1,11 +1,12 @@
 import Link from "next/link";
 import {BadgeCheck, ExternalLink} from "lucide-react";
-import {MyImage} from "@/features/main/MyImage";
+import { MyImage } from "./MyImage";
 import {Button} from "@/shared/components/ui/button";
 import {Paths} from "@/shared/constants/paths";
 import {Alert, AlertDescription, AlertTitle} from "@/shared/components/ui/alert";
 import {Ids} from "@/shared/constants/ids";
 import {Separator} from "@/shared/components/ui/separator";
+
 
 
 export const Banner = () => {

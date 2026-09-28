@@ -1,6 +1,6 @@
 import Link from "next/link";
-import {Ids} from "@/shared/constants/ids";
-import {Button} from "@/shared/components/ui/button";
+import {Ids} from "src/shared/constants/ids";
+import {Button} from "src/shared/components/ui/button";
 
 export function ContactSection() {
     return (
