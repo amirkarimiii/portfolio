@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import {educationSchema} from "@/features/main/schema/educationSchema";
+import { languageSchema } from "./languageSchema";
 
 export const employmentTypeEnum = z.enum([
     'full-time',
@@ -45,6 +46,7 @@ export const personSchema = z.object({
     professionalNarrative: z.string().min(1),
 
     educations: z.array(educationSchema),
+    languages: z.array(languageSchema),
 
     workAvailability: z.object({
         status: z.boolean(),
