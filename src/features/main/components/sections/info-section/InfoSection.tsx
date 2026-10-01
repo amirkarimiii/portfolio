@@ -4,10 +4,17 @@ import Image from 'next/image';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/shared/components/ui/tabs";
 import {Alert, AlertDescription, AlertTitle} from "@/shared/components/ui/alert";
 import {Separator} from "@/shared/components/ui/separator";
+import {BannerService} from "@/features/main/services/bannerService";
+import {Education} from "@/features/main/schema/educationSchema";
 
 
+export const InfoSection = async () => {
 
-export function InfoSection() {
+    const person = await BannerService.getPerson();
+
+    const bachelor = person?.educations?.find(value => value.degree.level == 'bachelor');
+    const master = person?.educations?.find(value => value.degree.level == 'master');
+
     return (
         <section className="max-w-4xl mx-auto">
             <div className="py-2 px-5 mb-10">
@@ -29,16 +36,20 @@ export function InfoSection() {
                                 <AlertDescription className="lg:text-base">
                                     <ul className="list-disc ml-5 mt-5">
                                         <li className="mt-1">
-                                            <strong>Reading:</strong> Comfortable reading and understanding English documentation and technical texts with ease.
+                                            <strong>Reading:</strong> Comfortable reading and understanding English
+                                            documentation and technical texts with ease.
                                         </li>
                                         <li className="mt-1">
-                                            <strong>Listening:</strong> Strong listening skills; 95% of the YouTube content I consume is in English.
+                                            <strong>Listening:</strong> Strong listening skills; 95% of the YouTube
+                                            content I consume is in English.
                                         </li>
                                         <li className="mt-1">
-                                            <strong>Speaking:</strong> Able to hold conversations in English, though I feel slightly nervous due to limited recent practice with speaking partners.
+                                            <strong>Speaking:</strong> Able to hold conversations in English, though I
+                                            feel slightly nervous due to limited recent practice with speaking partners.
                                         </li>
                                         <li className="mt-1">
-                                            <strong>Writing:</strong> Solid writing skills at a similar level to my speaking ability, with room for rapid improvement through practice.
+                                            <strong>Writing:</strong> Solid writing skills at a similar level to my
+                                            speaking ability, with room for rapid improvement through practice.
                                         </li>
                                     </ul>
                                 </AlertDescription>
@@ -46,7 +57,10 @@ export function InfoSection() {
                             <Alert variant="default">
                                 <AlertTitle className="text-base lg:text-xl">Français</AlertTitle>
                                 <AlertDescription className="lg:text-base">
-                                    Globalement, je suis débutant en français, mais je suis capable de communiquer efficacement. Mes compétences en compréhension écrite (reading), expression écrite (writing), expression orale (speaking) et compréhension orale (listening) progressent de manière parallèle et équilibrée.
+                                    Globalement, je suis débutant en français, mais je suis capable de communiquer
+                                    efficacement. Mes compétences en compréhension écrite (reading), expression écrite
+                                    (writing), expression orale (speaking) et compréhension orale (listening)
+                                    progressent de manière parallèle et équilibrée.
                                     <div className="flex gap-2">
                                         <div className="relative mt-5 rounded-lg overflow-hidden flex-1 h-30 max-w-30">
                                             <Image src="/duolingo.png"
@@ -56,10 +70,13 @@ export function InfoSection() {
                                         </div>
                                         <div className="flex-1">
                                             <div className="flex flex-1 py-2 gap-3">
-                                                <h3 className="font-bold w-22 lg:w-28 my-auto">Score actuel sur Duolingo</h3>
+                                                <h3 className="font-bold w-22 lg:w-28 my-auto">Score actuel sur
+                                                    Duolingo</h3>
                                                 <p className="font-bold text-4xl">93</p>
                                             </div>
-                                            <p className="text-xs"><strong>À noter :</strong> j’apprends le français à partir de l’anglais, car Duolingo ne prend pas encore en charge le persan.</p>
+                                            <p className="text-xs"><strong>À noter :</strong> j’apprends le français à
+                                                partir de l’anglais, car Duolingo ne prend pas encore en charge le
+                                                persan.</p>
                                         </div>
                                     </div>
                                 </AlertDescription>
@@ -68,54 +85,56 @@ export function InfoSection() {
                     </TabsContent>
                     <TabsContent value="education">
                         <h2 className="font-bold text-xl mt-3 lg:mt-5 lg:text-3xl">🎓 Educational Background</h2>
-                        <Alert variant="default" className="mt-10 max-w-140">
-                            <AlertTitle className="text-base ml-7 lg:text-xl">M.Sc. in Software Engineering</AlertTitle>
+                        <Alert variant="default" className="mt-4 max-w-140">
+                            <AlertTitle className="text-base ml-7 lg:text-xl">M.Sc.
+                                in {master?.degree.field}</AlertTitle>
                             <AlertDescription className="lg:text-base">
                                 <div className="flex gap-3">
                                     <div className="relative w-4">
-                                        <Image src="/universities/University_of_Guilan_logo.svg"
-                                               alt="University of Guilan logo"
+                                        <Image src={`${master?.institution.logo}`}
+                                               alt="master institution logo"
                                                fill
                                                className="dark:invert"
                                         />
                                     </div>
-                                    <Link href="https://en.guilan.ac.ir/"
+                                    <Link href={`${master?.institution.website}`}
                                           target="_blank"
                                           className="flex gap-1"
                                           rel="noopener noreferrer"
                                     >
-                                        <p>University of Guilan, Rasht, Iran</p>
+                                        <p>{master?.institution.name}</p>
                                         <div className="w-3">
                                             <ExternalLink/>
                                         </div>
                                     </Link>
                                 </div>
-                                <p className="ml-7">2023 – 2025 (Expected graduation)</p>
+                                <p className="ml-7">{master?.date.start} – {master?.date.end}</p>
                             </AlertDescription>
                         </Alert>
                         <Alert variant="default" className="mt-4 max-w-140">
-                            <AlertTitle className="text-base ml-7 lg:text-xl">B.Sc. in Computer Engineering</AlertTitle>
+                            <AlertTitle className="text-base ml-7 lg:text-xl">B.Sc.
+                                in {bachelor?.degree.field}</AlertTitle>
                             <AlertDescription className="lg:text-base">
                                 <div className="flex gap-3">
                                     <div className="relative w-4">
-                                        <Image src="/universities/Kharazmy_University_logo.svg"
-                                               alt="Kharazmy University logo"
+                                        <Image src={`${bachelor?.institution.logo}`}
+                                               alt="bachelor institution logo"
                                                fill
                                                className="dark:invert"
                                         />
                                     </div>
-                                    <Link href="https://khu.ac.ir/en"
+                                    <Link href={`${bachelor?.institution.website}`}
                                           target="_blank"
                                           className="flex gap-1"
                                           rel="noopener noreferrer"
                                     >
-                                        <p>Kharazmi University, Tehran, Iran</p>
+                                        <p>{bachelor?.institution.name}</p>
                                         <div className="w-3">
                                             <ExternalLink/>
                                         </div>
                                     </Link>
                                 </div>
-                                <p className="ml-7">2017 – 2021</p>
+                                <p className="ml-7">{bachelor?.date.start} – {bachelor?.date.end}</p>
                             </AlertDescription>
                         </Alert>
                     </TabsContent>
