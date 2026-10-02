@@ -23,7 +23,7 @@ section info
 section projects
 
 ```
-loop: refactor project section according to spec
+✅ loop: refactor project section according to spec
 ```
 
 section contact
