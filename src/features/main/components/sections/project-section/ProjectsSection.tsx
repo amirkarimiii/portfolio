@@ -1,90 +1,34 @@
-import Image from 'next/image';
-import Link from "next/link";
 import {InfoIcon} from "lucide-react";
-import ProjectPhoto from "./ProjectPhoto";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/shared/components/ui/tabs";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/shared/components/ui/card";
-import {Badge} from "@/shared/components/ui/badge";
-import {Button} from "@/shared/components/ui/button";
+import {Card, CardContent, CardHeader, CardTitle} from "@/shared/components/ui/card";
 import {Alert, AlertDescription, AlertTitle} from "@/shared/components/ui/alert";
 import {Separator} from "@/shared/components/ui/separator";
+import {ProjectService} from "@/features/main/services/projectService";
+import {ProjectsTabHeader} from "@/features/main/components/sections/project-section/ProjectsTabHeader";
+import {ProjectTabContent} from "@/features/main/components/sections/project-section/ProjectTabContent";
 
-export function ProjectsSection() {
+export const ProjectsSection = async () => {
+
+    const projects = await ProjectService.getProjects();
+
+    const firstProject = projects[0];
+
     return (
         <section className="max-w-4xl mx-auto">
             <div className="py-2 px-5 mb-10">
                 <h2 className="font-bold text-xl my-5 lg:mt-5 lg:text-3xl">💻 My Projects</h2>
-                <Tabs defaultValue="cryptology">
+                <Tabs defaultValue={firstProject.name}>
                     <TabsList className="flex flex-wrap h-max">
-                        <TabsTrigger value="cryptology">
-                            <div className="relative w-4 h-4">
-                                <Image src="projects/cryptology/cryptology_icon.svg"
-                                       alt="cryptology icon"
-                                       fill
-                                       className="dark:invert"
-                                />
-                            </div>
-                            Cryptology
-                        </TabsTrigger>
+                        {projects.map(project => (
+                            <ProjectsTabHeader icon={project.icon} name={project.name} key={project.name}/>
+                        ))}
                         <TabsTrigger value="more">➕ More...</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="cryptology">
-                        <Card className="w-full">
-                            <CardHeader>
-                                <CardTitle>
-                                    <h3 className="flex gap-2">
-                                        <span className="relative w-5 h-5 inline-block my-auto">
-                                            <Image src="projects/cryptology/cryptology_icon.svg"
-                                                   alt="cryptology icon"
-                                                   fill
-                                                   className="dark:invert"
-                                            />
-                                        </span>
-                                        <span className="text-lg">
-                                            Cryptology
-                                        </span>
-                                        <Badge className="my-auto h-max text-2xs">v1.0.0</Badge>
-                                    </h3>
-                                </CardTitle>
-                                <CardDescription>
-                                    A modern crypto dashboard built with <strong>Next.js App Router</strong>, designed
-                                    as a portfolio
-                                    project with a strong focus on <strong>clean architecture, type
-                                    safety,</strong> and <strong>scalable
-                                    frontend patterns.</strong>
-                                    <br/><br/>It consumes data from a <strong>private backend API</strong> that
-                                    aggregates and
-                                    normalizes data from <strong>CoinGecko</strong> and <strong>Frankfurter</strong>.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex flex-col gap-3 sm:flex-row">
-                                    <div className="w-full sm:min-w-xs max-w-sm mx-auto">
-                                        <ProjectPhoto/>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-xl font-bold lg:mt-5">✨ Overview</h4>
-                                        <p className="text-sm md:text-base ml-5">Cryptology is a practice-oriented
-                                            project developed
-                                            to showcase real-world frontend skills, including:</p>
-                                        <ul className="text-sm md:text-base list-disc ml-5 mt-2">
-                                            <li>Structured layout composition</li>
-                                            <li>API abstraction and validation</li>
-                                            <li>Modern UI development with shadcn/ui</li>
-                                            <li>Caching strategies in Next.js 16</li>
-                                            <li>Production-ready project organization</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <Button asChild className="block w-full max-w-md mt-5 mx-auto text-center">
-                                    <Link href="https://github.com/amirkarimiii/cryptology" target="_blank"
-                                          rel="noopener noreferrer">
-                                        More on Github
-                                    </Link>
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
+                    {
+                        projects.map(project => (
+                            <ProjectTabContent project={project} key={project.name}/>
+                        ))
+                    }
                     <TabsContent value="more">
                         <Card className="w-full">
                             <CardHeader>
