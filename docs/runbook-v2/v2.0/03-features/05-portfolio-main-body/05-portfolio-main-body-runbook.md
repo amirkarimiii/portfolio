@@ -5,7 +5,7 @@
 section banner
 
 ```
-loop: refactor banner section according to spec
+✅ loop: refactor banner section according to spec
 ```
 
 section stack mapping
@@ -17,7 +17,7 @@ loop: refactor stack mapping section according to spec
 section info
 
 ```
-loop: refactor info section according to spec
+✅ loop: refactor info section according to spec
 ```
 
 section projects
@@ -29,7 +29,7 @@ loop: refactor project section according to spec
 section contact
 
 ```
-loop: refactor contact section according to spec
+✅ loop: refactor contact section according to spec
 ```
 
 ```todo:subbranches
