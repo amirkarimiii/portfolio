@@ -4,10 +4,22 @@ import { Subcategory } from "../types/subcategory.type";
 import { StackEntry } from "../types/stack-entry.type";
 import { logger } from "@/shared/logger/logger";
 
+const LEVEL_ORDER: Record<string, number> = {
+    "Senior": 1,
+    "Mid-level": 2,
+    "Serious Familiarity": 3
+};
+
 export class StackService {
     public static async getCategories(): Promise<Category[]> {
         try {
-            return await StackRepository.getCategories();
+            const categories = await StackRepository.getCategories();
+
+            return categories.sort((a, b) => {
+                const priorityA = LEVEL_ORDER[a.level] ?? Infinity;
+                const priorityB = LEVEL_ORDER[b.level] ?? Infinity;
+                return priorityA - priorityB;
+            });
         } catch (error) {
             logger.error(
                 error as Error,
