@@ -11,7 +11,7 @@ section banner
 section stack mapping
 
 ```
-loop: refactor stack mapping section according to spec
+✅ loop: refactor stack mapping section according to spec
 ```
 
 section info
