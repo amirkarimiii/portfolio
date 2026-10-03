@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { Category } from "../types/category.type";
-import { Subcategory } from "../types/subcategory.type";
-import { StackEntry } from "../types/stack-entry.type";
-import { Badge } from "@/shared/components/ui/badge";
-import { Button } from "@/shared/components/ui/button";
+import {useState} from "react";
+import {Category} from "../types/category.type";
+import {Subcategory} from "../types/subcategory.type";
+import {StackEntry} from "../types/stack-entry.type";
+import {Badge} from "@/shared/components/ui/badge";
+import {Button} from "@/shared/components/ui/button";
 import {
     Drawer,
     DrawerContent,
@@ -24,7 +24,7 @@ interface StackTabContentProps {
     stackEntries: StackEntry[];
 }
 
-export function StackTabContent({ category, subcategories, stackEntries }: StackTabContentProps) {
+export function StackTabContent({category, subcategories, stackEntries}: StackTabContentProps) {
     const [selectedEntry, setSelectedEntry] = useState<StackEntry | null>(null);
 
     const categorySubcategories = subcategories.filter(
@@ -36,7 +36,7 @@ export function StackTabContent({ category, subcategories, stackEntries }: Stack
     );
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 overflow-y-scroll h-70">
             <div className="flex flex-row gap-3">
                 <h2 className="text-xl font-bold">
                     <span className="mr-1">{category.icon}</span>
@@ -50,9 +50,9 @@ export function StackTabContent({ category, subcategories, stackEntries }: Stack
                 </p>
             )}
 
-            <p className="text-xs text-muted-foreground/80 italic pt-1">
+            <Badge variant="outline" className="text-xs text-muted-foreground/80 italic">
                 💡 Click on any technology badge to view detailed insights.
-            </p>
+            </Badge>
 
             <div className="space-y-8 pt-2">
                 {categorySubcategories.length > 0 && (
@@ -77,7 +77,7 @@ export function StackTabContent({ category, subcategories, stackEntries }: Stack
                                     )}
 
                                     <div className="flex flex-wrap gap-2 pt-1">
-                                        {subCategoryEntries.length > 0 ? (
+                                        {subCategoryEntries.length > 0 && (
                                             subCategoryEntries.map((entry) => (
                                                 <Badge
                                                     key={entry.uniqueId}
@@ -88,10 +88,6 @@ export function StackTabContent({ category, subcategories, stackEntries }: Stack
                                                     {entry.name}
                                                 </Badge>
                                             ))
-                                        ) : (
-                                            <p className="text-xs text-muted-foreground/60 italic">
-                                                No technologies listed in this subcategory.
-                                            </p>
                                         )}
                                     </div>
                                 </div>
@@ -100,12 +96,14 @@ export function StackTabContent({ category, subcategories, stackEntries }: Stack
                     </div>
                 )}
                 <div className="space-y-3 pt-2">
-                    <h4 className="text-sm font-semibold text-foreground">
-                        Cross-category Technologies
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                        {standaloneEntries.length > 0 ? (
-                            standaloneEntries.map((entry) => (
+                    {standaloneEntries.length > 0 && (
+                        <h4 className="text-sm font-semibold text-foreground">
+                            Cross-category Technologies
+                        </h4>
+                    )}
+                    {standaloneEntries.length > 0 && (
+                        standaloneEntries.map((entry) => (
+                            <div className="flex flex-wrap gap-2" key={entry.uniqueId}>
                                 <Badge
                                     key={entry.uniqueId}
                                     variant="outline"
@@ -114,13 +112,11 @@ export function StackTabContent({ category, subcategories, stackEntries }: Stack
                                 >
                                     {entry.name}
                                 </Badge>
-                            ))
-                        ) : (
-                            <p className="text-xs text-muted-foreground/60 italic">
-                                No cross-category technologies found.
-                            </p>
-                        )}
-                    </div>
+                            </div>
+                        ))
+                    )}
+
+
                 </div>
             </div>
 
@@ -146,7 +142,10 @@ export function StackTabContent({ category, subcategories, stackEntries }: Stack
                                     </p>
                                 ) : (
                                     <ContentRenderer
-                                        content={(selectedEntry.content as TipTapDocument) || { type: 'doc', content: [] }}
+                                        content={(selectedEntry.content as TipTapDocument) || {
+                                            type: 'doc',
+                                            content: []
+                                        }}
                                         fallbackTitle={selectedEntry.name}
                                     />
                                 )}

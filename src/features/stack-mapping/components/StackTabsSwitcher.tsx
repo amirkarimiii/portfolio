@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import {useState} from "react";
 import {
     Sidebar,
     SidebarContent,
@@ -18,10 +18,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/shared/components/ui/select";
-import { StackTabContent } from "./StackTabContent";
-import { Category } from "@/features/stack-mapping/types/category.type";
-import { Subcategory } from "@/features/stack-mapping/types/subcategory.type";
-import { StackEntry } from "@/features/stack-mapping/types/stack-entry.type";
+import {StackTabContent} from "./StackTabContent";
+import {Category} from "@/features/stack-mapping/types/category.type";
+import {Subcategory} from "@/features/stack-mapping/types/subcategory.type";
+import {StackEntry} from "@/features/stack-mapping/types/stack-entry.type";
 
 interface StackTabsSwitcherProps {
     categories: Category[];
@@ -45,7 +45,6 @@ export function StackTabsSwitcher({
     return (
         <SidebarProvider className="min-h-full">
             <div className="flex flex-col sm:flex-row gap-6 w-full">
-                {/* Desktop Sidebar Navigation */}
                 <div className="hidden sm:block w-52 shrink-0">
                     <Sidebar collapsible="none" className="w-full bg-transparent border-none">
                         <SidebarContent>
@@ -77,15 +76,15 @@ export function StackTabsSwitcher({
                 <div className="sm:hidden w-full">
                     <Select value={selectedCategoryId} onValueChange={setSelectedCategoryId}>
                         <SelectTrigger className="w-full">
-                            <SelectValue />
+                            <SelectValue/>
                         </SelectTrigger>
                         <SelectContent>
                             {categories.map((category) => (
                                 <SelectItem key={category.uniqueId} value={category.uniqueId}>
-                  <span className="flex items-center gap-2">
-                    {category.icon && <span>{category.icon}</span>}
-                      {category.name}
-                  </span>
+                                    <span className="flex items-center gap-2">
+                                      {category.icon && <span>{category.icon}</span>}
+                                        {category.name}
+                                    </span>
                                 </SelectItem>
                             ))}
                         </SelectContent>

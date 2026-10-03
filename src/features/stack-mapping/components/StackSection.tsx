@@ -17,6 +17,7 @@ export async function StackSection() {
 
     return (
         <section className="max-w-4xl mx-auto">
+            <h2 className="font-bold text-xl mt-3 lg:mt-5 lg:text-3xl mb-10 ml-5">🧑‍💻 My Tech Stack</h2>
             <div className="py-2 px-5 mb-10">
                 <StackTabsSwitcher
                     categories={categories}
