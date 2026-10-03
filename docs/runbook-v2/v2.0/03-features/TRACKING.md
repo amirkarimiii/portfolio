@@ -1,7 +1,7 @@
 # Features
 
 **Status:** Deferred  
-**Last Updated:** 2026-09-07 
+**Last Updated:** 2026-10-03 
 **Owner:** Amir Karimi  
 
 ---
@@ -16,13 +16,15 @@ It provides an overview of feature status, planning milestones, and execution or
 
 # 2. Tracking
 
-| Feature                           | Status      | Planned Start | Target Milestone | Completed  |
-|-----------------------------------|-------------|---------------|------------------|------------|
-| Private Publishing Infrastructure | Completed   | 2026-07-15    | 2026-08-05       | 2026-08-05 |
-| Public Content Platform (Core V2) | Completed   | 2026-08-06    | 2026-09-01       | 2026-09-01 |
-| Interactive Stack Mapping         | Completed   | 2026-09-01    | 2026-09-07       | 2026-09-07 |
-| Analytical Bookshelf              | Deferred    | Not Estimated | Not Estimated    | —          |
-| Portfolio Main Body               | In Progress | 2026-09-28    | 2026-09-29       | —          |
+| Feature                           | Status    | Planned Start | Target Milestone | Completed   |
+|-----------------------------------|-----------|---------------|------------------|-------------|
+| Private Publishing Infrastructure | Completed | 2026-07-15    | 2026-08-05       | 2026-08-05  |
+| Public Content Platform (Core V2) | Completed | 2026-08-06    | 2026-09-01       | 2026-09-01  |
+| Interactive Stack Mapping         | Completed | 2026-09-01    | 2026-09-07       | 2026-09-07  |
+| Analytical Bookshelf              | Deferred  | Not Estimated | Not Estimated    | —           |
+| Portfolio Main Body               | Completed | 2026-09-28    | 2026-10-03       | 2026-10-03* |
+
+> *two days were off
 
 ---
 
@@ -54,4 +56,5 @@ It provides an overview of feature status, planning milestones, and execution or
 | 2026-09-01 | Public Content Platform (Core V2) as Completed (2026-09-01). Interactive Stack Mapping moved to In Progress with Planned Start 2026-09-01                 |
 | 2026-09-07 | Interactive Stack Mapping as Completed (2026-09-07). Analytical Bookshelf moved to Deferred as well as whole Tracking Document                            |
 | 2026-09-28 | Portfolio Main Body Added as new feature to the Tracking                                                                                                  |
+| 2026-10-03 | Portfolio Main Body Added as new feature to the Tracking                                                                                                  |
 
