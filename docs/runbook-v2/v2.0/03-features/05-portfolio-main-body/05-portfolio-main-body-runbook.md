@@ -33,17 +33,17 @@ section contact
 ```
 
 ```todo:subbranches
-step: Checkout the branch staging
+✅ step: Checkout the branch staging
 ```
 
 ```todo:subbranches
-step: Merge the branch feature/portfolio-body into staging
+✅ step: Merge the branch feature/portfolio-body into staging
 ```
 
 ```todo:subbranches
-step: Delete the branch feature/portfolio-body
+✅ step: Delete the branch feature/portfolio-body
 ```
 
 ```todo:subbranches
-step: go to features-runbook
+✅ step: go to features-runbook
 ```
