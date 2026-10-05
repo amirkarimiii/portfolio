@@ -23,17 +23,29 @@ export function ArticleView({ article }: ArticleViewProps) {
 
     return (
         <article className="container max-w-4xl mx-auto px-4 py-8 space-y-8">
+
             <header className="space-y-4">
+                {article.coverImage && (
+                    <div className="relative w-full aspect-4/1 md:aspect-5/1 overflow-hidden rounded-2xl border">
+                        <Image
+                            src={article.coverImage}
+                            alt={altCover}
+                            fill
+                            priority
+                            className="object-cover"
+                        />
+                    </div>
+                )}
                 {article.seriesTitle && (
                     <div className="text-sm font-medium text-primary">
                         Series: {article.seriesTitle}
                     </div>
                 )}
-                <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
                     {article.title || 'untitled'}
                 </h1>
                 {article.summary && (
-                    <p className="text-xl text-muted-foreground leading-relaxed">
+                    <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
                         {article.summary}
                     </p>
                 )}
@@ -48,19 +60,7 @@ export function ArticleView({ article }: ArticleViewProps) {
                 )}
             </header>
 
-            {article.coverImage && (
-                <div className="relative w-full h-[350px] md:h-[450px] overflow-hidden rounded-2xl border">
-                    <Image
-                        src={article.coverImage}
-                        alt={altCover}
-                        fill
-                        priority
-                        className="object-cover"
-                    />
-                </div>
-            )}
-
-            <main className="pt-4">
+            <main>
                 <ContentRenderer
                     content={(article.content as TipTapDocument) || { type: 'doc', content: [] }}
                     fallbackTitle={article.title}
