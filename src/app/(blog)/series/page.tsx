@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
-import {SeriesStack} from "@/features/article-publishing/components/SeriesStack";
+import { SeriesStack } from "@/features/article-publishing/components/SeriesStack";
+import { SeriesStackSkeleton } from "@/features/article-publishing/components/reference-card/SeriesCardSkeleton";
 
 interface SeriesPageProps {
     searchParams: Promise<{
@@ -12,13 +13,7 @@ export default async function SeriesPage(props: SeriesPageProps) {
 
     return (
         <main className="container mx-auto max-w-4xl px-4 py-8 space-y-8">
-            <Suspense
-                fallback={
-                    <div className="py-12 text-center text-sm text-muted-foreground">
-                        Loading series...
-                    </div>
-                }
-            >
+            <Suspense fallback={<SeriesStackSkeleton />}>
                 <SeriesStack searchParams={searchParams} />
             </Suspense>
         </main>
