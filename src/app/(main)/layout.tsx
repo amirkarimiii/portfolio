@@ -1,6 +1,8 @@
-import {Metadata} from "next";
-import {Navbar} from "@/shared/components/layout/Navbar";
-import {MainNavbarActions} from "@/features/main/components/MainNavbarActions";
+import { Suspense } from "react";
+import { Metadata } from "next";
+import { Navbar } from "@/shared/components/layout/Navbar";
+import { MainNavbarActions } from "@/features/main/components/MainNavbarActions";
+import { NavbarActionsSkeleton } from "@/features/main/components/NavbarActionsSkeleton";
 
 export const metadata: Metadata = {
     title: "amir's portfolio",
@@ -47,7 +49,6 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "amir karimi's portfolio",
         description: "Next.js & React Frontend Developer • TypeScript expert • Crafting fast, scalable web apps • Open to exciting full-time remote opportunities",
-        // creator: "@yourusername"
     },
 
     alternates: {
@@ -69,11 +70,15 @@ export default function MainLayout({
     children: React.ReactNode;
 }) {
     return (
-        <>
-            <div className="container mx-auto">
-                <Navbar action={MainNavbarActions()} />
-                <main>{children}</main>
-            </div>
-        </>
+        <div className="container mx-auto">
+            <Navbar
+                action={
+                    <Suspense fallback={<NavbarActionsSkeleton />}>
+                        <MainNavbarActions />
+                    </Suspense>
+                }
+            />
+            <main>{children}</main>
+        </div>
     );
 }
