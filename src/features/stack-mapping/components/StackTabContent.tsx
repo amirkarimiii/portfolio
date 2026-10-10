@@ -51,7 +51,7 @@ export function StackTabContent({category, subcategories, stackEntries}: StackTa
             )}
 
             <Badge variant="outline" className="text-xs text-muted-foreground/80 italic">
-                💡 Click on any technology badge to view detailed insights.
+                💡 Click on any technology tag to view detailed insights.
             </Badge>
 
             <div className="space-y-8 pt-2">
@@ -82,8 +82,7 @@ export function StackTabContent({category, subcategories, stackEntries}: StackTa
                                                 <Badge
                                                     key={entry.uniqueId}
                                                     variant="secondary"
-                                                    className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors py-1 px-3"
-                                                    onClick={() => setSelectedEntry(entry)}
+                                                    className="text-start whitespace-normal wrap-break-word cursor-pointer hover:bg-primary hover:text-primary-foreground max-w-70 transition-colors py-1 px-3"                                                    onClick={() => setSelectedEntry(entry)}
                                                 >
                                                     {entry.name}
                                                 </Badge>
