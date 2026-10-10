@@ -24,7 +24,7 @@ export const CardThumbnail: React.FC<CardThumbnailProps> = ({
     return (
         <div
             className={cn(
-                "relative w-full sm:w-36 md:w-40 aspect-square shrink-0 bg-muted overflow-hidden",
+                "relative w-full aspect-5/2 sm:w-48 md:w-56 sm:aspect-3/2 shrink-0 bg-muted overflow-hidden",
                 className
             )}
         >
@@ -32,7 +32,7 @@ export const CardThumbnail: React.FC<CardThumbnailProps> = ({
                 src={src}
                 alt={alt}
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 768px) 144px, 160px"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 192px, 224px"
                 className={cn(
                     "object-cover transition-transform duration-300",
                     selective && "group-hover:scale-105",
