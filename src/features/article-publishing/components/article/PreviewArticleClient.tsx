@@ -107,6 +107,8 @@ export function PreviewArticleClient({ initialArticle, seriesTitle }: PreviewArt
                     coverAltText: article.coverAltText,
                     content: article.content,
                     seriesTitle: seriesTitle,
+                    thumbnailImage: article.thumbnailImage,
+                    thumbnailAltText: article.thumbnailAltText,
                 }}
             />
         </div>

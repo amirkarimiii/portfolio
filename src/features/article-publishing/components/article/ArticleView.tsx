@@ -11,6 +11,8 @@ export interface ArticleViewData {
     coverAltText?: string;
     content?: TipTapDocument | Record<string, unknown>;
     seriesTitle?: string;
+    thumbnailImage: string;
+    thumbnailAltText: string;
 }
 
 interface ArticleViewProps {
@@ -26,15 +28,26 @@ export function ArticleView({ article }: ArticleViewProps) {
 
             <header className="space-y-4">
                 {article.coverImage && (
-                    <div className="relative w-full aspect-4/1 md:aspect-5/1 overflow-hidden rounded-2xl border">
-                        <Image
-                            src={article.coverImage}
-                            alt={altCover}
-                            fill
-                            priority
-                            className="object-cover"
-                        />
-                    </div>
+                    <>
+                        <div className="relative hidden sm:block w-full aspect-4/1 md:aspect-5/1 overflow-hidden rounded-2xl border">
+                            <Image
+                                src={article.coverImage}
+                                alt={altCover}
+                                fill
+                                priority
+                                className="object-cover"
+                            />
+                        </div>
+                        <div className="relative sm:hidden w-full aspect-5/2 overflow-hidden rounded-2xl border">
+                            <Image
+                                src={article.thumbnailImage}
+                                alt={altCover}
+                                fill
+                                priority
+                                className="object-cover"
+                            />
+                        </div>
+                    </>
                 )}
                 {article.seriesTitle && (
                     <div className="text-sm font-medium text-primary">
