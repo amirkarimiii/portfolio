@@ -10,7 +10,7 @@ import { ArchivedDropdown } from "@/features/article-publishing/components/dropd
 import { DraftedDropdown } from "@/features/article-publishing/components/dropdowns/DraftedDropdown";
 import { CardLayout } from "./base/CardLayout";
 import { CardThumbnail } from "./base/CardThumbnail";
-import { useArticleCard } from "./hooks/useArticleCard";
+import {useArticleCard} from "@/features/article-publishing/hooks/useArticleCard";
 
 interface ArticleCardProps {
     data: ArticleCardData;

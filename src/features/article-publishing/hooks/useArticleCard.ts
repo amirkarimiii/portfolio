@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { ArticleCardData } from "@/features/article-publishing/types/reference-card.type";
-import { useAdminSession } from "@/features/admin/hooks/useAdminAuth";
-import { useSeriesDetails } from "@/features/article-publishing/hooks/useSeriesDetails";
-import { getEffectiveTags } from "@/features/article-publishing/utils/tagUtils";
+import {ArticleCardData} from "@/features/article-publishing/types/reference-card.type";
+import {useAdminSession} from "@/features/admin/hooks/useAdminAuth";
+import {useSeriesDetails} from "@/features/article-publishing/hooks/useSeriesDetails";
+import {getEffectiveTags} from "@/features/article-publishing/utils/tagUtils";
 
 interface UseArticleCardProps {
     data: ArticleCardData;
