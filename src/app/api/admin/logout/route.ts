@@ -21,8 +21,17 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
     }
 
     const response = createSuccessResponse({ success: true });
+
     response.cookies.delete('admin_access_token');
-    response.cookies.delete('admin_refresh_token');
+    response.cookies.set({
+        name: 'admin_refresh_token',
+        value: '',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 0,
+        path: '/api/admin',
+    });
 
     return response;
 });
