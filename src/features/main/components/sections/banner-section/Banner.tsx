@@ -17,14 +17,13 @@ export const Banner = async () => {
     const professionalNarrative = person?.professionalNarrative;
     const workAvailability = person?.workAvailability;
     const externalProfile = person?.externalProfiles;
-    const professionalImage = person?.professionalImage;
     const assets = person?.assets
 
     return (
         <section className="max-w-4xl mx-auto">
             <div className="py-2 px-5 flex flex-col gap-10 lg:flex-row-reverse mb-5 lg:mt-20">
                 <div className="w-full lg:my-auto">
-                    <MyImage professionalImage={professionalImage} assets={assets}/>
+                    <MyImage assets={assets}/>
                 </div>
                 <div>
                     <h1 className="font-bold text-3xl lg:text-4xl select-none">
