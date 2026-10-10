@@ -60,8 +60,6 @@ export const personSchema = z.object({
         status: z.boolean(),
     }),
 
-    professionalImage: z.url(),
-
     assets: z.array(assetSchema),
 
     externalProfiles: z.array(externalProfileSchema),
