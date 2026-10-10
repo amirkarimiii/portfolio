@@ -56,12 +56,23 @@ export const GET = withErrorHandler(async () => {
         });
     }
 
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
+
     return response;
 });
 
 function clearAuthCookiesResponse() {
     const response = createSuccessResponse<SessionData>({ authenticated: false });
     response.cookies.delete('admin_access_token');
-    response.cookies.delete('admin_refresh_token');
+    response.cookies.set({
+        name: 'admin_refresh_token',
+        value: '',
+        httpOnly: true,
+        secure: env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 0,
+        path: '/api/admin',
+    });
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
     return response;
 }
