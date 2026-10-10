@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    cacheComponents: true,
     allowedDevOrigins: [
         "192.168.1.*",
         "localhost",
@@ -10,10 +9,6 @@ const nextConfig: NextConfig = {
     ],
     images: {
         remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'cdn.example.com',
-            },
             {
                 protocol: 'https',
                 hostname: 'fflgxdlrvsxvwzz5.public.blob.vercel-storage.com',
