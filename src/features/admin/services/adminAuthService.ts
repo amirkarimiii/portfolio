@@ -97,21 +97,24 @@ export class AdminAuthService {
             return { authenticated: false };
         }
 
-        const storedToken = await AdminRepository.findRefreshToken(refreshPayload.tokenId);
+        const storedToken = await AdminRepository.consumeRefreshToken(refreshPayload.tokenId);
 
         if (!storedToken || new Date() > new Date(storedToken.expiresAt)) {
-            if (storedToken) {
-                await AdminRepository.deleteRefreshToken(refreshPayload.tokenId);
-                logger.info('Expired refresh token cleaned up during session validation', {
-                    tokenId: refreshPayload.tokenId,
-                });
-            }
+            logger.info('Refresh token expired or already consumed during session validation', {
+                tokenId: refreshPayload.tokenId,
+            });
             return { authenticated: false };
         }
 
-        await AdminRepository.deleteRefreshToken(refreshPayload.tokenId);
+        const adminId = refreshPayload.sub;
+        if (!adminId || adminId !== storedToken.adminId) {
+            logger.warn('Admin ID mismatch detected during session refresh', {
+                tokenAdminId: adminId,
+                storedAdminId: storedToken.adminId,
+            });
+            return { authenticated: false };
+        }
 
-        const adminId = refreshPayload.sub!;
         const newTokenId = uuidv4();
         const createdAt = new Date();
         const expiresAt = new Date(createdAt.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -126,7 +129,11 @@ export class AdminAuthService {
         const newAccessToken = await signAccessToken(adminId);
         const newRefreshToken = await signRefreshToken(adminId, newTokenId);
 
-        logger.info('Admin session refreshed successfully', { adminId, oldTokenId: refreshPayload.tokenId, newTokenId });
+        logger.info('Admin session refreshed successfully', {
+            adminId,
+            oldTokenId: refreshPayload.tokenId,
+            newTokenId
+        });
 
         return {
             authenticated: true,
