@@ -1,9 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { SearchX } from "lucide-react";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
+import { Button } from "@/shared/components/ui/button";
 
 export default function NotFound() {
     return (
@@ -29,12 +28,11 @@ export default function NotFound() {
             </Alert>
 
             <div className="mt-8">
-                <Link
-                    href="/"
-                    className="inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors"
-                >
-                    Return to Home
-                </Link>
+                <Button asChild>
+                    <Link href="/">
+                        Return to Home
+                    </Link>
+                </Button>
             </div>
         </div>
     );
